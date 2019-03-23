@@ -1,0 +1,33 @@
+{
+  "name": "vue-leaflet-express-boilerplate",
+  "version": "0.0.1",
+  "description": "Web app starter using Vue, Leaflet, and Express",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Tree Casiano",
+  "license": "ISC",
+  "dependencies": {
+    "args": "^5.0.0",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "config": "^2.0.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.3",
+    "express-openapi": "^2.0.4",
+    "got": "^9.2.1"
+  },
+  "devDependencies": {
+    "cypress": "^3.1.5",
+    "jest": "^24.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/bower_components/",
+      "/test/e2e/"
+    ]
+  }
+}
