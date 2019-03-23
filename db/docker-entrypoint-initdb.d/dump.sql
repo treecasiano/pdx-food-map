@@ -119,7 +119,8 @@ CREATE TABLE public.hello_table (
     created_on timestamp with time zone NOT NULL,
     first_name character varying(100),
     last_name character varying(100),
-    favorite_color character varying(50)
+    favorite_color character varying(50),
+    geom public.geometry(Point,4326)
 );
 
 
@@ -158,14 +159,14 @@ ALTER TABLE ONLY public.hello_table ALTER COLUMN user_id SET DEFAULT nextval('pu
 -- Data for Name: hello_table; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.hello_table (user_id, username, created_on, first_name, last_name, favorite_color) FROM stdin;
-2	rkd	2019-03-23 17:55:39.339483+00	Roberto	Serra	black
-1	blackbird127	2019-03-23 17:30:01.639481+00	Tereza	Averescu	teal
-3	northstar27	2019-03-23 18:00:39.369594+00	Anthea	Christopoulos	chartreuse
-4	meridianprime	2019-03-23 18:01:46.522031+00	Cristofer	Romano	burgundy
-5	melodia	2019-03-23 18:02:41.248391+00	Adalynd	Jones	black
-6	mixolydia	2019-03-23 18:04:01.980239+00	Yzobel	Mirren	green
-7	craftywench	2019-03-23 18:05:41.260574+00	Evelyn	Dunlap	navy blue
+COPY public.hello_table (user_id, username, created_on, first_name, last_name, favorite_color, geom) FROM stdin;
+2	rkd	2019-03-23 17:55:39.339483+00	Roberto	Serra	black	\N
+1	blackbird127	2019-03-23 17:30:01.639481+00	Tereza	Averescu	teal	\N
+3	northstar27	2019-03-23 18:00:39.369594+00	Anthea	Christopoulos	chartreuse	\N
+4	meridianprime	2019-03-23 18:01:46.522031+00	Cristofer	Romano	burgundy	\N
+5	melodia	2019-03-23 18:02:41.248391+00	Adalynd	Jones	black	\N
+6	mixolydia	2019-03-23 18:04:01.980239+00	Yzobel	Mirren	green	\N
+7	craftywench	2019-03-23 18:05:41.260574+00	Evelyn	Dunlap	navy blue	\N
 \.
 
 
