@@ -160,13 +160,13 @@ ALTER TABLE ONLY public.hello_table ALTER COLUMN user_id SET DEFAULT nextval('pu
 --
 
 COPY public.hello_table (user_id, username, created_on, first_name, last_name, favorite_color, geom) FROM stdin;
-2	rkd	2019-03-23 17:55:39.339483+00	Roberto	Serra	black	\N
-1	blackbird127	2019-03-23 17:30:01.639481+00	Tereza	Averescu	teal	\N
-3	northstar27	2019-03-23 18:00:39.369594+00	Anthea	Christopoulos	chartreuse	\N
-4	meridianprime	2019-03-23 18:01:46.522031+00	Cristofer	Romano	burgundy	\N
-5	melodia	2019-03-23 18:02:41.248391+00	Adalynd	Jones	black	\N
-6	mixolydia	2019-03-23 18:04:01.980239+00	Yzobel	Mirren	green	\N
-7	craftywench	2019-03-23 18:05:41.260574+00	Evelyn	Dunlap	navy blue	\N
+1	blackbird127	2019-03-23 17:30:01.639481+00	Tereza	Averescu	teal	0101000020E610000085EB51B81E6552C05C8FC2F5283C4440
+2	rkd	2019-03-23 17:55:39.339483+00	Roberto	Serra	black	0101000020E61000000AD7A3703D9A5EC048E17A14AEA74640
+3	northstar27	2019-03-23 18:00:39.369594+00	Anthea	Christopoulos	chartreuse	0101000020E610000066666666665652C06666666666A64640
+4	meridianprime	2019-03-23 18:01:46.522031+00	Cristofer	Romano	burgundy	0101000020E61000000000000000405AC09A99999999B94340
+5	melodia	2019-03-23 18:02:41.248391+00	Adalynd	Jones	black	0101000020E610000085EB51B81E155DC0AE47E17A14AE4540
+6	mixolydia	2019-03-23 18:04:01.980239+00	Yzobel	Mirren	green	0101000020E61000003D0AD7A3701D58C07B14AE47E13A4040
+7	craftywench	2019-03-23 18:05:41.260574+00	Evelyn	Dunlap	navy blue	0101000020E6100000CDCCCCCCCC9C5EC09A99999999594740
 \.
 
 
