@@ -12,11 +12,12 @@
     "args": "^5.0.0",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
-    "config": "^2.0.1",
+    "config": "^2.0.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
     "express-openapi": "^2.0.4",
-    "got": "^9.2.1"
+    "got": "^9.2.1",
+    "pg": "^7.9.0"
   },
   "devDependencies": {
     "cypress": "^3.1.5",
