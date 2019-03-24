@@ -1,9 +1,13 @@
 const bodyParser = require("body-parser");
+const config = require("config");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const expressOpenapi = require("express-openapi");
 const path = require("path");
 const pkg = require("./package");
+
+const ExampleService = require("./lib/exampleService");
+const pgFactory = require("./lib/pg");
 
 const env = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
 
@@ -15,6 +19,12 @@ process.env.TZ = "UTC";
 
   try {
 
+    const pg = pgFactory({
+      config: config.get("pg"),
+    });
+
+    const exampleService = new ExampleService({ pg });
+
     const app = express();
 
     app.use("/files", express.static("files"));
@@ -25,6 +35,7 @@ process.env.TZ = "UTC";
         limit: "50mb",
       })
     );
+    // TODO: look up extended property
     app.use(
       bodyParser.urlencoded({
         extended: false,
@@ -95,6 +106,7 @@ process.env.TZ = "UTC";
       },
       dependencies: {
         env,
+        exampleService,
         logger
       },
       paths: "./routes",
@@ -108,7 +120,8 @@ process.env.TZ = "UTC";
     });
 
     app.get("/*", (req, res) => {
-      res.sendFile(path.join(__dirname, "client/dist/index.html"));
+      res.json({ info: 'Node.js, Express, and Postgres API' });
+      // res.sendFile(path.join(__dirname, "client/dist/index.html"));
     });
 
     const port = 3000;
