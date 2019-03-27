@@ -4,7 +4,10 @@
   "description": "Web app starter using Vue, Leaflet, and Express",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "cypress": "cypress open",
+    "cypress:headless": "cypress run",
+    "integration": "jest --bail --detectOpenHandles --runInBand --verbose __tests__integration__/",
+    "start": "node app.js"
   },
   "author": "Tree Casiano",
   "license": "ISC",
@@ -28,7 +31,8 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/bower_components/",
-      "/test/e2e/"
+      "/test/e2e/",
+      "/cypress/"
     ]
   }
 }
