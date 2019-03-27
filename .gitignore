@@ -1,9 +1,9 @@
 .vscode/*
-!.vscode/settings.json
+.vscode/settings.json
 .vagrant
 config/
 config.zip
-!config/default.json
+config/default.json
 scratch/
 
 ### Mac
