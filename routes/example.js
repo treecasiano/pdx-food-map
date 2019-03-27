@@ -6,29 +6,27 @@ function factory(logger, exampleService) {
     parameters: [],
     responses: {
       200: {
-        description: "List of records",
+        description: "List of records"
       },
       500: {
-        description: "Server Error",
-      },
-    },
+        description: "Server Error"
+      }
+    }
   };
 
   return {
-    GET,
+    GET
   };
 
   async function GET(req, res) {
-  
     let result;
     try {
       result = await exampleService.list();
-      
     } catch (e) {
       logger.error(e);
-      return res.status(500).json({ message: "Database error" });
+      return res.status(500).json({ message: "Server Error" });
     }
-    return res.status(200).json({result});
+    return res.status(200).json(result);
   }
 }
 
