@@ -40,7 +40,6 @@
             </div>
             </l-popup></l-marker>
         </l-map>
-        {{ markersArray }}
       </v-flex>
     </v-layout>
 
@@ -64,7 +63,6 @@
         </v-list>
       </v-card-text>
     </v-card>
-
   </div>
 </template>
 
@@ -87,7 +85,7 @@ export default {
   data() {
     return {
       url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      zoom: 5.5,
+      zoom: 3,
       center: [45.5155, -122.6793],
       bounds: null,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
