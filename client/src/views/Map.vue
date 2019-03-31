@@ -31,7 +31,14 @@
             v-bind:index="index"
             v-bind:key="index"
             :lat-lng="item"
-          ></l-marker>
+          ><l-popup>
+            <div>
+            <strong>name</strong>: {{item.props.first_name}} {{item.props.last_name}}
+            </div>
+            <div>
+            <strong>favorite color:</strong> {{item.props.favorite_color}} 
+            </div>
+            </l-popup></l-marker>
         </l-map>
         {{ markersArray }}
       </v-flex>
@@ -98,12 +105,15 @@ export default {
       this.bounds = bounds;
     },
     createMarkers() {
-      const markersArray = this.exampleGeoJSON["features"].map((latlng)=>{
-        let coordinates = L.latLng(latlng["geometry"]["coordinates"][1],latlng["geometry"]["coordinates"][0])
-        return coordinates;
+      const markersArray = this.exampleGeoJSON["features"].map((feature)=>{
+        let markerObject = L.latLng(feature["geometry"]["coordinates"][1],feature["geometry"]["coordinates"][0]);
+        let props = feature["properties"];
+      
+     Object.assign(markerObject, {props});
+        return markerObject;
       });
       this.markersArray = markersArray;
-    }
+    },
   },
 }
 </script>
