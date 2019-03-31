@@ -5,10 +5,10 @@ import router from "./router";
 import store from "./store/index";
 import Vuetify from "vuetify";
 import "../node_modules/vuetify/dist/vuetify.min.css";
+import "../node_modules/leaflet/dist/leaflet.css";
 import L from "leaflet";
 delete L.Icon.Default.prototype._getIconUrl;
 
-import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 
 Vue.component("l-map", LMap);

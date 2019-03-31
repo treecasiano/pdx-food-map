@@ -13,6 +13,7 @@
     <v-layout>
       <v-flex>
         <l-map
+          ref="map"
           style="height: 700px; width: 100%"
           :zoom="zoom"
           :center="center"
@@ -24,7 +25,15 @@
             :url="url"
             :attribution="attribution"
           ></l-tile-layer>
+          <l-marker
+            v-for="(item, index) in markersArray"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index"
+            :lat-lng="item"
+          ></l-marker>
         </l-map>
+        {{ markersArray }}
       </v-flex>
     </v-layout>
 
@@ -66,14 +75,16 @@ export default {
   async created() {
     await this.$store.dispatch("example/getExampleList");
     await this.$store.dispatch("example/getExampleGeoJSON");
+    this.createMarkers(this.exampleGeoJSON);
   },
   data() {
     return {
       url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      zoom: 10.5,
+      zoom: 5.5,
       center: [45.5155, -122.6793],
       bounds: null,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      markersArray: []
     };
   },
   methods: {
@@ -85,7 +96,14 @@ export default {
     },
     boundsUpdated(bounds) {
       this.bounds = bounds;
+    },
+    createMarkers() {
+      const markersArray = this.exampleGeoJSON["features"].map((latlng)=>{
+        let coordinates = L.latLng(latlng["geometry"]["coordinates"][1],latlng["geometry"]["coordinates"][0])
+        return coordinates;
+      });
+      this.markersArray = markersArray;
     }
-  }
+  },
 }
 </script>

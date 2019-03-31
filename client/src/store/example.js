@@ -7,7 +7,7 @@ const actions = {
   },
   async getExampleGeoJSON({ commit }) {
     const exampleGeoJSON = await exampleApi.getGeoJSON();
-    return commit("setExampleGeoJSON", exampleGeoJSON);
+    return commit("setExampleGeoJSON", exampleGeoJSON.data);
   }
 };
 
