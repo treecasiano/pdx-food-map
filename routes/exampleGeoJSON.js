@@ -27,7 +27,7 @@ function factory(logger, exampleService) {
       logger.error(e);
       return res.status(500).json({ message: "Database error" });
     }
-    return res.status(200).json({ result });
+    return res.status(200).json(result);
   }
 }
 
