@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "leaflet": "^1.4.0",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
+    "vue2-leaflet": "^2.0.2",
     "vuetify": "^1.5.8",
     "vuex": "^3.0.1"
   },
