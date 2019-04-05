@@ -18,9 +18,8 @@ process.env.TZ = "UTC";
   const logger = console;
 
   try {
-
     const pg = pgFactory({
-      config: config.get("pg"),
+      config: config.get("pg")
     });
 
     const exampleService = new ExampleService({ pg });
@@ -32,13 +31,13 @@ process.env.TZ = "UTC";
 
     app.use(
       bodyParser.json({
-        limit: "50mb",
+        limit: "50mb"
       })
     );
-    // TODO: look up extended property
+
     app.use(
       bodyParser.urlencoded({
-        extended: false,
+        extended: false
       })
     );
     app.use(cookieParser());
@@ -66,7 +65,7 @@ process.env.TZ = "UTC";
     app.use("/api", (req, res, next) => {
       res.set({
         "Cache-Control": "no-store, must-revalidate",
-        Expires: "0",
+        Expires: "0"
       });
       next();
     });
@@ -78,7 +77,7 @@ process.env.TZ = "UTC";
         definitions: {},
         info: {
           title: pkg.name,
-          version: pkg.version,
+          version: pkg.version
         },
         paths: {},
         swagger: "2.0",
@@ -89,20 +88,20 @@ process.env.TZ = "UTC";
                 anyOf: {
                   type: "array",
                   items: {
-                    $ref: "#/definitions/schema",
-                  },
+                    $ref: "#/definitions/schema"
+                  }
                 },
                 oneOf: {
                   type: "array",
                   minItems: 1,
                   items: {
-                    $ref: "#/definitions/schema",
-                  },
-                },
-              },
-            },
-          },
-        },
+                    $ref: "#/definitions/schema"
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       dependencies: {
         env,
@@ -116,12 +115,11 @@ process.env.TZ = "UTC";
       errorMiddleware(err, req, res, next) {
         logger.error(err);
         return res.status(400).json(err);
-      },
+      }
     });
 
     app.get("/*", (req, res) => {
-      res.json({ info: 'Node.js, Express, and Postgres API' });
-      // res.sendFile(path.join(__dirname, "client/dist/index.html"));
+      res.sendFile(path.join(__dirname, "client/dist/index.html"));
     });
 
     const port = 3000;
