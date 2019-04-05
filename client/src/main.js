@@ -25,6 +25,7 @@ L.Icon.Default.mergeOptions({
 
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
+Vue.use(L);
 
 init();
 
