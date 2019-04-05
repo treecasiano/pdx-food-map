@@ -1,6 +1,11 @@
 <template>
-  <div id="app">
-    <v-toolbar>
+  <v-app id="app">
+    <v-toolbar
+      dense
+      flat
+      dark
+      class="accent--text"
+    >
       <v-toolbar-title>
         PDX METRO FOOD ENVIRONMENT
       </v-toolbar-title>
@@ -11,7 +16,7 @@
       </div>
     </v-toolbar>
     <router-view />
-  </div>
+  </v-app>
 </template>
 
 <style>
@@ -31,5 +36,9 @@ ul {
 li {
   display: inline-block;
   margin: 0 10px;
+}
+
+#nav a.router-link-exact-active {
+  color: #cddc39;
 }
 </style>
