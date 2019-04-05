@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      zoom: 10,
+      zoom: 3,
       center: [45.5155, -122.6793],
       bounds: null,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
