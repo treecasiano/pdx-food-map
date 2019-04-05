@@ -44,7 +44,7 @@ Restore the database from a dumpfile by running `./restore.sh`
 
 The image used is called `mdillon/postgis` and includes PostGIS 2.5. (This container is based on the )official Postgres Docker container. For more information: https://hub.docker.com/r/mdillon/postgis.)
 
-In this project, the container has been named `pgdev` and the local development database within it is called `dev`.
+In this project, the container has been named `pdxfood` and the local development database within it is called `dev`.
 
 #### Start the dev database
 
