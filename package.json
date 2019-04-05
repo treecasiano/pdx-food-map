@@ -1,7 +1,7 @@
 {
-  "name": "vue-leaflet-express-boilerplate",
+  "name": "pdx-food-map",
   "version": "0.0.1",
-  "description": "Web app starter using Vue, Leaflet, and Express",
+  "description": "Web Map of the PDX Metro Food Environment",
   "main": "index.js",
   "scripts": {
     "cypress": "cypress open",

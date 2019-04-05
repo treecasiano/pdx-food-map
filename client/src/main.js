@@ -5,6 +5,7 @@ import router from "./router";
 import store from "./store/index";
 import Vuetify from "vuetify";
 import "../node_modules/vuetify/dist/vuetify.min.css";
+import colors from "vuetify/es5/util/colors";
 import "../node_modules/leaflet/dist/leaflet.css";
 import L from "leaflet";
 delete L.Icon.Default.prototype._getIconUrl;
@@ -15,7 +16,7 @@ import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 Vue.component("l-map", LMap);
 Vue.component("l-tile-layer", LTileLayer);
 Vue.component("l-marker", LMarker);
-Vue.component('l-popup', LPopup);
+Vue.component("l-popup", LPopup);
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -24,8 +25,19 @@ L.Icon.Default.mergeOptions({
 });
 
 Vue.config.productionTip = false;
-Vue.use(Vuetify);
 
+Vue.use(L);
+Vue.use(Vuetify, {
+  theme: {
+    primary: colors.green,
+    secondary: colors.lightGreen,
+    accent: colors.lime,
+    error: colors.red,
+    warning: colors.deepOrange,
+    info: colors.lightBlue,
+    success: colors.lightBlue
+  }
+});
 init();
 
 async function init() {
