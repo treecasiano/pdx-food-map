@@ -6,6 +6,7 @@
         style="height: 700px; width: 100%"
         :zoom="zoom"
         :center="center"
+        :maxZoom="maxZoom"
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
         @update:bounds="boundsUpdated"
@@ -50,12 +51,14 @@ export default {
   },
   data() {
     return {
-      url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
       zoom: 3,
       center: [45.5155, -122.6793],
       bounds: null,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      markersArray: []
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      markersArray: [],
+      subdomains: 'abcd',
+      maxZoom: 18
     };
   },
   methods: {
