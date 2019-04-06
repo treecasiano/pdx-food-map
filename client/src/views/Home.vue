@@ -14,7 +14,9 @@ export default {
     MainMap
   },
   async created() {
-    await this.$store.dispatch("example/getExampleList");
+
+    await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON");
+    this.$store.dispatch("pdxTract/getPdxTractGeoJSON");
   },
 }
 </script>
