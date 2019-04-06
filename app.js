@@ -7,6 +7,7 @@ const path = require("path");
 const pkg = require("./package");
 
 const ExampleService = require("./lib/exampleService");
+const PdxTractService = require("./lib/pdxTractService");
 const pgFactory = require("./lib/pg");
 
 const env = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
@@ -23,6 +24,7 @@ process.env.TZ = "UTC";
     });
 
     const exampleService = new ExampleService({ pg });
+    const pdxTractService = new PdxTractService({ pg });
 
     const app = express();
 
@@ -106,6 +108,7 @@ process.env.TZ = "UTC";
       dependencies: {
         env,
         exampleService,
+        pdxTractService,
         logger
       },
       paths: "./routes",
