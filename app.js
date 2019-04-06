@@ -7,6 +7,7 @@ const path = require("path");
 const pkg = require("./package");
 
 const ExampleService = require("./lib/exampleService");
+const GroceryStoreService = require("./lib/groceryStoreService");
 const PdxTractService = require("./lib/pdxTractService");
 const pgFactory = require("./lib/pg");
 
@@ -24,6 +25,7 @@ process.env.TZ = "UTC";
     });
 
     const exampleService = new ExampleService({ pg });
+    const groceryStoreService = new GroceryStoreService({ pg });
     const pdxTractService = new PdxTractService({ pg });
 
     const app = express();
@@ -108,6 +110,7 @@ process.env.TZ = "UTC";
       dependencies: {
         env,
         exampleService,
+        groceryStoreService,
         pdxTractService,
         logger
       },
