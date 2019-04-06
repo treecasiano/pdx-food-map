@@ -1,6 +1,26 @@
 <template>
   <v-layout>
     <v-flex>
+      <div style="height: 10%; overflow: auto;">
+        <span v-if="loading">Map Layers Loading... </span>
+        <label for="checkbox">GeoJSON Visibility </label>
+        <input
+          id="checkbox"
+          v-model="show"
+          type="checkbox"
+        >
+        <label for="checkboxTooltip">Enable tooltip </label>
+        <input
+          id="checkboxTooltip"
+          v-model="enableTooltip"
+          type="checkbox"
+        >
+        <input
+          v-model="fillColor"
+          type="color"
+        >
+        <br>
+      </div>
       <l-map
         ref="map"
         style="height: 700px; width: 100%"
@@ -28,7 +48,12 @@
             </div>
           </l-popup>
         </l-marker>
-        <l-geo-json :geojson="pdxTractGeoJSON">
+        <l-geo-json
+          v-if="show"
+          :geojson="pdxTractGeoJSON"
+          :options="options"
+          :options-style="styleFunction"
+        >
         </l-geo-json>
       </l-map>
     </v-flex>
@@ -50,6 +75,32 @@ export default {
         return mapMarkers;
       }
       return mapMarkers;
+    },
+    options() {
+      return {
+        onEachFeature: this.onEachFeatureFunction
+      };
+    },
+    styleFunction() {
+      // important! need fillColor in computed for re-calculation when changing fillColor
+      const fillColor = this.fillColor;
+      return () => {
+        return {
+          weight: 1,
+          color: '#A9A9A9',
+          opacity: 1,
+          fillColor: fillColor,
+          fillOpacity: .1
+        };
+      };
+    },
+    onEachFeatureFunction() {
+      if (!this.enableTooltip) {
+        return () => { };
+      }
+      return (feature, layer) => {
+        layer.bindTooltip("I am a tooltip", { permanent: false, sticky: true });
+      };
     }
   },
   data() {
@@ -60,7 +111,10 @@ export default {
       bounds: null,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: 'abcd',
-      maxZoom: 18
+      maxZoom: 18,
+      fillColor: '#e4ce7f',
+      enableTooltip: false,
+      show: false
     };
   },
   methods: {
@@ -85,5 +139,11 @@ export default {
       return markersArray;
     },
   },
+  props: {
+    loading: Boolean,
+    default: function () {
+      return false;
+    },
+  }
 }
 </script>

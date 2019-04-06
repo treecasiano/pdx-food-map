@@ -1,6 +1,6 @@
 <template>
   <div style="height: 95vh; width: 100%">
-    <main-map></main-map>
+    <main-map :loading="loading"></main-map>
   </div>
 </template>
 
@@ -14,8 +14,15 @@ export default {
     MainMap
   },
   async created() {
+    this.loading = true;
     await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON");
     await this.$store.dispatch("pdxTract/getPdxTractGeoJSON");
+    this.loading = false;
+  },
+  data() {
+    return {
+      loading: false
+    }
   },
 }
 </script>
