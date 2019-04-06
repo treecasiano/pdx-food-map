@@ -28,6 +28,8 @@
             </div>
           </l-popup>
         </l-marker>
+        <l-geo-json :geojson="pdxTractGeoJSON">
+        </l-geo-json>
       </l-map>
     </v-flex>
   </v-layout>

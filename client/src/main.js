@@ -11,12 +11,13 @@ import L from "leaflet";
 delete L.Icon.Default.prototype._getIconUrl;
 
 // register Vue2Leaflet components
-import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
+import { LMap, LTileLayer, LMarker, LPopup, LGeoJson } from "vue2-leaflet";
 
 Vue.component("l-map", LMap);
 Vue.component("l-tile-layer", LTileLayer);
 Vue.component("l-marker", LMarker);
 Vue.component("l-popup", LPopup);
+Vue.component("l-geo-json", LGeoJson);
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),

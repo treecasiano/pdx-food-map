@@ -22,7 +22,7 @@ const mutations = {
 
 const state = {
   pdxTractList: [],
-  pdxTractGeoJSON: {}
+  pdxTractGeoJSON: null
 };
 
 const getters = {};
