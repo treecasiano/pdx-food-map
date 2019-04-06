@@ -43,10 +43,14 @@ export default {
     exampleGeoJSON() {
       return this.$store.state.example.exampleGeoJSON;
     },
+    pdxTractGeoJSON() {
+      return this.$store.state.pdxTract.pdxTractGeoJSON;
+    },
   },
   async created() {
     await this.$store.dispatch("example/getExampleList");
     await this.$store.dispatch("example/getExampleGeoJSON");
+    await this.$store.dispatch("pdxTract/getPdxTractGeoJSON");
     this.createMarkers(this.exampleGeoJSON);
   },
   data() {
