@@ -9,15 +9,17 @@ import colors from "vuetify/es5/util/colors";
 import "../node_modules/leaflet/dist/leaflet.css";
 import L from "leaflet";
 delete L.Icon.Default.prototype._getIconUrl;
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 // register Vue2Leaflet components
-import { LMap, LTileLayer, LMarker, LPopup, LGeoJson } from "vue2-leaflet";
+import { LMap, LTileLayer, LMarker, LPopup, LGeoJson, LControl } from "vue2-leaflet";
 
 Vue.component("l-map", LMap);
 Vue.component("l-tile-layer", LTileLayer);
 Vue.component("l-marker", LMarker);
 Vue.component("l-popup", LPopup);
 Vue.component("l-geo-json", LGeoJson);
+Vue.component("l-control", LControl);
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -29,6 +31,7 @@ Vue.config.productionTip = false;
 
 Vue.use(L);
 Vue.use(Vuetify, {
+  iconfont: 'md',
   theme: {
     primary: colors.green,
     secondary: colors.lightGreen,
