@@ -1,5 +1,6 @@
 describe("Example", () => {
   const markersArray = ".leaflet-marker-pane img";
+  const popupContent = ".leaflet-popup-content";
 
   beforeEach(() => {
     cy.visit("/");
@@ -10,11 +11,7 @@ describe("Example", () => {
     cy.get(markersArray)
       .first()
       .click();
-    cy.contains("Green Zebra Grocery").should("be.visible");
-    cy.get(markersArray)
-      .eq(10)
-      .click();
-    cy.contains("People's Food Coop").should("be.visible");
-    cy.contains("Green Zebra Grocery").should("not.be.visible");
+      cy.wait(1000);
+    cy.get(popupContent).should("contain", "Green Zebra Grocery");
   });
 });
