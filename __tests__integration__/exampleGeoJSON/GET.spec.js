@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-test("Retrieves a geojson object from the hello_table", async () => {
+test("Retrieves a GeoJSON feature collection from the hello_table", async () => {
   try {
     const results = await axios({
       method: "get",

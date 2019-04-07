@@ -6,7 +6,7 @@ function factory(logger, groceryStoreService) {
     parameters: [],
     responses: {
       200: {
-        description: "Polygon features in geojson format"
+        description: "Point features in geojson format"
       },
       500: {
         description: "Server Error"
