@@ -154,7 +154,6 @@ export default {
       return markersArray;
     },
     createCensusTractContent(props) {
-      console.log(props);
       const propertyString = 
       `<span class="pdx-tooltip__title">${props.county_1} County, ${props.state_1}</span><br>
       <strong>CENSUS TRACT:</strong> ${props.censustrac} 
