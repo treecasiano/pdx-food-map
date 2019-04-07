@@ -37,22 +37,21 @@
         </l-geo-json>
         <l-control position="topleft">
           <div v-if="loading">
-            <v-card style="padding: 15px;">
+            <v-card class="pdx-leafletControl__card">
               <v-progress-circular indeterminate rotate color="accent"></v-progress-circular>
               Loading Census Tract Layer... 
             </v-card>
           </div>
         </l-control>
         <l-control position="bottomleft">
-          <v-card style="padding: 15px;">
-              
-                <v-checkbox
-                v-model="show"
-                :label="`Census Tracts`"></v-checkbox>
-                 <v-checkbox
-                  v-model="enableTooltip"
-                  :label="`Census Tract Tooltips`"
-                ></v-checkbox>
+          <v-card class="pdx-leafletControl__card">    
+            <v-checkbox
+            v-model="show"
+            :label="`Census Tracts`"></v-checkbox>
+              <v-checkbox
+            v-model="enableTooltip"
+            :label="`Census Tract Tooltips`"
+            ></v-checkbox>
           </v-card>
         </l-control>
       </l-map>
@@ -111,9 +110,9 @@ export default {
       return (feature, layer) => {
         const tooltipContent = this.createCensusTractContent(feature.properties);
         layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
-        layer.on("mouseover", (e) => {
+        layer.on("mouseover", () => {
         layer.setStyle(highlightStyle);
-        layer.on("mouseout", (e) => {
+        layer.on("mouseout", () => {
           layer.setStyle(defaultStyle);
         });
       });
@@ -184,6 +183,10 @@ export default {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+.pdx-leafletControl__card {
+  padding: 15px;
+}
 .pdx-tooltip {
   text-align: left;
 }
@@ -191,7 +194,6 @@ export default {
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
-  
 }
 </style>
 
