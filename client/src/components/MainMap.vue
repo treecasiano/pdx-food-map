@@ -1,26 +1,6 @@
 <template>
-  <v-layout>
+  <v-layout>  
     <v-flex>
-      <div style="height: 10%; overflow: auto;">
-        <span v-if="loading">Map Layers Loading... </span>
-        <label for="checkbox">GeoJSON Visibility </label>
-        <input
-          id="checkbox"
-          v-model="show"
-          type="checkbox"
-        >
-        <label for="checkboxTooltip">Enable tooltip </label>
-        <input
-          id="checkboxTooltip"
-          v-model="enableTooltip"
-          type="checkbox"
-        >
-        <input
-          v-model="fillColor"
-          type="color"
-        >
-        <br>
-      </div>
       <l-map
         ref="map"
         style="height: 700px; width: 100%"
@@ -55,12 +35,33 @@
           :options-style="styleFunction"
         >
         </l-geo-json>
+        <l-control position="topleft">
+          <div v-if="loading">
+            <v-card style="padding: 15px;">
+              <v-progress-circular indeterminate rotate color="accent"></v-progress-circular>
+              Loading Census Tract Layer... 
+            </v-card>
+          </div>
+        </l-control>
+        <l-control position="bottomleft">
+          <v-card style="padding: 15px;">
+              
+                <v-checkbox
+                v-model="show"
+                :label="`Census Tracts`"></v-checkbox>
+                 <v-checkbox
+                  v-model="enableTooltip"
+                  :label="`Census Tract Tooltips`"
+                ></v-checkbox>
+          </v-card>
+        </l-control>
       </l-map>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+
 export default {
   name: 'MainMap',
   computed: {
@@ -82,24 +83,40 @@ export default {
       };
     },
     styleFunction() {
-      // important! need fillColor in computed for re-calculation when changing fillColor
-      const fillColor = this.fillColor;
       return () => {
         return {
           weight: 1,
           color: '#A9A9A9',
           opacity: 1,
-          fillColor: fillColor,
+          fillColor: '#B1B6B6',
           fillOpacity: .1
         };
       };
     },
     onEachFeatureFunction() {
+      const highlightStyle = {
+        color: '#2262CC', 
+        opacity: 0.6,
+        fillOpacity: 0.65
+      };
+      const defaultStyle = {
+        color: '#A9A9A9',
+        opacity: 1,
+        fillOpacity: .1
+      };
+
       if (!this.enableTooltip) {
         return () => { };
       }
       return (feature, layer) => {
-        layer.bindTooltip("I am a tooltip", { permanent: false, sticky: true });
+        const tooltipContent = this.createCensusTractContent(feature.properties);
+        layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
+        layer.on("mouseover", (e) => {
+        layer.setStyle(highlightStyle);
+        layer.on("mouseout", (e) => {
+          layer.setStyle(defaultStyle);
+        });
+      });
       };
     }
   },
@@ -112,9 +129,8 @@ export default {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: 'abcd',
       maxZoom: 18,
-      fillColor: '#e4ce7f',
-      enableTooltip: false,
-      show: false
+      enableTooltip: true,
+      show: true
     };
   },
   methods: {
@@ -138,6 +154,17 @@ export default {
       });
       return markersArray;
     },
+    createCensusTractContent(props) {
+      console.log(props);
+      const propertyString = 
+      `<span class="pdx-tooltip__title">${props.county_1} County, ${props.state_1}</span><br>
+      <strong>CENSUS TRACT:</strong> ${props.censustrac} 
+      <hr>
+      <strong>MEDIAN FAMILY INCOME (2015):</strong> ${props.medianfami} <br>
+      <strong>POVERTY RATE (2015):</strong> ${props.povertyrat}%<br> 
+      <strong> HUNVFLAG:</strong> ${props.hunvflag}`;
+      return propertyString;
+    }
   },
   props: {
     loading: Boolean,
@@ -147,3 +174,24 @@ export default {
   }
 }
 </script>
+
+<style>
+.v-input--checkbox {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.v-input--slot {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.pdx-tooltip {
+  text-align: left;
+}
+.pdx-tooltip__title {
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  
+}
+</style>
+
