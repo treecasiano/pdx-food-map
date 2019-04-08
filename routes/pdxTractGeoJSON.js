@@ -1,6 +1,6 @@
 function factory(logger, pdxTractService) {
   GET.apiDoc = {
-    summary: "Get a GeoJSON object (PDX Metro census tracts)",
+    summary: "Get a GeoJSON Feature Collection (PDX Metro census tracts)",
     tags: ["PDX Metro Census Tracts"],
     produces: ["application/json"],
     parameters: [],

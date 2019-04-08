@@ -1,5 +1,5 @@
 <template>
-  <v-layout>  
+  <v-layout>
     <v-flex>
       <l-map
         ref="map"
@@ -19,8 +19,24 @@
           v-for="(item, index) in groceryStoreMarkers"
           v-bind:item="item"
           v-bind:index="index"
-          v-bind:key="index"
+          v-bind:key="index + 'groceryStore'"
           :lat-lng="item"
+          data-cy="groceryStorePoint"
+        >
+          <l-popup>
+            <div>
+              {{item.props}}
+            </div>
+          </l-popup>
+        </l-marker>
+        <l-marker
+          v-for="(item, index) in farmersMarketMarkers"
+          v-bind:item="item"
+          v-bind:index="index"
+          v-bind:key="index + 'farmersMarket'"
+          :lat-lng="item"
+          data-cy="farmersMarketPoint"
+          :icon="item.icon"
         >
           <l-popup>
             <div>
@@ -38,19 +54,24 @@
         <l-control position="topleft">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
-              <v-progress-circular indeterminate rotate color="accent"></v-progress-circular>
-              Loading Census Tract Layer... 
+              <v-progress-circular
+                indeterminate
+                rotate
+                color="accent"
+              ></v-progress-circular>
+              Loading Map Layers...
             </v-card>
           </div>
         </l-control>
         <l-control position="bottomleft">
-          <v-card class="pdx-leafletControl__card">    
+          <v-card class="pdx-leafletControl__card">
             <v-checkbox
-            v-model="show"
-            :label="`Census Tracts`"></v-checkbox>
-              <v-checkbox
-            v-model="enableTooltip"
-            :label="`Census Tract Tooltips`"
+              v-model="show"
+              :label="`Census Tracts`"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="enableTooltip"
+              :label="`Census Tract Tooltips`"
             ></v-checkbox>
           </v-card>
         </l-control>
@@ -76,6 +97,15 @@ export default {
       }
       return mapMarkers;
     },
+    farmersMarketMarkers() {
+      const geojson = this.$store.state.farmersMarket.farmersMarketGeoJSON;
+      let mapMarkers = [];
+      if (geojson.features) {
+        mapMarkers = this.createMarkers(geojson, this.farmersMarketIcon);
+        return mapMarkers;
+      }
+      return mapMarkers;
+    },
     options() {
       return {
         onEachFeature: this.onEachFeatureFunction
@@ -94,7 +124,7 @@ export default {
     },
     onEachFeatureFunction() {
       const highlightStyle = {
-        color: '#2262CC', 
+        color: '#2262CC',
         opacity: 0.6,
         fillOpacity: 0.65
       };
@@ -111,11 +141,11 @@ export default {
         const tooltipContent = this.createCensusTractContent(feature.properties);
         layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
         layer.on("mouseover", () => {
-        layer.setStyle(highlightStyle);
-        layer.on("mouseout", () => {
-          layer.setStyle(defaultStyle);
+          layer.setStyle(highlightStyle);
+          layer.on("mouseout", () => {
+            layer.setStyle(defaultStyle);
+          });
         });
-      });
       };
     }
   },
@@ -129,7 +159,15 @@ export default {
       subdomains: 'abcd',
       maxZoom: 18,
       enableTooltip: true,
-      show: true
+      show: true,
+      // eslint-disable-next-line
+      farmersMarketIcon: L.icon({
+        iconUrl: 'leaflet/map-marker-icon.png',
+        iconSize: [38, 38],
+        iconAnchor: [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor: [-2, -96]
+      }),
     };
   },
   methods: {
@@ -142,24 +180,30 @@ export default {
     boundsUpdated(bounds) {
       this.bounds = bounds;
     },
-    createMarkers(geojson) {
+    createMarkers(geojson, alternateIcon) {
       const markersArray = geojson["features"].map((feature) => {
         // eslint-disable-next-line no-undef
         let markerObject = L.latLng(feature["geometry"]["coordinates"][1], feature["geometry"]["coordinates"][0]);
         let props = feature["properties"];
 
+        if (alternateIcon) {
+          let icon = alternateIcon;
+          Object.assign(markerObject, { icon });
+        }
+
         Object.assign(markerObject, { props });
+
         return markerObject;
       });
       return markersArray;
     },
     createCensusTractContent(props) {
-      const propertyString = 
-      `<span class="pdx-tooltip__title">${props.county_1} County, ${props.state_1}</span><br>
-      <strong>CENSUS TRACT:</strong> ${props.censustrac} 
+      const propertyString =
+        `<span class="pdx-tooltip__title">${props.county_1} County, ${props.state_1}</span><br>
+      <strong>CENSUS TRACT:</strong> ${props.censustrac}
       <hr>
       <strong>MEDIAN FAMILY INCOME (2015):</strong> ${props.medianfami} <br>
-      <strong>POVERTY RATE (2015):</strong> ${props.povertyrat}%<br> 
+      <strong>POVERTY RATE (2015):</strong> ${props.povertyrat}%<br>
       <strong> HUNVFLAG:</strong> ${props.hunvflag}`;
       return propertyString;
     }
@@ -195,4 +239,3 @@ export default {
   text-transform: uppercase;
 }
 </style>
-
