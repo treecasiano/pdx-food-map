@@ -15,6 +15,7 @@ export default {
   },
   async created() {
     this.loading = true;
+    await this.$store.dispatch("farmersMarket/getFarmersMarketGeoJSON");
     await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON");
     await this.$store.dispatch("pdxTract/getPdxTractGeoJSON");
     this.loading = false;
