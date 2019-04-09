@@ -26,7 +26,15 @@
         >
           <l-popup>
             <div>
-              {{item.props}}
+              <div>
+                <strong>{{item.props.name}}</strong>
+              </div>
+              <div>
+                <em>{{item.props.type}}</em>
+              </div>
+              <div>
+                {{item.props.address}}
+              </div>
             </div>
           </l-popup>
         </l-marker>
@@ -41,7 +49,24 @@
         >
           <l-popup>
             <div>
-              {{item.props}}
+              <div>
+                <strong>{{item.props.market}}</strong>
+              </div>
+              <div>
+                <em>{{item.props.location}}</em>
+              </div>
+              <div>
+                <strong>Day:</strong> {{item.props.day}}
+              </div>
+              <div>
+                <strong>Open Dates:</strong> {{item.props.open_dates}}
+              </div>
+              <div>
+                <strong>Open Times:</strong> {{item.props.open_times}}
+              </div>
+              <div>
+                <strong>Accepts:</strong> {{item.props.accepts}}
+              </div>
             </div>
           </l-popup>
         </l-marker>
