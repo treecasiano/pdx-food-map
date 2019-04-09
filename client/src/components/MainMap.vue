@@ -71,13 +71,13 @@
           </l-popup>
         </l-marker>
         <l-geo-json
-          v-if="show"
+          v-if="showCensusTracts"
           :geojson="pdxTractGeoJSON"
           :options="options"
           :options-style="styleFunction"
         >
         </l-geo-json>
-        <l-control position="topleft">
+        <l-control position="bottomleft">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
               <v-progress-circular
@@ -89,13 +89,14 @@
             </v-card>
           </div>
         </l-control>
-        <l-control position="bottomleft">
+        <l-control position="topleft">
           <v-card class="pdx-leafletControl__card">
             <v-checkbox
-              v-model="show"
+              v-model="showCensusTracts"
               :label="`Census Tracts`"
             ></v-checkbox>
             <v-checkbox
+              v-if="showCensusTracts"
               v-model="enableTooltip"
               :label="`Census Tract Tooltips`"
             ></v-checkbox>
@@ -185,7 +186,7 @@ export default {
       subdomains: 'abcd',
       maxZoom: 18,
       enableTooltip: true,
-      show: true,
+      showCensusTracts: true,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap21.png',
@@ -275,6 +276,7 @@ export default {
 }
 
 .pdx-leafletControl__card {
+  min-width: 200px;
   padding: 15px;
 }
 .pdx-tooltip {
