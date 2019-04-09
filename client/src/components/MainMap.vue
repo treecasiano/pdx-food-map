@@ -22,10 +22,19 @@
           v-bind:key="index + 'groceryStore'"
           :lat-lng="item"
           data-cy="groceryStorePoint"
+          :icon="item.icon"
         >
           <l-popup>
             <div>
-              {{item.props}}
+              <div>
+                <strong>{{item.props.name}}</strong>
+              </div>
+              <div>
+                <em>{{item.props.type}}</em>
+              </div>
+              <div>
+                {{item.props.address}}
+              </div>
             </div>
           </l-popup>
         </l-marker>
@@ -40,7 +49,24 @@
         >
           <l-popup>
             <div>
-              {{item.props}}
+              <div>
+                <strong>{{item.props.market}}</strong>
+              </div>
+              <div>
+                <em>{{item.props.location}}</em>
+              </div>
+              <div>
+                <strong>Day:</strong> {{item.props.day}}
+              </div>
+              <div>
+                <strong>Open Dates:</strong> {{item.props.open_dates}}
+              </div>
+              <div>
+                <strong>Open Times:</strong> {{item.props.open_times}}
+              </div>
+              <div>
+                <strong>Accepts:</strong> {{item.props.accepts}}
+              </div>
             </div>
           </l-popup>
         </l-marker>
@@ -92,7 +118,7 @@ export default {
       const geojson = this.$store.state.groceryStore.groceryStoreGeoJSON;
       let mapMarkers = [];
       if (geojson.features) {
-        mapMarkers = this.createMarkers(geojson);
+        mapMarkers = this.createMarkers(geojson, this.groceryStoreIcon);
         return mapMarkers;
       }
       return mapMarkers;
@@ -162,8 +188,16 @@ export default {
       show: true,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
-        iconUrl: 'leaflet/map-marker-icon.png',
-        iconSize: [38, 38],
+        iconUrl: 'leaflet/PDXFoodMap21.png',
+        iconSize: [64, 64],
+        iconAnchor: [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor: [-2, -96]
+      }),
+      // eslint-disable-next-line
+      groceryStoreIcon: L.icon({
+        iconUrl: 'leaflet/pDXFoodMapConvert11.svg',
+        iconSize: [64, 64],
         iconAnchor: [22, 94],
         shadowAnchor: [4, 62],
         popupAnchor: [-2, -96]
@@ -198,14 +232,27 @@ export default {
       return markersArray;
     },
     createCensusTractContent(props) {
-      const propertyString =
-        `<span class="pdx-tooltip__title">${props.county_1} County, ${props.state_1}</span><br>
-      <strong>CENSUS TRACT:</strong> ${props.censustrac}
+      const foodDesertMessage = `<div>This census tract is classified as a <span class="pdx-message--foodDesert">food desert.<span></div>`;
+      let propertyString =
+        `<div class="pdx-tooltip__title">${props.county_1} County, ${props.state_1}</div>
+      <div class="pdx-tooltip__title"><strong>Census Tract:</strong> ${props.censustrac}</div>
       <hr>
-      <strong>MEDIAN FAMILY INCOME (2015):</strong> ${props.medianfami} <br>
-      <strong>POVERTY RATE (2015):</strong> ${props.povertyrat}%<br>
-      <strong> HUNVFLAG:</strong> ${props.hunvflag}`;
+      <div>Median Family Income: <strong>${this.formatCurrency(props.medianfami)}</strong> </div>
+      <div>Poverty Rate: <strong>${props.povertyrat}%</strong>.<div>
+      `;
+      if (props.hunvflag == 1) {
+        propertyString += foodDesertMessage;
+      }
+
       return propertyString;
+    },
+    formatCurrency(dollarValue) {
+      // syntax numObj.toLocaleString([locales [, options]])
+      return dollarValue.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0
+      });
     }
   },
   props: {
@@ -235,7 +282,8 @@ export default {
 }
 .pdx-tooltip__title {
   font-weight: bold;
-  text-align: center;
-  text-transform: uppercase;
+}
+.pdx-message--foodDesert {
+  font-weight: bold;
 }
 </style>
