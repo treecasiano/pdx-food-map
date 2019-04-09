@@ -15,61 +15,66 @@
           :url="url"
           :attribution="attribution"
         ></l-tile-layer>
-        <l-marker
-          v-for="(item, index) in groceryStoreMarkers"
-          v-bind:item="item"
-          v-bind:index="index"
-          v-bind:key="index + 'groceryStore'"
-          :lat-lng="item"
-          data-cy="groceryStorePoint"
-          :icon="item.icon"
-        >
-          <l-popup>
-            <div>
+        <div v-if="showGroceryStores">
+          <l-marker
+            v-for="(item, index) in groceryStoreMarkers"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index + 'groceryStore'"
+            :lat-lng="item"
+            data-cy="groceryStorePoint"
+            :icon="item.icon"
+          >
+            <l-popup>
               <div>
-                <strong>{{item.props.name}}</strong>
+                <div>
+                  <strong>{{item.props.name}}</strong>
+                </div>
+                <div>
+                  <em>{{item.props.type}}</em>
+                </div>
+                <div>
+                  {{item.props.address}}
+                </div>
               </div>
+            </l-popup>
+          </l-marker>
+        </div>
+        <div v-if="showFarmersMarkets">
+          <l-marker
+            v-for="(item, index) in farmersMarketMarkers"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index + 'farmersMarket'"
+            :lat-lng="item"
+            data-cy="farmersMarketPoint"
+            :icon="item.icon"
+          >
+            <l-popup>
               <div>
-                <em>{{item.props.type}}</em>
+                <div>
+                  <strong>{{item.props.market}}</strong>
+                </div>
+                <div>
+                  <em>{{item.props.location}}</em>
+                </div>
+                <div>
+                  <strong>Day:</strong> {{item.props.day}}
+                </div>
+                <div>
+                  <strong>Open Dates:</strong> {{item.props.open_dates}}
+                </div>
+                <div>
+                  <strong>Open Times:</strong> {{item.props.open_times}}
+                </div>
+                <div>
+                  <strong>Accepts:</strong> {{item.props.accepts}}
+                </div>
               </div>
-              <div>
-                {{item.props.address}}
-              </div>
-            </div>
-          </l-popup>
-        </l-marker>
-        <l-marker
-          v-for="(item, index) in farmersMarketMarkers"
-          v-bind:item="item"
-          v-bind:index="index"
-          v-bind:key="index + 'farmersMarket'"
-          :lat-lng="item"
-          data-cy="farmersMarketPoint"
-          :icon="item.icon"
-        >
-          <l-popup>
-            <div>
-              <div>
-                <strong>{{item.props.market}}</strong>
-              </div>
-              <div>
-                <em>{{item.props.location}}</em>
-              </div>
-              <div>
-                <strong>Day:</strong> {{item.props.day}}
-              </div>
-              <div>
-                <strong>Open Dates:</strong> {{item.props.open_dates}}
-              </div>
-              <div>
-                <strong>Open Times:</strong> {{item.props.open_times}}
-              </div>
-              <div>
-                <strong>Accepts:</strong> {{item.props.accepts}}
-              </div>
-            </div>
-          </l-popup>
-        </l-marker>
+            </l-popup>
+          </l-marker>
+        </div>
+
         <l-geo-json
           v-if="showCensusTracts"
           :geojson="pdxTractGeoJSON"
@@ -77,6 +82,7 @@
           :options-style="styleFunction"
         >
         </l-geo-json>
+
         <l-control position="bottomleft">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
@@ -99,6 +105,14 @@
               v-if="showCensusTracts"
               v-model="enableTooltip"
               :label="`Census Tract Tooltips`"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="showGroceryStores"
+              :label="`Grocery Stores`"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="showFarmersMarkets"
+              :label="`Farmers Markets`"
             ></v-checkbox>
           </v-card>
         </l-control>
@@ -187,6 +201,8 @@ export default {
       maxZoom: 18,
       enableTooltip: true,
       showCensusTracts: true,
+      showFarmersMarkets: true,
+      showGroceryStores: true,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap21.png',
