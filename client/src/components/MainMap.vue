@@ -114,6 +114,37 @@
               v-model="showFarmersMarkets"
               :label="`Farmers Markets`"
             ></v-checkbox>
+            <v-spacer></v-spacer>
+            <v-layout
+              align-start
+              justify-start
+              column
+              fill-height
+            >
+              <v-flex>
+                <v-layout
+                  align-center
+                  class="text-xs-left"
+                >
+                  <img
+                    src="leaflet/PDXFoodMap31.svg"
+                    alt="grocery store symbol"
+                  >
+                  <div>Grocery Stores</div>
+                </v-layout>
+              </v-flex>
+              <v-flex>
+                <v-layout align-center>
+                  <img
+                    src="leaflet/PDXFoodMap33.svg"
+                    alt="farmers market symbol"
+                  >
+                  <div>Farmers Markets</div>
+
+                </v-layout>
+              </v-flex>
+            </v-layout>
+
           </v-card>
         </l-control>
       </l-map>
@@ -122,6 +153,32 @@
 </template>
 
 <script>
+
+const defaultStyle = {
+  weight: .5,
+  color: '#c0ca33',
+  opacity: 1,
+  fillColor: '#B1B6B6',
+  fillOpacity: .1
+};
+const highlightStyle = {
+  color: '#c0ca33',
+  opacity: 0.6,
+  fillColor: '#c0ca33',
+  fillOpacity: 0.65
+};
+const foodDesertHighlightStyle = {
+  color: '#2262CC',
+  opacity: .6,
+  fillOpacity: .65
+};
+const foodDesertDefaultStyle = {
+  weight: .5,
+  color: '#795548',
+  opacity: 1,
+  fillColor: '#795548',
+  fillOpacity: .5
+};
 
 export default {
   name: 'MainMap',
@@ -156,7 +213,7 @@ export default {
       return () => {
         return {
           weight: 1,
-          color: '#A9A9A9',
+          color: '#c0ca33',
           opacity: 1,
           fillColor: '#B1B6B6',
           fillOpacity: .1
@@ -164,27 +221,27 @@ export default {
       };
     },
     onEachFeatureFunction() {
-      const highlightStyle = {
-        color: '#2262CC',
-        opacity: 0.6,
-        fillOpacity: 0.65
-      };
-      const defaultStyle = {
-        color: '#A9A9A9',
-        opacity: 1,
-        fillOpacity: .1
-      };
-
       if (!this.enableTooltip) {
         return () => { };
       }
       return (feature, layer) => {
         const tooltipContent = this.createCensusTractContent(feature.properties);
         layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
+        if (feature.properties.hunvflag == 1) {
+          layer.setStyle(foodDesertDefaultStyle);
+        }
         layer.on("mouseover", () => {
-          layer.setStyle(highlightStyle);
+          if (feature.properties.hunvflag == 1) {
+            layer.setStyle(foodDesertHighlightStyle);
+          } else {
+            layer.setStyle(highlightStyle);
+          }
           layer.on("mouseout", () => {
-            layer.setStyle(defaultStyle);
+            if (feature.properties.hunvflag == 1) {
+              layer.setStyle(foodDesertDefaultStyle);
+            } else {
+              layer.setStyle(defaultStyle);
+            }
           });
         });
       };
@@ -205,7 +262,7 @@ export default {
       showGroceryStores: true,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
-        iconUrl: 'leaflet/PDXFoodMap21.png',
+        iconUrl: 'leaflet/PDXFoodMap33.svg',
         iconSize: [64, 64],
         iconAnchor: [22, 94],
         shadowAnchor: [4, 62],
@@ -213,7 +270,7 @@ export default {
       }),
       // eslint-disable-next-line
       groceryStoreIcon: L.icon({
-        iconUrl: 'leaflet/pDXFoodMapConvert11.svg',
+        iconUrl: 'leaflet/PDXFoodMap31.svg',
         iconSize: [64, 64],
         iconAnchor: [22, 94],
         shadowAnchor: [4, 62],
@@ -291,8 +348,13 @@ export default {
   padding: 0 !important;
 }
 
+.pdx-leafletControl__card img {
+  width: 40px;
+  height: 40px;
+}
+
 .pdx-leafletControl__card {
-  min-width: 200px;
+  min-width: 250px;
   padding: 15px;
 }
 .pdx-tooltip {
