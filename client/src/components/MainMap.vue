@@ -15,69 +15,75 @@
           :url="url"
           :attribution="attribution"
         ></l-tile-layer>
-        <l-marker
-          v-for="(item, index) in groceryStoreMarkers"
-          v-bind:item="item"
-          v-bind:index="index"
-          v-bind:key="index + 'groceryStore'"
-          :lat-lng="item"
-          data-cy="groceryStorePoint"
-          :icon="item.icon"
-        >
-          <l-popup>
-            <div>
+        <div v-if="showGroceryStores">
+          <l-marker
+            v-for="(item, index) in groceryStoreMarkers"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index + 'groceryStore'"
+            :lat-lng="item"
+            data-cy="groceryStorePoint"
+            :icon="item.icon"
+          >
+            <l-popup>
               <div>
-                <strong>{{item.props.name}}</strong>
+                <div>
+                  <strong>{{item.props.name}}</strong>
+                </div>
+                <div>
+                  <em>{{item.props.type}}</em>
+                </div>
+                <div>
+                  {{item.props.address}}
+                </div>
               </div>
+            </l-popup>
+          </l-marker>
+        </div>
+        <div v-if="showFarmersMarkets">
+          <l-marker
+            v-for="(item, index) in farmersMarketMarkers"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index + 'farmersMarket'"
+            :lat-lng="item"
+            data-cy="farmersMarketPoint"
+            :icon="item.icon"
+          >
+            <l-popup>
               <div>
-                <em>{{item.props.type}}</em>
+                <div>
+                  <strong>{{item.props.market}}</strong>
+                </div>
+                <div>
+                  <em>{{item.props.location}}</em>
+                </div>
+                <div>
+                  <strong>Day:</strong> {{item.props.day}}
+                </div>
+                <div>
+                  <strong>Open Dates:</strong> {{item.props.open_dates}}
+                </div>
+                <div>
+                  <strong>Open Times:</strong> {{item.props.open_times}}
+                </div>
+                <div>
+                  <strong>Accepts:</strong> {{item.props.accepts}}
+                </div>
               </div>
-              <div>
-                {{item.props.address}}
-              </div>
-            </div>
-          </l-popup>
-        </l-marker>
-        <l-marker
-          v-for="(item, index) in farmersMarketMarkers"
-          v-bind:item="item"
-          v-bind:index="index"
-          v-bind:key="index + 'farmersMarket'"
-          :lat-lng="item"
-          data-cy="farmersMarketPoint"
-          :icon="item.icon"
-        >
-          <l-popup>
-            <div>
-              <div>
-                <strong>{{item.props.market}}</strong>
-              </div>
-              <div>
-                <em>{{item.props.location}}</em>
-              </div>
-              <div>
-                <strong>Day:</strong> {{item.props.day}}
-              </div>
-              <div>
-                <strong>Open Dates:</strong> {{item.props.open_dates}}
-              </div>
-              <div>
-                <strong>Open Times:</strong> {{item.props.open_times}}
-              </div>
-              <div>
-                <strong>Accepts:</strong> {{item.props.accepts}}
-              </div>
-            </div>
-          </l-popup>
-        </l-marker>
+            </l-popup>
+          </l-marker>
+        </div>
+
         <l-geo-json
-          v-if="show"
+          v-if="showCensusTracts"
           :geojson="pdxTractGeoJSON"
           :options="options"
           :options-style="styleFunction"
         >
         </l-geo-json>
-        <l-control position="topleft">
+
+        <l-control position="bottomleft">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
               <v-progress-circular
@@ -89,16 +95,63 @@
             </v-card>
           </div>
         </l-control>
-        <l-control position="bottomleft">
+        <l-control position="topleft">
           <v-card class="pdx-leafletControl__card">
             <v-checkbox
-              v-model="show"
+              v-model="showCensusTracts"
               :label="`Census Tracts`"
             ></v-checkbox>
             <v-checkbox
+              v-if="showCensusTracts"
               v-model="enableTooltip"
               :label="`Census Tract Tooltips`"
             ></v-checkbox>
+            <v-checkbox
+              v-model="showGroceryStores"
+              :label="`Grocery Stores`"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="showFarmersMarkets"
+              :label="`Farmers Markets`"
+            ></v-checkbox>
+            <v-spacer></v-spacer>
+            <v-layout
+              align-start
+              justify-start
+              column
+              fill-height
+            >
+              <v-flex>
+                <v-layout
+                  align-center
+                  class="text-xs-left"
+                >
+                  <img
+                    src="leaflet/PDXFoodMap31.svg"
+                    alt="grocery store symbol"
+                  >
+                  <div>Grocery Stores</div>
+                </v-layout>
+              </v-flex>
+              <v-flex>
+                <v-layout align-center>
+                  <img
+                    src="leaflet/PDXFoodMap33.svg"
+                    alt="farmers market symbol"
+                  >
+                  <div>Farmers Markets</div>
+
+                </v-layout>
+              </v-flex>
+              <v-flex>
+                <v-layout align-center>
+                  <div class="pdx-legendSymbol--foodDesert"></div>
+                  <div>Food Deserts</div>
+
+                </v-layout>
+              </v-flex>
+            </v-layout>
+
           </v-card>
         </l-control>
       </l-map>
@@ -107,6 +160,32 @@
 </template>
 
 <script>
+
+const defaultStyle = {
+  weight: .5,
+  color: '#c0ca33',
+  opacity: 1,
+  fillColor: '#B1B6B6',
+  fillOpacity: .1
+};
+const highlightStyle = {
+  color: '#c0ca33',
+  opacity: 0.6,
+  fillColor: '#c0ca33',
+  fillOpacity: 0.65
+};
+const foodDesertHighlightStyle = {
+  color: '#2262CC',
+  opacity: .6,
+  fillOpacity: .65
+};
+const foodDesertDefaultStyle = {
+  weight: .5,
+  color: '#795548',
+  opacity: 1,
+  fillColor: '#795548',
+  fillOpacity: .5
+};
 
 export default {
   name: 'MainMap',
@@ -141,7 +220,7 @@ export default {
       return () => {
         return {
           weight: 1,
-          color: '#A9A9A9',
+          color: '#c0ca33',
           opacity: 1,
           fillColor: '#B1B6B6',
           fillOpacity: .1
@@ -149,27 +228,27 @@ export default {
       };
     },
     onEachFeatureFunction() {
-      const highlightStyle = {
-        color: '#2262CC',
-        opacity: 0.6,
-        fillOpacity: 0.65
-      };
-      const defaultStyle = {
-        color: '#A9A9A9',
-        opacity: 1,
-        fillOpacity: .1
-      };
-
       if (!this.enableTooltip) {
         return () => { };
       }
       return (feature, layer) => {
         const tooltipContent = this.createCensusTractContent(feature.properties);
         layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
+        if (feature.properties.lilatrac_1 == 1) {
+          layer.setStyle(foodDesertDefaultStyle);
+        }
         layer.on("mouseover", () => {
-          layer.setStyle(highlightStyle);
+          if (feature.properties.lilatrac_1 == 1) {
+            layer.setStyle(foodDesertHighlightStyle);
+          } else {
+            layer.setStyle(highlightStyle);
+          }
           layer.on("mouseout", () => {
-            layer.setStyle(defaultStyle);
+            if (feature.properties.lilatrac_1 == 1) {
+              layer.setStyle(foodDesertDefaultStyle);
+            } else {
+              layer.setStyle(defaultStyle);
+            }
           });
         });
       };
@@ -185,10 +264,12 @@ export default {
       subdomains: 'abcd',
       maxZoom: 18,
       enableTooltip: true,
-      show: true,
+      showCensusTracts: true,
+      showFarmersMarkets: true,
+      showGroceryStores: true,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
-        iconUrl: 'leaflet/PDXFoodMap21.png',
+        iconUrl: 'leaflet/PDXFoodMap33.svg',
         iconSize: [64, 64],
         iconAnchor: [22, 94],
         shadowAnchor: [4, 62],
@@ -196,7 +277,7 @@ export default {
       }),
       // eslint-disable-next-line
       groceryStoreIcon: L.icon({
-        iconUrl: 'leaflet/pDXFoodMapConvert11.svg',
+        iconUrl: 'leaflet/PDXFoodMap31.svg',
         iconSize: [64, 64],
         iconAnchor: [22, 94],
         shadowAnchor: [4, 62],
@@ -240,7 +321,7 @@ export default {
       <div>Median Family Income: <strong>${this.formatCurrency(props.medianfami)}</strong> </div>
       <div>Poverty Rate: <strong>${props.povertyrat}%</strong>.<div>
       `;
-      if (props.hunvflag == 1) {
+      if (props.lilatrac_1 == 1) {
         propertyString += foodDesertMessage;
       }
 
@@ -274,7 +355,21 @@ export default {
   padding: 0 !important;
 }
 
+.pdx-legendSymbol--foodDesert {
+  background-color: #795548;
+  opacity: 0.6;
+  height: 30px;
+  margin-right: 10px;
+  width: 30px;
+}
+
+.pdx-leafletControl__card img {
+  width: 40px;
+  height: 40px;
+}
+
 .pdx-leafletControl__card {
+  min-width: 250px;
   padding: 15px;
 }
 .pdx-tooltip {
