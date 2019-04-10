@@ -143,6 +143,13 @@
 
                 </v-layout>
               </v-flex>
+              <v-flex>
+                <v-layout align-center>
+                  <div class="pdx-legendSymbol--foodDesert"></div>
+                  <div>Food Deserts</div>
+
+                </v-layout>
+              </v-flex>
             </v-layout>
 
           </v-card>
@@ -346,6 +353,14 @@ export default {
 .v-input--slot {
   margin: 0 !important;
   padding: 0 !important;
+}
+
+.pdx-legendSymbol--foodDesert {
+  background-color: #795548;
+  opacity: 0.6;
+  height: 30px;
+  margin-right: 10px;
+  width: 30px;
 }
 
 .pdx-leafletControl__card img {
