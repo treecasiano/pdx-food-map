@@ -227,17 +227,17 @@ export default {
       return (feature, layer) => {
         const tooltipContent = this.createCensusTractContent(feature.properties);
         layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
-        if (feature.properties.hunvflag == 1) {
+        if (feature.properties.lilatrac_1 == 1) {
           layer.setStyle(foodDesertDefaultStyle);
         }
         layer.on("mouseover", () => {
-          if (feature.properties.hunvflag == 1) {
+          if (feature.properties.lilatrac_1 == 1) {
             layer.setStyle(foodDesertHighlightStyle);
           } else {
             layer.setStyle(highlightStyle);
           }
           layer.on("mouseout", () => {
-            if (feature.properties.hunvflag == 1) {
+            if (feature.properties.lilatrac_1 == 1) {
               layer.setStyle(foodDesertDefaultStyle);
             } else {
               layer.setStyle(defaultStyle);
@@ -314,7 +314,7 @@ export default {
       <div>Median Family Income: <strong>${this.formatCurrency(props.medianfami)}</strong> </div>
       <div>Poverty Rate: <strong>${props.povertyrat}%</strong>.<div>
       `;
-      if (props.hunvflag == 1) {
+      if (props.lilatrac_1 == 1) {
         propertyString += foodDesertMessage;
       }
 
