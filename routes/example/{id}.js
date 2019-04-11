@@ -27,7 +27,7 @@ function factory(logger, exampleService) {
   };
 
   PUT.apiDoc = {
-    summary: "Update record in hello_table",
+    summary: "Updates record in the example hello_table",
     tags: ["Example"],
     produces: ["application/json"],
     parameters: [

@@ -1,6 +1,7 @@
 function factory(logger, groceryStoreService) {
   GET.apiDoc = {
-    summary: "Get a GeoJSON object (PDX Metro grocery stores)",
+    summary:
+      "Returns a GeoJSON Feature Collection (All Grocery Stores in the PDX-Vancouver-Hillsboro MSA)",
     tags: ["PDX Metro Grocery Stores"],
     produces: ["application/json"],
     parameters: [],

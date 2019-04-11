@@ -1,6 +1,7 @@
 function factory(logger, farmersMarketService) {
   POST.apiDoc = {
-    summary: "Search endpoint for Farmers Markets",
+    summary:
+      "Returns a list of Farmers Markets within a specified distance of a given point",
     tags: ["PDX Metro Farmers Markets"],
     produces: ["application/json"],
     parameters: [
@@ -12,7 +13,7 @@ function factory(logger, farmersMarketService) {
         schema: {
           properties: {
             geom: {
-              description: "geometry",
+              description: "longitude, latitude",
               type: "string"
             },
             distance: {

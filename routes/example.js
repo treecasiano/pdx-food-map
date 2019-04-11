@@ -1,6 +1,7 @@
 function factory(logger, exampleService) {
   GET.apiDoc = {
-    summary: "Get a list of all records in the example hello_table database",
+    summary:
+      "Returns a list of all records in the example hello_table database",
     tags: ["Example"],
     produces: ["application/json"],
     parameters: [],
