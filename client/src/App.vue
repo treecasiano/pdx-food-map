@@ -12,7 +12,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <div id="nav">
-        <router-link to="/">Map</router-link> |
+        <router-link to="/">Map</router-link> <span style="color: white;"> | </span>
         <router-link to="/about">About</router-link>
       </div>
     </v-toolbar>

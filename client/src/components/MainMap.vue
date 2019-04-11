@@ -327,7 +327,6 @@ export default {
         const x = result.location.x;
         const y = result.location.y;
         const coordinates = `${x}, ${y}`;
-        console.log("coordinates", coordinates);
       });
     })
   },
@@ -417,6 +416,7 @@ export default {
 .pdx-leafletControl__card {
   min-width: 250px;
   padding: 15px;
+  font-family: "Anton" !important;
 }
 .pdx-tooltip {
   text-align: left;
