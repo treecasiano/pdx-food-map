@@ -21,9 +21,10 @@
 
 <style>
 /* GLOBAL STYLES  */
+@import url("https://fonts.googleapis.com/css?family=Anton");
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Anton", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -39,7 +40,16 @@ li {
   margin: 0 10px;
 }
 
+#nav a {
+  color: #fa8c0f;
+  text-decoration: none;
+}
+
 #nav a.router-link-exact-active {
   color: #cddc39;
+}
+
+#nav a:hover {
+  opacity: 0.8;
 }
 </style>
