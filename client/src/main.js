@@ -19,7 +19,8 @@ import {
   LMarker,
   LPopup,
   LGeoJson,
-  LControl
+  LControl,
+  LControlZoom
 } from "vue2-leaflet";
 
 Vue.component("l-map", LMap);
@@ -28,6 +29,7 @@ Vue.component("l-marker", LMarker);
 Vue.component("l-popup", LPopup);
 Vue.component("l-geo-json", LGeoJson);
 Vue.component("l-control", LControl);
+Vue.component("l-control-zoom", LControlZoom);
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),

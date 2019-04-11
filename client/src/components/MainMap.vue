@@ -10,11 +10,14 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
         @update:bounds="boundsUpdated"
+        :options="{zoomControl: false}"
       >
+        <l-control-zoom position="bottomright"></l-control-zoom>
         <l-tile-layer
           :url="url"
           :attribution="attribution"
         ></l-tile-layer>
+
         <v-geosearch
           :options="geosearchOptions"
           ref="geosearch"
