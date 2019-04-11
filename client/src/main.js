@@ -10,6 +10,7 @@ import "../node_modules/leaflet/dist/leaflet.css";
 import L from "leaflet";
 delete L.Icon.Default.prototype._getIconUrl;
 import "material-design-icons-iconfont/dist/material-design-icons.css";
+require("./assets/css/geosearch.css");
 
 // register Vue2Leaflet components
 import {
