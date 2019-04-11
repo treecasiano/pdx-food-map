@@ -4,6 +4,7 @@
       dense
       flat
       dark
+      color="primary darken-3"
       class="accent--text"
     >
       <v-toolbar-title>

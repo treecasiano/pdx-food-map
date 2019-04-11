@@ -43,8 +43,8 @@ Vue.use(L);
 Vue.use(Vuetify, {
   iconfont: "md",
   theme: {
-    primary: colors.green,
-    secondary: colors.lightGreen,
+    primary: colors.brown,
+    secondary: colors.deepOrange,
     accent: colors.lime,
     error: colors.red,
     warning: colors.deepOrange,
