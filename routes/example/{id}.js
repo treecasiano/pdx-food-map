@@ -10,20 +10,20 @@ function factory(logger, exampleService) {
         minimum: 1,
         name: "id",
         required: true,
-        type: "integer",
-      },
+        type: "integer"
+      }
     ],
     responses: {
       200: {
-        description: "OK",
+        description: "OK"
       },
       404: {
-        description: "Not found",
+        description: "Not found"
       },
       500: {
-        description: "Server Error",
-      },
-    },
+        description: "Server Error"
+      }
+    }
   };
 
   PUT.apiDoc = {
@@ -37,7 +37,7 @@ function factory(logger, exampleService) {
         minimum: 1,
         name: "id",
         required: true,
-        type: "integer",
+        type: "integer"
       },
       {
         description: "hello_table updates",
@@ -48,47 +48,45 @@ function factory(logger, exampleService) {
           properties: {
             username: {
               description: "username",
-              type: "string",
+              type: "string"
             },
             first_name: {
               description: "First Name",
-              type: "string",
+              type: "string"
             },
             last_name: {
               description: "Last Name",
-              type: "string",
+              type: "string"
             },
             favorite_color: {
               description: "Favorite Color",
-              type: "string",
+              type: "string"
             },
             created_on: {
               description: "Date record was created",
-              oneOf: [{ type: "string", format: "date-time" }, { type: "null" }],
+              oneOf: [{ type: "string", format: "date-time" }, { type: "null" }]
             },
             geom: {
               description: "Geometry Column",
-              type: "string",
+              type: "string"
             }
           },
-          type: "object",
-        },
-      },
+          type: "object"
+        }
+      }
     ],
     responses: {
       200: {
-        description: "OK",
+        description: "OK"
       },
       404: {
-        description: "Not found",
+        description: "Not found"
       },
       500: {
-        description: "Server Error",
-      },
-    },
+        description: "Server Error"
+      }
+    }
   };
-
-
 
   return {
     GET,
@@ -97,7 +95,7 @@ function factory(logger, exampleService) {
 
   async function GET(req, res) {
     const {
-      params: { id },
+      params: { id }
     } = req;
 
     let record;
@@ -115,13 +113,15 @@ function factory(logger, exampleService) {
 
   async function PUT(req, res) {
     const {
-      params: { id },
+      params: { id }
     } = req;
 
     const updates = req.body;
 
     if (Object.keys(updates).length < 1) {
-      return res.status(400).json({ message: "Must update at least one attribute" });
+      return res
+        .status(400)
+        .json({ message: "Must update at least one attribute" });
     }
 
     let record;
@@ -133,9 +133,10 @@ function factory(logger, exampleService) {
     }
 
     if (!record) {
-      return res.status(404).json({ message: `Unable to find record for id: ${id}` });
+      return res
+        .status(404)
+        .json({ message: `Unable to find record for id: ${id}` });
     }
-
 
     let result;
     try {
@@ -144,12 +145,12 @@ function factory(logger, exampleService) {
     } catch (e) {
       logger.error(e);
       return res.status(500).json({
-        message: "Database error",
+        message: "Database error"
       });
     }
 
     return res.status(200).json({
-      result: result,
+      result: result
     });
   }
 }
