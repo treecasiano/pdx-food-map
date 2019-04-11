@@ -1,5 +1,9 @@
 <template>
   <v-app id="app">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-geosearch@2.6.0/assets/css/leaflet.css"
+    >
     <v-toolbar
       dense
       flat

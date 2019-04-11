@@ -15,6 +15,10 @@
           :url="url"
           :attribution="attribution"
         ></l-tile-layer>
+        <v-geosearch
+          :options="geosearchOptions"
+          ref="geosearch"
+        ></v-geosearch>
         <div v-if="showGroceryStores">
           <l-marker
             v-for="(item, index) in groceryStoreMarkers"
@@ -160,6 +164,8 @@
 </template>
 
 <script>
+import { OpenStreetMapProvider } from "leaflet-geosearch";
+import VGeosearch from "@/components/VGeosearch.vue";
 
 const defaultStyle = {
   weight: .5,
@@ -189,6 +195,7 @@ const foodDesertDefaultStyle = {
 
 export default {
   name: 'MainMap',
+  components: { VGeosearch },
   computed: {
     pdxTractGeoJSON() {
       return this.$store.state.pdxTract.pdxTractGeoJSON;
@@ -283,7 +290,43 @@ export default {
         shadowAnchor: [4, 62],
         popupAnchor: [-2, -96]
       }),
+      // eslint-disable-next-line
+      geosearchIcon: L.icon({
+        iconUrl: 'leaflet/PDXFoodMap31.svg',
+        iconSize: [64, 64],
+        iconAnchor: [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor: [-2, -96]
+      }),
+      geosearchOptions: {
+        provider: new OpenStreetMapProvider(),
+        style: 'bar',
+        autoComplete: true,
+        autoCompleteDelay: 250,
+        marker: {
+          icon: L.icon({
+            iconUrl: 'leaflet/PDXFoodMap22.svg',
+            iconSize: [64, 64],
+            iconAnchor: [22, 94],
+            shadowAnchor: [4, 62],
+            popupAnchor: [-2, -96]
+          }),
+          draggable: false,
+        },
+        searchLabel: "Enter an address"
+      },
     };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      // this.$refs.myMap.mapObject.ANY_LEAFLET_MAP_METHOD();
+      this.$refs.map.mapObject.on('geosearch/showlocation', (result) => {
+        const x = result.location.x;
+        const y = result.location.y;
+        const coordinates = `${x}, ${y}`;
+        console.log("coordinates", coordinates);
+      });
+    })
   },
   methods: {
     zoomUpdated(zoom) {
