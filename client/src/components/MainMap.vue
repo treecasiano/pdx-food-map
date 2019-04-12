@@ -1,5 +1,65 @@
 <template>
   <v-layout>
+    <div
+      class="pdx-floatingCardContainer"
+      v-if="showMapControls"
+    >
+      <v-card class="pdx-leafletControl__card elevation-20">
+        <v-checkbox
+          v-model="showCensusTracts"
+          :label="`Census Tracts`"
+        ></v-checkbox>
+        <v-checkbox
+          v-if="showCensusTracts"
+          v-model="enableTooltip"
+          :label="`Census Tract Tooltips`"
+        ></v-checkbox>
+        <v-checkbox
+          v-model="showGroceryStores"
+          :label="`Grocery Stores`"
+        ></v-checkbox>
+        <v-checkbox
+          v-model="showFarmersMarkets"
+          :label="`Farmers Markets`"
+        ></v-checkbox>
+        <v-spacer></v-spacer>
+        <v-layout
+          align-start
+          justify-start
+          column
+          fill-height
+        >
+          <v-flex>
+            <v-layout
+              align-center
+              class="text-xs-left"
+            >
+              <img
+                src="leaflet/PDXFoodMap31.svg"
+                alt="grocery store symbol"
+              >
+              <div>Grocery Stores</div>
+            </v-layout>
+          </v-flex>
+          <v-flex>
+            <v-layout align-center>
+              <img
+                src="leaflet/PDXFoodMap33.svg"
+                alt="farmers market symbol"
+              >
+              <div>Farmers Markets</div>
+
+            </v-layout>
+          </v-flex>
+          <v-flex>
+            <v-layout align-center>
+              <div class="pdx-legendSymbol--foodDesert"></div>
+              <div>Food Deserts</div>
+            </v-layout>
+          </v-flex>
+        </v-layout>
+      </v-card>
+    </div>
     <v-flex>
       <l-map
         ref="map"
@@ -14,6 +74,26 @@
       >
         <l-control-zoom position="bottomright"></l-control-zoom>
         <l-control-scale position="bottomleft"></l-control-scale>
+        <l-control position="topleft">
+          <v-btn
+            text
+            icon
+            color="primary"
+            @click="showMapControls = !showMapControls"
+            title="Toggle map controls"
+          >
+            <v-icon
+              v-if="showMapControls"
+              color="accent"
+              dark
+            >chevron_left</v-icon>
+            <v-icon
+              v-if="!showMapControls"
+              color="accent"
+              dark
+            >chevron_right</v-icon>
+          </v-btn>
+        </l-control>
         <l-tile-layer
           :url="url"
           :attribution="attribution"
@@ -91,12 +171,16 @@
         >
         </l-geo-json>
         <l-control position="topright">
-          <v-btn @click="resetMapView">
-            <v-icon>home</v-icon>
+          <v-btn
+            dark
+            color="primary"
+            @click="resetMapView"
+          >
+            <v-icon color="accent">home</v-icon>
           </v-btn>
         </l-control>
 
-        <l-control position="topleft">
+        <l-control position="topright">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
               <v-progress-circular
@@ -108,63 +192,7 @@
             </v-card>
           </div>
         </l-control>
-        <l-control position="topleft">
-          <v-card class="pdx-leafletControl__card">
-            <v-checkbox
-              v-model="showCensusTracts"
-              :label="`Census Tracts`"
-            ></v-checkbox>
-            <v-checkbox
-              v-if="showCensusTracts"
-              v-model="enableTooltip"
-              :label="`Census Tract Tooltips`"
-            ></v-checkbox>
-            <v-checkbox
-              v-model="showGroceryStores"
-              :label="`Grocery Stores`"
-            ></v-checkbox>
-            <v-checkbox
-              v-model="showFarmersMarkets"
-              :label="`Farmers Markets`"
-            ></v-checkbox>
-            <v-spacer></v-spacer>
-            <v-layout
-              align-start
-              justify-start
-              column
-              fill-height
-            >
-              <v-flex>
-                <v-layout
-                  align-center
-                  class="text-xs-left"
-                >
-                  <img
-                    src="leaflet/PDXFoodMap31.svg"
-                    alt="grocery store symbol"
-                  >
-                  <div>Grocery Stores</div>
-                </v-layout>
-              </v-flex>
-              <v-flex>
-                <v-layout align-center>
-                  <img
-                    src="leaflet/PDXFoodMap33.svg"
-                    alt="farmers market symbol"
-                  >
-                  <div>Farmers Markets</div>
 
-                </v-layout>
-              </v-flex>
-              <v-flex>
-                <v-layout align-center>
-                  <div class="pdx-legendSymbol--foodDesert"></div>
-                  <div>Food Deserts</div>
-                </v-layout>
-              </v-flex>
-            </v-layout>
-          </v-card>
-        </l-control>
       </l-map>
     </v-flex>
   </v-layout>
@@ -288,6 +316,7 @@ export default {
       showCensusTracts: true,
       showFarmersMarkets: false,
       showGroceryStores: false,
+      showMapControls: true,
       showSearchResults: false,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
@@ -426,6 +455,20 @@ export default {
   padding: 0 !important;
 }
 
+.pdx-floatingCardContainer {
+  position: absolute;
+  z-index: 100001;
+  height: 100%;
+  top: 110px;
+  width: 250px;
+  background-color: transparent;
+}
+
+.pdx-leafletControl__card {
+  padding: 15px;
+  font-family: "Anton" !important;
+}
+
 .pdx-legendSymbol--foodDesert {
   background-color: #795548;
   opacity: 0.6;
@@ -439,11 +482,6 @@ export default {
   height: 40px;
 }
 
-.pdx-leafletControl__card {
-  min-width: 250px;
-  padding: 15px;
-  font-family: "Anton" !important;
-}
 .pdx-tooltip {
   text-align: left;
 }
