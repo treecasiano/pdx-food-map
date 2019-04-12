@@ -1,63 +1,131 @@
 <template>
   <v-layout>
-    <div
-      class="pdx-floatingCardContainer"
-      v-if="showMapControls"
-    >
-      <v-card class="pdx-leafletControl__card elevation-20">
-        <v-checkbox
-          v-model="showCensusTracts"
-          :label="`Census Tracts`"
-        ></v-checkbox>
-        <v-checkbox
-          v-if="showCensusTracts"
-          v-model="enableTooltip"
-          :label="`Census Tract Tooltips`"
-        ></v-checkbox>
-        <v-checkbox
-          v-model="showGroceryStores"
-          :label="`Grocery Stores`"
-        ></v-checkbox>
-        <v-checkbox
-          v-model="showFarmersMarkets"
-          :label="`Farmers Markets`"
-        ></v-checkbox>
-        <v-spacer></v-spacer>
-        <v-layout
-          align-start
-          justify-start
-          column
-          fill-height
+    <div class="pdx-floatingCardContainer--left">
+      <v-layout
+        row
+        align-start
+      >
+        <v-flex
+          style="margin-right:-30px;"
+          v-if="showMapControls"
         >
-          <v-flex>
+          <v-card class="pdx-leafletControl__card elevation-20">
+            <v-checkbox
+              v-model="showCensusTracts"
+              :label="`Census Tracts`"
+            ></v-checkbox>
+            <v-checkbox
+              v-if="showCensusTracts"
+              v-model="enableTooltip"
+              :label="`Census Tract Tooltips`"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="showGroceryStores"
+              :label="`Grocery Stores`"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="showFarmersMarkets"
+              :label="`Farmers Markets`"
+            ></v-checkbox>
+            <v-spacer></v-spacer>
             <v-layout
-              align-center
-              class="text-xs-left"
+              align-start
+              justify-start
+              column
+              fill-height
             >
-              <img
-                src="leaflet/PDXFoodMap31.svg"
-                alt="grocery store symbol"
-              >
-              <div>Grocery Stores</div>
-            </v-layout>
-          </v-flex>
-          <v-flex>
-            <v-layout align-center>
-              <img
-                src="leaflet/PDXFoodMap33.svg"
-                alt="farmers market symbol"
-              >
-              <div>Farmers Markets</div>
+              <v-flex>
+                <v-layout
+                  align-center
+                  class="text-xs-left"
+                >
+                  <img
+                    src="leaflet/PDXFoodMap31.svg"
+                    alt="grocery store symbol"
+                  >
+                  <div>Grocery Stores</div>
+                </v-layout>
+              </v-flex>
+              <v-flex>
+                <v-layout align-center>
+                  <img
+                    src="leaflet/PDXFoodMap33.svg"
+                    alt="farmers market symbol"
+                  >
+                  <div>Farmers Markets</div>
 
+                </v-layout>
+              </v-flex>
+              <v-flex>
+                <v-layout align-center>
+                  <div class="pdx-legendSymbol--foodDesert"></div>
+                  <div>Food Deserts</div>
+                </v-layout>
+              </v-flex>
             </v-layout>
-          </v-flex>
-          <v-flex>
-            <v-layout align-center>
-              <div class="pdx-legendSymbol--foodDesert"></div>
-              <div>Food Deserts</div>
-            </v-layout>
-          </v-flex>
-        </v-layout>
+          </v-card>
+        </v-flex>
+        <v-btn
+          style="margin-top: -15px;"
+          text
+          icon
+          color="primary"
+          @click="showMapControls = !showMapControls"
+          title="Toggle map controls"
+        >
+          <v-icon
+            v-if="showMapControls"
+            color="accent"
+            dark
+          >chevron_left</v-icon>
+          <v-icon
+            v-if="!showMapControls"
+            color="accent"
+            dark
+          >chevron_right</v-icon>
+        </v-btn>
+      </v-layout>
+    </div>
+    <div class="pdx-floatingCardContainer--right">
+      <v-card class="pdx-leafletControl__card elevation-20">
+        <v-list
+          two-line
+          subheader
+        >
+          <v-subheader inset>Grocery Store Search Results</v-subheader>
+          <v-list-tile
+            v-for="item in groceryStoreSearchResults"
+            :key="item.index"
+          >
+            <v-list-tile-avatar>
+              <v-icon>shopping_cart</v-icon>
+            </v-list-tile-avatar>
+
+            <v-list-tile-content>
+              <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+              <v-list-tile-sub-title>{{ item.distance }}km</v-list-tile-sub-title>
+              <v-list-tile-sub-title>{{ item.address }}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+          <v-divider inset></v-divider>
+
+          <v-subheader inset>Farmers Market Search Results</v-subheader>
+          <v-list-tile
+            v-for="item in farmersMarketSearchResult"
+            :key="item.index"
+          >
+            <v-list-tile-avatar>
+              <v-icon>store</v-icon>
+            </v-list-tile-avatar>
+
+            <v-list-tile-content>
+              <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+              <v-list-tile-sub-title>{{ item.address }}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+        </v-list>
       </v-card>
     </div>
     <v-flex>
@@ -74,26 +142,6 @@
       >
         <l-control-zoom position="bottomright"></l-control-zoom>
         <l-control-scale position="bottomleft"></l-control-scale>
-        <l-control position="topleft">
-          <v-btn
-            text
-            icon
-            color="primary"
-            @click="showMapControls = !showMapControls"
-            title="Toggle map controls"
-          >
-            <v-icon
-              v-if="showMapControls"
-              color="accent"
-              dark
-            >chevron_left</v-icon>
-            <v-icon
-              v-if="!showMapControls"
-              color="accent"
-              dark
-            >chevron_right</v-icon>
-          </v-btn>
-        </l-control>
         <l-tile-layer
           :url="url"
           :attribution="attribution"
@@ -314,8 +362,8 @@ export default {
       maxZoom: 18,
       enableTooltip: true,
       showCensusTracts: true,
-      showFarmersMarkets: false,
-      showGroceryStores: false,
+      showFarmersMarkets: true,
+      showGroceryStores: true,
       showMapControls: true,
       showSearchResults: false,
       // eslint-disable-next-line
@@ -369,7 +417,7 @@ export default {
         const x = result.location.x;
         const y = result.location.y;
         const geom = `${x}, ${y}`;
-        const distance = 5000;
+        const distance = 1609;
         const params = { geom, distance };
         this.$refs.map.setZoom(14);
         this.searchForPoints(params);
@@ -455,31 +503,42 @@ export default {
   padding: 0 !important;
 }
 
-.pdx-floatingCardContainer {
-  position: absolute;
-  z-index: 100001;
-  height: 100%;
-  top: 110px;
-  width: 250px;
+.pdx-floatingCardContainer--left {
   background-color: transparent;
+  height: 100%;
+  position: absolute;
+  top: 70px;
+  width: 250px;
+  z-index: 100001;
+}
+.pdx-floatingCardContainer--right {
+  background-color: transparent;
+  height: 100%;
+  position: absolute;
+  right: 225px;
+  top: 110px;
+  width: 400px;
+  z-index: 100001;
 }
 
 .pdx-leafletControl__card {
-  padding: 15px;
   font-family: "Anton" !important;
+  padding: 15px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.pdx-leafletControl__card img {
+  height: 40px;
+  width: 40px;
 }
 
 .pdx-legendSymbol--foodDesert {
   background-color: #795548;
-  opacity: 0.6;
   height: 30px;
   margin-right: 10px;
+  opacity: 0.6;
   width: 30px;
-}
-
-.pdx-leafletControl__card img {
-  width: 40px;
-  height: 40px;
 }
 
 .pdx-tooltip {
