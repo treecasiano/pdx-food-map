@@ -336,7 +336,7 @@ export default {
         const geom = `${x}, ${y}`;
         const distance = 5000;
         const params = { geom, distance };
-        this.$refs.map.setZoom(13);
+        this.$refs.map.setZoom(14);
         this.searchForPoints(params);
       });
     })
