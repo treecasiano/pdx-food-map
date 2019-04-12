@@ -1,7 +1,7 @@
 function factory(logger, groceryStoreService) {
   GET.apiDoc = {
     summary:
-      "Get a list of all grocery stores in the PDX-Vancouver-Hillsboro MSA",
+      "Returns a list of all grocery stores in the PDX-Vancouver-Hillsboro MSA",
     tags: ["PDX Metro Grocery Stores"],
     produces: ["application/json"],
     parameters: [],

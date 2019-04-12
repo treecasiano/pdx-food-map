@@ -8,6 +8,10 @@ const actions = {
   async getGroceryStoreGeoJSON({ commit }) {
     const groceryStoreGeoJSON = await groceryStoreApi.getGeoJSON();
     return commit("setGroceryStoreGeoJSON", groceryStoreGeoJSON.data);
+  },
+  async search({ commit }, params) {
+    const results = await groceryStoreApi.search(params);
+    return commit("setGroceryStoreSearchResults", results.data);
   }
 };
 
@@ -17,12 +21,16 @@ const mutations = {
   },
   setGroceryStoreGeoJSON(state, groceryStoreData) {
     state.groceryStoreGeoJSON = groceryStoreData;
+  },
+  setGroceryStoreSearchResults(state, groceryStoreData) {
+    state.groceryStoreSearchResults = groceryStoreData;
   }
 };
 
 const state = {
   groceryStoreList: [],
-  groceryStoreGeoJSON: {}
+  groceryStoreGeoJSON: {},
+  groceryStoreSearchResults: []
 };
 
 const getters = {};

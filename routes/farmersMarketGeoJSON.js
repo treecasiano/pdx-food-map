@@ -1,6 +1,7 @@
 function factory(logger, farmersMarketService) {
   GET.apiDoc = {
-    summary: "Get a GeoJSON Feature Collection (PDX Metro Farmers Markets)",
+    summary:
+      "Returns a GeoJSON Feature Collection (All Farmers Markets in the PDX-Vancouver-Hillsboro MSA)",
     tags: ["PDX Metro Farmers Markets"],
     produces: ["application/json"],
     parameters: [],
