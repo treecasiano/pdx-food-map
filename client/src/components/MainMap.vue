@@ -268,16 +268,16 @@ export default {
   data() {
     return {
       url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-      zoom: 11,
-      center: [45.5155, -122.6793],
+      zoom: 8.5,
+      center: [45.59, -122.6793],
       bounds: null,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: 'abcd',
       maxZoom: 18,
       enableTooltip: true,
       showCensusTracts: true,
-      showFarmersMarkets: true,
-      showGroceryStores: true,
+      showFarmersMarkets: false,
+      showGroceryStores: false,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap33.svg',
