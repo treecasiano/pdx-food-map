@@ -90,8 +90,13 @@
           :options-style="styleFunction"
         >
         </l-geo-json>
+        <l-control position="topright">
+          <v-btn @click="resetMapView">
+            <v-icon>home</v-icon>
+          </v-btn>
+        </l-control>
 
-        <l-control position="bottomleft">
+        <l-control position="topleft">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
               <v-progress-circular
@@ -391,6 +396,10 @@ export default {
         currency: "USD",
         minimumFractionDigits: 0
       });
+    },
+    resetMapView() {
+      this.$refs.map.setCenter([45.59, -122.6793]);
+      this.$refs.map.setZoom(8.5);
     },
     async searchForPoints(params) {
       await this.$store.dispatch("groceryStore/search", params);
