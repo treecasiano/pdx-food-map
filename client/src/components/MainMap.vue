@@ -6,7 +6,7 @@
         align-start
       >
         <v-flex
-          style="margin-right:-30px;"
+          style="margin-right:-35px;"
           v-if="showMapControls"
         >
           <v-card class="pdx-leafletControl__card elevation-20">
@@ -66,7 +66,7 @@
           </v-card>
         </v-flex>
         <v-btn
-          style="margin-top: -15px;"
+          style="margin-top: -15px; margin-left: 18px;"
           text
           icon
           color="primary"
@@ -86,19 +86,22 @@
         </v-btn>
       </v-layout>
     </div>
-    <div class="pdx-floatingCardContainer--right">
+    <div
+      v-if="groceryStoreSearchResults.length || farmersMarketSearchResults.length"
+      class="pdx-floatingCardContainer--right"
+    >
       <v-card class="pdx-leafletControl__card elevation-20">
         <v-list
           two-line
           subheader
         >
-          <v-subheader inset>Grocery Store Search Results</v-subheader>
+          <v-subheader inset>Grocery Store Search Results: {{groceryStoreSearchResults.length}}</v-subheader>
           <v-list-tile
             v-for="item in groceryStoreSearchResults"
             :key="item.index"
           >
             <v-list-tile-avatar>
-              <v-icon>shopping_cart</v-icon>
+              <v-icon color="accent">shopping_cart</v-icon>
             </v-list-tile-avatar>
 
             <v-list-tile-content>
@@ -110,18 +113,18 @@
 
           <v-divider inset></v-divider>
 
-          <v-subheader inset>Farmers Market Search Results</v-subheader>
+          <v-subheader inset>Farmers Market Search Results: {{farmersMarketSearchResults.length}}</v-subheader>
           <v-list-tile
-            v-for="item in farmersMarketSearchResult"
+            v-for="item in farmersMarketSearchResults"
             :key="item.index"
           >
             <v-list-tile-avatar>
-              <v-icon>store</v-icon>
+              <v-icon color="secondary">store</v-icon>
             </v-list-tile-avatar>
 
             <v-list-tile-content>
-              <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-              <v-list-tile-sub-title>{{ item.address }}</v-list-tile-sub-title>
+              <v-list-tile-title>{{ item.market }}</v-list-tile-title>
+              <v-list-tile-sub-title>{{ item.location }}</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
 
@@ -218,7 +221,7 @@
           :options-style="styleFunction"
         >
         </l-geo-json>
-        <l-control position="topright">
+        <l-control position="topleft">
           <v-btn
             dark
             color="primary"
@@ -506,18 +509,20 @@ export default {
 .pdx-floatingCardContainer--left {
   background-color: transparent;
   height: 100%;
+  opacity: 0.95;
   position: absolute;
-  top: 70px;
+  top: 125px;
   width: 250px;
   z-index: 100001;
 }
 .pdx-floatingCardContainer--right {
   background-color: transparent;
   height: 100%;
+  opacity: 0.95;
   position: absolute;
-  right: 225px;
+  right: 0;
   top: 110px;
-  width: 400px;
+  width: 375px;
   z-index: 100001;
 }
 
