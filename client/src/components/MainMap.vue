@@ -158,7 +158,6 @@
                 </v-layout>
               </v-flex>
             </v-layout>
-
           </v-card>
         </l-control>
       </l-map>
@@ -327,7 +326,11 @@ export default {
       this.$refs.map.mapObject.on('geosearch/showlocation', (result) => {
         const x = result.location.x;
         const y = result.location.y;
-        const coordinates = `${x}, ${y}`;
+        const geom = `${x}, ${y}`;
+        const distance = 10000;
+        const params = { geom, distance };
+        this.searchForGroceryStores(params);
+        this.searchForFarmersMarkets(params);
       });
     })
   },
@@ -380,6 +383,12 @@ export default {
         currency: "USD",
         minimumFractionDigits: 0
       });
+    },
+    async searchForGroceryStores(params) {
+      await this.$store.dispatch("groceryStore/search", params);
+    },
+    async searchForFarmersMarkets(params) {
+      await this.$store.dispatch("farmersMarket/search", params);
     }
   },
   props: {
