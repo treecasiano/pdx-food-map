@@ -154,7 +154,6 @@
                 <v-layout align-center>
                   <div class="pdx-legendSymbol--foodDesert"></div>
                   <div>Food Deserts</div>
-
                 </v-layout>
               </v-flex>
             </v-layout>
@@ -213,6 +212,9 @@ export default {
       }
       return mapMarkers;
     },
+    groceryStoreSearchResults() {
+      return this.$store.state.groceryStore.groceryStoreSearchResults;
+    },
     farmersMarketMarkers() {
       const geojson = this.$store.state.farmersMarket.farmersMarketGeoJSON;
       let mapMarkers = [];
@@ -221,6 +223,9 @@ export default {
         return mapMarkers;
       }
       return mapMarkers;
+    },
+    farmersMarketSearchResults() {
+      return this.$store.state.farmersMarket.farmersMarketSearchResults;
     },
     options() {
       return {

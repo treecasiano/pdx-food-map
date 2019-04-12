@@ -54,7 +54,7 @@ function factory(logger, farmersMarketService) {
       result = [];
     }
 
-    return res.status(200).json({ result });
+    return res.status(200).json(result);
   }
 }
 
