@@ -282,6 +282,7 @@ export default {
       showCensusTracts: true,
       showFarmersMarkets: false,
       showGroceryStores: false,
+      showSearchResults: false,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap33.svg',
@@ -311,9 +312,10 @@ export default {
         style: 'bar',
         autoComplete: true,
         autoCompleteDelay: 250,
+        animateZoom: false,
         marker: {
           icon: L.icon({
-            iconUrl: 'leaflet/PDXFoodMap22.svg',
+            iconUrl: 'leaflet/PDXFoodMap34.svg',
             iconSize: [64, 64],
             iconAnchor: [22, 94],
             shadowAnchor: [4, 62],
@@ -332,10 +334,10 @@ export default {
         const x = result.location.x;
         const y = result.location.y;
         const geom = `${x}, ${y}`;
-        const distance = 10000;
+        const distance = 5000;
         const params = { geom, distance };
-        this.searchForGroceryStores(params);
-        this.searchForFarmersMarkets(params);
+        this.$refs.map.setZoom(13);
+        this.searchForPoints(params);
       });
     })
   },
@@ -389,11 +391,10 @@ export default {
         minimumFractionDigits: 0
       });
     },
-    async searchForGroceryStores(params) {
+    async searchForPoints(params) {
       await this.$store.dispatch("groceryStore/search", params);
-    },
-    async searchForFarmersMarkets(params) {
       await this.$store.dispatch("farmersMarket/search", params);
+      this.showSearchResults = true;
     }
   },
   props: {
