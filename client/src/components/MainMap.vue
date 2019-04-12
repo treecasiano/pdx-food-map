@@ -171,29 +171,31 @@ import { OpenStreetMapProvider } from "leaflet-geosearch";
 import VGeosearch from "@/components/VGeosearch.vue";
 
 const defaultStyle = {
-  weight: .5,
-  color: '#c0ca33',
+  weight: .75,
+  color: '#A9A9A9',
   opacity: 1,
   fillColor: '#B1B6B6',
-  fillOpacity: .1
+  fillOpacity: .25
 };
 const highlightStyle = {
+  weight: 2,
   color: '#c0ca33',
-  opacity: 0.6,
-  fillColor: '#c0ca33',
-  fillOpacity: 0.65
-};
-const foodDesertHighlightStyle = {
-  color: '#2262CC',
-  opacity: .6,
-  fillOpacity: .65
+  opacity: 0.9,
+  fillColor: '#B1B6B6',
+  fillOpacity: 0.1
 };
 const foodDesertDefaultStyle = {
-  weight: .5,
+  weight: .75,
   color: '#795548',
   opacity: 1,
   fillColor: '#795548',
   fillOpacity: .5
+};
+const foodDesertHighlightStyle = {
+  weight: 2,
+  color: '#c0ca33',
+  opacity: 0.9,
+  fillOpacity: .65
 };
 
 export default {
@@ -228,22 +230,21 @@ export default {
     },
     styleFunction() {
       return () => {
-        return {
-          weight: 1,
-          color: '#c0ca33',
-          opacity: 1,
-          fillColor: '#B1B6B6',
-          fillOpacity: .1
-        };
+        return defaultStyle;
       };
     },
     onEachFeatureFunction() {
       if (!this.enableTooltip) {
-        return () => { };
+        return (feature, layer) => {
+          layer.setStyle(defaultStyle);
+          layer.unbindTooltip();
+        };
       }
       return (feature, layer) => {
         const tooltipContent = this.createCensusTractContent(feature.properties);
-        layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
+        if (this.enableTooltip) {
+          layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
+        }
         if (feature.properties.lilatrac_1 == 1) {
           layer.setStyle(foodDesertDefaultStyle);
         }
