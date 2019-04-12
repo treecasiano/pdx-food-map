@@ -13,6 +13,7 @@
         :options="{zoomControl: false}"
       >
         <l-control-zoom position="bottomright"></l-control-zoom>
+        <l-control-scale position="bottomleft"></l-control-scale>
         <l-tile-layer
           :url="url"
           :attribution="attribution"
