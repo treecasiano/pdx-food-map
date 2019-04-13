@@ -1,5 +1,146 @@
 <template>
   <v-layout>
+    <div class="pdx-floatingCardContainer--left">
+      <v-layout
+        row
+        align-start
+      >
+        <v-flex
+          style="margin-right:-35px;"
+          v-if="showMapControls"
+        >
+          <v-card class="pdx-leafletControl__card elevation-20">
+            <v-checkbox
+              v-model="showCensusTracts"
+              :label="`Census Tracts`"
+            ></v-checkbox>
+            <v-checkbox
+              v-if="showCensusTracts"
+              v-model="enableTooltip"
+              :label="`Census Tract Tooltips`"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="showGroceryStores"
+              :label="`Grocery Stores`"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="showFarmersMarkets"
+              :label="`Farmers Markets`"
+            ></v-checkbox>
+            <v-spacer></v-spacer>
+            <v-layout
+              align-start
+              justify-start
+              column
+              fill-height
+            >
+              <v-flex>
+                <v-layout
+                  align-center
+                  class="text-xs-left"
+                >
+                  <img
+                    src="leaflet/PDXFoodMap31.svg"
+                    alt="grocery store symbol"
+                  >
+                  <div>Grocery Stores</div>
+                </v-layout>
+              </v-flex>
+              <v-flex>
+                <v-layout align-center>
+                  <img
+                    src="leaflet/PDXFoodMap33.svg"
+                    alt="farmers market symbol"
+                  >
+                  <div>Farmers Markets</div>
+
+                </v-layout>
+              </v-flex>
+              <v-flex>
+                <v-layout align-center>
+                  <div class="pdx-legendSymbol--foodDesert"></div>
+                  <div>Food Deserts</div>
+                </v-layout>
+              </v-flex>
+            </v-layout>
+          </v-card>
+        </v-flex>
+        <v-btn
+          style="margin-top: -5px; margin-left: 18px;"
+          text
+          icon
+          small
+          color="primary"
+          @click="showMapControls = !showMapControls"
+          title="Toggle map controls"
+        >
+          <v-icon
+            v-if="showMapControls"
+            color="accent"
+            dark
+          >chevron_left</v-icon>
+          <v-icon
+            v-if="!showMapControls"
+            color="accent"
+            dark
+          >chevron_right</v-icon>
+        </v-btn>
+      </v-layout>
+    </div>
+    <div
+      v-if="showSearchResults"
+      class="pdx-floatingCardContainer--right"
+    >
+      <v-card class="pdx-leafletControl__card elevation-20">
+        <v-list
+          dense
+          two-line
+          subheader
+        >
+          <v-subheader inset>Grocery stores within 1 mile: {{groceryStoreSearchResults.length}}</v-subheader>
+          <v-list-tile
+            v-for="item in groceryStoreSearchResults"
+            :key="item.index"
+          >
+            <v-list-tile-avatar>
+              <v-icon color="accent">shopping_cart</v-icon>
+            </v-list-tile-avatar>
+
+            <v-list-tile-content>
+              <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+              <v-list-tile-sub-title>{{ item.distance | metersToMiles }} miles</v-list-tile-sub-title>
+              <v-list-tile-sub-title>{{ item.address }}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+          <v-divider inset></v-divider>
+
+          <v-subheader inset>Farmers markets within 1 mile: {{farmersMarketSearchResults.length}}</v-subheader>
+          <v-list-tile
+            v-for="item in farmersMarketSearchResults"
+            :key="item.index"
+          >
+            <v-list-tile-avatar>
+              <v-icon color="secondary">store</v-icon>
+            </v-list-tile-avatar>
+
+            <v-list-tile-content>
+              <v-list-tile-title>{{ item.market }}</v-list-tile-title>
+              <v-list-tile-title>{{ item.distance | metersToMiles }} miles</v-list-tile-title>
+              <v-list-tile-sub-title>{{ item.location }}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <v-btn
+          small
+          color="primary"
+          @click="clearSearchResults"
+        >
+          <v-icon color="
+          accent">close</v-icon> &nbsp; Clear Results &nbsp;
+        </v-btn>
+      </v-card>
+    </div>
     <v-flex>
       <l-map
         ref="map"
@@ -10,11 +151,19 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
         @update:bounds="boundsUpdated"
+        :options="{zoomControl: false}"
       >
+        <l-control-zoom position="bottomright"></l-control-zoom>
+        <l-control-scale position="bottomleft"></l-control-scale>
         <l-tile-layer
           :url="url"
           :attribution="attribution"
         ></l-tile-layer>
+
+        <v-geosearch
+          :options="geosearchOptions"
+          ref="geosearch"
+        ></v-geosearch>
         <div v-if="showGroceryStores">
           <l-marker
             v-for="(item, index) in groceryStoreMarkers"
@@ -82,8 +231,17 @@
           :options-style="styleFunction"
         >
         </l-geo-json>
+        <l-control position="topleft">
+          <v-btn
+            dark
+            color="primary"
+            @click="resetMapView"
+          >
+            <v-icon color="accent">home</v-icon>
+          </v-btn>
+        </l-control>
 
-        <l-control position="bottomleft">
+        <l-control position="topright">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
               <v-progress-circular
@@ -95,100 +253,47 @@
             </v-card>
           </div>
         </l-control>
-        <l-control position="topleft">
-          <v-card class="pdx-leafletControl__card">
-            <v-checkbox
-              v-model="showCensusTracts"
-              :label="`Census Tracts`"
-            ></v-checkbox>
-            <v-checkbox
-              v-if="showCensusTracts"
-              v-model="enableTooltip"
-              :label="`Census Tract Tooltips`"
-            ></v-checkbox>
-            <v-checkbox
-              v-model="showGroceryStores"
-              :label="`Grocery Stores`"
-            ></v-checkbox>
-            <v-checkbox
-              v-model="showFarmersMarkets"
-              :label="`Farmers Markets`"
-            ></v-checkbox>
-            <v-spacer></v-spacer>
-            <v-layout
-              align-start
-              justify-start
-              column
-              fill-height
-            >
-              <v-flex>
-                <v-layout
-                  align-center
-                  class="text-xs-left"
-                >
-                  <img
-                    src="leaflet/PDXFoodMap31.svg"
-                    alt="grocery store symbol"
-                  >
-                  <div>Grocery Stores</div>
-                </v-layout>
-              </v-flex>
-              <v-flex>
-                <v-layout align-center>
-                  <img
-                    src="leaflet/PDXFoodMap33.svg"
-                    alt="farmers market symbol"
-                  >
-                  <div>Farmers Markets</div>
 
-                </v-layout>
-              </v-flex>
-              <v-flex>
-                <v-layout align-center>
-                  <div class="pdx-legendSymbol--foodDesert"></div>
-                  <div>Food Deserts</div>
-
-                </v-layout>
-              </v-flex>
-            </v-layout>
-
-          </v-card>
-        </l-control>
       </l-map>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+import { OpenStreetMapProvider } from "leaflet-geosearch";
+import VGeosearch from "@/components/VGeosearch.vue";
 
 const defaultStyle = {
-  weight: .5,
-  color: '#c0ca33',
+  weight: .75,
+  color: '#A9A9A9',
   opacity: 1,
   fillColor: '#B1B6B6',
-  fillOpacity: .1
+  fillOpacity: .25
 };
 const highlightStyle = {
+  weight: 2,
   color: '#c0ca33',
-  opacity: 0.6,
-  fillColor: '#c0ca33',
-  fillOpacity: 0.65
-};
-const foodDesertHighlightStyle = {
-  color: '#2262CC',
-  opacity: .6,
-  fillOpacity: .65
+  opacity: 0.9,
+  fillColor: '#B1B6B6',
+  fillOpacity: 0.1
 };
 const foodDesertDefaultStyle = {
-  weight: .5,
+  weight: .75,
   color: '#795548',
   opacity: 1,
   fillColor: '#795548',
   fillOpacity: .5
 };
+const foodDesertHighlightStyle = {
+  weight: 2,
+  color: '#c0ca33',
+  opacity: 0.9,
+  fillOpacity: .65
+};
 
 export default {
   name: 'MainMap',
+  components: { VGeosearch },
   computed: {
     pdxTractGeoJSON() {
       return this.$store.state.pdxTract.pdxTractGeoJSON;
@@ -202,6 +307,9 @@ export default {
       }
       return mapMarkers;
     },
+    groceryStoreSearchResults() {
+      return this.$store.state.groceryStore.groceryStoreSearchResults;
+    },
     farmersMarketMarkers() {
       const geojson = this.$store.state.farmersMarket.farmersMarketGeoJSON;
       let mapMarkers = [];
@@ -211,6 +319,9 @@ export default {
       }
       return mapMarkers;
     },
+    farmersMarketSearchResults() {
+      return this.$store.state.farmersMarket.farmersMarketSearchResults;
+    },
     options() {
       return {
         onEachFeature: this.onEachFeatureFunction
@@ -218,22 +329,21 @@ export default {
     },
     styleFunction() {
       return () => {
-        return {
-          weight: 1,
-          color: '#c0ca33',
-          opacity: 1,
-          fillColor: '#B1B6B6',
-          fillOpacity: .1
-        };
+        return defaultStyle;
       };
     },
     onEachFeatureFunction() {
       if (!this.enableTooltip) {
-        return () => { };
+        return (feature, layer) => {
+          layer.setStyle(defaultStyle);
+          layer.unbindTooltip();
+        };
       }
       return (feature, layer) => {
         const tooltipContent = this.createCensusTractContent(feature.properties);
-        layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
+        if (this.enableTooltip) {
+          layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
+        }
         if (feature.properties.lilatrac_1 == 1) {
           layer.setStyle(foodDesertDefaultStyle);
         }
@@ -257,8 +367,8 @@ export default {
   data() {
     return {
       url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-      zoom: 11,
-      center: [45.5155, -122.6793],
+      zoom: 8.5,
+      center: [45.59, -122.6793],
       bounds: null,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: 'abcd',
@@ -267,6 +377,8 @@ export default {
       showCensusTracts: true,
       showFarmersMarkets: true,
       showGroceryStores: true,
+      showMapControls: true,
+      showSearchResults: false,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap33.svg',
@@ -283,7 +395,51 @@ export default {
         shadowAnchor: [4, 62],
         popupAnchor: [-2, -96]
       }),
+      // eslint-disable-next-line
+      geosearchIcon: L.icon({
+        iconUrl: 'leaflet/PDXFoodMap31.svg',
+        iconSize: [64, 64],
+        iconAnchor: [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor: [-2, -96]
+      }),
+      geosearchOptions: {
+        provider: new OpenStreetMapProvider(),
+        style: 'button',
+        autoComplete: true,
+        position: 'topright',
+        autoCompleteDelay: 250,
+        animateZoom: false,
+        marker: {
+          icon: L.icon({
+            iconUrl: 'leaflet/PDXFoodMap34.svg',
+            iconSize: [64, 64],
+            iconAnchor: [22, 94],
+            shadowAnchor: [4, 62],
+            popupAnchor: [-2, -96]
+          }),
+          draggable: false,
+        },
+        maxMarkers: 2,
+        keepResult: true,
+        autoClose: true,
+        searchLabel: "Enter an address..."
+      },
     };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      // this.$refs.myMap.mapObject.ANY_LEAFLET_MAP_METHOD();
+      this.$refs.map.mapObject.on('geosearch/showlocation', (result) => {
+        const x = result.location.x;
+        const y = result.location.y;
+        const geom = `${x}, ${y}`;
+        const distance = 1609;
+        const params = { geom, distance };
+        this.$refs.map.setZoom(14);
+        this.searchForPoints(params);
+      });
+    })
   },
   methods: {
     zoomUpdated(zoom) {
@@ -294,6 +450,11 @@ export default {
     },
     boundsUpdated(bounds) {
       this.bounds = bounds;
+    },
+    clearSearchResults() {
+      this.$store.dispatch("groceryStore/clearSearchResults");
+      this.$store.dispatch("farmersMarket/clearSearchResults");
+      this.showSearchResults = false;
     },
     createMarkers(geojson, alternateIcon) {
       const markersArray = geojson["features"].map((feature) => {
@@ -334,6 +495,15 @@ export default {
         currency: "USD",
         minimumFractionDigits: 0
       });
+    },
+    resetMapView() {
+      this.$refs.map.setCenter([45.59, -122.6793]);
+      this.$refs.map.setZoom(8.5);
+    },
+    async searchForPoints(params) {
+      await this.$store.dispatch("groceryStore/search", params);
+      await this.$store.dispatch("farmersMarket/search", params);
+      this.showSearchResults = true;
     }
   },
   props: {
@@ -350,35 +520,108 @@ export default {
   margin: 0 !important;
   padding: 0 !important;
 }
+
 .v-input--slot {
   margin: 0 !important;
   padding: 0 !important;
 }
 
-.pdx-legendSymbol--foodDesert {
-  background-color: #795548;
-  opacity: 0.6;
-  height: 30px;
-  margin-right: 10px;
-  width: 30px;
+.pdx-floatingCardContainer--left {
+  background-color: transparent;
+  height: 100%;
+  opacity: 0.9;
+  position: absolute;
+  top: 125px;
+  width: 250px;
+  z-index: 100001;
 }
 
-.pdx-leafletControl__card img {
-  width: 40px;
-  height: 40px;
+.pdx-floatingCardContainer--right {
+  background-color: transparent;
+  height: 100%;
+  opacity: 0.9;
+  position: absolute;
+  right: 0;
+  top: 110px;
+  width: 360px;
+  z-index: 100001;
 }
 
 .pdx-leafletControl__card {
-  min-width: 250px;
+  font-family: "Anton" !important;
   padding: 15px;
+  max-height: 520px;
+  overflow-y: auto;
 }
+
+.pdx-leafletControl__card img {
+  height: 40px;
+  width: 40px;
+}
+
+.pdx-legendSymbol--foodDesert {
+  background-color: #795548;
+  height: 30px;
+  margin-right: 10px;
+  opacity: 0.6;
+  width: 30px;
+}
+
 .pdx-tooltip {
   text-align: left;
 }
+
 .pdx-tooltip__title {
   font-weight: bold;
 }
+
 .pdx-message--foodDesert {
   font-weight: bold;
+}
+
+/* leaflet style overrides */
+
+.leaflet-bar-part,
+.leaflet-bar-part-single {
+  border: 2px solid #795548 !important;
+}
+
+.leaflet-control-geosearch a.leaflet-bar-part:before {
+  border-top: 2px solid #cddc39 !important;
+}
+
+.leaflet-control-geosearch .leaflet-bar-part {
+  border-radius: none;
+}
+
+.leaflet-control-geosearch .leaflet-bar-part:hover {
+  opacity: 0.9;
+}
+
+.leaflet-control-geosearch a.leaflet-bar-part:after {
+  border: 2px solid #cddc39 !important;
+}
+
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  border: 2px solid #795548 !important;
+}
+
+.leaflet-touch .leaflet-bar a {
+  background-color: #795548 !important;
+  color: #cddc39 !important;
+  font-weight: bold;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.leaflet-touch .leaflet-bar a:hover {
+  opacity: 0.9;
+}
+
+.leaflet-control-geosearch form {
+  border: 2px solid #795548 !important;
 }
 </style>

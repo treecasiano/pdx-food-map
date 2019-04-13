@@ -10,6 +10,7 @@ import "../node_modules/leaflet/dist/leaflet.css";
 import L from "leaflet";
 delete L.Icon.Default.prototype._getIconUrl;
 import "material-design-icons-iconfont/dist/material-design-icons.css";
+require("./assets/css/geosearch.css");
 
 // register Vue2Leaflet components
 import {
@@ -18,7 +19,9 @@ import {
   LMarker,
   LPopup,
   LGeoJson,
-  LControl
+  LControl,
+  LControlZoom,
+  LControlScale
 } from "vue2-leaflet";
 
 Vue.component("l-map", LMap);
@@ -27,6 +30,8 @@ Vue.component("l-marker", LMarker);
 Vue.component("l-popup", LPopup);
 Vue.component("l-geo-json", LGeoJson);
 Vue.component("l-control", LControl);
+Vue.component("l-control-zoom", LControlZoom);
+Vue.component("l-control-scale", LControlScale);
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -40,8 +45,8 @@ Vue.use(L);
 Vue.use(Vuetify, {
   iconfont: "md",
   theme: {
-    primary: colors.green,
-    secondary: colors.lightGreen,
+    primary: colors.brown,
+    secondary: colors.deepOrange,
     accent: colors.lime,
     error: colors.red,
     warning: colors.deepOrange,
@@ -49,6 +54,11 @@ Vue.use(Vuetify, {
     success: colors.lightBlue
   }
 });
+
+Vue.filter("metersToMiles", function(meters) {
+  return (meters / 1609.344).toFixed(2);
+});
+
 init();
 
 async function init() {

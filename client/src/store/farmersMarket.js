@@ -8,6 +8,13 @@ const actions = {
   async getFarmersMarketGeoJSON({ commit }) {
     const farmersMarketGeoJSON = await farmersMarketApi.getGeoJSON();
     return commit("setFarmersMarketGeoJSON", farmersMarketGeoJSON.data);
+  },
+  async search({ commit }, params) {
+    const results = await farmersMarketApi.search(params);
+    return commit("setFarmersMarketSearchResults", results.data);
+  },
+  clearSearchResults({ commit }) {
+    return commit("clearSearchResults");
   }
 };
 
@@ -17,12 +24,19 @@ const mutations = {
   },
   setFarmersMarketGeoJSON(state, farmersMarketData) {
     state.farmersMarketGeoJSON = farmersMarketData;
+  },
+  setFarmersMarketSearchResults(state, farmersMarketData) {
+    state.farmersMarketSearchResults = farmersMarketData;
+  },
+  clearSearchResults(state) {
+    state.farmersMarketSearchResults = [];
   }
 };
 
 const state = {
   farmersMarketList: [],
-  farmersMarketGeoJSON: {}
+  farmersMarketGeoJSON: {},
+  farmersMarketSearchResults: []
 };
 
 const getters = {};

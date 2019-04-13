@@ -1,7 +1,7 @@
 function factory(logger, exampleService) {
   GET.apiDoc = {
     summary:
-      "Get a GeoJSON object that includes all point features in hello_table",
+      "Returns a GeoJSON Feature Collection that includes all records in the example hello_table",
     tags: ["Example"],
     produces: ["application/json"],
     parameters: [],

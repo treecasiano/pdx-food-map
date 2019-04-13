@@ -18,5 +18,12 @@ export default {
       method: "get",
       url: `/api/groceryStoreGeoJSON`
     });
+  },
+  search(params) {
+    return axios({
+      data: params,
+      method: "post",
+      url: `/api/groceryStore/search`
+    });
   }
 };

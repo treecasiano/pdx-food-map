@@ -1,7 +1,7 @@
 function factory(logger, pdxTractService) {
   GET.apiDoc = {
     summary:
-      "Get a list of all census tracts in the PDX-Vancouver-Hillsboro MSA",
+      "Returns a list of all census tracts in the PDX-Vancouver-Hillsboro MSA",
     tags: ["PDX Metro Census Tracts"],
     produces: ["application/json"],
     parameters: [],
