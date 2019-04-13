@@ -380,8 +380,8 @@ export default {
       maxZoom: 18,
       enableTooltip: true,
       showCensusTracts: false,
-      showFarmersMarkets: true,
-      showGroceryStores: true,
+      showFarmersMarkets: false,
+      showGroceryStores: false,
       showMapControls: true,
       showSearchInstructions: true,
       showSearchResults: false,
@@ -446,6 +446,8 @@ export default {
         this.$refs.map.setZoom(14);
         this.searchForPoints(params);
         this.showSearchInstructions = false;
+        this.showFarmersMarkets = true;
+        this.showGroceryStores = true;
       });
     })
   },
