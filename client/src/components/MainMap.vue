@@ -627,5 +627,10 @@ export default {
 
 .leaflet-control-geosearch form {
   border: 2px solid #795548 !important;
+  max-width: 290px;
+}
+
+.leaflet-control-geosearch input {
+  max-width: 300px;
 }
 </style>
