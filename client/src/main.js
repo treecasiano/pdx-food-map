@@ -54,6 +54,11 @@ Vue.use(Vuetify, {
     success: colors.lightBlue
   }
 });
+
+Vue.filter("metersToMiles", function(meters) {
+  return (meters / 1609.344).toFixed(2);
+});
+
 init();
 
 async function init() {

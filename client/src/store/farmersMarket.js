@@ -12,6 +12,9 @@ const actions = {
   async search({ commit }, params) {
     const results = await farmersMarketApi.search(params);
     return commit("setFarmersMarketSearchResults", results.data);
+  },
+  clearSearchResults({ commit }) {
+    return commit("clearSearchResults");
   }
 };
 
@@ -24,6 +27,9 @@ const mutations = {
   },
   setFarmersMarketSearchResults(state, farmersMarketData) {
     state.farmersMarketSearchResults = farmersMarketData;
+  },
+  clearSearchResults(state) {
+    state.farmersMarketSearchResults = [];
   }
 };
 

@@ -12,6 +12,9 @@ const actions = {
   async search({ commit }, params) {
     const results = await groceryStoreApi.search(params);
     return commit("setGroceryStoreSearchResults", results.data);
+  },
+  clearSearchResults({ commit }) {
+    return commit("clearSearchResults");
   }
 };
 
@@ -24,6 +27,9 @@ const mutations = {
   },
   setGroceryStoreSearchResults(state, groceryStoreData) {
     state.groceryStoreSearchResults = groceryStoreData;
+  },
+  clearSearchResults(state) {
+    state.groceryStoreSearchResults = [];
   }
 };
 
