@@ -66,9 +66,10 @@
           </v-card>
         </v-flex>
         <v-btn
-          style="margin-top: -15px; margin-left: 18px;"
+          style="margin-top: -5px; margin-left: 18px;"
           text
           icon
+          small
           color="primary"
           @click="showMapControls = !showMapControls"
           title="Toggle map controls"
@@ -87,15 +88,16 @@
       </v-layout>
     </div>
     <div
-      v-if="groceryStoreSearchResults.length || farmersMarketSearchResults.length"
+      v-if="showSearchResults"
       class="pdx-floatingCardContainer--right"
     >
       <v-card class="pdx-leafletControl__card elevation-20">
         <v-list
+          dense
           two-line
           subheader
         >
-          <v-subheader inset>Grocery Store Search Results: {{groceryStoreSearchResults.length}}</v-subheader>
+          <v-subheader inset>Grocery stores within 1 mile: {{groceryStoreSearchResults.length}}</v-subheader>
           <v-list-tile
             v-for="item in groceryStoreSearchResults"
             :key="item.index"
@@ -113,7 +115,7 @@
 
           <v-divider inset></v-divider>
 
-          <v-subheader inset>Farmers Market Search Results: {{farmersMarketSearchResults.length}}</v-subheader>
+          <v-subheader inset>Farmers markets within 1 mile: {{farmersMarketSearchResults.length}}</v-subheader>
           <v-list-tile
             v-for="item in farmersMarketSearchResults"
             :key="item.index"
@@ -128,8 +130,15 @@
               <v-list-tile-sub-title>{{ item.location }}</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-
         </v-list>
+        <v-btn
+          small
+          color="primary"
+          @click="clearSearchResults"
+        >
+          <v-icon color="
+          accent">close</v-icon> &nbsp; Clear Results &nbsp;
+        </v-btn>
       </v-card>
     </div>
     <v-flex>
@@ -396,8 +405,9 @@ export default {
       }),
       geosearchOptions: {
         provider: new OpenStreetMapProvider(),
-        style: 'bar',
+        style: 'button',
         autoComplete: true,
+        position: 'topright',
         autoCompleteDelay: 250,
         animateZoom: false,
         marker: {
@@ -410,7 +420,10 @@ export default {
           }),
           draggable: false,
         },
-        searchLabel: "Enter an address"
+        maxMarkers: 2,
+        keepResult: true,
+        autoClose: true,
+        searchLabel: "Enter an address..."
       },
     };
   },
@@ -437,6 +450,11 @@ export default {
     },
     boundsUpdated(bounds) {
       this.bounds = bounds;
+    },
+    clearSearchResults() {
+      this.$store.dispatch("groceryStore/clearSearchResults");
+      this.$store.dispatch("farmersMarket/clearSearchResults");
+      this.showSearchResults = false;
     },
     createMarkers(geojson, alternateIcon) {
       const markersArray = geojson["features"].map((feature) => {
@@ -510,7 +528,7 @@ export default {
 .pdx-floatingCardContainer--left {
   background-color: transparent;
   height: 100%;
-  opacity: 0.95;
+  opacity: 0.9;
   position: absolute;
   top: 125px;
   width: 250px;
@@ -519,18 +537,18 @@ export default {
 .pdx-floatingCardContainer--right {
   background-color: transparent;
   height: 100%;
-  opacity: 0.95;
+  opacity: 0.9;
   position: absolute;
   right: 0;
   top: 110px;
-  width: 375px;
+  width: 360px;
   z-index: 100001;
 }
 
 .pdx-leafletControl__card {
   font-family: "Anton" !important;
   padding: 15px;
-  max-height: 500px;
+  max-height: 520px;
   overflow-y: auto;
 }
 
