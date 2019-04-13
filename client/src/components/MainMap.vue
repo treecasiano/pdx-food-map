@@ -335,8 +335,8 @@ export default {
     onEachFeatureFunction() {
       if (!this.enableTooltip) {
         return (feature, layer) => {
-          layer.setStyle(defaultStyle);
           layer.unbindTooltip();
+          this.setDefaultStyles(layer, feature);
         };
       }
       return (feature, layer) => {
@@ -344,23 +344,7 @@ export default {
         if (this.enableTooltip) {
           layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
         }
-        if (feature.properties.lilatrac_1 == 1) {
-          layer.setStyle(foodDesertDefaultStyle);
-        }
-        layer.on("mouseover", () => {
-          if (feature.properties.lilatrac_1 == 1) {
-            layer.setStyle(foodDesertHighlightStyle);
-          } else {
-            layer.setStyle(highlightStyle);
-          }
-          layer.on("mouseout", () => {
-            if (feature.properties.lilatrac_1 == 1) {
-              layer.setStyle(foodDesertDefaultStyle);
-            } else {
-              layer.setStyle(defaultStyle);
-            }
-          });
-        });
+        this.setDefaultStyles(layer, feature);
       };
     }
   },
@@ -504,6 +488,26 @@ export default {
       await this.$store.dispatch("groceryStore/search", params);
       await this.$store.dispatch("farmersMarket/search", params);
       this.showSearchResults = true;
+    },
+    setDefaultStyles(layer, feature) {
+      layer.setStyle(defaultStyle);
+      if (feature.properties.lilatrac_1 == 1) {
+        layer.setStyle(foodDesertDefaultStyle);
+      }
+      layer.on("mouseover", () => {
+        if (feature.properties.lilatrac_1 == 1) {
+          layer.setStyle(foodDesertHighlightStyle);
+        } else {
+          layer.setStyle(highlightStyle);
+        }
+        layer.on("mouseout", () => {
+          if (feature.properties.lilatrac_1 == 1) {
+            layer.setStyle(foodDesertDefaultStyle);
+          } else {
+            layer.setStyle(defaultStyle);
+          }
+        });
+      });
     }
   },
   props: {
@@ -531,9 +535,9 @@ export default {
   height: 100%;
   opacity: 0.9;
   position: absolute;
-  top: 125px;
+  top: 120px;
   width: 250px;
-  z-index: 100001;
+  z-index: 11000;
 }
 
 .pdx-floatingCardContainer--right {
@@ -542,9 +546,9 @@ export default {
   opacity: 0.9;
   position: absolute;
   right: 0;
-  top: 110px;
+  top: 120px;
   width: 360px;
-  z-index: 100001;
+  z-index: 10000;
 }
 
 .pdx-leafletControl__card {
