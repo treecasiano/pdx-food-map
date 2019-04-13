@@ -40,7 +40,7 @@
                   class="text-xs-left"
                 >
                   <img
-                    src="leaflet/PDXFoodMap61.svg"
+                    src="leaflet/PDXFoodMap611.svg"
                     alt="grocery store symbol"
                   >
                   <div>Grocery Stores</div>
@@ -49,7 +49,7 @@
               <v-flex>
                 <v-layout align-center>
                   <img
-                    src="leaflet/PDXFoodMap53.svg"
+                    src="leaflet/PDXFoodMap631.svg"
                     alt="farmers market symbol"
                   >
                   <div>Farmers Markets</div>
@@ -387,7 +387,7 @@ export default {
       showSearchResults: false,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
-        iconUrl: 'leaflet/PDXFoodMap53.svg',
+        iconUrl: 'leaflet/PDXFoodMap631.svg',
         iconSize: [50, 50],
         iconAnchor: [22, 94],
         shadowAnchor: [4, 62],
@@ -395,7 +395,7 @@ export default {
       }),
       // eslint-disable-next-line
       groceryStoreIcon: L.icon({
-        iconUrl: 'leaflet/PDXFoodMap61.svg',
+        iconUrl: 'leaflet/PDXFoodMap611.svg',
         iconSize: [50, 50],
         iconAnchor: [22, 94],
         shadowAnchor: [4, 62],
@@ -403,7 +403,7 @@ export default {
       }),
       // eslint-disable-next-line
       geosearchIcon: L.icon({
-        iconUrl: 'leaflet/PDXFoodMap31.svg',
+        iconUrl: 'leaflet/PDXFoodMap63.svg',
         iconSize: [64, 64],
         iconAnchor: [22, 94],
         shadowAnchor: [4, 62],
