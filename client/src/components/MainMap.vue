@@ -520,6 +520,7 @@ export default {
   margin: 0 !important;
   padding: 0 !important;
 }
+
 .v-input--slot {
   margin: 0 !important;
   padding: 0 !important;
@@ -534,6 +535,7 @@ export default {
   width: 250px;
   z-index: 100001;
 }
+
 .pdx-floatingCardContainer--right {
   background-color: transparent;
   height: 100%;
@@ -568,10 +570,58 @@ export default {
 .pdx-tooltip {
   text-align: left;
 }
+
 .pdx-tooltip__title {
   font-weight: bold;
 }
+
 .pdx-message--foodDesert {
   font-weight: bold;
+}
+
+/* leaflet style overrides */
+
+.leaflet-bar-part,
+.leaflet-bar-part-single {
+  border: 2px solid #795548 !important;
+}
+
+.leaflet-control-geosearch a.leaflet-bar-part:before {
+  border-top: 2px solid #cddc39 !important;
+}
+
+.leaflet-control-geosearch .leaflet-bar-part {
+  border-radius: none;
+}
+
+.leaflet-control-geosearch .leaflet-bar-part:hover {
+  opacity: 0.9;
+}
+
+.leaflet-control-geosearch a.leaflet-bar-part:after {
+  border: 2px solid #cddc39 !important;
+}
+
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  border: 2px solid #795548 !important;
+}
+
+.leaflet-touch .leaflet-bar a {
+  background-color: #795548 !important;
+  color: #cddc39 !important;
+  font-weight: bold;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.leaflet-touch .leaflet-bar a:hover {
+  opacity: 0.9;
+}
+
+.leaflet-control-geosearch form {
+  border: 2px solid #795548 !important;
 }
 </style>
