@@ -8,7 +8,7 @@
       flat
       dark
       color="primary darken-3"
-      class="accent--text title"
+      class="accent--text pdx-toolbar--main"
     >
       <v-toolbar-title>
         PDX METRO FOOD ENVIRONMENT
@@ -88,6 +88,10 @@ li {
 #nav a:hover,
 .pdx-footer a:hover {
   opacity: 0.8;
+}
+
+.pdx-toolbar--main {
+  font-weight: bold;
 }
 
 .pdx-footer {
