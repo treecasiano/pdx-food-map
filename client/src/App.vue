@@ -1,5 +1,8 @@
 <template>
-  <v-app id="app">
+  <v-app
+    id="app"
+    style="overflow: hidden;"
+  >
     <v-toolbar
       dense
       flat
@@ -17,6 +20,22 @@
       </div>
     </v-toolbar>
     <router-view />
+    <v-footer
+      dark
+      fixed
+      color="primary darken-4"
+      height=100
+      class="pa-3 accent--text pdx-footer"
+    >
+      <v-layout column>
+        <v-flex>
+          View this project on <a href="https://github.com/treecasiano/pdx-food-map">GitHub</a>.
+        </v-flex>
+        <v-flex>
+          &copy; {{ new Date().getFullYear() }} <a href="http://treecasiano.com">Tree Casiano</a>
+        </v-flex>
+      </v-layout>
+    </v-footer>
   </v-app>
 </template>
 
@@ -41,7 +60,8 @@ li {
   margin: 0 10px;
 }
 
-#nav a {
+#nav a,
+.pdx-footer a {
   color: #fa8c0f;
   text-decoration: none;
 }
