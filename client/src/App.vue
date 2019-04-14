@@ -70,7 +70,8 @@ li {
   color: #cddc39;
 }
 
-#nav a:hover {
+#nav a:hover,
+.pdx-footer a:hover {
   opacity: 0.8;
 }
 </style>
