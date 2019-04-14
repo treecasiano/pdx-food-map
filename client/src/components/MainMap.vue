@@ -587,7 +587,7 @@ export default {
   font-family: "Anton" !important;
   padding: 15px;
   max-height: 520px;
-  opacity: 0.9;
+  opacity: 0.95;
   overflow-y: auto;
 }
 
