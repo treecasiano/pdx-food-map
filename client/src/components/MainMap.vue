@@ -129,19 +129,23 @@
             <v-checkbox
               v-model="showCensusTracts"
               :label="`Census Tracts`"
+              data-cy="checkbox--censusTracts"
             ></v-checkbox>
             <v-checkbox
               v-if="showCensusTracts"
               v-model="enableTooltip"
               :label="`Census Tract Tooltips`"
+              data-cy="checkbox--tooltips"
             ></v-checkbox>
             <v-checkbox
               v-model="showGroceryStores"
               :label="`Grocery Stores`"
+               data-cy="checkbox--groceryStores"
             ></v-checkbox>
             <v-checkbox
               v-model="showFarmersMarkets"
               :label="`Farmers Markets`"
+               data-cy="checkbox--farmersMarkets"
             ></v-checkbox>
             <div>MAP LEGEND</div>
             <v-divider class="py-2"></v-divider>
@@ -388,7 +392,7 @@ export default {
       showFarmersMarkets: false,
       showGroceryStores: false,
       showMapControls: true,
-      showSearchInstructions: true,
+      showSearchInstructions: false,
       showSearchResults: false,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
