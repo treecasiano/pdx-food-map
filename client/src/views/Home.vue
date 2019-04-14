@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 95vh; width: 100%">
+  <div style="height: inherit; width: 100%">
     <main-map :loading="loading"></main-map>
   </div>
 </template>
