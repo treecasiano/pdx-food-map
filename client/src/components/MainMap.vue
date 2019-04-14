@@ -140,12 +140,12 @@
             <v-checkbox
               v-model="showGroceryStores"
               :label="`Grocery Stores`"
-               data-cy="checkbox--groceryStores"
+              data-cy="checkbox--groceryStores"
             ></v-checkbox>
             <v-checkbox
               v-model="showFarmersMarkets"
               :label="`Farmers Markets`"
-               data-cy="checkbox--farmersMarkets"
+              data-cy="checkbox--farmersMarkets"
             ></v-checkbox>
             <div>MAP LEGEND</div>
             <v-divider class="py-2"></v-divider>
@@ -388,7 +388,7 @@ export default {
       subdomains: 'abcd',
       maxZoom: 18,
       enableTooltip: true,
-      showCensusTracts: false,
+      showCensusTracts: true,
       showFarmersMarkets: false,
       showGroceryStores: false,
       showMapControls: true,
