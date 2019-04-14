@@ -13,17 +13,11 @@ export default {
   components: {
     MainMap
   },
-  async created() {
-    this.loading = true;
-    await this.$store.dispatch("farmersMarket/getFarmersMarketGeoJSON");
-    await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON");
-    await this.$store.dispatch("pdxTract/getPdxTractGeoJSON");
-    this.loading = false;
-  },
-  data() {
-    return {
-      loading: false
-    }
-  },
+  props: {
+    loading: Boolean,
+    default: function () {
+      return false;
+    },
+  }
 }
 </script>

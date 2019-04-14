@@ -19,7 +19,7 @@
         <router-link to="/about">About</router-link>
       </div>
     </v-toolbar>
-    <router-view />
+    <router-view :loading="loading" />
     <v-footer
       dark
       color="primary darken-4"
@@ -36,6 +36,23 @@
     </v-footer>
   </v-app>
 </template>
+
+<script>
+export default {
+  async created() {
+    this.loading = true;
+    await this.$store.dispatch("farmersMarket/getFarmersMarketGeoJSON");
+    await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON");
+    await this.$store.dispatch("pdxTract/getPdxTractGeoJSON");
+    this.loading = false;
+  },
+  data() {
+    return {
+      loading: false
+    }
+  }
+}
+</script>
 
 <style>
 /* GLOBAL STYLES  */
