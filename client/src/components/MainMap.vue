@@ -440,7 +440,6 @@ export default {
         const x = result.location.x;
         const y = result.location.y;
         const geom = `${x}, ${y}`;
-        console.log(geom);
         const distance = 1609;
         const params = { geom, distance };
         this.$refs.map.setZoom(14);
@@ -448,6 +447,13 @@ export default {
         this.showSearchInstructions = false;
         this.showFarmersMarkets = true;
         this.showGroceryStores = true;
+      });
+
+      this.$refs.map.mapObject.on('zoomend', () => {
+        if (this.$refs.map.mapObject.getZoom() < 9) {
+          this.showFarmersMarkets = false;
+          this.showGroceryStores = false;
+        }
       });
     })
   },
