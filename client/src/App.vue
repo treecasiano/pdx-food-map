@@ -8,7 +8,7 @@
       flat
       dark
       color="primary darken-3"
-      class="accent--text"
+      class="accent--text title"
     >
       <v-toolbar-title>
         PDX METRO FOOD ENVIRONMENT
@@ -22,9 +22,7 @@
     <router-view />
     <v-footer
       dark
-      fixed
       color="primary darken-4"
-      height=100
       class="pa-3 accent--text pdx-footer"
     >
       <v-layout column>
@@ -41,10 +39,10 @@
 
 <style>
 /* GLOBAL STYLES  */
-@import url("https://fonts.googleapis.com/css?family=Anton");
+@import url("https://fonts.googleapis.com/css?family=Poppins");
 
 #app {
-  font-family: "Anton", Helvetica, Arial, sans-serif;
+  font-family: "Poppins", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -73,5 +71,10 @@ li {
 #nav a:hover,
 .pdx-footer a:hover {
   opacity: 0.8;
+}
+
+.pdx-footer {
+  padding: 10px;
+  height: 60px !important;
 }
 </style>
