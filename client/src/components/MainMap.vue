@@ -40,7 +40,7 @@
                   class="text-xs-left"
                 >
                   <img
-                    src="leaflet/PDXFoodMap31.svg"
+                    src="leaflet/PDXFoodMap611.svg"
                     alt="grocery store symbol"
                   >
                   <div>Grocery Stores</div>
@@ -49,7 +49,7 @@
               <v-flex>
                 <v-layout align-center>
                   <img
-                    src="leaflet/PDXFoodMap33.svg"
+                    src="leaflet/PDXFoodMap631.svg"
                     alt="farmers market symbol"
                   >
                   <div>Farmers Markets</div>
@@ -153,7 +153,6 @@
         @update:bounds="boundsUpdated"
         :options="{zoomControl: false}"
       >
-        <l-control-zoom position="bottomright"></l-control-zoom>
         <l-control-scale position="bottomleft"></l-control-scale>
         <l-tile-layer
           :url="url"
@@ -231,16 +230,29 @@
           :options-style="styleFunction"
         >
         </l-geo-json>
-        <l-control position="topleft">
-          <v-btn
-            dark
-            color="primary"
-            @click="resetMapView"
+        <l-control-zoom position="bottomright"></l-control-zoom>
+        <l-control position="topright">
+          <v-card
+            v-if="showSearchInstructions"
+            class="pdx-leafletControl__card--instructions"
           >
-            <v-icon color="accent">home</v-icon>
-          </v-btn>
-        </l-control>
+            <v-layout
+              column
+              align-end
+            >
+              <v-icon
+                small
+                color="primary"
+                @click="showSearchInstructions=false"
+              >close</v-icon>
+              <v-flex>
+                Search any address in the PDX Metro area to discover sources of fresh produce nearby.
+              </v-flex>
 
+            </v-layout>
+
+          </v-card>
+        </l-control>
         <l-control position="topright">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
@@ -253,7 +265,16 @@
             </v-card>
           </div>
         </l-control>
-
+        <l-control position="topleft">
+          <v-btn
+            dark
+            icon
+            color="primary"
+            @click="resetMapView"
+          >
+            <v-icon color="accent">home</v-icon>
+          </v-btn>
+        </l-control>
       </l-map>
     </v-flex>
   </v-layout>
@@ -335,8 +356,8 @@ export default {
     onEachFeatureFunction() {
       if (!this.enableTooltip) {
         return (feature, layer) => {
-          layer.setStyle(defaultStyle);
           layer.unbindTooltip();
+          this.setDefaultStyles(layer, feature);
         };
       }
       return (feature, layer) => {
@@ -344,23 +365,7 @@ export default {
         if (this.enableTooltip) {
           layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
         }
-        if (feature.properties.lilatrac_1 == 1) {
-          layer.setStyle(foodDesertDefaultStyle);
-        }
-        layer.on("mouseover", () => {
-          if (feature.properties.lilatrac_1 == 1) {
-            layer.setStyle(foodDesertHighlightStyle);
-          } else {
-            layer.setStyle(highlightStyle);
-          }
-          layer.on("mouseout", () => {
-            if (feature.properties.lilatrac_1 == 1) {
-              layer.setStyle(foodDesertDefaultStyle);
-            } else {
-              layer.setStyle(defaultStyle);
-            }
-          });
-        });
+        this.setDefaultStyles(layer, feature);
       };
     }
   },
@@ -374,30 +379,31 @@ export default {
       subdomains: 'abcd',
       maxZoom: 18,
       enableTooltip: true,
-      showCensusTracts: true,
-      showFarmersMarkets: true,
-      showGroceryStores: true,
+      showCensusTracts: false,
+      showFarmersMarkets: false,
+      showGroceryStores: false,
       showMapControls: true,
+      showSearchInstructions: true,
       showSearchResults: false,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
-        iconUrl: 'leaflet/PDXFoodMap33.svg',
-        iconSize: [64, 64],
+        iconUrl: 'leaflet/PDXFoodMap631.svg',
+        iconSize: [50, 50],
         iconAnchor: [22, 94],
         shadowAnchor: [4, 62],
         popupAnchor: [-2, -96]
       }),
       // eslint-disable-next-line
       groceryStoreIcon: L.icon({
-        iconUrl: 'leaflet/PDXFoodMap31.svg',
-        iconSize: [64, 64],
+        iconUrl: 'leaflet/PDXFoodMap611.svg',
+        iconSize: [50, 50],
         iconAnchor: [22, 94],
         shadowAnchor: [4, 62],
         popupAnchor: [-2, -96]
       }),
       // eslint-disable-next-line
       geosearchIcon: L.icon({
-        iconUrl: 'leaflet/PDXFoodMap31.svg',
+        iconUrl: 'leaflet/PDXFoodMap63.svg',
         iconSize: [64, 64],
         iconAnchor: [22, 94],
         shadowAnchor: [4, 62],
@@ -405,7 +411,7 @@ export default {
       }),
       geosearchOptions: {
         provider: new OpenStreetMapProvider(),
-        style: 'button',
+        style: 'bar',
         autoComplete: true,
         position: 'topright',
         autoCompleteDelay: 250,
@@ -438,6 +444,16 @@ export default {
         const params = { geom, distance };
         this.$refs.map.setZoom(14);
         this.searchForPoints(params);
+        this.showSearchInstructions = false;
+        this.showFarmersMarkets = true;
+        this.showGroceryStores = true;
+      });
+
+      this.$refs.map.mapObject.on('zoomend', () => {
+        if (this.$refs.map.mapObject.getZoom() < 9) {
+          this.showFarmersMarkets = false;
+          this.showGroceryStores = false;
+        }
       });
     })
   },
@@ -504,6 +520,26 @@ export default {
       await this.$store.dispatch("groceryStore/search", params);
       await this.$store.dispatch("farmersMarket/search", params);
       this.showSearchResults = true;
+    },
+    setDefaultStyles(layer, feature) {
+      layer.setStyle(defaultStyle);
+      if (feature.properties.lilatrac_1 == 1) {
+        layer.setStyle(foodDesertDefaultStyle);
+      }
+      layer.on("mouseover", () => {
+        if (feature.properties.lilatrac_1 == 1) {
+          layer.setStyle(foodDesertHighlightStyle);
+        } else {
+          layer.setStyle(highlightStyle);
+        }
+        layer.on("mouseout", () => {
+          if (feature.properties.lilatrac_1 == 1) {
+            layer.setStyle(foodDesertDefaultStyle);
+          } else {
+            layer.setStyle(defaultStyle);
+          }
+        });
+      });
     }
   },
   props: {
@@ -531,9 +567,9 @@ export default {
   height: 100%;
   opacity: 0.9;
   position: absolute;
-  top: 125px;
+  top: 120px;
   width: 250px;
-  z-index: 100001;
+  z-index: 11000;
 }
 
 .pdx-floatingCardContainer--right {
@@ -542,16 +578,28 @@ export default {
   opacity: 0.9;
   position: absolute;
   right: 0;
-  top: 110px;
+  top: 120px;
   width: 360px;
-  z-index: 100001;
+  z-index: 10000;
 }
 
 .pdx-leafletControl__card {
   font-family: "Anton" !important;
   padding: 15px;
   max-height: 520px;
+  opacity: 0.9;
   overflow-y: auto;
+}
+
+.pdx-leafletControl__card--instructions {
+  color: #795548 !important;
+  font-family: "Anton" !important;
+  font-weight: 400;
+  font-size: 14px;
+  margin-top: 50px;
+  max-width: 280px;
+  opacity: 0.9;
+  padding: 5px 5px 15px 5px;
 }
 
 .pdx-leafletControl__card img {
@@ -623,5 +671,20 @@ export default {
 
 .leaflet-control-geosearch form {
   border: 2px solid #795548 !important;
+  max-width: 290px;
+}
+
+.leaflet-control-geosearch input {
+  max-width: 300px;
+}
+
+.leaflet-control-geosearch a.reset {
+  background: #795548 !important;
+  color: #cddc39 !important;
+  font-weight: bold;
+}
+
+.leaflet-control-geosearch a.reset:hover {
+  opacity: 0.9;
 }
 </style>
