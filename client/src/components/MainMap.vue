@@ -371,9 +371,11 @@ export default {
       }
       return (feature, layer) => {
         const tooltipContent = this.createCensusTractContent(feature.properties);
+        const popupContent = this.createCensusPopupContent(feature.properties);
         if (this.enableTooltip) {
           layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
         }
+        layer.bindPopup(popupContent, { permanent: false, sticky: true, className: 'pdx-popup--census' });
         this.setDefaultStyles(layer, feature);
       };
     }
@@ -515,6 +517,22 @@ export default {
 
       return propertyString;
     },
+    createCensusPopupContent(props) {
+      const foodDesertMessage = `<div>This census tract is classified as a <span class="pdx-message--foodDesert">food desert.<span></div>`;
+      let propertyString =
+        `<div class="pdx-popup__title--census">${props.county_1} County, ${props.state_1}</div>
+      <div class="pdx-popup__title-census"><strong>Census Tract:</strong> ${props.censustrac}</div>
+      <hr>
+      <div>Median Family Income: <strong>${this.formatCurrency(props.medianfami)}</strong> </div>
+      <div>Poverty Rate: <strong>${props.povertyrat}%</strong>.<div>
+      `;
+      if (props.lilatrac_1 == 1) {
+        propertyString += foodDesertMessage;
+      }
+
+      return propertyString;
+    },
+
     formatCurrency(dollarValue) {
       // syntax numObj.toLocaleString([locales [, options]])
       return dollarValue.toLocaleString("en-US", {
@@ -633,14 +651,16 @@ export default {
   width: 40px;
 }
 
-.pdx-tooltip {
+.pdx-tooltip,
+.pdx-popup--census {
   border-radius: 0 !important;
   text-align: left;
   color: #251611 !important;
   font-family: "Poppins" !important;
 }
 
-.pdx-tooltip__title {
+.pdx-tooltip__title,
+.pdx-popup__title--census {
   font-weight: bold;
 }
 
