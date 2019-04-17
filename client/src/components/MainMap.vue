@@ -180,10 +180,18 @@
               <v-flex>
                 <v-layout align-center>
                   <div class="pdx-legendSymbol--foodDesert"></div>
-                  <div>Food Deserts</div>
+                  <div>Food Deserts*</div>
+
                 </v-layout>
               </v-flex>
+
             </v-layout>
+            <v-flex
+              mt-2
+              class="text-xs-left"
+            >
+              * A food desert is a census tract where more than 20% of households are low-income AND at least 33% live more than 1 mile (urban areas) or more than 10 miles (rural areas) from the nearest supermarket, supercenter, or large grocery store.
+            </v-flex>
           </v-card>
         </v-flex>
         <v-btn
@@ -266,26 +274,6 @@
         </v-btn>
       </v-card>
     </div>
-    <div
-      v-if="showSearchInstructions"
-      class="pdx-floatingCardContainer--center"
-    >
-      <v-card class="pdx-leafletControl__card--instructions">
-        <v-layout
-          column
-          align-end
-        >
-          <v-icon
-            small
-            color="primary"
-            @click="showSearchInstructions=false"
-          >close</v-icon>
-          <v-flex>
-            Search addresses in the PDX Metro area to discover sources of fresh produce nearby.
-          </v-flex>
-        </v-layout>
-      </v-card>
-    </div>
   </div>
 </template>
 
@@ -365,15 +353,19 @@ export default {
     onEachFeatureFunction() {
       if (!this.enableTooltip) {
         return (feature, layer) => {
+          const popupContent = this.createCensusTractContent(feature.properties);
           layer.unbindTooltip();
           this.setDefaultStyles(layer, feature);
+          layer.bindPopup(popupContent, { permanent: false, sticky: true, className: 'pdx-popup--census' });
         };
       }
       return (feature, layer) => {
         const tooltipContent = this.createCensusTractContent(feature.properties);
+        const popupContent = this.createCensusTractContent(feature.properties);
         if (this.enableTooltip) {
           layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
         }
+        layer.bindPopup(popupContent, { permanent: false, sticky: true, className: 'pdx-popup--census' });
         this.setDefaultStyles(layer, feature);
       };
     }
@@ -392,7 +384,6 @@ export default {
       showFarmersMarkets: false,
       showGroceryStores: false,
       showMapControls: true,
-      showSearchInstructions: false,
       showSearchResults: false,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
@@ -454,7 +445,6 @@ export default {
         const params = { geom, distance };
         this.$refs.map.setZoom(14);
         this.searchForPoints(params);
-        this.showSearchInstructions = false;
         this.showFarmersMarkets = true;
         this.showGroceryStores = true;
         this.showCensusTracts = true;
@@ -506,8 +496,8 @@ export default {
         `<div class="pdx-tooltip__title">${props.county_1} County, ${props.state_1}</div>
       <div class="pdx-tooltip__title"><strong>Census Tract:</strong> ${props.censustrac}</div>
       <hr>
-      <div>Median Family Income: <strong>${this.formatCurrency(props.medianfami)}</strong> </div>
-      <div>Poverty Rate: <strong>${props.povertyrat}%</strong>.<div>
+      <div>Median Family Income: <strong><span class="mono-font text-lg">${this.formatCurrency(props.medianfami)}</span></strong></div>
+      <div>Poverty Rate: <strong><span class="mono-font">${props.povertyrat}%</span></strong><div>
       `;
       if (props.lilatrac_1 == 1) {
         propertyString += foodDesertMessage;
@@ -577,14 +567,14 @@ export default {
 
 .pdx-floatingCardContainer--left {
   background-color: transparent;
-  height: 100%;
+  max-width: 360px;
   position: absolute;
   top: 120px;
   z-index: 11000;
 }
+
 .pdx-floatingCardContainer--right {
   background-color: transparent;
-  height: 100%;
   position: absolute;
   right: 100px;
   top: 120px;
@@ -592,25 +582,9 @@ export default {
   z-index: 10000;
 }
 
-.pdx-floatingCardContainer--center {
-  color: #795548 !important;
-  background-color: transparent;
-  font-weight: 400;
-  font-size: 18px;
-  height: 400px;
-  left: 50%;
-  margin-left: -200px;
-  margin-top: -200px;
-  opacity: 0.95;
-  position: absolute;
-  top: 50%;
-  width: 400px;
-  z-index: 10000;
-}
-
 .pdx-leafletControl__card {
   padding: 15px;
-  max-height: 520px;
+  max-height: 580px;
   opacity: 0.95;
   overflow-y: auto;
 }
@@ -633,14 +607,16 @@ export default {
   width: 40px;
 }
 
-.pdx-tooltip {
+.pdx-tooltip,
+.pdx-popup--census {
   border-radius: 0 !important;
   text-align: left;
   color: #251611 !important;
   font-family: "Poppins" !important;
 }
 
-.pdx-tooltip__title {
+.pdx-tooltip__title,
+.pdx-popup__title--census {
   font-weight: bold;
 }
 
