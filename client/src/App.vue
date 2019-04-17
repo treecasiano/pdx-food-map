@@ -34,6 +34,34 @@
         </v-flex>
       </v-layout>
     </v-footer>
+    <div
+      v-if="showSearchInstructions"
+      class="pdx-floatingCardContainer--center"
+    >
+      <v-card class="pdx-leafletControl__card--instructions">
+        <v-layout
+          column
+          align-end
+        >
+          <v-icon
+            small
+            color="primary"
+            @click="showSearchInstructions=false"
+          >close</v-icon>
+          <v-card-title>
+            Welcome to the PDX Metro Food Environment Map!
+          </v-card-title>
+          <v-flex class="text-sm-left">
+            <v-divider></v-divider>
+            <br>
+            Explore the local food environment and see where the food deserts and sources of healthy food are in the City of Roses and the surrounding metropolitan area.
+            <br>
+            <br>
+            Use the search tool in the upper right corner of the map to discover grocery stores and farmers markets within a mile of an address you provide.
+          </v-flex>
+        </v-layout>
+      </v-card>
+    </div>
   </v-app>
 </template>
 
@@ -48,7 +76,13 @@ export default {
   },
   data() {
     return {
-      loading: false
+      loading: false,
+      showSearchInstructions: true,
+    }
+  },
+  methods: {
+    dismissInstructions() {
+      this.showSearchInstructions = false;
     }
   }
 }
@@ -101,5 +135,21 @@ li {
 .pdx-footer {
   padding: 10px;
   height: 60px !important;
+}
+
+.pdx-floatingCardContainer--center {
+  color: #795548 !important;
+  background-color: transparent;
+  font-weight: 400;
+  font-size: 16px;
+  height: 400px;
+  left: 50%;
+  margin-left: -200px;
+  margin-top: -200px;
+  opacity: 0.95;
+  position: absolute;
+  top: 50%;
+  width: 400px;
+  z-index: 10000;
 }
 </style>

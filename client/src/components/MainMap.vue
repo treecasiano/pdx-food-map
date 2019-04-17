@@ -274,26 +274,6 @@
         </v-btn>
       </v-card>
     </div>
-    <div
-      v-if="showSearchInstructions"
-      class="pdx-floatingCardContainer--center"
-    >
-      <v-card class="pdx-leafletControl__card--instructions">
-        <v-layout
-          column
-          align-end
-        >
-          <v-icon
-            small
-            color="primary"
-            @click="showSearchInstructions=false"
-          >close</v-icon>
-          <v-flex>
-            Search addresses in the PDX Metro area to discover sources of fresh produce nearby.
-          </v-flex>
-        </v-layout>
-      </v-card>
-    </div>
   </div>
 </template>
 
@@ -404,7 +384,6 @@ export default {
       showFarmersMarkets: false,
       showGroceryStores: false,
       showMapControls: true,
-      showSearchInstructions: false,
       showSearchResults: false,
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
@@ -466,7 +445,6 @@ export default {
         const params = { geom, distance };
         this.$refs.map.setZoom(14);
         this.searchForPoints(params);
-        this.showSearchInstructions = false;
         this.showFarmersMarkets = true;
         this.showGroceryStores = true;
         this.showCensusTracts = true;
@@ -519,7 +497,7 @@ export default {
       <div class="pdx-tooltip__title"><strong>Census Tract:</strong> ${props.censustrac}</div>
       <hr>
       <div>Median Family Income: <strong><span class="mono-font text-lg">${this.formatCurrency(props.medianfami)}</span></strong></div>
-      <div>Poverty Rate: <strong><span class="mono-font">${props.povertyrat}%</span></strong>.<div>
+      <div>Poverty Rate: <strong><span class="mono-font">${props.povertyrat}%</span></strong><div>
       `;
       if (props.lilatrac_1 == 1) {
         propertyString += foodDesertMessage;
@@ -601,22 +579,6 @@ export default {
   right: 100px;
   top: 120px;
   width: 360px;
-  z-index: 10000;
-}
-
-.pdx-floatingCardContainer--center {
-  color: #795548 !important;
-  background-color: transparent;
-  font-weight: 400;
-  font-size: 18px;
-  height: 400px;
-  left: 50%;
-  margin-left: -200px;
-  margin-top: -200px;
-  opacity: 0.95;
-  position: absolute;
-  top: 50%;
-  width: 400px;
   z-index: 10000;
 }
 
