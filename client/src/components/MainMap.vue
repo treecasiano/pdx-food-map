@@ -180,10 +180,18 @@
               <v-flex>
                 <v-layout align-center>
                   <div class="pdx-legendSymbol--foodDesert"></div>
-                  <div>Food Deserts</div>
+                  <div>Food Deserts*</div>
+
                 </v-layout>
               </v-flex>
+
             </v-layout>
+            <v-flex
+              mt-2
+              class="text-xs-left"
+            >
+              * A food desert is a census tract where more than 20% of households are low-income AND at least 33% live more than 1 mile (urban areas) or more than 10 miles (rural areas) from the nearest supermarket, supercenter, or large grocery store.
+            </v-flex>
           </v-card>
         </v-flex>
         <v-btn
@@ -365,13 +373,15 @@ export default {
     onEachFeatureFunction() {
       if (!this.enableTooltip) {
         return (feature, layer) => {
+          const popupContent = this.createCensusTractContent(feature.properties);
           layer.unbindTooltip();
           this.setDefaultStyles(layer, feature);
+          layer.bindPopup(popupContent, { permanent: false, sticky: true, className: 'pdx-popup--census' });
         };
       }
       return (feature, layer) => {
         const tooltipContent = this.createCensusTractContent(feature.properties);
-        const popupContent = this.createCensusPopupContent(feature.properties);
+        const popupContent = this.createCensusTractContent(feature.properties);
         if (this.enableTooltip) {
           layer.bindTooltip(tooltipContent, { permanent: false, sticky: true, className: 'pdx-tooltip' });
         }
@@ -508,8 +518,8 @@ export default {
         `<div class="pdx-tooltip__title">${props.county_1} County, ${props.state_1}</div>
       <div class="pdx-tooltip__title"><strong>Census Tract:</strong> ${props.censustrac}</div>
       <hr>
-      <div>Median Family Income: <strong>${this.formatCurrency(props.medianfami)}</strong> </div>
-      <div>Poverty Rate: <strong>${props.povertyrat}%</strong>.<div>
+      <div>Median Family Income: <strong><span class="mono-font text-lg">${this.formatCurrency(props.medianfami)}</span></strong></div>
+      <div>Poverty Rate: <strong><span class="mono-font">${props.povertyrat}%</span></strong>.<div>
       `;
       if (props.lilatrac_1 == 1) {
         propertyString += foodDesertMessage;
@@ -517,22 +527,6 @@ export default {
 
       return propertyString;
     },
-    createCensusPopupContent(props) {
-      const foodDesertMessage = `<div>This census tract is classified as a <span class="pdx-message--foodDesert">food desert.<span></div>`;
-      let propertyString =
-        `<div class="pdx-popup__title--census">${props.county_1} County, ${props.state_1}</div>
-      <div class="pdx-popup__title-census"><strong>Census Tract:</strong> ${props.censustrac}</div>
-      <hr>
-      <div>Median Family Income: <strong>${this.formatCurrency(props.medianfami)}</strong> </div>
-      <div>Poverty Rate: <strong>${props.povertyrat}%</strong>.<div>
-      `;
-      if (props.lilatrac_1 == 1) {
-        propertyString += foodDesertMessage;
-      }
-
-      return propertyString;
-    },
-
     formatCurrency(dollarValue) {
       // syntax numObj.toLocaleString([locales [, options]])
       return dollarValue.toLocaleString("en-US", {
@@ -595,14 +589,14 @@ export default {
 
 .pdx-floatingCardContainer--left {
   background-color: transparent;
-  height: 100%;
+  max-width: 360px;
   position: absolute;
   top: 120px;
   z-index: 11000;
 }
+
 .pdx-floatingCardContainer--right {
   background-color: transparent;
-  height: 100%;
   position: absolute;
   right: 100px;
   top: 120px;
@@ -628,7 +622,7 @@ export default {
 
 .pdx-leafletControl__card {
   padding: 15px;
-  max-height: 520px;
+  max-height: 580px;
   opacity: 0.95;
   overflow-y: auto;
 }
