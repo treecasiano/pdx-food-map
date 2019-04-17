@@ -65,6 +65,10 @@ export default {
   text-align: center;
 }
 
+.mono-font {
+  font-family: "Courier New", Courier, monospace !important;
+}
+
 ul {
   list-style-type: none;
   padding: 0;
