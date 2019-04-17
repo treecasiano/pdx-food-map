@@ -5,9 +5,9 @@
   >
     <v-layout>
       <v-flex>
-        <v-header class="primary--text">
+        <div class="primary--text">
           <h1>About</h1>
-        </v-header>
+        </div>
         <v-card class="ma-3 pa-3 primary--text">
           <v-card-title class="secondary--text">
             <h2>The Map</h2>
