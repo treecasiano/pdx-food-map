@@ -389,17 +389,15 @@ export default {
       farmersMarketIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap631.svg',
         iconSize: [50, 50],
-        iconAnchor: [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor: [-2, -96]
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50]
       }),
       // eslint-disable-next-line
       groceryStoreIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap611.svg',
         iconSize: [50, 50],
-        iconAnchor: [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor: [-2, -96]
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50]
       }),
       // eslint-disable-next-line
       geosearchIcon: L.icon({
@@ -443,6 +441,10 @@ export default {
         const geom = `${x}, ${y}`;
         const distance = 1609;
         const params = { geom, distance };
+        // eslint-disable-next-line
+        console.log(result.location.label);
+        // eslint-disable-next-line
+        console.log(geom);
         this.$refs.map.setZoom(14);
         this.searchForPoints(params);
         this.showFarmersMarkets = true;
