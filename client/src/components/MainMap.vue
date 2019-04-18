@@ -65,16 +65,16 @@
                 <div>
                   <em>{{item.props.location}}</em>
                 </div>
-                <div>
+                <div v-if="item.props.day">
                   <strong>Day:</strong> {{item.props.day}}
                 </div>
-                <div>
+                <div v-if="item.props.open_dates">
                   <strong>Open Dates:</strong> {{item.props.open_dates}}
                 </div>
-                <div>
+                <div v-if="item.props.open_times">
                   <strong>Open Times:</strong> {{item.props.open_times}}
                 </div>
-                <div>
+                <div v-if="item.props.accepts">
                   <strong>Accepts:</strong> {{item.props.accepts}}
                 </div>
               </div>
