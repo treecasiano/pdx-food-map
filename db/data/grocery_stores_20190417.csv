@@ -1,0 +1,70 @@
+objectid,address,name,state_id,bldg_sqft,status,type,x,y,longitude,latitude
+,"18425 NW West Union Rd, Portland, OR 97229",Albertsons,,,Existing,Large Chain Grocery,,,-122.866426,45.55896
+,"7500 SW Baseline Rd, Hillsboro, OR 97123",Albertsons,,,Existing,Large Chain Grocery,,,-122.903974,45.514764
+,"888 NE 25th Ave, Hillsboro, OR 97124",Albertsons,,,Existing,Large Chain Grocery,,,-122.955122,45.530152
+,"6055 SW 185th Ave, Aloha, OR 97078",Albertsons,,,Existing,Large Chain Grocery,,,-122.8676387,45.47571421
+,"16199 Boones Ferry Rd, Lake Oswego, OR 97035",Albertsons,,,Existing,Large Chain Grocery,,,-122.7230365,45.40950595
+,"19007 S Beavercreek Rd, Oregon City, OR 97045",Albertsons,,,Existing,Large Chain Grocery,,,-122.573379,45.329774
+,"3849 SW 117th Ave, Beaverton, OR 97005",Asian Food Center,,,Existing,Independent or Ethnic Grocery,,,-122.7999928,45.4918949
+,"12675 NW Cornell Rd, Portland, OR 97229",Bales Cedar Mill Market Place,,,Existing,Large Chain Grocery,,,-122.808144,45.526118
+,"10255 SW Canyon Rd, Beaverton, OR 97005",Bazaar Food Market,,,Existing,Independent or Ethnic Grocery,,,-122.7822829,45.4932783
+,"160 W 3rd St, Lafayette, OR 97127",Carniceria Abastos,,,Existing,Independent or Ethnic Grocery,,,-123.118468,45.2448997
+,"225 NE 2nd Ave, Canby, OR 97013",Cutsforth's Market,,,Existing,Large Chain Grocery,,,-122.6906619,45.26395885
+,"51501 Columbia River Hwy, Scappoose, OR 97056",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.8760943,45.7335346
+,"2200 E Baseline St, Cornelius, OR 97113",Fred Meyer,,,Existing,Large Chain Grocery,,,-123.048106,45.520158
+,"11425 SW Beaverton Hillsdale Hwy, Beaverton, OR 97005",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.7944989,45.48809715
+,"22075 NE Imbrie Dr, Hillsboro, OR 97124",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.9034782,45.5501806
+,"6495 SE Tualatin Valley Hwy, Hillsboro, OR 97123",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.9146212,45.5000886
+,"19200 SW Martinazzi Ave, Tualatin, OR 97062",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.759052,45.3802396
+,"1401 SE 1st Ave, Canby, OR 97013",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.676689,45.266445
+,"1839 Molalla Ave, Oregon City, OR 97045",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.5858451,45.3306903
+,"222 Front St, Gaston, OR 97119",Gaston Market,,,Existing,Independent or Ethnic Grocery,,,-123.1398079,45.4365343
+,"52115 SW Chinook Plaza, Scappoose, OR 97056",Grocery Outlet Bargain Market,,,Existing,Large Chain Grocery,,,-122.878904,45.751751
+,"354 S 1st Ave, Hillsboro, OR 97123",Grocery Outlet Bargain Market,,,Existing,Large Chain Grocery,,,-122.9885239,45.5194584
+,"8620 SW Hall Blvd, Beaverton, OR 97008",Grocery Outlet Bargain Market,,,Existing,Large Chain Grocery,,,-122.7829379,45.45821565
+,"1355 NW 185th Ave, Beaverton, OR 97006",Grocery Outlet Bargain Market,,,Existing,Large Chain Grocery,,,-122.868915,45.529937
+,"568 NE Highway, OR-99W, McMinnville, OR 97128",Grocery Outlet Bargain Market,,,Existing,Large Chain Grocery,,,-123.19346,45.222901
+,"878 Molalla Ave, Oregon City, OR 97045",Grocery Outlet Bargain Market,,,Existing,Large Chain Grocery,,,-122.59643,45.3430907
+,"16055 SW Regatta Ln #1000, Beaverton, OR 97006",India Connect,,,Existing,Independent or Ethnic Grocery,,,-122.842863,45.517561
+,"12350 Main St, Banks, OR 97106",Jim's Thriftway,,,Existing,Large Chain Grocery,,,-123.112855,45.61007
+,"205 SE 1st Ave, Canby, OR 97013",La Mixteca Market,,,Existing,Independent or Ethnic Grocery,,,-122.6903983,45.2626388
+,"250 NW Lost Springs Terrace, Portland, OR 97229",Market of Choice - Cedar Mill,,,Existing,Independent or Ethnic Grocery,,,-122.801713,45.520534
+,"5639 Hood St, West Linn, OR 97068",Market of Choice - West Linn,,,Existing,Independent or Ethnic Grocery,,,-122.6117194,45.36662205
+,"13115 SW Pacific Hwy, Tigard, OR 97223",Natural Grocers,,,Existing,Large Chain Grocery,,,-122.7814308,45.4248482
+,"12155 SW Broadway St, Beaverton, OR 97005",Natural Grocers,,,Existing,Large Chain Grocery,,,-122.802213,45.4880772
+,"3495 SW Cedar Hills Blvd, Beaverton, OR 97005",New Seasons Market,,,Existing,Large Chain Grocery,,,-122.8127427,45.4943818
+,"1453 NE 61st Ave, Hillsboro, OR 97124",New Seasons Market,,,Existing,Large Chain Grocery,,,-122.9191858,45.5343497
+,"4756 NW Bethany Blvd, Portland, OR 97229",QFC,,,Existing,Large Chain Grocery,,,-122.8351092,45.55350265
+,"735 Jefferson Ave, Vernonia, OR 97064",R & S Market,,,Existing,Independent or Ethnic Grocery,,,-123.194418,45.858093
+,"4120 SW Cedar Hills Blvd, Beaverton, OR 97005",Ranchito Superstore,,,Existing,Independent or Ethnic Grocery,,,-122.8107614,45.490724
+,"1595 SW Baker St, McMinnville, OR 97128",Roth's Fresh Markets,,,Existing,Independent or Ethnic Grocery,,,-123.2073446,45.1969694
+,"401 W Columbia River Hwy, Clatskanie, OR 97016",Safeway,,,Existing,Large Chain Grocery,,,-123.207558,46.10598
+,"795 Lower Columbia River Hwy, St Helens, OR 97051",Safeway,,,Existing,Large Chain Grocery,,,-122.832109,45.849763
+,"6194 SW Murray Blvd, Beaverton, OR 97008",Safeway,,,Existing,Large Chain Grocery,,,-122.8251839,45.4749916
+,"13485 NW Cornell Rd, Portland, OR 97229",Safeway,,,Existing,Large Chain Grocery,,,-122.814361,45.527947
+,"2525 SE Tualatin Valley Hwy, Hillsboro, OR 97123",Safeway,,,Existing,Large Chain Grocery,,,-122.9543609,45.5059536
+,"20535 SW Tualatin Valley Hwy, Aloha, OR 97006",Safeway,,,Existing,Large Chain Grocery,,,-122.8918244,45.4964124
+,"14555 SW Teal Blvd, Beaverton, OR 97007",Safeway,,,Existing,Large Chain Grocery,,,-122.826856,45.4423814
+,"2836 Pacific Ave, Forest Grove, OR 97116",Safeway,,,Existing,Large Chain Grocery,,,-123.0954281,45.5196274
+,"1051 SW 1st Ave, Canby, OR 97013",Safeway,,,Existing,Large Chain Grocery,,,-122.702624,45.255412
+,"13434 Colton Pl, Oregon City, OR 97045",Safeway,,,Existing,Large Chain Grocery,,,-122.5909944,45.3343277
+,"2015, 4265 SW Cedar Hills Blvd, Beaverton, OR 97005",Salsa Market Inc,,,Existing,Independent or Ethnic Grocery,,,-122.811551,45.489365
+,"80 N 10th Ave, Cornelius, OR 97113",San Alejandro,,,Existing,Independent or Ethnic Grocery,,,-123.0590227,45.5206161
+,"135 S Bridge St, Sheridan, OR 97378",Sheridan Select Market,,,Existing,Independent or Ethnic Grocery,,,-123.3952326,45.0990525
+,"1111 Columbia Blvd, St Helens, OR 97051",St. Helens Market Fresh,,,Existing,Independent or Ethnic Grocery,,,-122.8094861,45.8617563
+,"1050 SE Walnut St, Hillsboro, OR 97123",Su Casa Super Mercado,,,Existing,Independent or Ethnic Grocery,,,-122.9798139,45.5175024
+,"1905 Mountain View Ln # 100, Forest Grove, OR 97116",Super Mercado La Montana,,,Existing,Independent or Ethnic Grocery,,,-123.075638,45.519547
+,"10775 SW Beaverton Hillsdale Hwy, Beaverton, OR 97005",Target,,,Existing,Large Chain Grocery,,,-122.7877101,45.4882666
+,"11753 SW Beaverton Hillsdale Hwy, Beaverton, OR 97005",Trader Joe's,,,Existing,Large Chain Grocery,,,-122.7982405,45.4880481
+,"2285 NW 185th Ave, Hillsboro, OR 97124",Trader Joe's,,,Existing,Large Chain Grocery,,,-122.8696084,45.5365999
+,"10500 SW Beaverton Hillsdale Hwy, Beaverton, OR 97005",Uwajimaya Beaverton,,,Existing,Independent or Ethnic Grocery,,,-122.7848118,45.48551295
+,"7650 NE Shaleen St, Hillsboro, OR 97006",Walmart Neighborhood Market,,,Existing,Large Chain Grocery,,,-122.8984032,45.5157248
+,"7600 SW Dartmouth St, Tigard, OR 97223",Walmart Supercenter,,,Existing,Large Chain Grocery,,,-122.755169,45.43168585
+,"19440 NW Cornell Rd, Hillsboro, OR 97124",Whole Foods Market,,,Existing,Large Chain Grocery,,,-122.877316,45.53382285
+,"11 S State St, Lake Oswego, OR 97034",Whole Foods Market,,,Existing,Large Chain Grocery,,,-122.662035,45.415756
+,"3025 SW Cedar Hills Blvd, Beaverton, OR 97005",WinCo Foods,,,Existing,Large Chain Grocery,,,-122.8101319,45.4980981
+,"1500 SW Oak St, Hillsboro, OR 97123",WinCo Foods,,,Existing,Large Chain Grocery,,,-123.0063207,45.51840745
+,"7330 NE Butler St, Hillsboro, OR 97124",WinCo Foods,,,Existing,Large Chain Grocery,,,-122.9030182,45.5354188
+,"2585 OR-99W, McMinnville, OR 97128",WinCo Foods,,,Existing,Large Chain Grocery,,,-123.172169,45.230943
+,"19701 OR-213, Oregon City, OR 97045",WinCo Foods,,,Existing,Large Chain Grocery,,,-122.5808767,45.32105315
+,"16380 Boones Ferry Rd, Lake Oswego, OR 97035",Zupan's Markets - Lake Grove,,,Existing,Independent or Ethnic Grocery,,,-122.7242934,45.407113
