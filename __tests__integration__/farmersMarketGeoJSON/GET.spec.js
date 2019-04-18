@@ -8,7 +8,7 @@ test("Retrieves a GeoJSON feature collection (farmers market point features)", a
     });
     expect(results.status).toEqual(200);
     expect(results.data).toBeInstanceOf(Object);
-    expect(results.data.features.length).toEqual(17);
+    expect(results.data.features.length).toEqual(41);
     expect(results.data.type).toEqual("FeatureCollection");
     expect(results.data.features[0].type).toEqual("Feature");
     expect(results.data.features[0]).toEqual({
@@ -20,7 +20,9 @@ test("Retrieves a GeoJSON feature collection (farmers market point features)", a
       properties: {
         accepts: "cash, credit, debit, SNAP (up to $10 match) and FDNP",
         day: "Sunday",
+        latitude: null,
         location: "SW Capitol Highway and SW Sunset Boulevard",
+        longitude: null,
         market: "Hillsdale Farmers Market",
         objectid: 1,
         open_dates:
