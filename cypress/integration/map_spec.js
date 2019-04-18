@@ -15,34 +15,33 @@ describe("Map Controls", () => {
   const clearResultsButton =
     ".pdx-leafletControl__card > .v-btn > .v-btn__content";
   const welcomeWindowCloseButton = "[data-cy=welcomeWindow__button--close]";
+  const zoomInButton = ".leaflet-control-zoom-in";
 
   beforeEach(() => {
     cy.visit("/");
   });
 
-  it("Toggles map layers", () => {
+  it.only("Toggles map layers", () => {
     cy.get(welcomeWindowCloseButton).click();
+    cy.wait(7000);
     cy.get(groceryStoreCheckbox).click();
-    cy.get(groceryStoreMarkers).should("have.length", 153);
+    cy.get(groceryStoreMarkers).should("have.length", 222);
     cy.get(farmersMarketCheckbox).click();
     cy.get(farmersMarketMarkers).should("have.length", 41);
-    cy.wait(5000);
     cy.get(censusTractPolygons).should("have.length", 491);
+    cy.get(mapControlButton).click();
     cy.get(censusTractPolygons)
-      .first()
+      .eq(400)
       .trigger("mouseover");
-    cy.contains("Yamhill County, Oregon").should("be.visible");
+    cy.contains("Clackamas County, Oregon").should("be.visible");
+    cy.contains("Median Family Income: $97,440").should("be.visible");
+    cy.contains("Poverty Rate: 5.3%").should("be.visible");
+    cy.get(mapControlButton).click();
     cy.get(tooltipsCheckbox).click();
     cy.get(censusTractPolygons)
-      .first()
-      .trigger("mouseover");
-    cy.contains("Yamhill County, Oregon").should("not.be.visible");
-
-    // toggle map controls
-    cy.get(mapControlButton).click();
-    cy.contains("MAP LAYERS").should("not.be.visible");
-    cy.get(mapControlButton).click();
-    cy.contains("MAP LAYERS").should("be.visible");
+      .eq(400)
+      .trigger("blur");
+    cy.contains("Clackamas County, Oregon").should("not.be.visible");
   });
 
   it("Searches by address and displays search results", () => {

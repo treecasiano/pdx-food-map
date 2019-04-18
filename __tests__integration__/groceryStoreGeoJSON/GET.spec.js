@@ -8,7 +8,7 @@ test("Retrieves a GeoJSON feature collection (grocery store point features)", as
     });
     expect(results.status).toEqual(200);
     expect(results.data).toBeInstanceOf(Object);
-    expect(results.data.features.length).toEqual(153);
+    expect(results.data.features.length).toEqual(222);
     expect(results.data.type).toEqual("FeatureCollection");
     expect(results.data.features[0].type).toEqual("Feature");
     expect(results.data.features[0]).toEqual({
@@ -20,6 +20,8 @@ test("Retrieves a GeoJSON feature collection (grocery store point features)", as
       properties: {
         address: "3011 N LOMBARD ST",
         bldg_sqft: 5823,
+        latitude: null,
+        longitude: null,
         name: "Green Zebra Grocery",
         objectid: 101,
         state_id: "1N1E09CC  5600",
