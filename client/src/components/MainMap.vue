@@ -389,17 +389,15 @@ export default {
       farmersMarketIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap631.svg',
         iconSize: [50, 50],
-        iconAnchor: [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor: [-2, -96]
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50]
       }),
       // eslint-disable-next-line
       groceryStoreIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap611.svg',
         iconSize: [50, 50],
-        iconAnchor: [22, 94],
-        shadowAnchor: [4, 62],
-        popupAnchor: [-2, -96]
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50]
       }),
       // eslint-disable-next-line
       geosearchIcon: L.icon({
