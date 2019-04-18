@@ -47,6 +47,7 @@
             small
             color="primary"
             @click="showSearchInstructions=false"
+            data-cy="welcomeWindow__button--close"
           >close</v-icon>
           <v-card-title>
             Welcome to the PDX Metro Food Environment Map!

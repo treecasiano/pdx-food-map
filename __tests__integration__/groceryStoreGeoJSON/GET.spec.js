@@ -8,7 +8,7 @@ test("Retrieves a GeoJSON feature collection (grocery store point features)", as
     });
     expect(results.status).toEqual(200);
     expect(results.data).toBeInstanceOf(Object);
-    expect(results.data.features.length).toEqual(105);
+    expect(results.data.features.length).toEqual(153);
     expect(results.data.type).toEqual("FeatureCollection");
     expect(results.data.features[0].type).toEqual("Feature");
     expect(results.data.features[0]).toEqual({
