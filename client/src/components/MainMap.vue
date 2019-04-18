@@ -441,6 +441,10 @@ export default {
         const geom = `${x}, ${y}`;
         const distance = 1609;
         const params = { geom, distance };
+        // eslint-disable-next-line
+        console.log(result.location.label);
+        // eslint-disable-next-line
+        console.log(geom);
         this.$refs.map.setZoom(14);
         this.searchForPoints(params);
         this.showFarmersMarkets = true;
