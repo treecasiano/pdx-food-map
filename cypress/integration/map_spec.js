@@ -25,7 +25,7 @@ describe("Map Controls", () => {
     cy.get(welcomeWindowCloseButton).click();
     cy.wait(7000);
     cy.get(groceryStoreCheckbox).click();
-    cy.get(groceryStoreMarkers).should("have.length", 222);
+    cy.get(groceryStoreMarkers).should("have.length", 264);
     cy.get(farmersMarketCheckbox).click();
     cy.get(farmersMarketMarkers).should("have.length", 41);
     cy.get(censusTractPolygons).should("have.length", 491);

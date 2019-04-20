@@ -1,0 +1,44 @@
+objectid,address,name,state_id,bldg_sqft,status,type,x,y,longitude,latitude
+,"10000 SE 82nd Ave, Happy Valley, OR 97086",Walmart,,,Existing,Large Chain Grocery,,,-122.575526,45.450559
+,"1140 N Springbrook Rd, Newberg, OR 97132",Safeway,,,Existing,Large Chain Grocery,,,-122.9453677,45.30859575
+,"11424 SE 82nd Ave, Happy Valley, OR 97086",Natural Grocers,,,Existing,Large Chain Grocery,,,-122.578408,45.441
+,"12032 SE Sunnyside Rd, Clackamas, OR 97015",Safeway,,,Existing,Large Chain Grocery,,,-122.5403246,45.42821425
+,"12220 SW Scholls Ferry Rd, Tigard, OR 97223",Whole Foods Market,,,Existing,Large Chain Grocery,,,-122.8018528,45.4425512
+,"14300 SW Barrows Rd, Tigard, OR 97223",Albertsons,,,Existing,Large Chain Grocery,,,-122.8237639,45.43121535
+,"1455 NE Division St, Gresham, OR 97030",Safeway,,,Existing,Large Chain Grocery,,,-122.416981,45.50586685
+,"14800 SE Sunnyside Rd, Happy Valley, OR 97015",Grocery Outlet Bargain Market,,,Existing,Large Chain Grocery,,,-122.5109863,45.4241363
+,"14805 SW Barrows Rd, Beaverton, OR 97007",New Seasons Market,,,Existing,Large Chain Grocery,,,-122.8291151,45.4304085
+,"14840 SE Webster Rd, Milwaukie, OR 97267",Safeway,,,Existing,Large Chain Grocery,,,-122.416969,45.505901
+,"1510 Portland Rd, Newberg, OR 97132",Grocery Outlet Bargain Market,,,Existing,Large Chain Grocery,,,-122.96254,45.300763
+,"1524 W Main St, Molalla, OR 97038",Safeway,,,Existing,Large Chain Grocery,,,-122.603634,45.151558
+,"15570 SW Pacific Hwy, Tigard, OR 97224",Safeway,,,Existing,Large Chain Grocery,,,-122.7927903,45.4071732
+,"15705 SW 116th Ave, King City, OR 97224",Grocery Outlet Bargain Market,,,Existing,Large Chain Grocery,,,-122.7975118,45.4061344
+,"15861 SE Happy Valley Town Ctr, Happy Valley, OR 97086",New Seasons Market,,,Existing,Large Chain Grocery,,,-122.4992387,45.4279492
+,"16301 SE 82nd Dr, Clackamas, OR 97015",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.5701916,45.4042644
+,"16625 SE 362nd Dr, Sandy, OR 97055",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.291056,45.4039088
+,"17005 SE Sunnyside Rd, Happy Valley, OR 97015",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.4877243,45.428221
+,"17779 SW Ferry Rd, Lake Oswego, OR 97035",Safeway,,,Existing,Large Chain Grocery,,,-122.741692,45.398463
+,"20151 SE Hwy 212, Boring, OR 97089",Safeway,,,Existing,Large Chain Grocery,,,-122.455967,45.418567
+,"205 N Main St, Newberg, OR 97132",Ray's Produce,,,Existing,Independent or Ethnic Grocery,,,-122.979339,45.301299
+,"20685 SW Roy Rogers Rd, Sherwood, OR 97140",Safeway,,,Existing,Large Chain Grocery,,,-122.8452226,45.3696518
+,"21320 SW Langer Farms Pkwy, Sherwood, OR 97140",Walmart Supercenter,,,Existing,Large Chain Grocery,,,-122.8335709,45.36585935
+,"22855 NE Park Ln, Wood Village, OR 97060",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.4287042,45.5302734
+,"23500 NE Sandy Blvd, Wood Village, OR 97060",Walmart Supercenter,,,Existing,Large Chain Grocery,,,-122.4207568,45.54103095
+,"2444 Powell Blvd, Gresham, OR 97080",Walmart Neighborhood Market,,,Existing,Large Chain Grocery,,,-122.40781,45.492836
+,"2497 SE Burnside Rd, Gresham, OR 97080",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.4053845,45.49596105
+,"2501 SW Cherry Park Rd, Troutdale, OR 97060",Safeway,,,Existing,Large Chain Grocery,,,-122.4114275,45.52997515
+,"2511 SE 1st St, Gresham, OR 97030",WinCo Foods,,,Existing,Large Chain Grocery,,,-122.4076108,45.4988484
+,"25691 SE Stark St, Troutdale, OR 97060",Albertsons,,,Existing,Large Chain Grocery,,,-122.4002583,45.52029825
+,"30300 SW Boones Ferry Rd, Wilsonville, OR 97070",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.7706323,45.3004973
+,"3300 Portland Rd, Newberg, OR 97132",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.944217,45.306146
+,"36701 US-26, Sandy, OR 97055",Grocery Outlet Bargain Market,,,Existing,Large Chain Grocery,,,-122.2849573,45.40363255
+,"68280 US-26, Welches, OR 97067",Hoodland Thriftway,,,Existing,Large Chain Grocery,,,-121.962112,45.347163
+,"7703 SW Nyberg St, Tualatin, OR 97062",New Seasons Market,,,Existing,Large Chain Grocery,,,-122.7564625,45.3841212
+,"8155 SW Hall Blvd, Beaverton, OR 97008",99 Ranch Market,,,Existing,Large Chain Grocery,,,-122.7966951,45.46022815
+,"8255 SW Wilsonville Rd, Wilsonville, OR 97070",Safeway,,,Existing,Large Chain Grocery,,,-122.7625186,45.3044127
+,"8750 SW Citizens Dr, Wilsonville, OR 97070",San Francisco Tienda Mexicana,,,Existing,Independent or Ethnic Grocery,,,-122.766995,45.303749
+,"8955 SE 82nd Ave, Happy Valley, OR 97086",Fred Meyer,,,Existing,Large Chain Grocery,,,-122.579557,45.457245
+,"9055 SW Murray Blvd, Beaverton, OR 97008",Walmart Neighborhood Market,,,Existing,Large Chain Grocery,,,-122.828569,45.454914
+,"9345 SE 82nd Ave, Happy Valley, OR 97086",Trader Joe's,,,Existing,Large Chain Grocery,,,-122.580747,45.455879
+,"95 82nd Dr, Gladstone, OR 97027",Safeway,,,Existing,Large Chain Grocery,,,-122.5818888,45.381661
+,"Clackamas Square, 11250 SE 82nd Ave, Happy Valley, OR 97086",WinCo Foods,,,Existing,Large Chain Grocery,,,-122.577732,45.443699
