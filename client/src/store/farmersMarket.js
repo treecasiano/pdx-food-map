@@ -3,15 +3,15 @@ import farmersMarketApi from "../api/farmersMarket";
 const actions = {
   async getFarmersMarketList({ commit }) {
     const farmersMarketList = await farmersMarketApi.list();
-    return commit("setFarmersMarketList", farmersMarketList.data);
+    return commit("setList", farmersMarketList.data);
   },
   async getFarmersMarketGeoJSON({ commit }) {
     const farmersMarketGeoJSON = await farmersMarketApi.getGeoJSON();
-    return commit("setFarmersMarketGeoJSON", farmersMarketGeoJSON.data);
+    return commit("setGeoJSON", farmersMarketGeoJSON.data);
   },
   async search({ commit }, params) {
     const results = await farmersMarketApi.search(params);
-    return commit("setFarmersMarketSearchResults", results.data);
+    return commit("setSearchResults", results.data);
   },
   clearSearchResults({ commit }) {
     return commit("clearSearchResults");
@@ -19,13 +19,13 @@ const actions = {
 };
 
 const mutations = {
-  setFarmersMarketList(state, farmersMarketData) {
+  setList(state, farmersMarketData) {
     state.farmersMarketList = farmersMarketData;
   },
-  setFarmersMarketGeoJSON(state, farmersMarketData) {
+  setGeoJSON(state, farmersMarketData) {
     state.farmersMarketGeoJSON = farmersMarketData;
   },
-  setFarmersMarketSearchResults(state, farmersMarketData) {
+  setSearchResults(state, farmersMarketData) {
     state.farmersMarketSearchResults = farmersMarketData;
   },
   clearSearchResults(state) {

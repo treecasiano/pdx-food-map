@@ -3,15 +3,15 @@ import groceryStoreApi from "../api/groceryStore";
 const actions = {
   async getGroceryStoreList({ commit }) {
     const groceryStoreList = await groceryStoreApi.list();
-    return commit("setGroceryStoreList", groceryStoreList.data);
+    return commit("setList", groceryStoreList.data);
   },
   async getGroceryStoreGeoJSON({ commit }) {
     const groceryStoreGeoJSON = await groceryStoreApi.getGeoJSON();
-    return commit("setGroceryStoreGeoJSON", groceryStoreGeoJSON.data);
+    return commit("setGeoJSON", groceryStoreGeoJSON.data);
   },
   async search({ commit }, params) {
     const results = await groceryStoreApi.search(params);
-    return commit("setGroceryStoreSearchResults", results.data);
+    return commit("setSearchResults", results.data);
   },
   clearSearchResults({ commit }) {
     return commit("clearSearchResults");
@@ -19,13 +19,13 @@ const actions = {
 };
 
 const mutations = {
-  setGroceryStoreList(state, groceryStoreData) {
+  setList(state, groceryStoreData) {
     state.groceryStoreList = groceryStoreData;
   },
-  setGroceryStoreGeoJSON(state, groceryStoreData) {
+  setGeoJSON(state, groceryStoreData) {
     state.groceryStoreGeoJSON = groceryStoreData;
   },
-  setGroceryStoreSearchResults(state, groceryStoreData) {
+  setSearchResults(state, groceryStoreData) {
     state.groceryStoreSearchResults = groceryStoreData;
   },
   clearSearchResults(state) {
