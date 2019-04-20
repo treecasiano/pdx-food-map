@@ -592,7 +592,8 @@ export default {
 }
 
 .pdx-leafletControl__card--instructions {
-  color: #795548 !important;
+  background-color: var(--v-primary-darken4) !important;
+  color: var(--v-accent-lighten2) !important;
   padding: 15px 15px 25px 15px;
 }
 
@@ -613,7 +614,7 @@ export default {
 .pdx-popup--census {
   border-radius: 0 !important;
   text-align: left;
-  color: #251611 !important;
+  color: var(--v-primary-darken4) !important;
   font-family: "Poppins" !important;
 }
 
@@ -642,11 +643,11 @@ input {
 
 .leaflet-bar-part,
 .leaflet-bar-part-single {
-  border: 2px solid #795548 !important;
+  border: 2px solid var(--v-primary-base) !important;
 }
 
 .leaflet-control-geosearch a.leaflet-bar-part:before {
-  border-top: 2px solid #cddc39 !important;
+  border-top: 2px solid var(--v-accent-base) !important;
 }
 
 .leaflet-control-geosearch .leaflet-bar-part {
@@ -658,17 +659,17 @@ input {
 }
 
 .leaflet-control-geosearch a.leaflet-bar-part:after {
-  border: 2px solid #cddc39 !important;
+  border: 2px solid var(--v-accent-base) !important;
 }
 
 .leaflet-touch .leaflet-control-layers,
 .leaflet-touch .leaflet-bar {
-  border: 2px solid #795548 !important;
+  border: 2px solid var(--v-primary-base) !important;
 }
 
 .leaflet-touch .leaflet-bar a {
-  background-color: #795548 !important;
-  color: #cddc39 !important;
+  background-color: var(--v-primary-base) !important;
+  color: var(--v-accent-base) !important;
   font-weight: bold;
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
@@ -681,7 +682,7 @@ input {
 }
 
 .leaflet-control-geosearch form {
-  border: 2px solid #795548 !important;
+  border: 2px solid var(--v-primary-base) !important;
   max-width: 290px;
 }
 
@@ -690,8 +691,8 @@ input {
 }
 
 .leaflet-control-geosearch a.reset {
-  background: #795548 !important;
-  color: #cddc39 !important;
+  background: var(--v-primary-base) !important;
+  color: var(--v-accent-base) !important;
   font-weight: bold;
 }
 
@@ -703,6 +704,6 @@ input {
   border-radius: 0 !important;
   font-family: "Poppins" !important;
   opacity: 0.95 !important;
-  color: #251611 !important;
+  color: var(--v-primary-base) !important;
 }
 </style>

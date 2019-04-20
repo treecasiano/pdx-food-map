@@ -116,12 +116,13 @@ li {
 
 #nav a,
 .pdx-footer a {
-  color: #fa8c0f;
+  /* color: #fa8c0f; */
+  color: var(--v-secondary-lighten2);
   text-decoration: none;
 }
 
 #nav a.router-link-exact-active {
-  color: #cddc39;
+  color: var(--v-accent);
 }
 
 #nav a:hover,
@@ -139,7 +140,7 @@ li {
 }
 
 .pdx-floatingCardContainer--center {
-  color: #795548 !important;
+  color: var(--v-secondary-base) !important;
   background-color: transparent;
   font-weight: 400;
   font-size: 16px;
