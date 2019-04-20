@@ -683,11 +683,23 @@ input {
 
 .leaflet-control-geosearch form {
   border: 2px solid var(--v-primary-base) !important;
-  max-width: 290px;
+  max-width: 390px;
 }
 
 .leaflet-control-geosearch input {
-  max-width: 300px;
+  max-width: 400px;
+}
+
+@media screen and (min-width: 1400px) {
+  .leaflet-control-geosearch form {
+    min-width: 500px !important;
+    max-width: 800px !important;
+  }
+
+  .leaflet-control-geosearch input {
+    min-width: 500px !important;
+    max-width: 800px !important;
+  }
 }
 
 .leaflet-control-geosearch a.reset {
