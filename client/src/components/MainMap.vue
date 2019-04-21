@@ -112,7 +112,10 @@
         >
         </l-geo-json>
         <l-control-zoom position="bottomright"></l-control-zoom>
-        <l-control position="topright">
+        <l-control
+          position="topright"
+          class="pdx-spinner"
+        >
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
               <v-progress-circular
@@ -751,6 +754,15 @@ export default {
   font-weight: bold;
 }
 
+.pdx-spinner {
+  position: fixed !important;
+  top: 15% !important;
+  left: 50% !important;
+  right: 50% !important;
+  width: 220px !important;
+  margin-left: -110px;
+}
+
 .pdx-searchControls {
   background: rgba(255, 255, 255, 0.9) 0%;
   border-radius: 0;
@@ -758,6 +770,9 @@ export default {
   padding: 10px 0 0 15px;
 }
 
+.pdx-searchControls .v-label {
+  font-size: 14px !important;
+}
 /* leaflet style overrides */
 
 .leaflet-control {
