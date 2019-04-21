@@ -180,18 +180,21 @@
                 label="All"
                 value="all"
                 class="pdx-layerControls--radioButtons"
+                data-cy="radioButton--allStores"
               ></v-radio>
               <v-radio
                 color="accent"
                 label="Large Chain"
                 value="Large Chain Grocery"
                 class="pdx-layerControls--radioButtons"
+                data-cy="radioButton--largeChain"
               ></v-radio>
               <v-radio
                 color="accent"
                 label="Independent or Ethnic"
                 value="Independent or Ethnic Grocery"
                 class="pdx-layerControls--radioButtons"
+                data-cy="radioButton--independent"
               ></v-radio>
 
             </v-radio-group>

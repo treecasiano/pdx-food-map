@@ -6,6 +6,10 @@ describe("Map Controls", () => {
     "div[data-cy=checkbox--censusTracts] > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple";
   const groceryStoreCheckbox =
     "div[data-cy=checkbox--groceryStores] > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple";
+  const groceryStoreFilterAll = "[data-cy=radioButton--allStores]";
+  const groceryStoreFilterLargeChain = "[data-cy=radioButton--largeChain]";
+  const groceryStoreFilterIndependent = "[data-cy=radioButton--independent]";
+
   const farmersMarketCheckbox =
     "div[data-cy=checkbox--farmersMarkets] > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple";
   const tooltipsCheckbox =
@@ -21,7 +25,7 @@ describe("Map Controls", () => {
     cy.visit("/");
   });
 
-  it.only("Toggles map layers", () => {
+  it("Toggles map layers", () => {
     cy.get(welcomeWindowCloseButton).click();
     cy.wait(7000);
     cy.get(groceryStoreCheckbox).click();
@@ -51,9 +55,25 @@ describe("Map Controls", () => {
     cy.get('[data-key="0"]').click();
     cy.wait(2000);
     cy.contains("SEARCH RESULTS").should("be.visible");
-    cy.contains("Grocery stores within 1 mile: 4").should("be.visible");
-    cy.contains("Farmers markets within 1 mile: 3").should("be.visible");
+    cy.contains("Grocery Stores: 4").should("be.visible");
+    cy.contains("Farmers Markets: 3").should("be.visible");
     cy.get(clearResultsButton).click();
     cy.contains("SEARCH RESULTS").should("not.be.visible");
+  });
+
+  it("Filters grocery store layer by store type", () => {
+    cy.get(welcomeWindowCloseButton).click();
+    cy.wait(7000);
+    cy.get(groceryStoreCheckbox).click();
+    cy.wait(1000);
+    cy.get(groceryStoreFilterLargeChain).click({ force: true });
+    cy.wait(1000);
+    cy.get(groceryStoreMarkers).should("have.length", 205);
+    cy.get(groceryStoreFilterIndependent).click({ force: true });
+    cy.wait(1000);
+    cy.get(groceryStoreMarkers).should("have.length", 59);
+    cy.get(groceryStoreFilterAll).click({ force: true });
+    cy.wait(1000);
+    cy.get(groceryStoreMarkers).should("have.length", 264);
   });
 });
