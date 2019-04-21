@@ -3,7 +3,7 @@
     <v-layout>
       <l-map
         ref="map"
-        style="height: 88vh; width: 100%"
+        style="height: calc(100vh - 108px); width: 100%"
         :zoom="zoom"
         :center="center"
         :maxZoom="maxZoom"
@@ -112,7 +112,10 @@
         >
         </l-geo-json>
         <l-control-zoom position="bottomright"></l-control-zoom>
-        <l-control position="topright">
+        <l-control
+          position="topright"
+          class="pdx-spinner"
+        >
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
               <v-progress-circular
@@ -217,11 +220,11 @@
                 <v-layout
                   align-center
                   justify-start
-                  class="text-xs-left"
                 >
                   <img
                     src="leaflet/PDXFoodMap611.svg"
                     alt="grocery store symbol"
+                    style="margin-right: -12px;"
                   >
                   <div>Grocery Stores</div>
                 </v-layout>
@@ -230,11 +233,11 @@
                 <v-layout
                   align-center
                   justify-start
-                  class="text-xs-left"
                 >
                   <img
                     src="leaflet/PDXFoodMap631.svg"
                     alt="farmers market symbol"
+                    style="margin-right: -12px;"
                   >
                   <div>Farmers Markets</div>
                 </v-layout>
@@ -706,15 +709,10 @@ export default {
 
 .pdx-leafletControl__card {
   padding: 15px;
-  max-height: 580px;
+  max-height: 600px;
   opacity: 0.95;
   overflow-y: auto;
-}
-
-.pdx-leafletControl__card--instructions {
-  background-color: var(--v-primary-darken3) !important;
-  color: var(--v-accent-lighten2) !important;
-  padding: 15px 15px 25px 15px;
+  font-size: small;
 }
 
 .pdx-leafletControl__card img {
@@ -725,7 +723,7 @@ export default {
 .pdx-legendSymbol--foodDesert {
   background-color: #795548;
   height: 30px;
-  margin-right: 20px;
+  margin-right: 10px;
   opacity: 0.6;
   width: 30px;
 }
@@ -734,7 +732,7 @@ export default {
   background-color: transparent;
   border: 2px solid #49332b;
   height: 30px;
-  margin-right: 20px;
+  margin-right: 10px;
   margin-top: 5px;
   width: 30px;
 }
@@ -756,6 +754,15 @@ export default {
   font-weight: bold;
 }
 
+.pdx-spinner {
+  position: fixed !important;
+  top: 15% !important;
+  left: 50% !important;
+  right: 50% !important;
+  width: 220px !important;
+  margin-left: -110px;
+}
+
 .pdx-searchControls {
   background: rgba(255, 255, 255, 0.9) 0%;
   border-radius: 0;
@@ -763,6 +770,9 @@ export default {
   padding: 10px 0 0 15px;
 }
 
+.pdx-searchControls .v-label {
+  font-size: 14px !important;
+}
 /* leaflet style overrides */
 
 .leaflet-control {

@@ -22,7 +22,7 @@
     <router-view :loading="loading" />
     <v-footer
       dark
-      color="primary darken-4"
+      color="primary darken-3"
       class="pa-3 accent--text pdx-footer"
     >
       <v-layout column>
@@ -45,20 +45,20 @@
         >
           <v-icon
             small
-            color="primary"
+            color="accent"
             @click="showSearchInstructions=false"
             data-cy="welcomeWindow__button--close"
           >close</v-icon>
-          <v-card-title>
+          <v-card-title class="title">
             Welcome to the PDX Metro Food Environment Map!
           </v-card-title>
           <v-flex class="text-sm-left">
             <v-divider></v-divider>
             <br>
-            Explore the local food environment and see where the food deserts and sources of healthy food are in the City of Roses and the surrounding metropolitan area.
+            Explore the local food environment and see where the food deserts and sources of healthy food are in Portland, OR and the surrounding metropolitan area.
             <br>
             <br>
-            Use the search tool in the upper right corner of the map to discover grocery stores and farmers markets near a particular address in the Portland metro area.
+            Use the search tool in the upper right corner of the map to discover grocery stores and farmers markets near you!
           </v-flex>
         </v-layout>
       </v-card>
@@ -153,5 +153,11 @@ li {
   top: 50%;
   width: 400px;
   z-index: 11000;
+}
+
+.pdx-leafletControl__card--instructions {
+  background-color: var(--v-primary-darken3) !important;
+  color: var(--v-accent-lighten2) !important;
+  padding: 15px 15px 25px 15px;
 }
 </style>
