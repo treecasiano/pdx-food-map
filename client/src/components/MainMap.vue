@@ -28,7 +28,7 @@
         >
           <v-radio-group
             class="pa-0 ma-0"
-            v-model="radios"
+            v-model="radiosDistance"
             row
             label="search radius"
           >
@@ -164,6 +164,32 @@
               :label="`Grocery Stores`"
               data-cy="checkbox--groceryStores"
             ></v-checkbox>
+            <v-radio-group
+              dense
+              small
+              v-if="showGroceryStores"
+              v-model="radiosStoreType"
+              label="Filter by Store Type"
+              class="pt-0, mt-0"
+              @change="filterStores"
+            >
+              <v-radio
+                color="accent"
+                label="All"
+                value="all"
+              ></v-radio>
+              <v-radio
+                color="accent"
+                label="Large Chain"
+                value="Large Chain Grocery"
+              ></v-radio>
+              <v-radio
+                color="accent"
+                label="Independent or Ethnic"
+                value="Independent or Ethnic Grocery"
+              ></v-radio>
+
+            </v-radio-group>
             <v-checkbox
               v-model="showFarmersMarkets"
               :label="`Farmers Markets`"
@@ -400,9 +426,9 @@ export default {
       };
     },
     searchDistance() {
-      if (this.radios == "radio-half") {
+      if (this.radiosDistance == "radio-half") {
         return "1/2 mile";
-      } else if (this.radios == "radio-1") {
+      } else if (this.radiosDistance == "radio-1") {
         return "1 mile";
       }
       return "";
@@ -423,7 +449,8 @@ export default {
       showGroceryStores: false,
       showMapControls: true,
       showSearchResults: false,
-      radios: "radio-1",
+      radiosDistance: "radio-1",
+      radiosStoreType: "all",
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap631.svg',
@@ -480,7 +507,7 @@ export default {
         const geom = `${x}, ${y}`;
         // default distance = 1 mile = 1609.34 meters
         let distance = 1609.34;
-        if (this.radios === "radio-half") {
+        if (this.radiosDistance === "radio-half") {
           distance = 804.672;
         }
 
@@ -556,6 +583,14 @@ export default {
       }
 
       return propertyString;
+    },
+    async filterStores(value) {
+      if (value == 'all') {
+        await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON");
+      } else {
+        const params = { type: value };
+        await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON", params);
+      }
     },
     formatCurrency(dollarValue) {
       // syntax numObj.toLocaleString([locales [, options]])

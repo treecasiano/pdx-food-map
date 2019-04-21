@@ -19,6 +19,13 @@ export default {
       url: `/api/groceryStoreGeoJSON`
     });
   },
+  getGeoDataByType(params) {
+    return axios({
+      data: params,
+      method: "post",
+      url: `/api/groceryStore/getGeoDataByType`
+    });
+  },
   search(params) {
     return axios({
       data: params,
