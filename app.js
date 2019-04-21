@@ -6,7 +6,6 @@ const expressOpenapi = require("express-openapi");
 const path = require("path");
 const pkg = require("./package");
 
-const ExampleService = require("./lib/exampleService");
 const FarmersMarketService = require("./lib/farmersMarketService");
 const GroceryStoreService = require("./lib/groceryStoreService");
 const PdxTractService = require("./lib/pdxTractService");
@@ -25,7 +24,6 @@ process.env.TZ = "UTC";
       config: config.get("pg")
     });
 
-    const exampleService = new ExampleService({ pg });
     const farmersMarketService = new FarmersMarketService({ pg });
     const groceryStoreService = new GroceryStoreService({ pg });
     const pdxTractService = new PdxTractService({ pg });
@@ -111,7 +109,6 @@ process.env.TZ = "UTC";
       },
       dependencies: {
         env,
-        exampleService,
         farmersMarketService,
         groceryStoreService,
         pdxTractService,
