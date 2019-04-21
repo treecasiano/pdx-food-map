@@ -202,8 +202,11 @@
               <v-flex>
                 <v-layout align-center>
                   <div class="pdx-legendSymbol--foodDesert"></div>
-                  <div>Food Deserts*</div>
-
+                  <div>Food Desert</div>
+                </v-layout>
+                <v-layout align-center>
+                  <div class="pdx-legendSymbol--lowVehicle"></div>
+                  <div>Low Vehicle Access</div>
                 </v-layout>
               </v-flex>
 
@@ -212,7 +215,12 @@
               mt-2
               class="text-xs-left"
             >
-              * A food desert is a census tract where more than 20% of households are low-income AND at least 33% live more than 1 mile (urban areas) or more than 10 miles (rural areas) from the nearest supermarket, supercenter, or large grocery store.
+              <div>
+                <Strong>Food Desert</strong>: a census tract where more than 20% of households are low-income AND at least 33% live more than 1/2 mile (urban areas) or more than 10 miles (rural areas) from the nearest supermarket.
+              </div>
+              <div class="mt-2">
+                <strong>Low Vehicle Access</strong>: a census tract where at least 100 households are more than ½ mile from the nearest supermarket and have no access to a vehicle; <em>or</em>, at least 500 people or 33 percent of the population live more than 20 miles from the nearest supermarket, regardless of vehicle access.
+              </div>
             </v-flex>
           </v-card>
         </v-flex>
@@ -251,8 +259,8 @@
           <v-toolbar
             light
             color="accent lighten-2"
-          >SEARCH RESULTS</v-toolbar>
-          <v-subheader inset>Grocery stores within {{ searchDistance }}: {{groceryStoreSearchResults.length}}</v-subheader>
+          >SEARCH RESULTS: {{ searchDistance }} radius</v-toolbar>
+          <v-subheader inset>Grocery Stores: {{groceryStoreSearchResults.length}}</v-subheader>
           <v-list-tile
             v-for="item in groceryStoreSearchResults"
             :key="item.index"
@@ -270,7 +278,7 @@
 
           <v-divider inset></v-divider>
 
-          <v-subheader inset>Farmers markets within {{ searchDistance }}: {{farmersMarketSearchResults.length}}</v-subheader>
+          <v-subheader inset>Farmers Markets: {{farmersMarketSearchResults.length}}</v-subheader>
           <v-list-tile
             v-for="item in farmersMarketSearchResults"
             :key="item.index"
@@ -530,6 +538,8 @@ export default {
     },
     createCensusTractContent(props) {
       const foodDesertMessage = `<div>This census tract is classified as a <span class="pdx-message--foodDesert">food desert.<span></div>`;
+      const lowVehicleMessage = `<div>This census tract is classified as having <span class="pdx-message--foodDesert">low vehicle access.<span></div>`;
+
       let propertyString =
         `<div class="pdx-tooltip__title">${props.county_1} County, ${props.state_1}</div>
       <div class="pdx-tooltip__title"><strong>Census Tract:</strong> ${props.censustrac}</div>
@@ -539,6 +549,10 @@ export default {
       `;
       if (props.lilatrac_1 == 1) {
         propertyString += foodDesertMessage;
+      }
+
+      if (props.hunvflag == 1) {
+        propertyString += lowVehicleMessage;
       }
 
       return propertyString;
@@ -567,6 +581,12 @@ export default {
       if (feature.properties.lilatrac_1 == 1) {
         layer.setStyle(foodDesertDefaultStyle);
       }
+      if (feature.properties.hunvflag == 1) {
+        layer.setStyle({
+          weight: 1.25,
+          color: '#49332b',
+        })
+      }
       layer.on("mouseover", () => {
         if (feature.properties.lilatrac_1 == 1) {
           layer.setStyle(foodDesertHighlightStyle);
@@ -579,8 +599,15 @@ export default {
           } else {
             layer.setStyle(defaultStyle);
           }
+          if (feature.properties.hunvflag == 1) {
+            layer.setStyle({
+              weight: 1.25,
+              color: '#49332b',
+            })
+          }
         });
       });
+
     }
   },
   props: {
@@ -640,10 +667,19 @@ export default {
 
 .pdx-legendSymbol--foodDesert {
   background-color: #795548;
-  height: 40px;
-  margin-right: 10px;
+  height: 30px;
+  margin-right: 20px;
   opacity: 0.6;
-  width: 40px;
+  width: 30px;
+}
+
+.pdx-legendSymbol--lowVehicle {
+  background-color: transparent;
+  border: 2px solid #49332b;
+  height: 30px;
+  margin-right: 20px;
+  margin-top: 5px;
+  width: 30px;
 }
 
 .pdx-tooltip,
