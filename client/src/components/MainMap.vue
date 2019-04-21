@@ -22,6 +22,29 @@
           :options="geosearchOptions"
           ref="geosearch"
         ></v-geosearch>
+        <l-control
+          position="topright"
+          class="pdx-searchControls"
+        >
+          <v-radio-group
+            class="pa-0 ma-0"
+            v-model="radios"
+            row
+            label="search radius"
+          >
+            <v-radio
+              color="primary"
+              label="0.5 miles"
+              value="radio-half"
+            ></v-radio>
+            <v-radio
+              color="primary"
+              label="1 mile"
+              value="radio-1"
+            ></v-radio>
+
+          </v-radio-group>
+        </l-control>
         <div v-if="showGroceryStores">
           <l-marker
             v-for="(item, index) in groceryStoreMarkers"
@@ -81,7 +104,6 @@
             </l-popup>
           </l-marker>
         </div>
-
         <l-geo-json
           v-if="showCensusTracts"
           :geojson="pdxTractGeoJSON"
@@ -230,7 +252,7 @@
             light
             color="accent lighten-2"
           >SEARCH RESULTS</v-toolbar>
-          <v-subheader inset>Grocery stores within 1 mile: {{groceryStoreSearchResults.length}}</v-subheader>
+          <v-subheader inset>Grocery stores within {{ searchDistance }}: {{groceryStoreSearchResults.length}}</v-subheader>
           <v-list-tile
             v-for="item in groceryStoreSearchResults"
             :key="item.index"
@@ -248,7 +270,7 @@
 
           <v-divider inset></v-divider>
 
-          <v-subheader inset>Farmers markets within 1 mile: {{farmersMarketSearchResults.length}}</v-subheader>
+          <v-subheader inset>Farmers markets within {{ searchDistance }}: {{farmersMarketSearchResults.length}}</v-subheader>
           <v-list-tile
             v-for="item in farmersMarketSearchResults"
             :key="item.index"
@@ -368,6 +390,14 @@ export default {
         layer.bindPopup(popupContent, { permanent: false, sticky: true, className: 'pdx-popup--census' });
         this.setDefaultStyles(layer, feature);
       };
+    },
+    searchDistance() {
+      if (this.radios == "radio-half") {
+        return "1/2 mile";
+      } else if (this.radios == "radio-1") {
+        return "1 mile";
+      }
+      return "";
     }
   },
   data() {
@@ -385,6 +415,7 @@ export default {
       showGroceryStores: false,
       showMapControls: true,
       showSearchResults: false,
+      radios: "radio-1",
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap631.svg',
@@ -439,7 +470,12 @@ export default {
         const x = result.location.x;
         const y = result.location.y;
         const geom = `${x}, ${y}`;
-        const distance = 1609;
+        // default distance = 1 mile = 1609.34 meters
+        let distance = 1609.34;
+        if (this.radios === "radio-half") {
+          distance = 804.672;
+        }
+
         const params = { geom, distance };
         // eslint-disable-next-line
         console.log(result.location.label);
@@ -592,7 +628,7 @@ export default {
 }
 
 .pdx-leafletControl__card--instructions {
-  background-color: var(--v-primary-darken4) !important;
+  background-color: var(--v-primary-darken3) !important;
   color: var(--v-accent-lighten2) !important;
   padding: 15px 15px 25px 15px;
 }
@@ -614,7 +650,7 @@ export default {
 .pdx-popup--census {
   border-radius: 0 !important;
   text-align: left;
-  color: var(--v-primary-darken4) !important;
+  color: var(--v-primary-darken3) !important;
   font-family: "Poppins" !important;
 }
 
@@ -625,6 +661,13 @@ export default {
 
 .pdx-message--foodDesert {
   font-weight: bold;
+}
+
+.pdx-searchControls {
+  background: rgba(255, 255, 255, 0.9) 0%;
+  border-radius: 0;
+  height: 3rem;
+  padding: 10px 0 0 15px;
 }
 
 /* leaflet style overrides */
