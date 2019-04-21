@@ -642,7 +642,7 @@ export default {
   background-color: transparent;
   position: absolute;
   right: 100px;
-  top: 120px;
+  top: 155px;
   width: 360px;
   z-index: 10000;
 }
@@ -687,7 +687,7 @@ export default {
   border-radius: 0 !important;
   text-align: left;
   color: var(--v-primary-darken3) !important;
-  font-family: "Poppins" !important;
+  font-family: "Muli" !important;
 }
 
 .pdx-tooltip__title,
@@ -709,11 +709,11 @@ export default {
 /* leaflet style overrides */
 
 .leaflet-control {
-  font-family: "Poppins" !important;
+  font-family: "Muli" !important;
 }
 
 input {
-  font-family: "Poppins" !important;
+  font-family: "Muli" !important;
 }
 
 .leaflet-control-geosearch {
@@ -793,7 +793,7 @@ input {
 
 .leaflet-popup-content-wrapper {
   border-radius: 0 !important;
-  font-family: "Poppins" !important;
+  font-family: "Muli" !important;
   opacity: 0.95 !important;
   color: var(--v-primary-base) !important;
 }
