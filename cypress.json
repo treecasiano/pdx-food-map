@@ -5,5 +5,5 @@
   "pageLoadTimeout": 100000,
   "requestTimeout": 60000,
   "responseTimeout": 50000,
-  "video": false
+  "video": true
 }

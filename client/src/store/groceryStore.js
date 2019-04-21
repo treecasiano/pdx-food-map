@@ -5,8 +5,13 @@ const actions = {
     const groceryStoreList = await groceryStoreApi.list();
     return commit("setList", groceryStoreList.data);
   },
-  async getGroceryStoreGeoJSON({ commit }) {
-    const groceryStoreGeoJSON = await groceryStoreApi.getGeoJSON();
+  async getGroceryStoreGeoJSON({ commit }, params) {
+    let groceryStoreGeoJSON;
+    if (params) {
+      groceryStoreGeoJSON = await groceryStoreApi.getGeoDataByType(params);
+    } else {
+      groceryStoreGeoJSON = await groceryStoreApi.getGeoJSON();
+    }
     return commit("setGeoJSON", groceryStoreGeoJSON.data);
   },
   async search({ commit }, params) {

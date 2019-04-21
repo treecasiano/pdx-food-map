@@ -28,7 +28,7 @@
         >
           <v-radio-group
             class="pa-0 ma-0"
-            v-model="radios"
+            v-model="radiosDistance"
             row
             label="search radius"
           >
@@ -152,34 +152,71 @@
               v-model="showCensusTracts"
               :label="`Census Tracts`"
               data-cy="checkbox--censusTracts"
+              class="pdx-layerControls"
             ></v-checkbox>
             <v-checkbox
               v-if="showCensusTracts"
               v-model="enableTooltip"
               :label="`Census Tract Tooltips`"
               data-cy="checkbox--tooltips"
+              class="pdx-layerControls"
             ></v-checkbox>
             <v-checkbox
               v-model="showGroceryStores"
               :label="`Grocery Stores`"
               data-cy="checkbox--groceryStores"
+              class="pdx-layerControls"
             ></v-checkbox>
+            <v-radio-group
+              v-if="showGroceryStores"
+              v-model="radiosStoreType"
+              label="Filter by Store Type"
+              class="pa-0"
+              style="margin: 0 0 -15px 32px;"
+              @change="filterStores"
+            >
+              <v-radio
+                color="accent"
+                label="All"
+                value="all"
+                class="pdx-layerControls--radioButtons"
+                data-cy="radioButton--allStores"
+              ></v-radio>
+              <v-radio
+                color="accent"
+                label="Large Chain"
+                value="Large Chain Grocery"
+                class="pdx-layerControls--radioButtons"
+                data-cy="radioButton--largeChain"
+              ></v-radio>
+              <v-radio
+                color="accent"
+                label="Independent or Ethnic"
+                value="Independent or Ethnic Grocery"
+                class="pdx-layerControls--radioButtons"
+                data-cy="radioButton--independent"
+              ></v-radio>
+
+            </v-radio-group>
             <v-checkbox
               v-model="showFarmersMarkets"
               :label="`Farmers Markets`"
               data-cy="checkbox--farmersMarkets"
+              class="pdx-layerControls"
             ></v-checkbox>
+            <br>
             <div>MAP LEGEND</div>
             <v-divider class="py-2"></v-divider>
             <v-layout
               align-start
               justify-start
-              column
+              row
               fill-height
             >
               <v-flex>
                 <v-layout
                   align-center
+                  justify-start
                   class="text-xs-left"
                 >
                   <img
@@ -190,27 +227,29 @@
                 </v-layout>
               </v-flex>
               <v-flex>
-                <v-layout align-center>
+                <v-layout
+                  align-center
+                  justify-start
+                  class="text-xs-left"
+                >
                   <img
                     src="leaflet/PDXFoodMap631.svg"
                     alt="farmers market symbol"
                   >
                   <div>Farmers Markets</div>
-
                 </v-layout>
               </v-flex>
-              <v-flex>
-                <v-layout align-center>
-                  <div class="pdx-legendSymbol--foodDesert"></div>
-                  <div>Food Desert</div>
-                </v-layout>
-                <v-layout align-center>
-                  <div class="pdx-legendSymbol--lowVehicle"></div>
-                  <div>Low Vehicle Access</div>
-                </v-layout>
-              </v-flex>
-
             </v-layout>
+            <v-flex>
+              <v-layout align-center>
+                <div class="pdx-legendSymbol--foodDesert"></div>
+                <div>Food Desert</div>
+              </v-layout>
+              <v-layout align-center>
+                <div class="pdx-legendSymbol--lowVehicle"></div>
+                <div>Low Vehicle Access</div>
+              </v-layout>
+            </v-flex>
             <v-flex
               mt-2
               class="text-xs-left"
@@ -400,9 +439,9 @@ export default {
       };
     },
     searchDistance() {
-      if (this.radios == "radio-half") {
+      if (this.radiosDistance == "radio-half") {
         return "1/2 mile";
-      } else if (this.radios == "radio-1") {
+      } else if (this.radiosDistance == "radio-1") {
         return "1 mile";
       }
       return "";
@@ -423,7 +462,8 @@ export default {
       showGroceryStores: false,
       showMapControls: true,
       showSearchResults: false,
-      radios: "radio-1",
+      radiosDistance: "radio-1",
+      radiosStoreType: "all",
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap631.svg',
@@ -480,7 +520,7 @@ export default {
         const geom = `${x}, ${y}`;
         // default distance = 1 mile = 1609.34 meters
         let distance = 1609.34;
-        if (this.radios === "radio-half") {
+        if (this.radiosDistance === "radio-half") {
           distance = 804.672;
         }
 
@@ -556,6 +596,14 @@ export default {
       }
 
       return propertyString;
+    },
+    async filterStores(value) {
+      if (value == 'all') {
+        await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON");
+      } else {
+        const params = { type: value };
+        await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON", params);
+      }
     },
     formatCurrency(dollarValue) {
       // syntax numObj.toLocaleString([locales [, options]])
@@ -645,6 +693,15 @@ export default {
   top: 155px;
   width: 360px;
   z-index: 10000;
+}
+
+.pdx-layerControls {
+  height: 30px !important;
+}
+
+.pdx-layerControls--radioButtons {
+  height: 20px !important;
+  padding: 0;
 }
 
 .pdx-leafletControl__card {
