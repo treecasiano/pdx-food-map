@@ -14,7 +14,7 @@
           </v-card-title>
           <v-card-text class="text-xs-left">
             <p>The PDX Food Environment Map is an evolving project first launched to satisfy final project requirements for GEOG 576 Geospatial Web and Mobile Programming, a course in the University of Wisconsin's MS in Cartography and GIS Development program.</p>
-            <p>The map facilitates discovery of sources of fresh produce in the <a href="https://en.wikipedia.org/wiki/Portland_metropolitan_area">Portland Metropolitan Statistical Area</a>. It also provides food environment information at the census tract level, surfacing attributes such as food desert classification, poverty rate, vehicle acces, and median household income from the USDA Food Access Research Atlas. </p>
+            <p>The map facilitates discovery of sources of fresh produce in the <a href="https://en.wikipedia.org/wiki/Portland_metropolitan_area">Portland Metropolitan Statistical Area</a>. It also provides food environment information at the census tract level, surfacing attributes such as food desert classification, poverty rate, vehicle access, and median household income from the USDA Food Access Research Atlas. </p>
           </v-card-text>
         </v-card>
         <v-flex>
