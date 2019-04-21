@@ -217,11 +217,11 @@
                 <v-layout
                   align-center
                   justify-start
-                  class="text-xs-left"
                 >
                   <img
                     src="leaflet/PDXFoodMap611.svg"
                     alt="grocery store symbol"
+                    style="margin-right: -12px;"
                   >
                   <div>Grocery Stores</div>
                 </v-layout>
@@ -230,11 +230,11 @@
                 <v-layout
                   align-center
                   justify-start
-                  class="text-xs-left"
                 >
                   <img
                     src="leaflet/PDXFoodMap631.svg"
                     alt="farmers market symbol"
+                    style="margin-right: -12px;"
                   >
                   <div>Farmers Markets</div>
                 </v-layout>
@@ -706,15 +706,10 @@ export default {
 
 .pdx-leafletControl__card {
   padding: 15px;
-  max-height: 580px;
+  max-height: 600px;
   opacity: 0.95;
   overflow-y: auto;
-}
-
-.pdx-leafletControl__card--instructions {
-  background-color: var(--v-primary-darken3) !important;
-  color: var(--v-accent-lighten2) !important;
-  padding: 15px 15px 25px 15px;
+  font-size: small;
 }
 
 .pdx-leafletControl__card img {
@@ -725,7 +720,7 @@ export default {
 .pdx-legendSymbol--foodDesert {
   background-color: #795548;
   height: 30px;
-  margin-right: 20px;
+  margin-right: 10px;
   opacity: 0.6;
   width: 30px;
 }
@@ -734,7 +729,7 @@ export default {
   background-color: transparent;
   border: 2px solid #49332b;
   height: 30px;
-  margin-right: 20px;
+  margin-right: 10px;
   margin-top: 5px;
   width: 30px;
 }
