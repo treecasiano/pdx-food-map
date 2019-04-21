@@ -22,6 +22,29 @@
           :options="geosearchOptions"
           ref="geosearch"
         ></v-geosearch>
+        <l-control
+          position="topright"
+          class="pdx-searchControls"
+        >
+          <v-radio-group
+            class="pa-0 ma-0"
+            v-model="radios"
+            row
+            label="search radius"
+          >
+            <v-radio
+              color="primary"
+              label="0.5 miles"
+              value="radio-half"
+            ></v-radio>
+            <v-radio
+              color="primary"
+              label="1 mile"
+              value="radio-1"
+            ></v-radio>
+
+          </v-radio-group>
+        </l-control>
         <div v-if="showGroceryStores">
           <l-marker
             v-for="(item, index) in groceryStoreMarkers"
@@ -81,7 +104,6 @@
             </l-popup>
           </l-marker>
         </div>
-
         <l-geo-json
           v-if="showCensusTracts"
           :geojson="pdxTractGeoJSON"
@@ -180,8 +202,11 @@
               <v-flex>
                 <v-layout align-center>
                   <div class="pdx-legendSymbol--foodDesert"></div>
-                  <div>Food Deserts*</div>
-
+                  <div>Food Desert</div>
+                </v-layout>
+                <v-layout align-center>
+                  <div class="pdx-legendSymbol--lowVehicle"></div>
+                  <div>Low Vehicle Access</div>
                 </v-layout>
               </v-flex>
 
@@ -190,7 +215,12 @@
               mt-2
               class="text-xs-left"
             >
-              * A food desert is a census tract where more than 20% of households are low-income AND at least 33% live more than 1 mile (urban areas) or more than 10 miles (rural areas) from the nearest supermarket, supercenter, or large grocery store.
+              <div>
+                <Strong>Food Desert</strong>: a census tract where more than 20% of households are low-income AND at least 33% live more than 1/2 mile (urban areas) or more than 10 miles (rural areas) from the nearest supermarket.
+              </div>
+              <div class="mt-2">
+                <strong>Low Vehicle Access</strong>: a census tract where at least 100 households are more than ½ mile from the nearest supermarket and have no access to a vehicle; <em>or</em>, at least 500 people or 33 percent of the population live more than 20 miles from the nearest supermarket, regardless of vehicle access.
+              </div>
             </v-flex>
           </v-card>
         </v-flex>
@@ -229,8 +259,8 @@
           <v-toolbar
             light
             color="accent lighten-2"
-          >SEARCH RESULTS</v-toolbar>
-          <v-subheader inset>Grocery stores within 1 mile: {{groceryStoreSearchResults.length}}</v-subheader>
+          >SEARCH RESULTS: {{ searchDistance }} radius</v-toolbar>
+          <v-subheader inset>Grocery Stores: {{groceryStoreSearchResults.length}}</v-subheader>
           <v-list-tile
             v-for="item in groceryStoreSearchResults"
             :key="item.index"
@@ -248,7 +278,7 @@
 
           <v-divider inset></v-divider>
 
-          <v-subheader inset>Farmers markets within 1 mile: {{farmersMarketSearchResults.length}}</v-subheader>
+          <v-subheader inset>Farmers Markets: {{farmersMarketSearchResults.length}}</v-subheader>
           <v-list-tile
             v-for="item in farmersMarketSearchResults"
             :key="item.index"
@@ -368,6 +398,14 @@ export default {
         layer.bindPopup(popupContent, { permanent: false, sticky: true, className: 'pdx-popup--census' });
         this.setDefaultStyles(layer, feature);
       };
+    },
+    searchDistance() {
+      if (this.radios == "radio-half") {
+        return "1/2 mile";
+      } else if (this.radios == "radio-1") {
+        return "1 mile";
+      }
+      return "";
     }
   },
   data() {
@@ -385,6 +423,7 @@ export default {
       showGroceryStores: false,
       showMapControls: true,
       showSearchResults: false,
+      radios: "radio-1",
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: 'leaflet/PDXFoodMap631.svg',
@@ -439,7 +478,12 @@ export default {
         const x = result.location.x;
         const y = result.location.y;
         const geom = `${x}, ${y}`;
-        const distance = 1609;
+        // default distance = 1 mile = 1609.34 meters
+        let distance = 1609.34;
+        if (this.radios === "radio-half") {
+          distance = 804.672;
+        }
+
         const params = { geom, distance };
         // eslint-disable-next-line
         console.log(result.location.label);
@@ -494,6 +538,8 @@ export default {
     },
     createCensusTractContent(props) {
       const foodDesertMessage = `<div>This census tract is classified as a <span class="pdx-message--foodDesert">food desert.<span></div>`;
+      const lowVehicleMessage = `<div>This census tract is classified as having <span class="pdx-message--foodDesert">low vehicle access.<span></div>`;
+
       let propertyString =
         `<div class="pdx-tooltip__title">${props.county_1} County, ${props.state_1}</div>
       <div class="pdx-tooltip__title"><strong>Census Tract:</strong> ${props.censustrac}</div>
@@ -503,6 +549,10 @@ export default {
       `;
       if (props.lilatrac_1 == 1) {
         propertyString += foodDesertMessage;
+      }
+
+      if (props.hunvflag == 1) {
+        propertyString += lowVehicleMessage;
       }
 
       return propertyString;
@@ -531,6 +581,12 @@ export default {
       if (feature.properties.lilatrac_1 == 1) {
         layer.setStyle(foodDesertDefaultStyle);
       }
+      if (feature.properties.hunvflag == 1) {
+        layer.setStyle({
+          weight: 1.25,
+          color: '#49332b',
+        })
+      }
       layer.on("mouseover", () => {
         if (feature.properties.lilatrac_1 == 1) {
           layer.setStyle(foodDesertHighlightStyle);
@@ -543,8 +599,15 @@ export default {
           } else {
             layer.setStyle(defaultStyle);
           }
+          if (feature.properties.hunvflag == 1) {
+            layer.setStyle({
+              weight: 1.25,
+              color: '#49332b',
+            })
+          }
         });
       });
+
     }
   },
   props: {
@@ -579,7 +642,7 @@ export default {
   background-color: transparent;
   position: absolute;
   right: 100px;
-  top: 120px;
+  top: 155px;
   width: 360px;
   z-index: 10000;
 }
@@ -592,7 +655,8 @@ export default {
 }
 
 .pdx-leafletControl__card--instructions {
-  color: #795548 !important;
+  background-color: var(--v-primary-darken3) !important;
+  color: var(--v-accent-lighten2) !important;
   padding: 15px 15px 25px 15px;
 }
 
@@ -603,18 +667,27 @@ export default {
 
 .pdx-legendSymbol--foodDesert {
   background-color: #795548;
-  height: 40px;
-  margin-right: 10px;
+  height: 30px;
+  margin-right: 20px;
   opacity: 0.6;
-  width: 40px;
+  width: 30px;
+}
+
+.pdx-legendSymbol--lowVehicle {
+  background-color: transparent;
+  border: 2px solid #49332b;
+  height: 30px;
+  margin-right: 20px;
+  margin-top: 5px;
+  width: 30px;
 }
 
 .pdx-tooltip,
 .pdx-popup--census {
   border-radius: 0 !important;
   text-align: left;
-  color: #251611 !important;
-  font-family: "Poppins" !important;
+  color: var(--v-primary-darken3) !important;
+  font-family: "Muli" !important;
 }
 
 .pdx-tooltip__title,
@@ -626,14 +699,21 @@ export default {
   font-weight: bold;
 }
 
+.pdx-searchControls {
+  background: rgba(255, 255, 255, 0.9) 0%;
+  border-radius: 0;
+  height: 3rem;
+  padding: 10px 0 0 15px;
+}
+
 /* leaflet style overrides */
 
 .leaflet-control {
-  font-family: "Poppins" !important;
+  font-family: "Muli" !important;
 }
 
 input {
-  font-family: "Poppins" !important;
+  font-family: "Muli" !important;
 }
 
 .leaflet-control-geosearch {
@@ -642,11 +722,11 @@ input {
 
 .leaflet-bar-part,
 .leaflet-bar-part-single {
-  border: 2px solid #795548 !important;
+  border: 2px solid var(--v-primary-base) !important;
 }
 
 .leaflet-control-geosearch a.leaflet-bar-part:before {
-  border-top: 2px solid #cddc39 !important;
+  border-top: 2px solid var(--v-accent-base) !important;
 }
 
 .leaflet-control-geosearch .leaflet-bar-part {
@@ -658,17 +738,17 @@ input {
 }
 
 .leaflet-control-geosearch a.leaflet-bar-part:after {
-  border: 2px solid #cddc39 !important;
+  border: 2px solid var(--v-accent-base) !important;
 }
 
 .leaflet-touch .leaflet-control-layers,
 .leaflet-touch .leaflet-bar {
-  border: 2px solid #795548 !important;
+  border: 2px solid var(--v-primary-base) !important;
 }
 
 .leaflet-touch .leaflet-bar a {
-  background-color: #795548 !important;
-  color: #cddc39 !important;
+  background-color: var(--v-primary-base) !important;
+  color: var(--v-accent-base) !important;
   font-weight: bold;
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
@@ -681,17 +761,29 @@ input {
 }
 
 .leaflet-control-geosearch form {
-  border: 2px solid #795548 !important;
-  max-width: 290px;
+  border: 2px solid var(--v-primary-base) !important;
+  max-width: 390px;
 }
 
 .leaflet-control-geosearch input {
-  max-width: 300px;
+  max-width: 400px;
+}
+
+@media screen and (min-width: 1400px) {
+  .leaflet-control-geosearch form {
+    min-width: 500px !important;
+    max-width: 800px !important;
+  }
+
+  .leaflet-control-geosearch input {
+    min-width: 500px !important;
+    max-width: 800px !important;
+  }
 }
 
 .leaflet-control-geosearch a.reset {
-  background: #795548 !important;
-  color: #cddc39 !important;
+  background: var(--v-primary-base) !important;
+  color: var(--v-accent-base) !important;
   font-weight: bold;
 }
 
@@ -701,8 +793,8 @@ input {
 
 .leaflet-popup-content-wrapper {
   border-radius: 0 !important;
-  font-family: "Poppins" !important;
+  font-family: "Muli" !important;
   opacity: 0.95 !important;
-  color: #251611 !important;
+  color: var(--v-primary-base) !important;
 }
 </style>

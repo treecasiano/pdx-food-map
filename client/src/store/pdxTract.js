@@ -3,19 +3,19 @@ import pdxTractApi from "../api/pdxTract";
 const actions = {
   async getPdxTractList({ commit }) {
     const pdxTractList = await pdxTractApi.list();
-    return commit("setPdxTractList", pdxTractList.data);
+    return commit("setList", pdxTractList.data);
   },
   async getPdxTractGeoJSON({ commit }) {
     const pdxTractGeoJSON = await pdxTractApi.getGeoJSON();
-    return commit("setPdxTractGeoJSON", pdxTractGeoJSON.data);
+    return commit("setGeoJSON", pdxTractGeoJSON.data);
   }
 };
 
 const mutations = {
-  setPdxTractList(state, pdxTractData) {
+  setList(state, pdxTractData) {
     state.pdxTractList = pdxTractData;
   },
-  setPdxTractGeoJSON(state, pdxTractData) {
+  setGeoJSON(state, pdxTractData) {
     state.pdxTractGeoJSON = pdxTractData;
   }
 };

@@ -52,6 +52,9 @@ Vue.use(Vuetify, {
     warning: colors.deepOrange,
     info: colors.lightBlue,
     success: colors.lightBlue
+  },
+  options: {
+    customProperties: true
   }
 });
 

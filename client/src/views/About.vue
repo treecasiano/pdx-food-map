@@ -14,7 +14,7 @@
           </v-card-title>
           <v-card-text class="text-xs-left">
             <p>The PDX Food Environment Map is an evolving project first launched to satisfy final project requirements for GEOG 576 Geospatial Web and Mobile Programming, a course in the University of Wisconsin's MS in Cartography and GIS Development program.</p>
-            <p>The map facilitates discovery of sources of fresh produce in the <a href="https://en.wikipedia.org/wiki/Portland_metropolitan_area">Portland Metropolitan Statistical Area</a>. It also provides food environment information at the census tract level such as food desert classification, poverty rate, and median household income. </p>
+            <p>The map facilitates discovery of sources of fresh produce in the <a href="https://en.wikipedia.org/wiki/Portland_metropolitan_area">Portland Metropolitan Statistical Area</a>. It also provides food environment information at the census tract level, surfacing attributes such as food desert classification, poverty rate, vehicle access, and median household income from the USDA Food Access Research Atlas. </p>
           </v-card-text>
         </v-card>
         <v-flex>
@@ -34,7 +34,7 @@
                   <p> A shapefile with all the census tracts in the Portland-Vancouver-Hillsboro Metropolitan Statistical Area was retrieved from <a href="http://rlisdiscovery.oregonmetro.gov/?action=viewDetail&layerID=2588">Oregon Metro</a>.
                   </p>
                   <p>
-                    <a href="https://www.ers.usda.gov/data-products/food-access-research-atlas/">USDA ERS Food Access Research Atlas</a> (2015) data was joined to the census tract records.
+                    <a href="https://www.ers.usda.gov/data-products/food-access-research-atlas/">USDA ERS Food Access Research Atlas</a> (2017) data was joined to the census tract records.
                   </p>
 
                 </li>
@@ -50,7 +50,7 @@
             </v-card-title>
             <v-card-text class="text-xs-left">
               <p>
-                <a href="http://treecasiano.com">Tree Casiano</a> is a software developer for a healthcare IT company and a graduate student at the University of Wisconsin-Madison.
+                <a href="http://treecasiano.com">Tree Casiano</a> is a software developer for a healthcare IT company and a graduate student studying Cartography and GIS Development at the University of Wisconsin-Madison.
               </p>
             </v-card-text>
           </v-card>

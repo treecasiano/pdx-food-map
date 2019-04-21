@@ -58,7 +58,7 @@
             Explore the local food environment and see where the food deserts and sources of healthy food are in the City of Roses and the surrounding metropolitan area.
             <br>
             <br>
-            Use the search tool in the upper right corner of the map to discover grocery stores and farmers markets within a mile of an address you provide.
+            Use the search tool in the upper right corner of the map to discover grocery stores and farmers markets near a particular address in the Portland metro area.
           </v-flex>
         </v-layout>
       </v-card>
@@ -91,10 +91,10 @@ export default {
 
 <style>
 /* GLOBAL STYLES  */
-@import url("https://fonts.googleapis.com/css?family=Poppins");
+@import url("https://fonts.googleapis.com/css?family=Muli");
 
 #app {
-  font-family: "Poppins", sans-serif !important;
+  font-family: "Muli", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -116,12 +116,13 @@ li {
 
 #nav a,
 .pdx-footer a {
-  color: #fa8c0f;
+  /* color: #fa8c0f; */
+  color: var(--v-secondary-lighten2);
   text-decoration: none;
 }
 
 #nav a.router-link-exact-active {
-  color: #cddc39;
+  color: var(--v-accent);
 }
 
 #nav a:hover,
@@ -139,7 +140,7 @@ li {
 }
 
 .pdx-floatingCardContainer--center {
-  color: #795548 !important;
+  color: var(--v-secondary-base) !important;
   background-color: transparent;
   font-weight: 400;
   font-size: 16px;
