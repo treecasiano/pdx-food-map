@@ -91,10 +91,10 @@ export default {
 
 <style>
 /* GLOBAL STYLES  */
-@import url("https://fonts.googleapis.com/css?family=Poppins");
+@import url("https://fonts.googleapis.com/css?family=Muli");
 
 #app {
-  font-family: "Poppins", sans-serif !important;
+  font-family: "Muli", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
