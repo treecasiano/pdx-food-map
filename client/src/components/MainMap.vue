@@ -152,41 +152,46 @@
               v-model="showCensusTracts"
               :label="`Census Tracts`"
               data-cy="checkbox--censusTracts"
+              class="pdx-layerControls"
             ></v-checkbox>
             <v-checkbox
               v-if="showCensusTracts"
               v-model="enableTooltip"
               :label="`Census Tract Tooltips`"
               data-cy="checkbox--tooltips"
+              class="pdx-layerControls"
             ></v-checkbox>
             <v-checkbox
               v-model="showGroceryStores"
               :label="`Grocery Stores`"
               data-cy="checkbox--groceryStores"
+              class="pdx-layerControls"
             ></v-checkbox>
             <v-radio-group
-              dense
-              small
               v-if="showGroceryStores"
               v-model="radiosStoreType"
               label="Filter by Store Type"
-              class="pt-0, mt-0"
+              class="pa-0"
+              style="margin: 0 0 -15px 32px;"
               @change="filterStores"
             >
               <v-radio
                 color="accent"
                 label="All"
                 value="all"
+                class="pdx-layerControls--radioButtons"
               ></v-radio>
               <v-radio
                 color="accent"
                 label="Large Chain"
                 value="Large Chain Grocery"
+                class="pdx-layerControls--radioButtons"
               ></v-radio>
               <v-radio
                 color="accent"
                 label="Independent or Ethnic"
                 value="Independent or Ethnic Grocery"
+                class="pdx-layerControls--radioButtons"
               ></v-radio>
 
             </v-radio-group>
@@ -194,18 +199,21 @@
               v-model="showFarmersMarkets"
               :label="`Farmers Markets`"
               data-cy="checkbox--farmersMarkets"
+              class="pdx-layerControls"
             ></v-checkbox>
+            <br>
             <div>MAP LEGEND</div>
             <v-divider class="py-2"></v-divider>
             <v-layout
               align-start
               justify-start
-              column
+              row
               fill-height
             >
               <v-flex>
                 <v-layout
                   align-center
+                  justify-start
                   class="text-xs-left"
                 >
                   <img
@@ -216,27 +224,29 @@
                 </v-layout>
               </v-flex>
               <v-flex>
-                <v-layout align-center>
+                <v-layout
+                  align-center
+                  justify-start
+                  class="text-xs-left"
+                >
                   <img
                     src="leaflet/PDXFoodMap631.svg"
                     alt="farmers market symbol"
                   >
                   <div>Farmers Markets</div>
-
                 </v-layout>
               </v-flex>
-              <v-flex>
-                <v-layout align-center>
-                  <div class="pdx-legendSymbol--foodDesert"></div>
-                  <div>Food Desert</div>
-                </v-layout>
-                <v-layout align-center>
-                  <div class="pdx-legendSymbol--lowVehicle"></div>
-                  <div>Low Vehicle Access</div>
-                </v-layout>
-              </v-flex>
-
             </v-layout>
+            <v-flex>
+              <v-layout align-center>
+                <div class="pdx-legendSymbol--foodDesert"></div>
+                <div>Food Desert</div>
+              </v-layout>
+              <v-layout align-center>
+                <div class="pdx-legendSymbol--lowVehicle"></div>
+                <div>Low Vehicle Access</div>
+              </v-layout>
+            </v-flex>
             <v-flex
               mt-2
               class="text-xs-left"
@@ -680,6 +690,15 @@ export default {
   top: 155px;
   width: 360px;
   z-index: 10000;
+}
+
+.pdx-layerControls {
+  height: 30px !important;
+}
+
+.pdx-layerControls--radioButtons {
+  height: 20px !important;
+  padding: 0;
 }
 
 .pdx-leafletControl__card {
