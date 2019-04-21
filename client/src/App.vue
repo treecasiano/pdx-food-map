@@ -58,7 +58,7 @@
             Explore the local food environment and see where the food deserts and sources of healthy food are in the City of Roses and the surrounding metropolitan area.
             <br>
             <br>
-            Use the search tool in the upper right corner of the map to discover grocery stores and farmers markets within a mile of an address you provide.
+            Use the search tool in the upper right corner of the map to discover grocery stores and farmers markets near a particular address in the Portland metro area.
           </v-flex>
         </v-layout>
       </v-card>
