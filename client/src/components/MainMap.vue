@@ -483,7 +483,7 @@ export default {
       }),
       // eslint-disable-next-line
       geosearchIcon: L.icon({
-        iconUrl: 'leaflet/PDXFoodMap63.svg',
+        iconUrl: 'leaflet/PDXFoodMap34.svg',
         iconSize: [64, 64],
         iconAnchor: [22, 94],
         shadowAnchor: [4, 62],
