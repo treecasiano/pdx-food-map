@@ -85,52 +85,35 @@ npm run serve
 #### Install Docker.
 https://docs.docker.com/install/
 
-#### Create a custom Docker network.
-
-```
-docker network create pg
-```
-
 #### Database Management Scripts
 
-Change directories to the `db` folder and use the following commands to make sure you have the right permissions for executing the following scripts. These scripts are used to manage the development database.
+From the `db` folder, run the command `docker-compose up` to create the Docker containers for Postgres and pgAdmin4.
 
-`chmod u+x create.sh`
+The image used is called `mdillon/postgis` and includes PostGIS 2.5. (This container is based on the official Postgres Docker container. For more information: https://hub.docker.com/r/mdillon/postgis.)
 
-`chmod u+x restore.sh`
+In this project, the container has been named `pdx-food-map` and the local development database within it is called `dev`.
 
-`chmod u+x login.sh`
-
-`chmod u+x dump.sh`
-
-From the `db` folder, run the command `./create.sh` to create the Docker container.
-
-Restore the database from a dumpfile by running `./restore.sh`.
-
-The image used is called `mdillon/postgis` and includes PostGIS 2.5. (This container is based on the )official Postgres Docker container. For more information: https://hub.docker.com/r/mdillon/postgis.)
-
-In this project, the container has been named `pdxfood` and the local development database within it is called `dev`.
-
-#### Run pgAdmin in another Docker container.
-
-```
-docker run -d -p 5050:5050 --name pgadmin --network=pg thajeztah/pgadmin4
-```
-
-For more details about this pgAdmin instance: 
-https://hub.docker.com/r/thajeztah/pgadmin4 
+##### Viewing pgAdmin Running in Another Docker Container
 
 Visit http://[your-docker-host]:5050
 
-When creating a server in pgAdmin to connect to `pdxfood`, use the defaults for the user and maintenance database. 
-
-The password is `docker` and the host name is the IP address of the Docker container with the PostgreSQL instance. This IP address can be found by using the following Docker command and looking for the property “IPAddress” after running this command:
+When creating a server in pgAdmin to connect to `pdx-food-map`, use the defaults for the user and maintenance database. The port should be `5432`. The password is `docker` and the host name is the IP address of the Docker container with the PostgreSQL instance. This IP address can be found by running the following Docker command and looking for the property “IPAddress”:
 
 ```
-docker inspect pdxfood
+docker inspect pdx-food-map
 ```
 
-## 4. Testing
+##### Tearing Down the Docker Containers
+
+```
+docker-compose down
+```
+
+## 4. Linting
+
+Install Prettier for VS Code: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+
+## 5. Testing
 
 ### Server-side Testing: API Integration Testing with Jest
 `npm run integration`
