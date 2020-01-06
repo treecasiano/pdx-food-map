@@ -53,7 +53,7 @@ Add the following code to `default.json`. These values are for the local develop
     "host": "localhost",
     "user": "postgres",
     "password": "docker",
-    "port": 5433
+    "port": 5432
     }
 }
 ```
