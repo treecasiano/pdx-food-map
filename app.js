@@ -48,8 +48,6 @@ function authorizeRoute(req, res, next) {
     path,
   } = req;
 
-  console.log("jwt from authoizeRoute", jwt)
-
   // All API routes are whitelisted for now. PUT and POST routes will check for permissions.
   const whiteList = [
     /^\/login/,
@@ -66,9 +64,7 @@ function authorizeRoute(req, res, next) {
         next();
         return;
       }
-      console.log("results", results);
       req.session = results.payload;
-      console.log("req.session", req.session)
       res.cookie("jwt", results.token);
       next();
     })

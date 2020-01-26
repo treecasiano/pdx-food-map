@@ -60,10 +60,13 @@ function factory(auth, logger, userService) {
           if (!hashedPassword) {
             return res.status(401).json({message: "Unauthorized"});
           }
-
+          
+          const isAdmin = foundUser[0].administrator === 1 ? true : false;
+          console.log("isAdmin", isAdmin);
           const user = {
-            username: `${foundUser[0].username}`,
+            isAdmin,
             isLoggedIn: true,
+            username: `${foundUser[0].username}`,
           };
 
           token = await auth.createJwt(user);
