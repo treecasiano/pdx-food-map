@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import farmersMarket from "./farmersMarket";
 import groceryStore from "./groceryStore";
 import pdxTract from "./pdxTract";
+import session from "./session";
 
 Vue.use(Vuex);
 
@@ -11,7 +12,8 @@ const vuexStore = new Vuex.Store({
   modules: {
     farmersMarket,
     groceryStore,
-    pdxTract
+    pdxTract,
+    session
   }
 });
 
