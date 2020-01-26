@@ -24,6 +24,7 @@ function factory() {
   
       res.status(200).json({
         expires: exp,
+        isAdmin: user.isAdmin,
         loggedIn,
         user
       });
