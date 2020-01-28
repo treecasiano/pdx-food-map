@@ -22,5 +22,7 @@ module.exports = {
         changeOrigin: true
       }
     }
-  }
+  },
+  transpileDependencies: ["vuetify"],
+  lintOnSave: process.env.NODE_ENV !== "production"
 };

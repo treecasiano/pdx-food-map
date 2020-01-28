@@ -1,7 +1,6 @@
 <template>
   <v-container
     fill-height
-    align-center
   >
     <v-layout>
       <v-flex>
@@ -12,7 +11,7 @@
           <v-card-title class="secondary--text">
             <h2>The Map</h2>
           </v-card-title>
-          <v-card-text class="text-xs-left">
+          <v-card-text class="text-left">
             <p>The PDX Food Environment Map is an evolving project first launched to satisfy final project requirements for GEOG 576 Geospatial Web and Mobile Programming, a course in the University of Wisconsin's MS in Cartography and GIS Development program.</p>
             <p>The map facilitates discovery of sources of fresh produce in the <a href="https://en.wikipedia.org/wiki/Portland_metropolitan_area">Portland Metropolitan Statistical Area (MSA)</a>. It also provides food environment information at the census tract level, surfacing attributes such as food desert classification, poverty rate, vehicle access, and median household income from the USDA Food Access Research Atlas. </p>
             <p>
@@ -44,7 +43,7 @@
             <v-card-title class="accent--text text--darken-2">
               <h2>The Data</h2>
             </v-card-title>
-            <v-card-text class="text-xs-left">
+            <v-card-text class="text-left">
               <ul style="padding: 0;">
                 <li><strong>Grocery Stores</strong>
                   <p>The grocery store dataset used in the map was initially seeded with <a href="https://gis-pdx.opendata.arcgis.com/datasets/grocery-stores/data">open data from the City of Portland</a>, which provided approximately 105 records for Portland only. Another 162 records were added by the map author to cover the entire MSA.</p>
@@ -71,7 +70,7 @@
             <v-card-title class="info--text">
               <h2>The Map Author</h2>
             </v-card-title>
-            <v-card-text class="text-xs-left">
+            <v-card-text class="text-left">
               <p>
                 <a href="http://treecasiano.com">Tree Casiano</a> is a software developer for a healthcare IT company in Portland, OR and a graduate student studying Cartography and GIS Development at the University of Wisconsin-Madison.
               </p>

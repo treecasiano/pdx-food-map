@@ -3,9 +3,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store/index";
-import Vuetify from "vuetify";
+import vuetify from "./plugins/vuetify";
 import "../node_modules/vuetify/dist/vuetify.min.css";
-import colors from "vuetify/es5/util/colors";
 import "../node_modules/leaflet/dist/leaflet.css";
 import L from "leaflet";
 delete L.Icon.Default.prototype._getIconUrl;
@@ -21,7 +20,7 @@ import {
   LGeoJson,
   LControl,
   LControlZoom,
-  LControlScale
+  LControlScale,
 } from "vue2-leaflet";
 
 Vue.component("l-map", LMap);
@@ -36,27 +35,12 @@ Vue.component("l-control-scale", LControlScale);
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
   iconUrl: require("leaflet/dist/images/marker-icon.png"),
-  shadowUrl: require("leaflet/dist/images/marker-shadow.png")
+  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
 Vue.config.productionTip = false;
 
 Vue.use(L);
-Vue.use(Vuetify, {
-  iconfont: "md",
-  theme: {
-    primary: colors.brown,
-    secondary: colors.deepOrange,
-    accent: colors.lime,
-    error: colors.red,
-    warning: colors.deepOrange,
-    info: colors.lightBlue,
-    success: colors.lightBlue
-  },
-  options: {
-    customProperties: true
-  }
-});
 
 Vue.filter("metersToMiles", function(meters) {
   return (meters / 1609.344).toFixed(2);
@@ -68,6 +52,7 @@ async function init() {
   new Vue({
     router,
     store,
-    render: h => h(App)
+    vuetify,
+    render: h => h(App),
   }).$mount("#app");
 }

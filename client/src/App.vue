@@ -3,7 +3,6 @@
     <v-toolbar
       dense
       flat
-      dark
       color="primary darken-3"
       class="accent--text pdx-toolbar--main"
     >
@@ -20,11 +19,7 @@
       </div>
     </v-toolbar>
     <router-view :loading="loading" />
-    <v-footer
-      dark
-      color="primary darken-3"
-      class="pa-3 accent--text pdx-footer"
-    >
+    <v-footer color="primary darken-3" class="pa-3 accent--text pdx-footer">
       <v-layout column>
         <v-flex>
           View this project on
@@ -84,14 +79,14 @@ export default {
   data() {
     return {
       loading: false,
-      showSearchInstructions: true
+      showSearchInstructions: true,
     };
   },
   methods: {
     dismissInstructions() {
       this.showSearchInstructions = false;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -120,9 +115,7 @@ li {
   margin: 0 10px;
 }
 
-#nav a,
-.pdx-footer a {
-  /* color: #fa8c0f; */
+#nav a {
   color: var(--v-secondary-lighten2);
   text-decoration: none;
 }
@@ -145,6 +138,11 @@ li {
   height: 60px !important;
 }
 
+.pdx-footer a {
+  color: var(--v-secondary-lighten2) !important;
+  text-decoration: none;
+}
+
 .pdx-floatingCardContainer--center {
   color: var(--v-secondary-base) !important;
   background-color: transparent;
@@ -157,12 +155,12 @@ li {
   opacity: 0.95;
   position: absolute;
   top: 50%;
-  width: 400px;
+  max-width: 500px;
   z-index: 11000;
 }
 
 .pdx-leafletControl__card--instructions {
-  background-color: var(--v-primary-darken3) !important;
+  background-color: var(--v-primary-darken2) !important;
   color: var(--v-accent-lighten2) !important;
   padding: 15px 15px 25px 15px;
 }

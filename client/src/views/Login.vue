@@ -1,67 +1,64 @@
 <template>
-  <v-container fluid fill-height class="pdx-loginCard">
-    <v-layout>
+  <v-container fill-height class="pdx-loginCard">
+    <v-layout data-cy="loginContainer">
       <v-flex>
-        <div data-cy="loginContainer">
-          <v-toolbar
-            color="primary darken-2"
-            dark
-            :flat="true"
-            dense
-            class="pl-2"
-          >
-            <v-icon>fas fa-user-circle</v-icon>&nbsp;&nbsp;
-            <span>LOGIN</span>
-            <v-spacer></v-spacer>
-            <v-tooltip bottom max-width="200">
-              <template v-slot:activator="{ on }">
-                <v-icon small dark v-on="on">help</v-icon>
-              </template>
-              <span>
-                Only authorized administrators can access the Admin Console.
-              </span>
-            </v-tooltip>
-          </v-toolbar>
-          <v-form>
-            <v-card class="elevation-1">
-              <v-card-text>
-                <v-alert
-                  data-cy="loginErrorAlert"
-                  :value="error.showLoginError"
-                  type="error"
-                  class="red darken-2"
-                  :dismissible="true"
-                  >{{ error.loginErrorMessage }}</v-alert
-                >
-                <v-text-field
-                  label="Username"
-                  placeholder=" "
-                  v-model="username"
-                  :autofocus="true"
-                  @keyup="submitForm"
-                ></v-text-field>
-                <v-text-field
-                  label="Password"
-                  placeholder=" "
-                  type="password"
-                  v-model="password"
-                  @keyup="submitForm"
-                ></v-text-field>
-              </v-card-text>
-              <v-divider></v-divider>
-              <v-card-actions>
-                <v-btn
-                  color="primary"
-                  data-cy="loginButton"
-                  outlined
-                  @click="login()"
-                  :disabled="disableLoginButton"
-                  >{{ loginButtonText }}</v-btn
-                >
-              </v-card-actions>
-            </v-card>
-          </v-form>
-        </div>
+        <v-toolbar
+          color="primary darken-2 "
+          :flat="true"
+          dense
+          class="pl-2 font-weight-bold"
+        >
+          <v-icon>fas fa-user-circle</v-icon>&nbsp;&nbsp;
+          <span class="accent--text">LOGIN</span>
+          <v-spacer></v-spacer>
+          <v-tooltip bottom max-width="200">
+            <template v-slot:activator="{ on }">
+              <v-icon color="accent" small v-on="on">help</v-icon>
+            </template>
+            <span>
+              Only authorized administrators can access the Admin Console.
+            </span>
+          </v-tooltip>
+        </v-toolbar>
+        <v-form>
+          <v-card class="elevation-1">
+            <v-card-text>
+              <v-alert
+                data-cy="loginErrorAlert"
+                :value="error.showLoginError"
+                type="error"
+                class="red darken-2"
+                :dismissible="true"
+                >{{ error.loginErrorMessage }}</v-alert
+              >
+              <v-text-field
+                label="Username"
+                placeholder=" "
+                v-model="username"
+                :autofocus="true"
+                @keyup="submitForm"
+              ></v-text-field>
+              <v-text-field
+                label="Password"
+                placeholder=" "
+                type="password"
+                v-model="password"
+                @keyup="submitForm"
+              ></v-text-field>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-btn
+                color="primary"
+                data-cy="loginButton"
+                outlined
+                @click="login()"
+                :disabled="disableLoginButton"
+                >{{ loginButtonText }}</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-form>
       </v-flex>
     </v-layout>
   </v-container>
@@ -75,11 +72,11 @@ export default {
       disableLoginButton: false,
       error: {
         loginErrorMessage: "",
-        showLoginError: false
+        showLoginError: false,
       },
       loginButtonText: "Login",
       password: "",
-      username: ""
+      username: "",
     };
   },
   methods: {
@@ -94,7 +91,7 @@ export default {
       try {
         await this.$store.dispatch("session/login", {
           password: this.password,
-          username: this.username
+          username: this.username,
         });
         document.location = "/";
       } catch (e) {
@@ -105,8 +102,8 @@ export default {
         this.disableLoginButton = false;
         this.loginButtonText = "Login";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
