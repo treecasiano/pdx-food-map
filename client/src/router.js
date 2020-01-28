@@ -72,19 +72,7 @@ const router = new Router({
     {
       path: "/login",
       name: "login",
-      component: Login,
-      async beforeEnter(to, from, next) {
-        const {
-          state: { loggedIn }
-        } = store;
-
-        // to handle the case in which the user is already logged in and manually enters /login route
-        if (loggedIn) {
-          next();
-          return;
-        }
-        next();
-      }
+      component: Login
     }
   ]
 });
