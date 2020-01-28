@@ -91,9 +91,8 @@ const router = new Router({
 
 axios.interceptors.response.use(null, e => {
   if (e.response.status === 401) {
-    console.log("User is not authenticated. Redirecting to /login...");
     removeCookie("jwt");
-    // store.commit("logout");
+    store.commit("session/logout");
     router.push({ name: "login" });
   }
   throw e;

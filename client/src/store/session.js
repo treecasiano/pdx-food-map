@@ -7,7 +7,7 @@ export default {
       try {
         session = await sessionApi.getSession();
       } catch (e) {
-        console.log("session error", e);
+        console.error("session error", e);
         return;
       }
       commit("updateSession", session.data);
@@ -16,10 +16,10 @@ export default {
     async login(context, { password, username }) {
       await sessionApi.login({
         password,
-        username,
+        username
       });
       await context.dispatch("loadSession");
-    },
+    }
   },
   getters: {
     getSession: state => {
@@ -27,9 +27,9 @@ export default {
         isAdmin: state.isAdmin,
         loggedIn: state.loggedIn,
         user: state.user,
-        username: state.username,
+        username: state.username
       };
-    },
+    }
   },
   mutations: {
     logout(state) {
@@ -41,7 +41,7 @@ export default {
       state.loggedIn = session.loggedIn;
       state.user = session.user;
       state.username = session.username;
-    },
+    }
   },
   namespaced: true,
   state: {
@@ -49,6 +49,6 @@ export default {
     isAdmin: false,
     loggedIn: false,
     user: {},
-    username: "",
-  },
+    username: ""
+  }
 };
