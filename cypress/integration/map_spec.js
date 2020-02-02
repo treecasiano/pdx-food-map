@@ -25,7 +25,7 @@ describe("Map Controls", () => {
     cy.visit("/");
   });
 
-  it("Toggles map layers", () => {
+  it.skip("Toggles map layers", () => {
     cy.get(welcomeWindowCloseButton).click();
     cy.wait(7000);
     cy.get(groceryStoreCheckbox).click();
@@ -61,7 +61,7 @@ describe("Map Controls", () => {
     cy.contains("SEARCH RESULTS").should("not.be.visible");
   });
 
-  it("Filters grocery store layer by store type", () => {
+  it.skip("Filters grocery store layer by store type", () => {
     cy.get(welcomeWindowCloseButton).click();
     cy.wait(7000);
     cy.get(groceryStoreCheckbox).click();
