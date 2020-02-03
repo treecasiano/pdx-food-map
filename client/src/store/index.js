@@ -3,6 +3,7 @@ import Vuex from "vuex";
 
 import farmersMarket from "./farmersMarket";
 import groceryStore from "./groceryStore";
+import map from "./map";
 import pdxTract from "./pdxTract";
 import session from "./session";
 
@@ -12,9 +13,10 @@ const vuexStore = new Vuex.Store({
   modules: {
     farmersMarket,
     groceryStore,
+    map,
     pdxTract,
-    session
-  }
+    session,
+  },
 });
 
 if (window.Cypress) {

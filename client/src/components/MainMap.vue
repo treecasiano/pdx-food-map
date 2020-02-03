@@ -7,10 +7,11 @@
         :zoom="zoom"
         :center="center"
         :maxZoom="maxZoom"
+        :minZoom="minZoom"
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
         @update:bounds="boundsUpdated"
-        :options="{ zoomControl: false }"
+        :options="{ zoomControl: false, zoomDelta: 0.25, zoomSnap: 0.25 }"
       >
         <l-control-scale position="bottomleft"></l-control-scale>
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
@@ -277,8 +278,13 @@
 </template>
 
 <script>
+// TODO: Constrain zoom out
+import { mapActions, mapMutations, mapState } from "vuex";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import VGeosearch from "@/components/VGeosearch.vue";
+
+const defaultCenter = [45.59, -122.6793];
+const defaultZoom = 10;
 
 const defaultStyle = {
   weight: 0.75,
@@ -392,18 +398,21 @@ export default {
       }
       return "";
     },
+    ...mapState({
+      center: state => state.map.center,
+      zoom: state => state.map.zoom,
+    }),
   },
   data() {
     return {
       url:
         "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-      zoom: 8.5,
-      center: [45.59, -122.6793],
       bounds: null,
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: "abcd",
       maxZoom: 18,
+      minZoom: 4,
       enableTooltip: true,
       showCensusTracts: true,
       showFarmersMarkets: false,
@@ -493,11 +502,8 @@ export default {
     });
   },
   methods: {
-    zoomUpdated(zoom) {
-      this.zoom = zoom;
-    },
     centerUpdated(center) {
-      this.center = center;
+      this.setCenter = center;
     },
     boundsUpdated(bounds) {
       this.bounds = bounds;
@@ -575,10 +581,8 @@ export default {
       });
     },
     resetMapView() {
-      this.$refs.map.setCenter([45.59, -122.6793]);
-      this.$refs.map.setZoom(8.5);
-      this.showFarmersMarkets = false;
-      this.showGroceryStores = false;
+      this.$refs.map.setCenter(defaultCenter);
+      this.$refs.map.setZoom(defaultZoom);
     },
     async searchForPoints(params) {
       await this.$store.dispatch("groceryStore/search", params);
@@ -617,6 +621,13 @@ export default {
         });
       });
     },
+    zoomUpdated(zoom) {
+      this.setZoom = zoom;
+    },
+    ...mapMutations({
+      setCenter: "map/setCenter",
+      setZoom: "map/setZoom",
+    }),
   },
   props: {
     loading: Boolean,
