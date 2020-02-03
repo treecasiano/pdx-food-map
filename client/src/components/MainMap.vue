@@ -21,11 +21,13 @@
         <l-control position="topright">
           <MapLayers />
         </l-control>
-        <l-control-scale position="bottomleft"></l-control-scale>
-        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-        <v-geosearch :options="geosearchOptions" ref="geosearch"></v-geosearch>
         <l-control position="topleft"> </l-control>
-        <l-control position="topleft" class="pdx-searchControls">
+        <v-geosearch :options="geosearchOptions" ref="geosearch"></v-geosearch>
+        <l-control
+          position="topleft"
+          class="pdx-searchControls"
+          style="width: 360px;"
+        >
           <v-radio-group
             class="pa-0 ma-0"
             v-model="radiosDistance"
@@ -40,6 +42,12 @@
             <v-radio color="primary" label="1 mile" value="radio-1"></v-radio>
           </v-radio-group>
         </l-control>
+        <l-control position="topleft">
+          <MapControls />
+        </l-control>
+        <l-control-scale position="bottomleft"></l-control-scale>
+        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+
         <div v-if="displayGroceryStores">
           <l-marker
             v-for="(item, index) in groceryStoreMarkers"
@@ -130,6 +138,7 @@
 // TODO: Constrain zoom out
 import { mapActions, mapMutations, mapState } from "vuex";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
+import MapControls from "@/components/MapControls.vue";
 import MapLayers from "@/components/MapLayers.vue";
 import VGeosearch from "@/components/VGeosearch.vue";
 
@@ -166,7 +175,7 @@ const foodDesertHighlightStyle = {
 
 export default {
   name: "MainMap",
-  components: { VGeosearch, MapLayers },
+  components: { VGeosearch, MapControls, MapLayers },
   computed: {
     groceryStoreMarkers() {
       const geojson = this.$store.state.groceryStore.geoJSON;
