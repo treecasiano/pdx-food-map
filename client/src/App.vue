@@ -13,7 +13,7 @@
       <div id="nav">
         <router-link to="/">Map</router-link>
         <span class="mx-2 white--text">|</span>
-        <router-link to="/about" v-on:click.native="dismissInstructions">About</router-link>
+        <router-link to="/about">About</router-link>
       </div>
     </v-toolbar>
     <router-view :loading="loading" />
@@ -29,38 +29,14 @@
         </v-flex>
       </v-layout>
     </v-footer>
-    <div v-if="showSearchInstructions" class="pdx-floatingCardContainer--center">
-      <v-card class="pdx-leafletControl__card--instructions">
-        <v-layout column align-end>
-          <v-icon
-            small
-            color="accent"
-            @click="dismissInstructions"
-            data-cy="welcomeWindow__button--close"
-          >close</v-icon>
-          <v-card-title class="title">Welcome to the PDX Metro Food Environment Map!</v-card-title>
-          <v-flex class="text-sm-left">
-            <v-divider></v-divider>
-            <br />Explore the local food environment and see where the food deserts
-            and sources of healthy food are in Portland, OR and the surrounding
-            metropolitan area.
-            <br />
-            <br />Use the search tool in the upper right corner of the map to discover
-            grocery stores and farmers markets near you!
-          </v-flex>
-        </v-layout>
-      </v-card>
-    </div>
   </v-app>
 </template>
 
 <script>
 export default {
   async created() {
-    if (this.$route.name !== "home") {
-      this.showSearchInstructions = false;
-    }
     this.loading = true;
+    // TODO: Use Promise.all here
     await this.$store.dispatch("farmersMarket/getFarmersMarketGeoJSON");
     await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON");
     await this.$store.dispatch("pdxTract/getPdxTractGeoJSON");
@@ -69,14 +45,9 @@ export default {
   data() {
     return {
       loading: false,
-      showSearchInstructions: true,
     };
   },
-  methods: {
-    dismissInstructions() {
-      this.showSearchInstructions = false;
-    },
-  },
+  methods: {},
 };
 </script>
 
@@ -147,11 +118,5 @@ li {
   top: 50%;
   max-width: 500px;
   z-index: 11000;
-}
-
-.pdx-leafletControl__card--instructions {
-  background-color: var(--v-primary-darken2) !important;
-  color: var(--v-accent-lighten2) !important;
-  padding: 15px 15px 25px 15px;
 }
 </style>
