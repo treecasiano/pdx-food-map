@@ -1,21 +1,19 @@
 <template>
   <v-app id="app" style="overflow: hidden;">
-    <v-toolbar
-      dense
-      flat
-      color="primary darken-3"
-      class="accent--text pdx-toolbar--main"
-    >
+    <v-toolbar dense flat color="primary darken-3" class="accent--text pdx-toolbar--main">
       <v-toolbar-title>
-        PDX METRO FOOD ENVIRONMENT
+        <a
+          alt="Link to Home"
+          href="/"
+          class="accent--text font-weight-bold title"
+          style="text-decoration: none;"
+        >PDX Metro Food Map</a>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <div id="nav">
         <router-link to="/">Map</router-link>
-        <span style="color: white;"> | </span>
-        <router-link to="/about" v-on:click.native="dismissInstructions"
-          >About</router-link
-        >
+        <span class="mx-2 white--text">|</span>
+        <router-link to="/about" v-on:click.native="dismissInstructions">About</router-link>
       </div>
     </v-toolbar>
     <router-view :loading="loading" />
@@ -31,10 +29,7 @@
         </v-flex>
       </v-layout>
     </v-footer>
-    <div
-      v-if="showSearchInstructions"
-      class="pdx-floatingCardContainer--center"
-    >
+    <div v-if="showSearchInstructions" class="pdx-floatingCardContainer--center">
       <v-card class="pdx-leafletControl__card--instructions">
         <v-layout column align-end>
           <v-icon
@@ -42,20 +37,15 @@
             color="accent"
             @click="dismissInstructions"
             data-cy="welcomeWindow__button--close"
-            >close</v-icon
-          >
-          <v-card-title class="title">
-            Welcome to the PDX Metro Food Environment Map!
-          </v-card-title>
+          >close</v-icon>
+          <v-card-title class="title">Welcome to the PDX Metro Food Environment Map!</v-card-title>
           <v-flex class="text-sm-left">
             <v-divider></v-divider>
-            <br />
-            Explore the local food environment and see where the food deserts
+            <br />Explore the local food environment and see where the food deserts
             and sources of healthy food are in Portland, OR and the surrounding
             metropolitan area.
             <br />
-            <br />
-            Use the search tool in the upper right corner of the map to discover
+            <br />Use the search tool in the upper right corner of the map to discover
             grocery stores and farmers markets near you!
           </v-flex>
         </v-layout>
