@@ -1,47 +1,53 @@
 import groceryStoreApi from "../api/groceryStore";
 
 const actions = {
-  async getGroceryStoreList({ commit }) {
-    const groceryStoreList = await groceryStoreApi.list();
-    return commit("setList", groceryStoreList.data);
+  async list({ commit }) {
+    const list = await groceryStoreApi.list();
+    return commit("setList", list.data);
   },
-  async getGroceryStoreGeoJSON({ commit }, params) {
-    let groceryStoreGeoJSON;
+  async geoJSON({ commit }, params) {
+    let geoJSON;
     if (params) {
-      groceryStoreGeoJSON = await groceryStoreApi.getGeoDataByType(params);
+      geoJSON = await groceryStoreApi.getGeoDataByType(params);
     } else {
-      groceryStoreGeoJSON = await groceryStoreApi.getGeoJSON();
+      geoJSON = await groceryStoreApi.getGeoJSON();
     }
-    return commit("setGeoJSON", groceryStoreGeoJSON.data);
+    return commit("setGeoJSON", geoJSON.data);
   },
   async search({ commit }, params) {
     const results = await groceryStoreApi.search(params);
-    return commit("setSearchResults", results.data);
+    return commit("setSearchResult", results.data);
   },
-  clearSearchResults({ commit }) {
-    return commit("clearSearchResults");
-  }
+  clearSearchResult({ commit }) {
+    return commit("clearSearchResult");
+  },
 };
 
 const mutations = {
-  setList(state, groceryStoreData) {
-    state.groceryStoreList = groceryStoreData;
+  setDisplayStatus(state, status) {
+    console.log(status);
+    state.displayStatus = status;
   },
-  setGeoJSON(state, groceryStoreData) {
-    state.groceryStoreGeoJSON = groceryStoreData;
+  setList(state, data) {
+    state.list = data;
   },
-  setSearchResults(state, groceryStoreData) {
-    state.groceryStoreSearchResults = groceryStoreData;
+  setGeoJSON(state, data) {
+    state.geoJSON = data;
   },
-  clearSearchResults(state) {
-    state.groceryStoreSearchResults = [];
-  }
+  setSearchResult(state, data) {
+    state.searchResult = data;
+  },
+  clearSearchResult(state) {
+    state.searchResult = [];
+  },
 };
 
 const state = {
-  groceryStoreList: [],
-  groceryStoreGeoJSON: {},
-  groceryStoreSearchResults: []
+  displayStatus: true,
+  geoJSON: {},
+  list: [],
+  loading: false,
+  searchResult: [],
 };
 
 const getters = {};
@@ -51,5 +57,5 @@ export default {
   getters,
   mutations,
   namespaced: true,
-  state
+  state,
 };

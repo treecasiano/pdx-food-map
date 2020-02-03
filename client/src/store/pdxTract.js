@@ -1,28 +1,35 @@
 import pdxTractApi from "../api/pdxTract";
 
 const actions = {
-  async getPdxTractList({ commit }) {
-    const pdxTractList = await pdxTractApi.list();
-    return commit("setList", pdxTractList.data);
+  async displayData({ commit, status }) {
+    return commit("setDisplayStatus", status);
   },
-  async getPdxTractGeoJSON({ commit }) {
-    const pdxTractGeoJSON = await pdxTractApi.getGeoJSON();
-    return commit("setGeoJSON", pdxTractGeoJSON.data);
-  }
+  async list({ commit }) {
+    const list = await pdxTractApi.list();
+    return commit("setList", list.data);
+  },
+  async geoJSON({ commit }) {
+    const geoJSON = await pdxTractApi.getGeoJSON();
+    return commit("setGeoJSON", geoJSON.data);
+  },
 };
 
 const mutations = {
-  setList(state, pdxTractData) {
-    state.pdxTractList = pdxTractData;
+  setDisplayStatus(state, status) {
+    state.displayStatus = status;
   },
-  setGeoJSON(state, pdxTractData) {
-    state.pdxTractGeoJSON = pdxTractData;
-  }
+  setList(state, data) {
+    state.list = data;
+  },
+  setGeoJSON(state, data) {
+    state.geoJSON = data;
+  },
 };
 
 const state = {
-  pdxTractList: [],
-  pdxTractGeoJSON: null
+  displayStatus: true,
+  geoJSON: null,
+  list: [],
 };
 
 const getters = {};
@@ -32,5 +39,5 @@ export default {
   getters,
   mutations,
   namespaced: true,
-  state
+  state,
 };

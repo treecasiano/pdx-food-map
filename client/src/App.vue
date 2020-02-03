@@ -1,13 +1,19 @@
 <template>
   <v-app id="app" style="overflow: hidden;">
-    <v-toolbar dense flat color="primary darken-3" class="accent--text pdx-toolbar--main">
+    <v-toolbar
+      dense
+      flat
+      color="primary darken-3"
+      class="accent--text pdx-toolbar--main"
+    >
       <v-toolbar-title>
         <a
           alt="Link to Home"
           href="/"
           class="accent--text font-weight-bold"
           style="text-decoration: none;"
-        >PDX Metro Food Map</a>
+          >PDX Metro Food Map</a
+        >
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <div id="nav">
@@ -40,9 +46,9 @@ export default {
     this.loading = true;
     try {
       Promise.all([
-        await this.fetchFarmersMarketGeoJSON(),
-        await this.fetchGroceryStoreGeoJSON(),
-        await this.fetchPdxTractGeoJSON(),
+        await this.fetchFarmersMarketData(),
+        await this.fetchGroceryStoreData(),
+        await this.fetchPdxTractData(),
       ]);
     } catch (e) {
       console.error(e);
@@ -56,9 +62,9 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchFarmersMarketGeoJSON: "farmersMarket/getFarmersMarketGeoJSON",
-      fetchGroceryStoreGeoJSON: "groceryStore/getGroceryStoreGeoJSON",
-      fetchPdxTractGeoJSON: "pdxTract/getPdxTractGeoJSON",
+      fetchFarmersMarketData: "farmersMarket/geoJSON",
+      fetchGroceryStoreData: "groceryStore/geoJSON",
+      fetchPdxTractData: "pdxTract/geoJSON",
     }),
   },
 };
@@ -115,21 +121,5 @@ li {
 .pdx-footer a {
   color: var(--v-secondary-lighten2) !important;
   text-decoration: none;
-}
-
-.pdx-floatingCardContainer--center {
-  color: var(--v-secondary-base) !important;
-  background-color: transparent;
-  font-weight: 400;
-  font-size: 16px;
-  height: 400px;
-  left: 50%;
-  margin-left: -200px;
-  margin-top: -200px;
-  opacity: 0.95;
-  position: absolute;
-  top: 50%;
-  max-width: 500px;
-  z-index: 11000;
 }
 </style>

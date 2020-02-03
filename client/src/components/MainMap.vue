@@ -13,17 +13,34 @@
         @update:bounds="boundsUpdated"
         :options="{ zoomControl: false, zoomDelta: 0.25, zoomSnap: 0.25 }"
       >
+        <l-control position="topright">
+          <v-btn light @click="resetMapView">
+            <v-icon color="primary">home</v-icon>
+          </v-btn>
+        </l-control>
+        <l-control position="topright">
+          <MapLayers />
+        </l-control>
         <l-control-scale position="bottomleft"></l-control-scale>
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-
         <v-geosearch :options="geosearchOptions" ref="geosearch"></v-geosearch>
-        <l-control position="topright" class="pdx-searchControls">
-          <v-radio-group class="pa-0 ma-0" v-model="radiosDistance" row label="search radius">
-            <v-radio color="primary" label="0.5 miles" value="radio-half"></v-radio>
+        <l-control position="topleft"> </l-control>
+        <l-control position="topleft" class="pdx-searchControls">
+          <v-radio-group
+            class="pa-0 ma-0"
+            v-model="radiosDistance"
+            row
+            label="search radius"
+          >
+            <v-radio
+              color="primary"
+              label="0.5 miles"
+              value="radio-half"
+            ></v-radio>
             <v-radio color="primary" label="1 mile" value="radio-1"></v-radio>
           </v-radio-group>
         </l-control>
-        <div v-if="showGroceryStores">
+        <div v-if="displayGroceryStores">
           <l-marker
             v-for="(item, index) in groceryStoreMarkers"
             v-bind:item="item"
@@ -46,7 +63,7 @@
             </l-popup>
           </l-marker>
         </div>
-        <div v-if="showFarmersMarkets">
+        <div v-if="displayFarmersMarkets">
           <l-marker
             v-for="(item, index) in farmersMarketMarkers"
             v-bind:item="item"
@@ -85,8 +102,8 @@
           </l-marker>
         </div>
         <l-geo-json
-          v-if="showCensusTracts"
-          :geojson="pdxTractGeoJSON"
+          v-if="displayPdxTracts"
+          :geojson="geojsonPdxTract"
           :options="options"
           :options-style="styleFunction"
         ></l-geo-json>
@@ -94,186 +111,18 @@
         <l-control position="topright" class="pdx-spinner">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
-              <v-progress-circular indeterminate rotate class="ma-2" color="accent darken-1"></v-progress-circular>Loading Map Layers...
+              <v-progress-circular
+                indeterminate
+                rotate
+                class="ma-2"
+                color="accent darken-1"
+              ></v-progress-circular
+              >Loading Map Layers...
             </v-card>
           </div>
         </l-control>
-        <l-control position="topleft">
-          <v-btn small light @click="resetMapView">
-            <v-icon color="primary">home</v-icon>
-          </v-btn>
-        </l-control>
       </l-map>
     </v-layout>
-    <div class="pdx-floatingCardContainer--left">
-      <v-layout row align-start>
-        <v-flex style="margin-right:-35px;" v-if="showMapControls">
-          <v-card class="pdx-leafletControl__card elevation-20">
-            <div>MAP LAYERS</div>
-            <v-divider class="py-2"></v-divider>
-            <v-checkbox
-              v-model="showCensusTracts"
-              :label="`Census Tracts`"
-              data-cy="checkbox--censusTracts"
-              class="pdx-layerControls"
-            ></v-checkbox>
-            <v-checkbox
-              v-if="showCensusTracts"
-              v-model="enableTooltip"
-              :label="`Census Tract Tooltips`"
-              data-cy="checkbox--tooltips"
-              class="pdx-layerControls"
-            ></v-checkbox>
-            <v-checkbox
-              v-model="showGroceryStores"
-              :label="`Grocery Stores`"
-              data-cy="checkbox--groceryStores"
-              class="pdx-layerControls"
-            ></v-checkbox>
-            <v-radio-group
-              v-if="showGroceryStores"
-              v-model="radiosStoreType"
-              label="Filter by Store Type"
-              class="pa-0"
-              style="margin: 0 0 -15px 32px;"
-              @change="filterStores"
-            >
-              <v-radio
-                color="accent"
-                label="All"
-                value="all"
-                class="pdx-layerControls--radioButtons"
-                data-cy="radioButton--allStores"
-              ></v-radio>
-              <v-radio
-                color="accent"
-                label="Large Chain"
-                value="Large Chain Grocery"
-                class="pdx-layerControls--radioButtons"
-                data-cy="radioButton--largeChain"
-              ></v-radio>
-              <v-radio
-                color="accent"
-                label="Independent or Ethnic"
-                value="Independent or Ethnic Grocery"
-                class="pdx-layerControls--radioButtons"
-                data-cy="radioButton--independent"
-              ></v-radio>
-            </v-radio-group>
-            <v-checkbox
-              v-model="showFarmersMarkets"
-              :label="`Farmers Markets`"
-              data-cy="checkbox--farmersMarkets"
-              class="pdx-layerControls"
-            ></v-checkbox>
-            <br />
-            <div>MAP LEGEND</div>
-            <v-divider class="py-2"></v-divider>
-            <v-layout align-start justify-start row fill-height>
-              <v-flex>
-                <v-layout align-center justify-start>
-                  <img
-                    src="leaflet/PDXFoodMap611.svg"
-                    alt="grocery store symbol"
-                    style="margin-right: -12px;"
-                  />
-                  <div>Grocery Stores</div>
-                </v-layout>
-              </v-flex>
-              <v-flex>
-                <v-layout align-center justify-start>
-                  <img
-                    src="leaflet/PDXFoodMap631.svg"
-                    alt="farmers market symbol"
-                    style="margin-right: -12px;"
-                  />
-                  <div>Farmers Markets</div>
-                </v-layout>
-              </v-flex>
-            </v-layout>
-            <v-flex>
-              <v-layout align-center>
-                <div class="pdx-legendSymbol--foodDesert"></div>
-                <div>Food Desert</div>
-              </v-layout>
-              <v-layout align-center>
-                <div class="pdx-legendSymbol--lowVehicle"></div>
-                <div>Low Vehicle Access</div>
-              </v-layout>
-            </v-flex>
-            <v-flex mt-2 class="text-xs-left">
-              <div>
-                <Strong>Food Desert</Strong>: a census tract where more than 20%
-                of households are low-income AND at least 33% live more than 1/2
-                mile (urban areas) or more than 10 miles (rural areas) from the
-                nearest supermarket.
-              </div>
-              <div class="mt-2">
-                <strong>Low Vehicle Access</strong>: a census tract where at
-                least 100 households are more than ½ mile from the nearest
-                supermarket and have no access to a vehicle;
-                <em>or</em>, at
-                least 500 people or 33 percent of the population live more than
-                20 miles from the nearest supermarket, regardless of vehicle
-                access.
-              </div>
-            </v-flex>
-          </v-card>
-        </v-flex>
-        <v-btn
-          text
-          icon
-          small
-          color="primary"
-          @click="showMapControls = !showMapControls"
-          title="Toggle map controls"
-        >
-          <v-icon v-if="showMapControls" color="accent">chevron_left</v-icon>
-          <v-icon v-if="!showMapControls" color="accent">chevron_right</v-icon>
-        </v-btn>
-      </v-layout>
-    </div>
-    <div v-if="showSearchResults" class="pdx-floatingCardContainer--right">
-      <v-card class="pdx-leafletControl__card elevation-20">
-        <v-list dense two-line subheader>
-          <v-toolbar light color="accent lighten-2">SEARCH RESULTS: {{ searchDistance }} radius</v-toolbar>
-          <v-subheader inset>Grocery Stores: {{ groceryStoreSearchResults.length }}</v-subheader>
-          <v-list-item v-for="item in groceryStoreSearchResults" :key="item.index">
-            <v-list-item-avatar>
-              <v-icon color="accent">shopping_cart</v-icon>
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title>{{ item.name }}</v-list-item-title>
-              <v-list-item-subtitle>{{ item.distance | metersToMiles }} miles</v-list-item-subtitle>
-              <v-list-item-subtitle>{{ item.address }}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-divider inset></v-divider>
-
-          <v-subheader inset>
-            Farmers Markets:
-            {{ farmersMarketSearchResults.length }}
-          </v-subheader>
-          <v-list-item v-for="item in farmersMarketSearchResults" :key="item.index">
-            <v-list-item-avatar>
-              <v-icon color="secondary">store</v-icon>
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title>{{ item.market }}</v-list-item-title>
-              <v-list-item-title>{{ item.distance | metersToMiles }} miles</v-list-item-title>
-              <v-list-item-subtitle>{{ item.location }}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-        <v-btn small color="primary" @click="clearSearchResults">
-          <v-icon color="
-          accent">close</v-icon>&nbsp; Clear Results &nbsp;
-        </v-btn>
-      </v-card>
-    </div>
   </div>
 </template>
 
@@ -281,6 +130,7 @@
 // TODO: Constrain zoom out
 import { mapActions, mapMutations, mapState } from "vuex";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
+import MapLayers from "@/components/MapLayers.vue";
 import VGeosearch from "@/components/VGeosearch.vue";
 
 const defaultCenter = [45.59, -122.6793];
@@ -316,13 +166,10 @@ const foodDesertHighlightStyle = {
 
 export default {
   name: "MainMap",
-  components: { VGeosearch },
+  components: { VGeosearch, MapLayers },
   computed: {
-    pdxTractGeoJSON() {
-      return this.$store.state.pdxTract.pdxTractGeoJSON;
-    },
     groceryStoreMarkers() {
-      const geojson = this.$store.state.groceryStore.groceryStoreGeoJSON;
+      const geojson = this.$store.state.groceryStore.geoJSON;
       let mapMarkers = [];
       if (geojson.features) {
         mapMarkers = this.createMarkers(geojson, this.groceryStoreIcon);
@@ -330,20 +177,14 @@ export default {
       }
       return mapMarkers;
     },
-    groceryStoreSearchResults() {
-      return this.$store.state.groceryStore.groceryStoreSearchResults;
-    },
     farmersMarketMarkers() {
-      const geojson = this.$store.state.farmersMarket.farmersMarketGeoJSON;
+      const geojson = this.$store.state.farmersMarket.geoJSON;
       let mapMarkers = [];
       if (geojson.features) {
         mapMarkers = this.createMarkers(geojson, this.farmersMarketIcon);
         return mapMarkers;
       }
       return mapMarkers;
-    },
-    farmersMarketSearchResults() {
-      return this.$store.state.farmersMarket.farmersMarketSearchResults;
     },
     options() {
       return {
@@ -356,7 +197,7 @@ export default {
       };
     },
     onEachFeatureFunction() {
-      if (!this.enableTooltip) {
+      if (!this.displayStatusTooltip) {
         return (feature, layer) => {
           const popupContent = this.createCensusTractContent(
             feature.properties
@@ -375,7 +216,7 @@ export default {
           feature.properties
         );
         const popupContent = this.createCensusTractContent(feature.properties);
-        if (this.enableTooltip) {
+        if (this.displayStatusTooltip) {
           layer.bindTooltip(tooltipContent, {
             permanent: false,
             sticky: true,
@@ -400,6 +241,17 @@ export default {
     },
     ...mapState({
       center: state => state.map.center,
+      displayStatusTooltip: state => state.map.displayStatusTooltip,
+      displayFarmersMarkets: state => state.farmersMarket.displayStatus,
+      displayGroceryStores: state => state.groceryStore.displayStatus,
+      displayPdxTracts: state => state.pdxTract.displayStatus,
+      geojsonPdxTract: state => state.pdxTract.geoJSON,
+      geojsonFarmersMarket: state => state.farmersMarket.geoJSON,
+      geojsonGroceryStore: state => state.groceryStore.geoJSON,
+      loadingDataFarmersMarket: state => state.farmersMarket.loading,
+      loadingDataGroceryStore: state => state.groceryStore.loading,
+      searchResultFarmersMarket: state => state.farmersMarket.searchResult,
+      searchResultGroceryStore: state => state.groceryStore.searchResult,
       zoom: state => state.map.zoom,
     }),
   },
@@ -413,14 +265,10 @@ export default {
       subdomains: "abcd",
       maxZoom: 18,
       minZoom: 4,
-      enableTooltip: true,
       showCensusTracts: true,
-      showFarmersMarkets: false,
-      showGroceryStores: false,
       showMapControls: true,
-      showSearchResults: false,
+      showSearchResult: false,
       radiosDistance: "radio-1",
-      radiosStoreType: "all",
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: "leaflet/PDXFoodMap631.svg",
@@ -447,7 +295,7 @@ export default {
         provider: new OpenStreetMapProvider(),
         style: "button",
         autoComplete: true,
-        position: "topright",
+        position: "topleft",
         autoCompleteDelay: 250,
         animateZoom: false,
         marker: {
@@ -462,6 +310,7 @@ export default {
           draggable: false,
         },
         maxMarkers: 2,
+        notFoundMessage: "Sorry, that address could not be found.",
         keepResult: true,
         autoClose: true,
         searchLabel: "Enter an address...",
@@ -488,15 +337,15 @@ export default {
         console.log(geom);
         this.$refs.map.setZoom(14);
         this.searchForPoints(params);
-        this.showFarmersMarkets = true;
-        this.showGroceryStores = true;
-        this.showCensusTracts = true;
+        this.setDisplayStatusFarmersMarket(true);
+        this.setDisplayStatusGroceryStore(true);
+        this.setDisplayStatusPdxTract(true);
       });
 
       this.$refs.map.mapObject.on("zoomend", () => {
         if (this.$refs.map.mapObject.getZoom() < 9) {
-          this.showFarmersMarkets = false;
-          this.showGroceryStores = false;
+          this.setDisplayStatusFarmersMarket(false);
+          this.setDisplayStatusGroceryStore(false);
         }
       });
     });
@@ -508,10 +357,10 @@ export default {
     boundsUpdated(bounds) {
       this.bounds = bounds;
     },
-    clearSearchResults() {
-      this.$store.dispatch("groceryStore/clearSearchResults");
-      this.$store.dispatch("farmersMarket/clearSearchResults");
-      this.showSearchResults = false;
+    clearSearchResult() {
+      this.$store.dispatch("groceryStore/clearSearchResult");
+      this.$store.dispatch("farmersMarket/clearSearchResult");
+      this.showSearchResult = false;
     },
     createMarkers(geojson, alternateIcon) {
       const markersArray = geojson["features"].map(feature => {
@@ -561,17 +410,6 @@ export default {
 
       return propertyString;
     },
-    async filterStores(value) {
-      if (value == "all") {
-        await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON");
-      } else {
-        const params = { type: value };
-        await this.$store.dispatch(
-          "groceryStore/getGroceryStoreGeoJSON",
-          params
-        );
-      }
-    },
     formatCurrency(dollarValue) {
       // syntax numObj.toLocaleString([locales [, options]])
       return dollarValue.toLocaleString("en-US", {
@@ -587,7 +425,7 @@ export default {
     async searchForPoints(params) {
       await this.$store.dispatch("groceryStore/search", params);
       await this.$store.dispatch("farmersMarket/search", params);
-      this.showSearchResults = true;
+      this.showSearchResult = true;
     },
     setDefaultStyles(layer, feature) {
       layer.setStyle(defaultStyle);
@@ -625,6 +463,9 @@ export default {
       this.setZoom = zoom;
     },
     ...mapMutations({
+      setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",
+      setDisplayStatusGroceryStore: "groceryStore/setDisplayStatus",
+      setDisplayStatusPdxTract: "pdxTract/setDisplayStatus",
       setCenter: "map/setCenter",
       setZoom: "map/setZoom",
     }),
@@ -647,23 +488,6 @@ export default {
 .v-input--slot {
   margin: 0 !important;
   padding: 0 !important;
-}
-
-.pdx-floatingCardContainer--left {
-  background-color: transparent;
-  max-width: 360px;
-  position: absolute;
-  top: 120px;
-  z-index: 11000;
-}
-
-.pdx-floatingCardContainer--right {
-  background-color: transparent;
-  position: absolute;
-  right: 100px;
-  top: 155px;
-  width: 360px;
-  z-index: 10000;
 }
 
 .pdx-layerControls {

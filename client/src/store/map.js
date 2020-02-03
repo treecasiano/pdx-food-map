@@ -1,8 +1,15 @@
-const actions = {};
+const actions = {
+  async displayData({ commit, status }) {
+    return commit("setDisplayStatus", status);
+  },
+};
 
 const mutations = {
   setCenter(state, center) {
     state.center = center;
+  },
+  setDisplayStatusTooltip(state, status) {
+    state.displayStatusTooltip = status;
   },
   setUserCoordinates(state, coordinates) {
     state.userLatitude = coordinates.latitude;
@@ -14,6 +21,7 @@ const mutations = {
 };
 
 const state = {
+  displayStatusTooltip: true,
   center: [45.59, -122.6793],
   userLatitude: null,
   userLongitude: null,
