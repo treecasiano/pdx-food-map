@@ -17,17 +17,8 @@
 
         <v-geosearch :options="geosearchOptions" ref="geosearch"></v-geosearch>
         <l-control position="topright" class="pdx-searchControls">
-          <v-radio-group
-            class="pa-0 ma-0"
-            v-model="radiosDistance"
-            row
-            label="search radius"
-          >
-            <v-radio
-              color="primary"
-              label="0.5 miles"
-              value="radio-half"
-            ></v-radio>
+          <v-radio-group class="pa-0 ma-0" v-model="radiosDistance" row label="search radius">
+            <v-radio color="primary" label="0.5 miles" value="radio-half"></v-radio>
             <v-radio color="primary" label="1 mile" value="radio-1"></v-radio>
           </v-radio-group>
         </l-control>
@@ -49,9 +40,7 @@
                 <div>
                   <em>{{ item.props.type }}</em>
                 </div>
-                <div>
-                  {{ item.props.address }}
-                </div>
+                <div>{{ item.props.address }}</div>
               </div>
             </l-popup>
           </l-marker>
@@ -75,16 +64,20 @@
                   <em>{{ item.props.location }}</em>
                 </div>
                 <div v-if="item.props.day">
-                  <strong>Day:</strong> {{ item.props.day }}
+                  <strong>Day:</strong>
+                  {{ item.props.day }}
                 </div>
                 <div v-if="item.props.open_dates">
-                  <strong>Open Dates:</strong> {{ item.props.open_dates }}
+                  <strong>Open Dates:</strong>
+                  {{ item.props.open_dates }}
                 </div>
                 <div v-if="item.props.open_times">
-                  <strong>Open Times:</strong> {{ item.props.open_times }}
+                  <strong>Open Times:</strong>
+                  {{ item.props.open_times }}
                 </div>
                 <div v-if="item.props.accepts">
-                  <strong>Accepts:</strong> {{ item.props.accepts }}
+                  <strong>Accepts:</strong>
+                  {{ item.props.accepts }}
                 </div>
               </div>
             </l-popup>
@@ -95,18 +88,12 @@
           :geojson="pdxTractGeoJSON"
           :options="options"
           :options-style="styleFunction"
-        >
-        </l-geo-json>
+        ></l-geo-json>
         <l-control-zoom position="bottomright"></l-control-zoom>
         <l-control position="topright" class="pdx-spinner">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
-              <v-progress-circular
-                indeterminate
-                rotate
-                color="accent"
-              ></v-progress-circular>
-              Loading Map Layers...
+              <v-progress-circular indeterminate rotate class="ma-2" color="accent darken-1"></v-progress-circular>Loading Map Layers...
             </v-card>
           </div>
         </l-control>
@@ -223,7 +210,8 @@
               <div class="mt-2">
                 <strong>Low Vehicle Access</strong>: a census tract where at
                 least 100 households are more than ½ mile from the nearest
-                supermarket and have no access to a vehicle; <em>or</em>, at
+                supermarket and have no access to a vehicle;
+                <em>or</em>, at
                 least 500 people or 33 percent of the population live more than
                 20 miles from the nearest supermarket, regardless of vehicle
                 access.
@@ -247,59 +235,41 @@
     <div v-if="showSearchResults" class="pdx-floatingCardContainer--right">
       <v-card class="pdx-leafletControl__card elevation-20">
         <v-list dense two-line subheader>
-          <v-toolbar light color="accent lighten-2"
-            >SEARCH RESULTS: {{ searchDistance }} radius</v-toolbar
-          >
-          <v-subheader inset
-            >Grocery Stores: {{ groceryStoreSearchResults.length }}</v-subheader
-          >
-          <v-list-item
-            v-for="item in groceryStoreSearchResults"
-            :key="item.index"
-          >
+          <v-toolbar light color="accent lighten-2">SEARCH RESULTS: {{ searchDistance }} radius</v-toolbar>
+          <v-subheader inset>Grocery Stores: {{ groceryStoreSearchResults.length }}</v-subheader>
+          <v-list-item v-for="item in groceryStoreSearchResults" :key="item.index">
             <v-list-item-avatar>
               <v-icon color="accent">shopping_cart</v-icon>
             </v-list-item-avatar>
 
             <v-list-item-content>
               <v-list-item-title>{{ item.name }}</v-list-item-title>
-              <v-list-item-subtitle
-                >{{ item.distance | metersToMiles }} miles</v-list-item-subtitle
-              >
+              <v-list-item-subtitle>{{ item.distance | metersToMiles }} miles</v-list-item-subtitle>
               <v-list-item-subtitle>{{ item.address }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
 
           <v-divider inset></v-divider>
 
-          <v-subheader inset
-            >Farmers Markets:
-            {{ farmersMarketSearchResults.length }}</v-subheader
-          >
-          <v-list-item
-            v-for="item in farmersMarketSearchResults"
-            :key="item.index"
-          >
+          <v-subheader inset>
+            Farmers Markets:
+            {{ farmersMarketSearchResults.length }}
+          </v-subheader>
+          <v-list-item v-for="item in farmersMarketSearchResults" :key="item.index">
             <v-list-item-avatar>
               <v-icon color="secondary">store</v-icon>
             </v-list-item-avatar>
 
             <v-list-item-content>
               <v-list-item-title>{{ item.market }}</v-list-item-title>
-              <v-list-item-title
-                >{{ item.distance | metersToMiles }} miles</v-list-item-title
-              >
+              <v-list-item-title>{{ item.distance | metersToMiles }} miles</v-list-item-title>
               <v-list-item-subtitle>{{ item.location }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
         <v-btn small color="primary" @click="clearSearchResults">
-          <v-icon
-            color="
-          accent"
-            >close</v-icon
-          >
-          &nbsp; Clear Results &nbsp;
+          <v-icon color="
+          accent">close</v-icon>&nbsp; Clear Results &nbsp;
         </v-btn>
       </v-card>
     </div>
@@ -743,7 +713,7 @@ export default {
 
 .pdx-spinner {
   position: fixed !important;
-  top: 15% !important;
+  top: 40% !important;
   left: 50% !important;
   right: 50% !important;
   width: 220px !important;

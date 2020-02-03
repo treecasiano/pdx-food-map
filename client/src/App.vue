@@ -5,7 +5,7 @@
         <a
           alt="Link to Home"
           href="/"
-          class="accent--text font-weight-bold title"
+          class="accent--text font-weight-bold"
           style="text-decoration: none;"
         >PDX Metro Food Map</a>
       </v-toolbar-title>
@@ -33,13 +33,20 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   async created() {
     this.loading = true;
-    // TODO: Use Promise.all here
-    await this.$store.dispatch("farmersMarket/getFarmersMarketGeoJSON");
-    await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON");
-    await this.$store.dispatch("pdxTract/getPdxTractGeoJSON");
+    try {
+      Promise.all([
+        await this.fetchFarmersMarketGeoJSON(),
+        await this.fetchGroceryStoreGeoJSON(),
+        await this.fetchPdxTractGeoJSON(),
+      ]);
+    } catch (e) {
+      console.error(e);
+    }
     this.loading = false;
   },
   data() {
@@ -47,7 +54,13 @@ export default {
       loading: false,
     };
   },
-  methods: {},
+  methods: {
+    ...mapActions({
+      fetchFarmersMarketGeoJSON: "farmersMarket/getFarmersMarketGeoJSON",
+      fetchGroceryStoreGeoJSON: "groceryStore/getGroceryStoreGeoJSON",
+      fetchPdxTractGeoJSON: "pdxTract/getPdxTractGeoJSON",
+    }),
+  },
 };
 </script>
 
