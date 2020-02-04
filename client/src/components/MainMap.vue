@@ -342,7 +342,7 @@ export default {
         console.log(result.location.label);
         // eslint-disable-next-line
         console.log(geom);
-        this.$refs.map.setZoom(14);
+        this.$refs.map.setZoom(15.25);
         this.searchForPoints(params);
         this.setDisplayStatusFarmersMarket(true);
         this.setDisplayStatusGroceryStore(true);
