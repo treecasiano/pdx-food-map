@@ -20,7 +20,7 @@
         </v-list-item>
         <v-container v-if="!mini">
           <v-tabs
-            v-model="tab"
+            v-model="selectedTab"
             centered
             active-class="mapControls__tabs--active"
             height="30"
@@ -60,6 +60,14 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   components: { SearchResults },
   computed: {
+    selectedTab: {
+      get() {
+        return this.$store.state.map.selectedTab;
+      },
+      set(value) {
+        this.setSelectedTab(value);
+      },
+    },
     ...mapState({
       searchResultGroceryStore: state => state.groceryStore.searchResult,
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,
@@ -71,8 +79,12 @@ export default {
       drawer: true,
       mini: false,
       showSearchResult: false,
-      tab: null,
     };
+  },
+  methods: {
+    ...mapMutations({
+      setSelectedTab: "map/setSelectedTab",
+    }),
   },
 };
 </script>

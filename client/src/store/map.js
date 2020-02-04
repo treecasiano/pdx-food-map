@@ -15,6 +15,9 @@ const mutations = {
     state.userLatitude = coordinates.latitude;
     state.userLongitude = coordinates.longitude;
   },
+  setSelectedTab(state, tab) {
+    state.selectedTab = tab;
+  },
   setZoom(state, zoom) {
     state.zoom = zoom;
   },
@@ -27,6 +30,7 @@ const state = {
   userLongitude: null,
   loading: false,
   searchResults: [],
+  selectedTab: "welcome",
   zoom: 10,
 };
 

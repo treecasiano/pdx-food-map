@@ -32,7 +32,7 @@
             class="pa-0 ma-0"
             v-model="radiosDistance"
             row
-            label="search radius"
+            label="Search radius:"
           >
             <v-radio
               color="primary"
@@ -274,9 +274,7 @@ export default {
       subdomains: "abcd",
       maxZoom: 18,
       minZoom: 4,
-      showCensusTracts: true,
       showMapControls: true,
-      showSearchResult: false,
       radiosDistance: "radio-1",
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
@@ -349,6 +347,7 @@ export default {
         this.setDisplayStatusFarmersMarket(true);
         this.setDisplayStatusGroceryStore(true);
         this.setDisplayStatusPdxTract(true);
+        this.setSelectedTab("search");
       });
 
       this.$refs.map.mapObject.on("zoomend", () => {
@@ -476,6 +475,7 @@ export default {
       setDisplayStatusGroceryStore: "groceryStore/setDisplayStatus",
       setDisplayStatusPdxTract: "pdxTract/setDisplayStatus",
       setCenter: "map/setCenter",
+      setSelectedTab: "map/setSelectedTab",
       setZoom: "map/setZoom",
     }),
   },
