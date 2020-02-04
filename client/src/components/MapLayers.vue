@@ -32,7 +32,11 @@
                 :label="`Enable Tract Tooltips`"
                 data-cy="checkbox--tooltips"
               ></v-checkbox>
-
+              <div class="mapLayers__heading">
+                <v-divider></v-divider>
+                <div>Sources of Healthy Food</div>
+                <v-divider class="mb-4"></v-divider>
+              </div>
               <v-checkbox
                 v-if="farmersMarketData.features"
                 v-model="displayStatusFarmersMarket"
