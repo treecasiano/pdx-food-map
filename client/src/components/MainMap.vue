@@ -26,7 +26,7 @@
         <l-control
           position="topleft"
           class="pdx-searchControls"
-          style="width: 360px;"
+          style="width: 320px;"
         >
           <v-radio-group
             class="pa-0 ma-0"

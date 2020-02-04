@@ -4,7 +4,7 @@
       v-model="drawer"
       :mini-variant.sync="mini"
       permanent
-      width="360"
+      width="320"
     >
       <template v-slot:prepend>
         <v-list-item v-if="mini" dense>
@@ -26,7 +26,7 @@
             height="30"
           >
             <v-tab href="#welcome" ripple>
-              <v-icon>home</v-icon>
+              <v-icon>star</v-icon>
             </v-tab>
             <v-tab href="#search" ripple>
               <v-icon>search</v-icon>
@@ -84,7 +84,4 @@ export default {
 .mapControls__tabs--active {
   background-color: var(--v-accent-lighten4);
 }
-/* .v-dialog__content {
-  z-index: 1000000 !important;
-} */
 </style>
