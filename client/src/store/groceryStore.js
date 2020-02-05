@@ -25,7 +25,6 @@ const actions = {
 
 const mutations = {
   setDisplayStatus(state, status) {
-    console.log(status);
     state.displayStatus = status;
   },
   setList(state, data) {

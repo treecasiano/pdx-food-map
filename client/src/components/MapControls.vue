@@ -54,8 +54,7 @@
 </template>
 <script>
 import SearchResults from "@/components/SearchResults.vue";
-import MapControls from "@/components/MapControls.vue";
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   components: { SearchResults },
