@@ -7,15 +7,19 @@
       class="accent--text pdx-toolbar--main"
     >
       <v-toolbar-title>
-        PDX METRO FOOD ENVIRONMENT
+        <a
+          alt="Link to Home"
+          href="/"
+          class="accent--text font-weight-bold"
+          style="text-decoration: none;"
+          >PDX Metro Food Map</a
+        >
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <div id="nav">
         <router-link to="/">Map</router-link>
-        <span style="color: white;"> | </span>
-        <router-link to="/about" v-on:click.native="dismissInstructions"
-          >About</router-link
-        >
+        <span class="mx-2 white--text">|</span>
+        <router-link to="/about">About</router-link>
       </div>
     </v-toolbar>
     <router-view :loading="loading" />
@@ -31,61 +35,37 @@
         </v-flex>
       </v-layout>
     </v-footer>
-    <div
-      v-if="showSearchInstructions"
-      class="pdx-floatingCardContainer--center"
-    >
-      <v-card class="pdx-leafletControl__card--instructions">
-        <v-layout column align-end>
-          <v-icon
-            small
-            color="accent"
-            @click="dismissInstructions"
-            data-cy="welcomeWindow__button--close"
-            >close</v-icon
-          >
-          <v-card-title class="title">
-            Welcome to the PDX Metro Food Environment Map!
-          </v-card-title>
-          <v-flex class="text-sm-left">
-            <v-divider></v-divider>
-            <br />
-            Explore the local food environment and see where the food deserts
-            and sources of healthy food are in Portland, OR and the surrounding
-            metropolitan area.
-            <br />
-            <br />
-            Use the search tool in the upper right corner of the map to discover
-            grocery stores and farmers markets near you!
-          </v-flex>
-        </v-layout>
-      </v-card>
-    </div>
   </v-app>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   async created() {
-    if (this.$route.name !== "home") {
-      this.showSearchInstructions = false;
-    }
     this.loading = true;
-    await this.$store.dispatch("farmersMarket/getFarmersMarketGeoJSON");
-    await this.$store.dispatch("groceryStore/getGroceryStoreGeoJSON");
-    await this.$store.dispatch("pdxTract/getPdxTractGeoJSON");
+    try {
+      Promise.all([
+        await this.fetchFarmersMarketData(),
+        await this.fetchGroceryStoreData(),
+        await this.fetchPdxTractData(),
+      ]);
+    } catch (e) {
+      console.error(e);
+    }
     this.loading = false;
   },
   data() {
     return {
       loading: false,
-      showSearchInstructions: true,
     };
   },
   methods: {
-    dismissInstructions() {
-      this.showSearchInstructions = false;
-    },
+    ...mapActions({
+      fetchFarmersMarketData: "farmersMarket/geoJSON",
+      fetchGroceryStoreData: "groceryStore/geoJSON",
+      fetchPdxTractData: "pdxTract/geoJSON",
+    }),
   },
 };
 </script>
@@ -141,27 +121,5 @@ li {
 .pdx-footer a {
   color: var(--v-secondary-lighten2) !important;
   text-decoration: none;
-}
-
-.pdx-floatingCardContainer--center {
-  color: var(--v-secondary-base) !important;
-  background-color: transparent;
-  font-weight: 400;
-  font-size: 16px;
-  height: 400px;
-  left: 50%;
-  margin-left: -200px;
-  margin-top: -200px;
-  opacity: 0.95;
-  position: absolute;
-  top: 50%;
-  max-width: 500px;
-  z-index: 11000;
-}
-
-.pdx-leafletControl__card--instructions {
-  background-color: var(--v-primary-darken2) !important;
-  color: var(--v-accent-lighten2) !important;
-  padding: 15px 15px 25px 15px;
 }
 </style>

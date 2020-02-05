@@ -1,27 +1,28 @@
 import "babel-polyfill";
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./router";
-import store from "./store/index";
-import vuetify from "./plugins/vuetify";
 import "../node_modules/vuetify/dist/vuetify.min.css";
 import "../node_modules/leaflet/dist/leaflet.css";
 import L from "leaflet";
 delete L.Icon.Default.prototype._getIconUrl;
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 require("./assets/css/geosearch.css");
+import router from "./router";
+import store from "./store/index";
 
 // register Vue2Leaflet components
 import {
-  LMap,
-  LTileLayer,
-  LMarker,
-  LPopup,
-  LGeoJson,
   LControl,
   LControlZoom,
   LControlScale,
+  LGeoJson,
+  LMap,
+  LMarker,
+  LTileLayer,
+  LPopup,
 } from "vue2-leaflet";
+
+import vuetify from "@/plugins/vuetify";
 
 Vue.component("l-map", LMap);
 Vue.component("l-tile-layer", LTileLayer);

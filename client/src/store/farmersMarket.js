@@ -1,42 +1,53 @@
 import farmersMarketApi from "../api/farmersMarket";
 
 const actions = {
-  async getFarmersMarketList({ commit }) {
-    const farmersMarketList = await farmersMarketApi.list();
-    return commit("setList", farmersMarketList.data);
+  async displayData({ commit, status }) {
+    return commit("setDisplayStatus", status);
   },
-  async getFarmersMarketGeoJSON({ commit }) {
-    const farmersMarketGeoJSON = await farmersMarketApi.getGeoJSON();
-    return commit("setGeoJSON", farmersMarketGeoJSON.data);
+  async list({ commit }) {
+    const list = await farmersMarketApi.list();
+    return commit("setList", list.data);
+  },
+  async geoJSON({ commit }) {
+    const geoJSON = await farmersMarketApi.getGeoJSON();
+    return commit("setGeoJSON", geoJSON.data);
   },
   async search({ commit }, params) {
     const results = await farmersMarketApi.search(params);
-    return commit("setSearchResults", results.data);
+    return commit("setSearchResult", results.data);
   },
-  clearSearchResults({ commit }) {
-    return commit("clearSearchResults");
-  }
+  setDisplayStatus(state, status) {
+    state.displayStatus = status;
+  },
+  clearSearchResult({ commit }) {
+    return commit("clearSearchResult");
+  },
 };
 
 const mutations = {
-  setList(state, farmersMarketData) {
-    state.farmersMarketList = farmersMarketData;
+  setDisplayStatus(state, status) {
+    state.displayStatus = status;
   },
-  setGeoJSON(state, farmersMarketData) {
-    state.farmersMarketGeoJSON = farmersMarketData;
+  setList(state, data) {
+    state.list = data;
   },
-  setSearchResults(state, farmersMarketData) {
-    state.farmersMarketSearchResults = farmersMarketData;
+  setGeoJSON(state, data) {
+    state.geoJSON = data;
   },
-  clearSearchResults(state) {
-    state.farmersMarketSearchResults = [];
-  }
+  setSearchResult(state, data) {
+    state.searchResult = data;
+  },
+  clearSearchResult(state) {
+    state.searchResult = [];
+  },
 };
 
 const state = {
-  farmersMarketList: [],
-  farmersMarketGeoJSON: {},
-  farmersMarketSearchResults: []
+  displayStatus: true,
+  geoJSON: {},
+  loading: false,
+  list: [],
+  searchResult: [],
 };
 
 const getters = {};
@@ -46,5 +57,5 @@ export default {
   getters,
   mutations,
   namespaced: true,
-  state
+  state,
 };
