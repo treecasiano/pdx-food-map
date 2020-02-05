@@ -2,11 +2,10 @@
   <div class="text-left scrollBox">
     <v-layout column justify-start>
       <div class="font-weight-bold primary--text">
-        <v-icon color="secondary">shopping_cart</v-icon>
-        Grocery Stores:
-        <span class="font-weight-bold primary--text">
-          {{ searchResultGroceryStore.length }} result(s)
-        </span>
+        <v-icon color="secondary">shopping_cart</v-icon>Grocery Stores:
+        <span
+          class="font-weight-bold primary--text"
+        >{{ searchResultGroceryStore.length }} result(s)</span>
       </div>
 
       <div>
@@ -17,13 +16,7 @@
             v-bind:key="item.gid"
             style="display: block;"
           >
-            <v-btn
-              icon
-              small
-              class="text-left"
-              color="primary"
-              @click.stop="centerOnPoint(item)"
-            >
+            <v-btn icon small class="text-left" color="primary" @click.stop="centerOnPoint(item)">
               <v-icon class="mr-1" small>near_me</v-icon>
             </v-btn>
             {{ item.name }} ({{ item.distance | metersToMiles }} mi)
@@ -34,11 +27,10 @@
     </v-layout>
     <v-layout column justify-start>
       <div class="font-weight-bold primary--text">
-        <v-icon color="secondary">store</v-icon>
-        Farmers Markets:
-        <span class="font-weight-bold primary--text">
-          {{ searchResultFarmersMarket.length }} result(s)
-        </span>
+        <v-icon color="secondary">store</v-icon>Farmers Markets:
+        <span
+          class="font-weight-bold primary--text"
+        >{{ searchResultFarmersMarket.length }} result(s)</span>
       </div>
 
       <div class="searchResults scrollBox">
@@ -49,13 +41,7 @@
             v-bind:key="item.gid"
             style="display: block;"
           >
-            <v-btn
-              icon
-              small
-              class="text-left"
-              color="primary"
-              @click.stop="centerOnPoint(item)"
-            >
+            <v-btn icon small class="text-left" color="primary" @click.stop="centerOnPoint(item)">
               <v-icon class="mr-1" small>near_me</v-icon>
             </v-btn>
             {{ item.market }} ({{ item.distance | metersToMiles }} mi)
@@ -70,7 +56,7 @@
 import { mapMutations, mapState } from "vuex";
 // TODO: return lat and long with search results
 export default {
-  name: "MapLayers",
+  name: "SearchResults",
   computed: {
     ...mapState({
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,

@@ -18,15 +18,19 @@ const mutations = {
   setDisplayStatus(state, status) {
     state.displayStatus = status;
   },
+  setGeoJSON(state, data) {
+    state.geoJSON = data;
+  },
   setList(state, data) {
     state.list = data;
   },
-  setGeoJSON(state, data) {
-    state.geoJSON = data;
+  setTract(state, tract) {
+    state.tract = tract;
   },
 };
 
 const state = {
+  tract: {},
   displayStatus: true,
   geoJSON: null,
   list: [],

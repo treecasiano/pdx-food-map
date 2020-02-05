@@ -3,7 +3,7 @@
     <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
       <template v-slot:prepend>
         <div v-if="mini">
-          <v-btn icon @click.stop="mini = !mini">
+          <v-btn small icon @click.stop="mini = !mini">
             <v-icon color="primary">mdi-layers</v-icon>
           </v-btn>
         </div>
@@ -58,12 +58,7 @@
                 @change="filterStores"
                 label="Filter by Store Type"
               >
-                <v-radio
-                  color="accent"
-                  value="all"
-                  data-cy="radioButton--allStores"
-                  label="All"
-                ></v-radio>
+                <v-radio color="accent" value="all" data-cy="radioButton--allStores" label="All"></v-radio>
                 <v-radio
                   color="accent"
                   value="Large Chain Grocery"
@@ -173,6 +168,10 @@ export default {
 
 <style>
 /* Vuetify override */
+
+.v-navigation-drawer--mini-variant {
+  width: 50px !important;
+}
 
 .v-input--checkbox {
   margin: 0 !important;

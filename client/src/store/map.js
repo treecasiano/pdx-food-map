@@ -15,6 +15,9 @@ const mutations = {
     state.userLatitude = coordinates.latitude;
     state.userLongitude = coordinates.longitude;
   },
+  setMapControlMini(state, val) {
+    state.mapControlMini = val;
+  },
   setSelectedTab(state, tab) {
     state.selectedTab = tab;
   },
@@ -24,13 +27,14 @@ const mutations = {
 };
 
 const state = {
-  displayStatusTooltip: true,
+  displayStatusTooltip: false,
   center: [45.59, -122.6793],
   userLatitude: null,
   userLongitude: null,
   loading: false,
+  mapControlMini: false,
   searchResults: [],
-  selectedTab: "welcome",
+  selectedTab: "map",
   zoom: 10,
 };
 
