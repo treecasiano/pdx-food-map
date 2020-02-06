@@ -14,31 +14,17 @@
         :options="{ zoomControl: false, zoomDelta: 0.25, zoomSnap: 0.25 }"
       >
         <l-control position="topright">
-          <v-btn light @click="resetMapView">
+          <v-btn small light @click="resetMapView">
             <v-icon color="primary">home</v-icon>
           </v-btn>
         </l-control>
         <l-control position="topright">
           <MapLayers />
         </l-control>
-        <l-control position="topleft"> </l-control>
         <v-geosearch :options="geosearchOptions" ref="geosearch"></v-geosearch>
-        <l-control
-          position="topleft"
-          class="pdx-searchControls"
-          style="width: 320px;"
-        >
-          <v-radio-group
-            class="pa-0 ma-0"
-            v-model="radiosDistance"
-            row
-            label="Search radius:"
-          >
-            <v-radio
-              color="primary"
-              label="0.5 miles"
-              value="radio-half"
-            ></v-radio>
+        <l-control position="bottomleft" class="pdx-searchControls" style="width: 320px;">
+          <v-radio-group class="pa-0 ma-0" v-model="radiosDistance" row label="Search radius:">
+            <v-radio color="primary" label="0.5 miles" value="radio-half"></v-radio>
             <v-radio color="primary" label="1 mile" value="radio-1"></v-radio>
           </v-radio-group>
         </l-control>
@@ -119,13 +105,7 @@
         <l-control position="topright" class="pdx-spinner">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__card">
-              <v-progress-circular
-                indeterminate
-                rotate
-                class="ma-2"
-                color="accent darken-1"
-              ></v-progress-circular
-              >Loading Map Layers...
+              <v-progress-circular indeterminate rotate class="ma-2" color="accent darken-1"></v-progress-circular>Loading Map Layers...
             </v-card>
           </div>
         </l-control>
@@ -206,25 +186,45 @@ export default {
       };
     },
     onEachFeatureFunction() {
+      // TODO: refactor this nasty if statement
       if (!this.displayStatusTooltip) {
         return (feature, layer) => {
-          const popupContent = this.createCensusTractContent(
-            feature.properties
-          );
+          layer.on("click", e => {
+            const southWest = e.target._bounds._southWest;
+            const northEast = e.target._bounds._northEast;
+            const tractBounds = L.latLngBounds(southWest, northEast);
+            const {
+              target: {
+                feature: { properties },
+              },
+            } = e;
+            this.setTract(properties);
+            this.setMapControlMini(false);
+            this.setSelectedTab("map");
+            this.$refs.map.fitBounds(tractBounds);
+          });
           layer.unbindTooltip();
           this.setDefaultStyles(layer, feature);
-          layer.bindPopup(popupContent, {
-            permanent: false,
-            sticky: true,
-            className: "pdx-popup--census",
-          });
         };
       }
       return (feature, layer) => {
         const tooltipContent = this.createCensusTractContent(
           feature.properties
         );
-        const popupContent = this.createCensusTractContent(feature.properties);
+        layer.on("click", e => {
+          const southWest = e.target._bounds._southWest;
+          const northEast = e.target._bounds._northEast;
+          const tractBounds = L.latLngBounds(southWest, northEast);
+          const {
+            target: {
+              feature: { properties },
+            },
+          } = e;
+          this.setTract(properties);
+          this.setMapControlMini(false);
+          this.setSelectedTab("map");
+          this.$refs.map.fitBounds(tractBounds);
+        });
         if (this.displayStatusTooltip) {
           layer.bindTooltip(tooltipContent, {
             permanent: false,
@@ -232,11 +232,7 @@ export default {
             className: "pdx-tooltip",
           });
         }
-        layer.bindPopup(popupContent, {
-          permanent: false,
-          sticky: true,
-          className: "pdx-popup--census",
-        });
+
         this.setDefaultStyles(layer, feature);
       };
     },
@@ -475,7 +471,9 @@ export default {
       setDisplayStatusGroceryStore: "groceryStore/setDisplayStatus",
       setDisplayStatusPdxTract: "pdxTract/setDisplayStatus",
       setCenter: "map/setCenter",
+      setMapControlMini: "map/setMapControlMini",
       setSelectedTab: "map/setSelectedTab",
+      setTract: "pdxTract/setTract",
       setZoom: "map/setZoom",
     }),
   },
