@@ -72,6 +72,7 @@ function factory(logger, farmersMarketService) {
             },
             status: {
               description: "Status",
+              default: "Active",
               type: "string"
             },
             website: {
