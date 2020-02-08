@@ -8,6 +8,7 @@ const pkg = require("./package");
 
 const Auth = require("./lib/Auth");
 
+const CsaDropoffSiteService = require("./lib/csaDropoffSiteService");
 const FarmersMarketService = require("./lib/farmersMarketService");
 const FoodPantryService = require("./lib/foodPantryService");
 const GroceryStoreService = require("./lib/groceryStoreService");
@@ -32,6 +33,7 @@ process.env.TZ = "UTC";
 
     const auth = new Auth(jwtConfig);
 
+    const csaDropoffSiteService = new CsaDropoffSiteService({ pg });
     const farmersMarketService = new FarmersMarketService({ pg });
     const foodPantryService = new FoodPantryService({ pg });
     const groceryStoreService = new GroceryStoreService({ pg });
@@ -55,6 +57,7 @@ process.env.TZ = "UTC";
         /^\/login/,
         /^\/docs/,
         /^\/pdxTract/,
+        /^\/csaDropoffSite/,
         /^\/farmersMarket/,
         /^\/foodPantry/,
         /^\/groceryStore/
@@ -156,6 +159,7 @@ process.env.TZ = "UTC";
       dependencies: {
         auth,
         env,
+        csaDropoffSiteService,
         farmersMarketService,
         foodPantryService,
         groceryStoreService,
