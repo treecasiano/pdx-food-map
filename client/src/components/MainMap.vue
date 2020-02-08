@@ -22,15 +22,16 @@
           <MapLayers />
         </l-control>
         <v-geosearch :options="geosearchOptions" ref="geosearch"></v-geosearch>
+        <l-control position="topleft">
+          <MapControls />
+        </l-control>
         <l-control position="bottomleft" class="pdx-searchControls" style="width: 320px;">
           <v-radio-group class="pa-0 ma-0" v-model="radiosDistance" row label="Search radius:">
             <v-radio color="primary" label="0.5 miles" value="radio-half"></v-radio>
             <v-radio color="primary" label="1 mile" value="radio-1"></v-radio>
           </v-radio-group>
         </l-control>
-        <l-control position="topleft">
-          <MapControls />
-        </l-control>
+
         <l-control-scale position="bottomleft"></l-control-scale>
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
 
@@ -198,6 +199,7 @@ export default {
                 feature: { properties },
               },
             } = e;
+            console.log("click of census tract");
             this.setTract(properties);
             this.setMapControlMini(false);
             this.setSelectedTab("map");
