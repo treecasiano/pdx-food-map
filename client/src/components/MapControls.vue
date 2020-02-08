@@ -3,12 +3,12 @@
     <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" width="320">
       <template v-slot:prepend>
         <v-list-item v-if="mini" dense>
-          <v-btn small icon @click.stop="mini = !mini">
+          <v-btn small icon @click.stop="mini = false">
             <v-icon color="primary">mdi-chevron-right</v-icon>
           </v-btn>
         </v-list-item>
         <v-container v-if="!mini" class="text-left">
-          <v-btn small icon @click.stop="mini = !mini">
+          <v-btn small icon @click.stop="mini = true">
             <v-icon color="primary">mdi-chevron-left</v-icon>
           </v-btn>
           <v-tabs

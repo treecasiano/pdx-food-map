@@ -57,7 +57,7 @@
                   <p> A shapefile with all the census tracts in the Portland-Vancouver-Hillsboro Metropolitan Statistical Area was retrieved from <a href="http://rlisdiscovery.oregonmetro.gov/?action=viewDetail&layerID=2588">Oregon Metro</a>.
                   </p>
                   <p>
-                    <a href="https://www.ers.usda.gov/data-products/food-access-research-atlas/">Data from the United States Department of Agriculture Economic Research Service Food Access Research Access</a> (2017) was joined to the census tract records.
+                    <a href="https://www.ers.usda.gov/data-products/food-access-research-atlas/">Data from the United States Department of Agriculture Economic Research Service Food Access Research Atlas</a> (2017) was joined to the census tract records.
                   </p>
                 </li>
               </ul>
