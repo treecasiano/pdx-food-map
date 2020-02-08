@@ -109,7 +109,7 @@ function factory(logger, foodPantryService) {
               type: "string"
             },
             geom: {
-              description: "Geometry in the form of 'POINT(long lat)'",
+              description: "Geometry in the form of 'longitude latitude'",
               type: "string"
             }
           },
