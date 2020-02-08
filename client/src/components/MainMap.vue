@@ -345,6 +345,7 @@ export default {
         this.setDisplayStatusFarmersMarket(true);
         this.setDisplayStatusGroceryStore(true);
         this.setDisplayStatusPdxTract(true);
+        this.setMapControlMini(false);
         this.setSelectedTab("search");
       });
 

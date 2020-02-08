@@ -1,8 +1,8 @@
-function factory(logger, farmersMarketService) {
+function factory(logger, foodPantryService) {
   GET.apiDoc = {
     summary:
-      "Returns a GeoJSON Feature Collection (All Farmers Markets in the PDX-Vancouver-Hillsboro MSA)",
-    tags: ["PDX Metro Farmers Markets"],
+      "Returns a GeoJSON Feature Collection (Food Pantries in PDX-Vancouver-Hillsboro MSA)",
+    tags: ["PDX Metro Food Pantries"],
     produces: ["application/json"],
     parameters: [],
     responses: {
@@ -20,10 +20,9 @@ function factory(logger, farmersMarketService) {
   };
 
   async function GET(req, res) {
-    console.log("farmers market route logs?");
     let result;
     try {
-      result = await farmersMarketService.getGeoJSON();
+      result = await foodPantryService.getGeoJSON();
     } catch (e) {
       logger.error(e);
       return res.status(500).json({ message: "Database error" });

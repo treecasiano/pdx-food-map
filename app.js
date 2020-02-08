@@ -9,6 +9,7 @@ const pkg = require("./package");
 const Auth = require("./lib/Auth");
 
 const FarmersMarketService = require("./lib/farmersMarketService");
+const FoodPantryService = require("./lib/foodPantryService");
 const GroceryStoreService = require("./lib/groceryStoreService");
 const PdxTractService = require("./lib/pdxTractService");
 const UserService = require("./lib/UserService");
@@ -32,6 +33,7 @@ process.env.TZ = "UTC";
     const auth = new Auth(jwtConfig);
 
     const farmersMarketService = new FarmersMarketService({ pg });
+    const foodPantryService = new FoodPantryService({ pg });
     const groceryStoreService = new GroceryStoreService({ pg });
     const pdxTractService = new PdxTractService({ pg });
     const userService = new UserService({ pg });
@@ -41,37 +43,38 @@ process.env.TZ = "UTC";
     app.use("/files", express.static("files"));
     app.use("/js", express.static("public/js"));
 
-// Authorization
-function authorizeRoute(req, res, next) {
-  const {
-    cookies: { jwt },
-    path,
-  } = req;
+    // Authorization
+    function authorizeRoute(req, res, next) {
+      const {
+        cookies: { jwt },
+        path
+      } = req;
 
-  // All API routes are whitelisted for now. PUT and POST routes will check for permissions.
-  const whiteList = [
-    /^\/login/,
-    /^\/docs/,
-    /^\/pdxTract/,
-    /^\/farmersMarket/,
-    /^\/groceryStore/,
-  ];
+      // All API routes are whitelisted for now. PUT and POST routes will check for permissions.
+      const whiteList = [
+        /^\/login/,
+        /^\/docs/,
+        /^\/pdxTract/,
+        /^\/farmersMarket/,
+        /^\/foodPantry/,
+        /^\/groceryStore/
+      ];
 
-  auth
-    .authorizeRoute(path, jwt, whiteList)
-    .then(results => {
-      if (!results.token) {
-        next();
-        return;
-      }
-      req.session = results.payload;
-      res.cookie("jwt", results.token);
-      next();
-    })
-    .catch(e => {
-      res.status(401).send(e);
-    });
-}
+      auth
+        .authorizeRoute(path, jwt, whiteList)
+        .then(results => {
+          if (!results.token) {
+            next();
+            return;
+          }
+          req.session = results.payload;
+          res.cookie("jwt", results.token);
+          next();
+        })
+        .catch(e => {
+          res.status(401).send(e);
+        });
+    }
 
     app.use(
       bodyParser.json({
@@ -154,6 +157,7 @@ function authorizeRoute(req, res, next) {
         auth,
         env,
         farmersMarketService,
+        foodPantryService,
         groceryStoreService,
         pdxTractService,
         userService,
