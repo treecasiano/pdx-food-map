@@ -62,12 +62,16 @@ function factory(logger, foodPantryService) {
               description: "Food Pantry Phone Number",
               type: "string"
             },
-            geom: {
-              description: "Geometry in the form of 'longitude latitude'",
-              type: "string"
+            longitude: {
+              description: "longitude",
+              type: "number"
+            },
+            latitude: {
+              description: "latitude",
+              type: "number"
             }
           },
-          required: ["location_name", "geom"],
+          required: ["location_name", "latitude", "longitude"],
           type: "object"
         }
       }
