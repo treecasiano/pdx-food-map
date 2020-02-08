@@ -9,10 +9,12 @@ const pkg = require("./package");
 const Auth = require("./lib/Auth");
 
 const CsaDropoffSiteService = require("./lib/csaDropoffSiteService");
+const CtranStopService = require("./lib/ctranStopService");
 const FarmersMarketService = require("./lib/farmersMarketService");
 const FoodPantryService = require("./lib/foodPantryService");
 const GroceryStoreService = require("./lib/groceryStoreService");
 const PdxTractService = require("./lib/pdxTractService");
+const TrimetStopService = require("./lib/trimetStopService");
 const UserService = require("./lib/UserService");
 const pgFactory = require("./lib/pg");
 
@@ -34,10 +36,12 @@ process.env.TZ = "UTC";
     const auth = new Auth(jwtConfig);
 
     const csaDropoffSiteService = new CsaDropoffSiteService({ pg });
+    const ctranStopService = new CtranStopService({ pg });
     const farmersMarketService = new FarmersMarketService({ pg });
     const foodPantryService = new FoodPantryService({ pg });
     const groceryStoreService = new GroceryStoreService({ pg });
     const pdxTractService = new PdxTractService({ pg });
+    const trimetStopService = new TrimetStopService({ pg });
     const userService = new UserService({ pg });
 
     const app = express();
@@ -56,11 +60,13 @@ process.env.TZ = "UTC";
       const whiteList = [
         /^\/login/,
         /^\/docs/,
+        /^\/ctran/,
         /^\/pdxTract/,
         /^\/csaDropoffSite/,
         /^\/farmersMarket/,
         /^\/foodPantry/,
-        /^\/groceryStore/
+        /^\/groceryStore/,
+        /^\/trimet/
       ];
 
       auth
@@ -160,10 +166,12 @@ process.env.TZ = "UTC";
         auth,
         env,
         csaDropoffSiteService,
+        ctranStopService,
         farmersMarketService,
         foodPantryService,
         groceryStoreService,
         pdxTractService,
+        trimetStopService,
         userService,
         logger
       },
