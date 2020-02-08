@@ -98,7 +98,6 @@ function factory(logger, foodPantryService) {
   };
 
   async function GET(req, res) {
-    // TODO: Handle case where id not found.
     let result;
     try {
       result = await foodPantryService.list();
