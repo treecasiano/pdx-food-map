@@ -108,9 +108,13 @@ function factory(logger, foodPantryService) {
               description: "Food Pantry Phone Number",
               type: "string"
             },
-            geom: {
-              description: "Geometry in the form of 'longitude latitude'",
-              type: "string"
+            longitude: {
+              description: "longitude",
+              type: "number"
+            },
+            latitude: {
+              description: "latitude",
+              type: "number"
             }
           },
           type: "object"
@@ -194,17 +198,29 @@ function factory(logger, foodPantryService) {
     }
 
     let record;
+    let oldLong;
+    let oldLat;
     try {
       record = await foodPantryService.get(id);
+      if (!record) {
+        return res
+          .status(404)
+          .json({ message: `Unable to find record for id: ${id}` });
+      }
+      oldLong = record.longitude;
+      oldLat = record.latitude;
+
+      // If only one long/lat value is being updated, get the other value from the db because PostGIS functions in the service need both values.
+      if (updates.latitude && !updates.longitude) {
+        updates.longitude = oldLong;
+      }
+
+      if (!updates.latitude && updates.longitude) {
+        updates.latitude = oldLat;
+      }
     } catch (e) {
       logger.error(e);
       return res.status(500).json({ message: "Database error" });
-    }
-
-    if (!record) {
-      return res
-        .status(404)
-        .json({ message: `Unable to find record for id: ${id}` });
     }
 
     let result;
