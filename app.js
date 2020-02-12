@@ -14,6 +14,8 @@ const FarmersMarketService = require("./lib/farmersMarketService");
 const FoodPantryService = require("./lib/foodPantryService");
 const GroceryStoreService = require("./lib/groceryStoreService");
 const PdxTractService = require("./lib/pdxTractService");
+const TrimetRouteService = require("./lib/trimetRouteService");
+const TrailClarkCountyService = require("./lib/trailClarkCountyService");
 const TrimetStopService = require("./lib/trimetStopService");
 const UserService = require("./lib/UserService");
 const pgFactory = require("./lib/pg");
@@ -41,6 +43,8 @@ process.env.TZ = "UTC";
     const foodPantryService = new FoodPantryService({ pg });
     const groceryStoreService = new GroceryStoreService({ pg });
     const pdxTractService = new PdxTractService({ pg });
+    const trimetRouteService = new TrimetRouteService({ pg });
+    const trailClarkCountyService = new TrailClarkCountyService({ pg });
     const trimetStopService = new TrimetStopService({ pg });
     const userService = new UserService({ pg });
 
@@ -66,6 +70,7 @@ process.env.TZ = "UTC";
         /^\/farmersMarket/,
         /^\/foodPantry/,
         /^\/groceryStore/,
+        /^\/trailClarkCounty/,
         /^\/trimet/
       ];
 
@@ -171,6 +176,8 @@ process.env.TZ = "UTC";
         foodPantryService,
         groceryStoreService,
         pdxTractService,
+        trimetRouteService,
+        trailClarkCountyService,
         trimetStopService,
         userService,
         logger
