@@ -7,7 +7,7 @@ function factory(logger, foodPantryService) {
     parameters: [],
     responses: {
       200: {
-        description: "Point features in geojson format"
+        description: "Point Features"
       },
       500: {
         description: "Server Error"

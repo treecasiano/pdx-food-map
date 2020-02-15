@@ -6,7 +6,7 @@ function factory(logger, trailClarkCountyService) {
     parameters: [],
     responses: {
       200: {
-        description: "Line features in geojson format"
+        description: "Line Features"
       },
       500: {
         description: "Server Error"

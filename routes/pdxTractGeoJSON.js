@@ -7,7 +7,7 @@ function factory(logger, pdxTractService) {
     parameters: [],
     responses: {
       200: {
-        description: "Polygon features in geojson format"
+        description: "Polygon Features"
       },
       500: {
         description: "Server Error"
