@@ -1,13 +1,12 @@
 function factory(logger, groceryStoreService) {
   GET.apiDoc = {
-    summary:
-      "Returns a list of all Grocery Stores in the PDX-Vancouver-Hillsboro MSA",
-    tags: ["PDX Metro Grocery Stores"],
+    summary: "Get list of records",
+    tags: ["Grocery Stores"],
     produces: ["application/json"],
     parameters: [],
     responses: {
       200: {
-        description: "List of records"
+        description: "List of Grocery Store records"
       },
       500: {
         description: "Server Error"
@@ -16,8 +15,8 @@ function factory(logger, groceryStoreService) {
   };
 
   POST.apiDoc = {
-    summary: "Creates a Grocery Store",
-    tags: ["PDX Metro Grocery Stores"],
+    summary: "Create a record",
+    tags: ["Grocery Stores"],
     produces: ["application/json"],
     parameters: [
       {

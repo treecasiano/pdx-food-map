@@ -1,12 +1,12 @@
 function factory(logger, farmersMarketService) {
   GET.apiDoc = {
-    summary: "Gets a list of all Farmers Markets",
-    tags: ["PDX Metro Farmers Markets"],
+    summary: "Get list of records",
+    tags: ["Farmers Markets"],
     produces: ["application/json"],
     parameters: [],
     responses: {
       200: {
-        description: "List of records"
+        description: "List of Farmers Market records"
       },
       500: {
         description: "Internal Server Error"
@@ -15,8 +15,8 @@ function factory(logger, farmersMarketService) {
   };
 
   POST.apiDoc = {
-    summary: "Creates a Farmers Market",
-    tags: ["PDX Metro Farmers Markets"],
+    summary: "Create a record",
+    tags: ["Farmers Markets"],
     produces: ["application/json"],
     parameters: [
       {

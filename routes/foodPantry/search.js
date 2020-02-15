@@ -1,8 +1,8 @@
 function factory(logger, foodPantryService) {
   POST.apiDoc = {
     summary:
-      "Returns a list of Food Pantries within a specified distance of a given point",
-    tags: ["PDX Metro Food Pantries"],
+      "Get list of Food Pantries within a specified distance in meters from a given point",
+    tags: ["Food Pantries"],
     produces: ["application/json"],
     parameters: [
       {

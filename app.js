@@ -8,12 +8,16 @@ const pkg = require("./package");
 
 const Auth = require("./lib/Auth");
 
+const BikePathPortlandService = require("./lib/bikePathPortlandService");
 const CsaDropoffSiteService = require("./lib/csaDropoffSiteService");
+const CtranRouteService = require("./lib/ctranRouteService");
 const CtranStopService = require("./lib/ctranStopService");
 const FarmersMarketService = require("./lib/farmersMarketService");
 const FoodPantryService = require("./lib/foodPantryService");
 const GroceryStoreService = require("./lib/groceryStoreService");
 const PdxTractService = require("./lib/pdxTractService");
+const TrimetRouteService = require("./lib/trimetRouteService");
+const TrailClarkCountyService = require("./lib/trailClarkCountyService");
 const TrimetStopService = require("./lib/trimetStopService");
 const UserService = require("./lib/UserService");
 const pgFactory = require("./lib/pg");
@@ -35,12 +39,16 @@ process.env.TZ = "UTC";
 
     const auth = new Auth(jwtConfig);
 
+    const bikePathPortlandService = new BikePathPortlandService({ pg });
     const csaDropoffSiteService = new CsaDropoffSiteService({ pg });
+    const ctranRouteService = new CtranRouteService({ pg });
     const ctranStopService = new CtranStopService({ pg });
     const farmersMarketService = new FarmersMarketService({ pg });
     const foodPantryService = new FoodPantryService({ pg });
     const groceryStoreService = new GroceryStoreService({ pg });
     const pdxTractService = new PdxTractService({ pg });
+    const trimetRouteService = new TrimetRouteService({ pg });
+    const trailClarkCountyService = new TrailClarkCountyService({ pg });
     const trimetStopService = new TrimetStopService({ pg });
     const userService = new UserService({ pg });
 
@@ -60,12 +68,14 @@ process.env.TZ = "UTC";
       const whiteList = [
         /^\/login/,
         /^\/docs/,
+        /^\/bikePath/,
         /^\/ctran/,
         /^\/pdxTract/,
         /^\/csaDropoffSite/,
         /^\/farmersMarket/,
         /^\/foodPantry/,
         /^\/groceryStore/,
+        /^\/trailClarkCounty/,
         /^\/trimet/
       ];
 
@@ -165,12 +175,16 @@ process.env.TZ = "UTC";
       dependencies: {
         auth,
         env,
+        bikePathPortlandService,
         csaDropoffSiteService,
+        ctranRouteService,
         ctranStopService,
         farmersMarketService,
         foodPantryService,
         groceryStoreService,
         pdxTractService,
+        trimetRouteService,
+        trailClarkCountyService,
         trimetStopService,
         userService,
         logger

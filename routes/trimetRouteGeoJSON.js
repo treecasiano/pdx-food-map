@@ -1,13 +1,12 @@
-function factory(logger, foodPantryService) {
+function factory(logger, trimetRouteService) {
   GET.apiDoc = {
-    summary:
-      "GeoJSON Feature Collection (Food Pantries in PDX-Vancouver-Hillsboro MSA)",
-    tags: ["Food Pantries"],
+    summary: "GeoJSON Feature Collection (Trimet Transit Routes)",
+    tags: ["TriMet"],
     produces: ["application/json"],
     parameters: [],
     responses: {
       200: {
-        description: "Point Features"
+        description: "Line Features"
       },
       500: {
         description: "Server Error"
@@ -22,7 +21,7 @@ function factory(logger, foodPantryService) {
   async function GET(req, res) {
     let result;
     try {
-      result = await foodPantryService.getGeoJSON();
+      result = await trimetRouteService.getGeoJSON();
     } catch (e) {
       logger.error(e);
       return res.status(500).json({ message: "Database error" });

@@ -1,8 +1,8 @@
 function factory(logger, csaDropoffSiteService) {
   POST.apiDoc = {
     summary:
-      "Returns a list of CSA Dropoff Sites within a specified distance of a given point",
-    tags: ["PDX Metro CSA Dropoff Sites"],
+      "Get list of CSA Dropoff Sites within a specified distance in meters from a given point",
+    tags: ["CSA Dropoff Sites"],
     produces: ["application/json"],
     parameters: [
       {

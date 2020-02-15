@@ -1,7 +1,7 @@
 function factory(logger, foodPantryService) {
   DELETE.apiDoc = {
-    summary: "Deletes a record by ID",
-    tags: ["PDX Metro Food Pantries"],
+    summary: "Delete record",
+    tags: ["Food Pantries"],
     parameters: [
       {
         description: "Food Pantry Record ID",
@@ -26,8 +26,8 @@ function factory(logger, foodPantryService) {
   };
 
   GET.apiDoc = {
-    summary: "Get Food Pantry record by ID",
-    tags: ["PDX Metro Food Pantries"],
+    summary: "Get record by ID",
+    tags: ["Food Pantries"],
     produces: ["application/json"],
     parameters: [
       {
@@ -54,7 +54,7 @@ function factory(logger, foodPantryService) {
 
   PUT.apiDoc = {
     summary: "Update record",
-    tags: ["PDX Metro Food Pantries"],
+    tags: ["Food Pantries"],
     produces: ["application/json"],
     parameters: [
       {
