@@ -1,6 +1,6 @@
 function factory(logger, ctranStopService) {
   GET.apiDoc = {
-    summary: "Returns a GeoJSON Feature Collection (C-TRAN Transit Stops)",
+    summary: "GeoJSON Feature Collection (C-TRAN Transit Stops)",
     tags: ["C-TRAN"],
     produces: ["application/json"],
     parameters: [],

@@ -1,8 +1,8 @@
 function factory(logger, groceryStoreService) {
   POST.apiDoc = {
     summary:
-      "Returns a list of Grocery Stores within a specified distance of a given point",
-    tags: ["PDX Metro Grocery Stores"],
+      "Get list of Grocery Stores within a specified distance of a given point",
+    tags: ["Grocery Stores"],
     produces: ["application/json"],
     parameters: [
       {

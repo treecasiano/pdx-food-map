@@ -1,7 +1,7 @@
 function factory(logger, farmersMarketService) {
   GET.apiDoc = {
-    summary: "Get Farmers Market record by ID",
-    tags: ["PDX Metro Farmers Markets"],
+    summary: "Get record by ID",
+    tags: ["Farmers Markets"],
     produces: ["application/json"],
     parameters: [
       {
@@ -28,7 +28,7 @@ function factory(logger, farmersMarketService) {
 
   PUT.apiDoc = {
     summary: "Update record",
-    tags: ["PDX Metro Farmers Markets"],
+    tags: ["Farmers Markets"],
     produces: ["application/json"],
     parameters: [
       {

@@ -1,7 +1,7 @@
 function factory(logger, groceryStoreService) {
   GET.apiDoc = {
-    summary: "Get Grocery Store record by ID",
-    tags: ["PDX Metro Grocery Stores"],
+    summary: "Get record by ID",
+    tags: ["Grocery Stores"],
     produces: ["application/json"],
     parameters: [
       {
@@ -28,7 +28,7 @@ function factory(logger, groceryStoreService) {
 
   PUT.apiDoc = {
     summary: "Update record",
-    tags: ["PDX Metro Grocery Stores"],
+    tags: ["Grocery Stores"],
     produces: ["application/json"],
     parameters: [
       {

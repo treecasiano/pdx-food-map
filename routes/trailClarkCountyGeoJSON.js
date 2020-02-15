@@ -1,6 +1,7 @@
 function factory(logger, trailClarkCountyService) {
   GET.apiDoc = {
-    summary: "Returns a GeoJSON Feature Collection",
+    summary:
+      "GeoJSON Feature Collection (Bicycle and Pedestrian Trails in Clark County, WA)",
     tags: ["Trails - Clark County"],
     produces: ["application/json"],
     parameters: [],

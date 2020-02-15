@@ -1,8 +1,8 @@
 function factory(logger, csaDropoffSiteService) {
   GET.apiDoc = {
     summary:
-      "Returns a GeoJSON Feature Collection (CSA Dropoff Sites in PDX-Vancouver-Hillsboro MSA)",
-    tags: ["PDX Metro CSA Dropoff Sites"],
+      "GeoJSON Feature Collection (CSA Dropoff Sites in PDX-Vancouver-Hillsboro MSA)",
+    tags: ["CSA Dropoff Sites"],
     produces: ["application/json"],
     parameters: [],
     responses: {

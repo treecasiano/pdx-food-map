@@ -1,12 +1,12 @@
 function factory(logger, foodPantryService) {
   GET.apiDoc = {
-    summary: "Gets a list of all Food Pantries",
-    tags: ["PDX Metro Food Pantries"],
+    summary: "Get list of records",
+    tags: ["Food Pantries"],
     produces: ["application/json"],
     parameters: [],
     responses: {
       200: {
-        description: "List of records"
+        description: "List of Food Pantry records"
       },
       500: {
         description: "Internal Server Error"
@@ -15,8 +15,8 @@ function factory(logger, foodPantryService) {
   };
 
   POST.apiDoc = {
-    summary: "Creates a Food Pantry",
-    tags: ["PDX Metro Food Pantries"],
+    summary: "Create record",
+    tags: ["Food Pantries"],
     produces: ["application/json"],
     parameters: [
       {

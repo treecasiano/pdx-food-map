@@ -1,8 +1,8 @@
 function factory(logger, groceryStoreService) {
   POST.apiDoc = {
     summary:
-      "Returns a GeoJSON Feature Collection (Grocery Stores in the PDX-Vancouver-Hillsboro MSA by store type)",
-    tags: ["PDX Metro Grocery Stores"],
+      "GeoJSON Feature Collection (Grocery Stores in the PDX-Vancouver-Hillsboro MSA by store type)",
+    tags: ["Grocery Stores"],
     produces: ["application/json"],
     parameters: [
       {

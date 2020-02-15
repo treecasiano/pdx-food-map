@@ -1,6 +1,6 @@
 function factory(logger, trimetRouteService) {
   GET.apiDoc = {
-    summary: "Returns a GeoJSON Feature Collection",
+    summary: "GeoJSON Feature Collection (Trimet Transit Routes)",
     tags: ["TriMet"],
     produces: ["application/json"],
     parameters: [],

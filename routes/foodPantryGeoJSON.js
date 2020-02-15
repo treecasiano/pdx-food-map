@@ -1,8 +1,8 @@
 function factory(logger, foodPantryService) {
   GET.apiDoc = {
     summary:
-      "Returns a GeoJSON Feature Collection (Food Pantries in PDX-Vancouver-Hillsboro MSA)",
-    tags: ["PDX Metro Food Pantries"],
+      "GeoJSON Feature Collection (Food Pantries in PDX-Vancouver-Hillsboro MSA)",
+    tags: ["Food Pantries"],
     produces: ["application/json"],
     parameters: [],
     responses: {
