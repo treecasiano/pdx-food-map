@@ -8,6 +8,7 @@ const pkg = require("./package");
 
 const Auth = require("./lib/Auth");
 
+const BikePathPortlandService = require("./lib/bikePathPortlandService");
 const CsaDropoffSiteService = require("./lib/csaDropoffSiteService");
 const CtranRouteService = require("./lib/ctranRouteService");
 const CtranStopService = require("./lib/ctranStopService");
@@ -38,6 +39,7 @@ process.env.TZ = "UTC";
 
     const auth = new Auth(jwtConfig);
 
+    const bikePathPortlandService = new BikePathPortlandService({ pg });
     const csaDropoffSiteService = new CsaDropoffSiteService({ pg });
     const ctranRouteService = new CtranRouteService({ pg });
     const ctranStopService = new CtranStopService({ pg });
@@ -66,6 +68,7 @@ process.env.TZ = "UTC";
       const whiteList = [
         /^\/login/,
         /^\/docs/,
+        /^\/bikePath/,
         /^\/ctran/,
         /^\/pdxTract/,
         /^\/csaDropoffSite/,
@@ -172,6 +175,7 @@ process.env.TZ = "UTC";
       dependencies: {
         auth,
         env,
+        bikePathPortlandService,
         csaDropoffSiteService,
         ctranRouteService,
         ctranStopService,
