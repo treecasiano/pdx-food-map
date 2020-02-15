@@ -117,14 +117,11 @@
 
 <script>
 // TODO: Constrain zoom out
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import MapControls from "@/components/MapControls.vue";
 import MapLayers from "@/components/MapLayers.vue";
 import VGeosearch from "@/components/VGeosearch.vue";
-
-const defaultCenter = [45.59, -122.6793];
-const defaultZoom = 10;
 
 const defaultStyle = {
   weight: 0.75,
@@ -270,6 +267,8 @@ export default {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: "abcd",
+      defaultCenter: [45.59, -122.6793],
+      defaultZoom: 10,
       maxZoom: 18,
       minZoom: 4,
       showMapControls: true,
@@ -358,16 +357,15 @@ export default {
     });
   },
   methods: {
-    centerUpdated(center) {
-      this.setCenter = center;
-    },
     boundsUpdated(bounds) {
       this.bounds = bounds;
+    },
+    centerUpdated(center) {
+      this.setCenter(center);
     },
     clearSearchResult() {
       this.$store.dispatch("groceryStore/clearSearchResult");
       this.$store.dispatch("farmersMarket/clearSearchResult");
-      this.showSearchResult = false;
     },
     createMarkers(geojson, alternateIcon) {
       const markersArray = geojson["features"].map(feature => {
@@ -426,13 +424,12 @@ export default {
       });
     },
     resetMapView() {
-      this.$refs.map.setCenter(defaultCenter);
-      this.$refs.map.setZoom(defaultZoom);
+      this.setCenter(this.defaultCenter);
+      this.setZoom(this.defaultZoom);
     },
     async searchForPoints(params) {
       await this.$store.dispatch("groceryStore/search", params);
       await this.$store.dispatch("farmersMarket/search", params);
-      this.showSearchResult = true;
     },
     setDefaultStyles(layer, feature) {
       layer.setStyle(defaultStyle);
@@ -467,7 +464,7 @@ export default {
       });
     },
     zoomUpdated(zoom) {
-      this.setZoom = zoom;
+      this.setZoom(zoom);
     },
     ...mapMutations({
       setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",
