@@ -9,6 +9,7 @@ const pkg = require("./package");
 const Auth = require("./lib/Auth");
 
 const CsaDropoffSiteService = require("./lib/csaDropoffSiteService");
+const CtranRouteService = require("./lib/ctranRouteService");
 const CtranStopService = require("./lib/ctranStopService");
 const FarmersMarketService = require("./lib/farmersMarketService");
 const FoodPantryService = require("./lib/foodPantryService");
@@ -38,6 +39,7 @@ process.env.TZ = "UTC";
     const auth = new Auth(jwtConfig);
 
     const csaDropoffSiteService = new CsaDropoffSiteService({ pg });
+    const ctranRouteService = new CtranRouteService({ pg });
     const ctranStopService = new CtranStopService({ pg });
     const farmersMarketService = new FarmersMarketService({ pg });
     const foodPantryService = new FoodPantryService({ pg });
@@ -171,6 +173,7 @@ process.env.TZ = "UTC";
         auth,
         env,
         csaDropoffSiteService,
+        ctranRouteService,
         ctranStopService,
         farmersMarketService,
         foodPantryService,
