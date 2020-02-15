@@ -1,7 +1,7 @@
 function factory(logger, farmersMarketService) {
   POST.apiDoc = {
     summary:
-      "Get list of Farmers Markets within a specified distance of a given point",
+      "Get list of Farmers Markets within a specified distance in meters from a given point",
     tags: ["Farmers Markets"],
     produces: ["application/json"],
     parameters: [
