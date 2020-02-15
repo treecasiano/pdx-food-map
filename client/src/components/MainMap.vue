@@ -99,8 +99,8 @@
         <l-geo-json
           v-if="displayPdxTracts"
           :geojson="geojsonPdxTract"
-          :options="options"
-          :options-style="styleFunction"
+          :options="tractOptions"
+          :options-style="styleFunctionTract"
         ></l-geo-json>
         <l-control-zoom position="bottomright"></l-control-zoom>
         <l-control position="topright" class="pdx-spinner">
@@ -123,14 +123,21 @@ import MapControls from "@/components/MapControls.vue";
 import MapLayers from "@/components/MapLayers.vue";
 import VGeosearch from "@/components/VGeosearch.vue";
 
-const defaultStyle = {
+const tractDefaultStyle = {
   weight: 0.75,
   color: "#A9A9A9",
   opacity: 1,
   fillColor: "#B1B6B6",
   fillOpacity: 0.25,
 };
-const highlightStyle = {
+const tractSelectedStyle = {
+  weight: 0.75,
+  color: "#A9A9A9",
+  opacity: 1,
+  fillColor: "#eeeeee",
+  fillOpacity: 0.25,
+};
+const tractHighlightStyle = {
   weight: 2,
   color: "#c0ca33",
   opacity: 0.9,
@@ -173,67 +180,20 @@ export default {
       }
       return mapMarkers;
     },
-    options() {
+    tractOptions() {
       return {
-        onEachFeature: this.onEachFeatureFunction,
+        onEachFeature: this.onEachTractFeatureFunction,
       };
     },
-    styleFunction() {
+    styleFunctionTract() {
       return () => {
-        return defaultStyle;
+        return tractDefaultStyle;
       };
     },
-    onEachFeatureFunction() {
-      // TODO: refactor this nasty if statement
-      if (!this.displayStatusTooltip) {
-        return (feature, layer) => {
-          layer.on("click", e => {
-            const southWest = e.target._bounds._southWest;
-            const northEast = e.target._bounds._northEast;
-            const tractBounds = L.latLngBounds(southWest, northEast);
-            const {
-              target: {
-                feature: { properties },
-              },
-            } = e;
-            console.log("click of census tract");
-            this.setTract(properties);
-            this.setMapControlMini(false);
-            this.setSelectedTab("map");
-            this.$refs.map.fitBounds(tractBounds);
-          });
-          layer.unbindTooltip();
-          this.setDefaultStyles(layer, feature);
-        };
-      }
-      return (feature, layer) => {
-        const tooltipContent = this.createCensusTractContent(
-          feature.properties
-        );
-        layer.on("click", e => {
-          const southWest = e.target._bounds._southWest;
-          const northEast = e.target._bounds._northEast;
-          const tractBounds = L.latLngBounds(southWest, northEast);
-          const {
-            target: {
-              feature: { properties },
-            },
-          } = e;
-          this.setTract(properties);
-          this.setMapControlMini(false);
-          this.setSelectedTab("map");
-          this.$refs.map.fitBounds(tractBounds);
-        });
-        if (this.displayStatusTooltip) {
-          layer.bindTooltip(tooltipContent, {
-            permanent: false,
-            sticky: true,
-            className: "pdx-tooltip",
-          });
-        }
-
-        this.setDefaultStyles(layer, feature);
-      };
+    onEachTractFeatureFunction(feature, layer) {
+      // The onEachFeature function has to be a computed property here
+      // because of the binding of the tooltip when tooltips are hidden.
+      return this.createTractLayer(feature, layer, this.displayStatusTooltip);
     },
     searchDistance() {
       if (this.radiosDistance == "radio-half") {
@@ -363,11 +323,41 @@ export default {
     centerUpdated(center) {
       this.setCenter(center);
     },
+    createTractLayer(feature, layer, tooltipDisplay) {
+      return (feature, layer) => {
+        layer.on("click", e => {
+          const southWest = e.target._bounds._southWest;
+          const northEast = e.target._bounds._northEast;
+          const tractBounds = L.latLngBounds(southWest, northEast);
+          const {
+            target: {
+              feature: { properties },
+            },
+          } = e;
+          this.setTract(properties);
+          this.setSelectedTab("map");
+          this.$refs.map.fitBounds(tractBounds);
+        });
+        if (tooltipDisplay) {
+          const tooltipContent = this.createCensusTractContent(
+            feature.properties
+          );
+          layer.bindTooltip(tooltipContent, {
+            permanent: false,
+            sticky: true,
+            className: "pdx-tooltip",
+          });
+        } else {
+          layer.unbindTooltip();
+        }
+        this.setDefaultTractStyles(layer, feature);
+      };
+    },
     clearSearchResult() {
       this.$store.dispatch("groceryStore/clearSearchResult");
       this.$store.dispatch("farmersMarket/clearSearchResult");
     },
-    createMarkers(geojson, alternateIcon) {
+    createMarkers(geojson, customIcon) {
       const markersArray = geojson["features"].map(feature => {
         // eslint-disable-next-line no-undef
         let markerObject = L.latLng(
@@ -376,8 +366,8 @@ export default {
         );
         let props = feature["properties"];
 
-        if (alternateIcon) {
-          let icon = alternateIcon;
+        if (customIcon) {
+          let icon = customIcon;
           Object.assign(markerObject, { icon });
         }
 
@@ -431,8 +421,9 @@ export default {
       await this.$store.dispatch("groceryStore/search", params);
       await this.$store.dispatch("farmersMarket/search", params);
     },
-    setDefaultStyles(layer, feature) {
-      layer.setStyle(defaultStyle);
+    setDefaultTractStyles(layer, feature) {
+      // TODO: double-check measurment fo lilatrac_1 (1/2mi or 1mi?)
+      layer.setStyle(tractDefaultStyle);
       if (feature.properties.lilatrac_1 == 1) {
         layer.setStyle(foodDesertDefaultStyle);
       }
@@ -446,13 +437,13 @@ export default {
         if (feature.properties.lilatrac_1 == 1) {
           layer.setStyle(foodDesertHighlightStyle);
         } else {
-          layer.setStyle(highlightStyle);
+          layer.setStyle(tractHighlightStyle);
         }
         layer.on("mouseout", () => {
           if (feature.properties.lilatrac_1 == 1) {
             layer.setStyle(foodDesertDefaultStyle);
           } else {
-            layer.setStyle(defaultStyle);
+            layer.setStyle(tractDefaultStyle);
           }
           if (feature.properties.hunvflag == 1) {
             layer.setStyle({
