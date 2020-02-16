@@ -50,10 +50,11 @@
                 <div>
                   <strong>{{ item.props.name }}</strong>
                 </div>
+                <v-divider class="my-1" color="accent"></v-divider>
                 <div>
-                  <em>{{ item.props.type }}</em>
+                  <em>{{ item.props.address }}</em>
                 </div>
-                <div>{{ item.props.address }}</div>
+                <div>{{ item.props.type }}</div>
               </div>
             </l-popup>
           </l-marker>
@@ -73,6 +74,7 @@
                 <div>
                   <strong>{{ item.props.market }}</strong>
                 </div>
+                <v-divider class="my-1" color="accent"></v-divider>
                 <div>
                   <em>{{ item.props.location }}</em>
                 </div>
@@ -91,6 +93,47 @@
                 <div v-if="item.props.accepts">
                   <strong>Accepts:</strong>
                   {{ item.props.accepts }}
+                </div>
+              </div>
+            </l-popup>
+          </l-marker>
+        </div>
+        <div v-if="displayFoodPantries">
+          <l-marker
+            v-for="(item, index) in foodPantryMarkers"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index + 'foodPantry'"
+            :lat-lng="item"
+            data-cy="foodPantryPoint"
+            :icon="item.icon"
+          >
+            <l-popup>
+              <div>
+                <div>
+                  <strong>{{ item.props.location_name }}</strong>
+                </div>
+                <v-divider class="my-1" color="accent"></v-divider>
+                <div v-if="item.props.street_address_1">
+                  <em>
+                    <span>{{ item.props.street_address_1 }}</span>
+                    <span v-if="item.props.street_address_2">, {{ item.props.street_address_2 }}</span>
+                    <span v-if="item.props.city">, {{ item.props.city }}</span>
+                    <span v-if="item.props.state">, {{ item.props.state }}</span>
+                    <span v-if="item.props.zip" class="ml-1">{{ item.props.zip }}</span>
+                  </em>
+                </div>
+                <div v-if="item.props.hours_of_operation">
+                  <strong>Hours of Operation:</strong>
+                  {{ item.props.hours_of_operation }}
+                </div>
+                <div v-if="item.props.phone">
+                  <strong>Phone:</strong>
+                  {{ item.props.phone }}
+                </div>
+                <div v-if="item.props.website">
+                  <strong>Website:</strong>
+                  {{ item.props.website }}
                 </div>
               </div>
             </l-popup>
@@ -171,6 +214,15 @@ export default {
       }
       return mapMarkers;
     },
+    foodPantryMarkers() {
+      const geojson = this.$store.state.foodPantry.geoJSON;
+      let mapMarkers = [];
+      if (geojson.features) {
+        mapMarkers = this.createMarkers(geojson);
+        return mapMarkers;
+      }
+      return mapMarkers;
+    },
     farmersMarketMarkers() {
       const geojson = this.$store.state.farmersMarket.geoJSON;
       let mapMarkers = [];
@@ -207,14 +259,17 @@ export default {
       center: state => state.map.center,
       displayStatusTooltip: state => state.map.displayStatusTooltip,
       displayFarmersMarkets: state => state.farmersMarket.displayStatus,
+      displayFoodPantries: state => state.foodPantry.displayStatus,
       displayGroceryStores: state => state.groceryStore.displayStatus,
       displayPdxTracts: state => state.pdxTract.displayStatus,
       geojsonPdxTract: state => state.pdxTract.geoJSON,
       geojsonFarmersMarket: state => state.farmersMarket.geoJSON,
       geojsonGroceryStore: state => state.groceryStore.geoJSON,
       loadingDataFarmersMarket: state => state.farmersMarket.loading,
+      loadingDataFoodPantry: state => state.foodPantry.loading,
       loadingDataGroceryStore: state => state.groceryStore.loading,
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,
+      searchResultFoodPantry: state => state.foodPantry.searchResult,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
       zoom: state => state.map.zoom,
     }),

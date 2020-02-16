@@ -45,6 +45,13 @@
                 label="Farmers Markets"
               ></v-checkbox>
               <v-checkbox
+                v-if="foodPantryData.features"
+                v-model="displayStatusFoodPantry"
+                color="primary"
+                data-cy="checkbox--foodPantry"
+                label="Food Pantries"
+              ></v-checkbox>
+              <v-checkbox
                 v-if="groceryStoreData.features"
                 v-model="displayStatusGroceryStore"
                 data-cy="checkbox--groceryStores"
@@ -94,6 +101,14 @@ export default {
         this.setDisplayStatusFarmersMarketData(value);
       },
     },
+    displayStatusFoodPantry: {
+      get() {
+        return this.$store.state.foodPantry.displayStatus;
+      },
+      set(value) {
+        this.setDisplayStatusFoodPantryData(value);
+      },
+    },
     displayStatusGroceryStore: {
       get() {
         return this.$store.state.groceryStore.displayStatus;
@@ -120,6 +135,7 @@ export default {
     },
     ...mapState({
       farmersMarketData: state => state.farmersMarket.geoJSON,
+      foodPantryData: state => state.foodPantry.geoJSON,
       groceryStoreData: state => state.groceryStore.geoJSON,
       pdxTractData: state => state.pdxTract.geoJSON,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
@@ -144,6 +160,7 @@ export default {
     },
     ...mapActions({
       fetchFarmersMarketData: "farmersMarket/geoJSON",
+      fetchFoodPantryData: "foodPantry/geoJSON",
       fetchGroceryStoreData: "groceryStore/geoJSON",
       fetchPdxTractData: "pdxTract/geoJSON",
     }),
@@ -151,6 +168,7 @@ export default {
       setDisplayStatusPdxTractData: "pdxTract/setDisplayStatus",
       setDisplayStatusTooltip: "map/setDisplayStatusTooltip",
       setDisplayStatusFarmersMarketData: "farmersMarket/setDisplayStatus",
+      setDisplayStatusFoodPantryData: "foodPantry/setDisplayStatus",
       setDisplayStatusGroceryStoreData: "groceryStore/setDisplayStatus",
     }),
   },
@@ -159,7 +177,6 @@ export default {
       if (this.searchResultGroceryStore.length) {
         this.fetchGroceryStoreData();
         this.radiosGroceryStore = "all";
-        this.displayStatusParkLocations = true;
       }
     },
   },

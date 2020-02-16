@@ -27,7 +27,7 @@ const mutations = {
 };
 
 const state = {
-  displayStatusTooltip: false,
+  displayStatusTooltip: true,
   center: [45.59, -122.6793],
   userLatitude: null,
   userLongitude: null,

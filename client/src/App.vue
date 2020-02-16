@@ -1,19 +1,13 @@
 <template>
   <v-app id="app" style="overflow: hidden;">
-    <v-toolbar
-      dense
-      flat
-      color="primary darken-3"
-      class="accent--text pdx-toolbar--main"
-    >
+    <v-toolbar dense flat color="primary darken-3" class="accent--text pdx-toolbar--main">
       <v-toolbar-title>
         <a
           alt="Link to Home"
           href="/"
           class="accent--text font-weight-bold"
           style="text-decoration: none;"
-          >PDX Metro Food Map</a
-        >
+        >PDX Metro Food Map</a>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <div id="nav">
@@ -47,6 +41,7 @@ export default {
     try {
       Promise.all([
         await this.fetchFarmersMarketData(),
+        await this.fetchFoodPantryData(),
         await this.fetchGroceryStoreData(),
         await this.fetchPdxTractData(),
       ]);
@@ -63,6 +58,7 @@ export default {
   methods: {
     ...mapActions({
       fetchFarmersMarketData: "farmersMarket/geoJSON",
+      fetchFoodPantryData: "foodPantry/geoJSON",
       fetchGroceryStoreData: "groceryStore/geoJSON",
       fetchPdxTractData: "pdxTract/geoJSON",
     }),
