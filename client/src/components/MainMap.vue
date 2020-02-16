@@ -209,14 +209,19 @@
           </l-marker>
         </div>
         <div v-if="displayCtranStops">
-          <l-marker
+          <l-circle-marker
             v-for="(item, index) in ctranStopMarkers"
             v-bind:item="item"
             v-bind:index="index"
             v-bind:key="index + 'ctranStop'"
             :lat-lng="item"
+            radius="5"
+            fillColor="black"
+            color="#f2f2f2"
+            weight="1"
+            opacity="1"
+            fillOpacity="0.9"
             data-cy="ctranStopPoint"
-            :icon="item.icon"
           >
             <l-popup>
               <div>
@@ -230,17 +235,22 @@
                 <span>{{item.props.stop_name}}</span>
               </div>
             </l-popup>
-          </l-marker>
+          </l-circle-marker>
         </div>
         <div v-if="displayTrimetStops">
-          <l-marker
+          <l-circle-marker
             v-for="(item, index) in trimetStopMarkers"
             v-bind:item="item"
             v-bind:index="index"
             v-bind:key="index + 'trimetStop'"
             :lat-lng="item"
+            radius="5"
+            fillColor="black"
+            color="#f2f2f2"
+            weight="1"
+            opacity="1"
+            fillOpacity="0.9"
             data-cy="trimetStopPoint"
-            :icon="item.icon"
           >
             <l-popup>
               <div>
@@ -254,7 +264,7 @@
                 <span>{{item.props.stop_name}}</span>
               </div>
             </l-popup>
-          </l-marker>
+          </l-circle-marker>
         </div>
         <l-geo-json
           v-if="displayPdxTracts"
