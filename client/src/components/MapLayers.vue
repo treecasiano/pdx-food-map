@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
+    <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent width="320px">
       <template v-slot:prepend>
         <div v-if="mini">
           <v-btn small icon @click.stop="mini = !mini">
@@ -38,12 +38,21 @@
                 <v-divider class="mb-4"></v-divider>
               </div>
               <v-checkbox
-                v-if="csaDropoffSiteData.features"
-                v-model="displayStatusCsaDropoffSite"
-                color="primary"
-                data-cy="checkbox--csaDropoffSite"
-                label="Community Supported Agriculture Dropoff Sites"
+                v-if="groceryStoreData.features"
+                v-model="displayStatusGroceryStore"
+                data-cy="checkbox--groceryStores"
+                label="Grocery Stores"
               ></v-checkbox>
+              <v-select
+                v-if="displayStatusGroceryStore"
+                v-model="groceryStoreType"
+                @change="filterStores"
+                :items="items"
+                class="primary--text"
+                label="Filter by Store Type"
+                style="z-index: 10000"
+              ></v-select>
+
               <v-checkbox
                 v-if="farmersMarketData.features"
                 v-model="displayStatusFarmersMarket"
@@ -59,34 +68,12 @@
                 label="Food Pantries"
               ></v-checkbox>
               <v-checkbox
-                v-if="groceryStoreData.features"
-                v-model="displayStatusGroceryStore"
-                data-cy="checkbox--groceryStores"
-                label="Grocery Stores"
+                v-if="csaDropoffSiteData.features"
+                v-model="displayStatusCsaDropoffSite"
+                color="primary"
+                data-cy="checkbox--csaDropoffSite"
+                label="Community Supported Agriculture Dropoff Sites"
               ></v-checkbox>
-
-              <v-radio-group
-                v-if="displayStatusGroceryStore"
-                v-model="radiosStoreType"
-                style="margin: 0 0 -15px 32px;"
-                @change="filterStores"
-                label="Filter by Store Type"
-              >
-                <v-radio color="accent" value="all" data-cy="radioButton--allStores" label="All"></v-radio>
-                <v-radio
-                  color="accent"
-                  value="Large Chain Grocery"
-                  data-cy="radioButton--largeChain"
-                  label="Large Chain"
-                ></v-radio>
-                <v-radio
-                  color="accent"
-                  value="Independent or Ethnic Grocery"
-                  data-cy="radioButton--independent"
-                  label="Independent or Ethnic"
-                ></v-radio>
-              </v-radio-group>
-
               <div class="mapLayers__heading my-2">
                 <v-divider></v-divider>
                 <div>Public Transportation</div>
@@ -199,15 +186,21 @@ export default {
     return {
       drawer: true,
       mini: false,
-      radiosGroceryStore: "all",
-      radiosStoreType: "all",
+      items: [
+        "All Stores",
+        "Large Chain Grocery",
+        "Independent or Ethnic Grocery",
+      ],
+      groceryStoreType: "All Stores",
     };
   },
   methods: {
     async filterStores(value) {
-      if (value == "all") {
+      // TODO: Add try/catch
+      if (value == "All Stores") {
         await this.fetchGroceryStoreData();
       } else {
+        console.log("value", value);
         const params = { type: value };
         await this.fetchGroceryStoreData(params);
       }
@@ -236,7 +229,7 @@ export default {
     searchResultGroceryStore: function() {
       if (this.searchResultGroceryStore.length) {
         this.fetchGroceryStoreData();
-        this.radiosGroceryStore = "all";
+        this.groceryStoreType = "All Stores";
       }
     },
   },
@@ -253,11 +246,6 @@ export default {
 .v-input--checkbox {
   margin: 0 !important;
   padding: 0 !important;
-}
-
-.layerControls--radioButtons {
-  height: 22px !important;
-  padding: 0;
 }
 
 .mapLayers

@@ -68,6 +68,7 @@
             :lat-lng="item"
             data-cy="farmersMarketPoint"
             :icon="item.icon"
+            :ref="`farmersMarketMarker${item.markerId}`"
           >
             <l-popup>
               <div>
@@ -138,10 +139,6 @@
                 <div v-if="item.props.main_produ">
                   <strong>Main Product:</strong>
                   {{ item.props.main_produ }}
-                </div>
-                <div v-if="item.props.add_produc">
-                  <strong>Additional Product:</strong>
-                  {{ item.props.add_produc }}
                 </div>
                 <div v-if="item.props.share_type">
                   <strong>Share Type:</strong>
@@ -396,7 +393,7 @@ export default {
       };
     },
     transitStopMarkerRadius() {
-      const radius = this.zoom > 11.75 ? 5 : 3;
+      const radius = this.zoom > 11.75 ? 6 : 3;
       return radius;
     },
     styleFunctionTract() {
@@ -603,7 +600,7 @@ export default {
           Object.assign(markerObject, { icon });
         }
 
-        Object.assign(markerObject, { props });
+        Object.assign(markerObject, { props, markerId: feature.id });
 
         return markerObject;
       });
@@ -650,8 +647,17 @@ export default {
       this.setZoom(this.defaultZoom);
     },
     async searchForPoints(params) {
-      await this.$store.dispatch("groceryStore/search", params);
-      await this.$store.dispatch("farmersMarket/search", params);
+      try {
+        Promise.all([
+          await this.$store.dispatch("groceryStore/search", params),
+          await this.$store.dispatch("farmersMarket/search", params),
+          await this.$store.dispatch("foodPantry/search", params),
+          await this.$store.dispatch("csaDropoffSite/search", params),
+        ]);
+      } catch (e) {
+        // TODO: Add notifications
+        console.error(e);
+      }
     },
     setDefaultTractStyles(layer, feature) {
       // TODO: double-check measurment fo lilatrac_1 (1/2mi or 1mi?)
