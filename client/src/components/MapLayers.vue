@@ -196,12 +196,10 @@ export default {
   },
   methods: {
     async filterStores(value) {
-      // TODO: Add try/catch
+      const params = { type: value };
       if (value == "All Stores") {
         await this.fetchGroceryStoreData();
       } else {
-        console.log("value", value);
-        const params = { type: value };
         await this.fetchGroceryStoreData(params);
       }
     },

@@ -118,12 +118,7 @@
             <l-popup>
               <div>
                 <div>
-                  <strong>{{ item.props.farm_name }}</strong>
-                </div>
-                <div v-if="item.props.location">
-                  <em>
-                    <span>{{ item.props.location }}</span>
-                  </em>
+                  <strong>CSA Dropoff Site for {{ item.props.farm_name }}</strong>
                 </div>
                 <v-divider class="my-1" color="accent"></v-divider>
                 <div v-if="item.props.hours_of_operation">
@@ -134,7 +129,7 @@
                   <strong>Phone:</strong>
                   {{ item.props.phone }}
                 </div>
-                <div v-if="item.props.farmdescri" class="my-2">{{ item.props.farmdescri }}</div>
+                <div v-if="item.props.farmdescri" class="my-1">{{ item.props.farmdescri }}</div>
 
                 <div v-if="item.props.main_produ">
                   <strong>Main Product:</strong>
@@ -607,9 +602,6 @@ export default {
       return markersArray;
     },
     createCensusTractContent(props) {
-      const foodDesertMessage = `<div>This census tract is classified as a <span class="pdx-message--foodDesert">food desert.<span></div>`;
-      const lowVehicleMessage = `<div>This census tract is classified as having <span class="pdx-message--foodDesert">low vehicle access.<span></div>`;
-
       let propertyString = `<div class="pdx-tooltip__title">${
         props.county_1
       } County, ${props.state_1}</div>
