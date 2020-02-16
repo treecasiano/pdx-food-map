@@ -50,10 +50,10 @@
                 <div>
                   <strong>{{ item.props.name }}</strong>
                 </div>
-                <v-divider class="my-1" color="accent"></v-divider>
                 <div>
                   <em>{{ item.props.address }}</em>
                 </div>
+                <v-divider class="my-1" color="accent"></v-divider>
                 <div>{{ item.props.type }}</div>
               </div>
             </l-popup>
@@ -74,10 +74,10 @@
                 <div>
                   <strong>{{ item.props.market }}</strong>
                 </div>
-                <v-divider class="my-1" color="accent"></v-divider>
                 <div>
                   <em>{{ item.props.location }}</em>
                 </div>
+                <v-divider class="my-1" color="accent"></v-divider>
                 <div v-if="item.props.day">
                   <strong>Day:</strong>
                   {{ item.props.day }}
@@ -93,6 +93,73 @@
                 <div v-if="item.props.accepts">
                   <strong>Accepts:</strong>
                   {{ item.props.accepts }}
+                </div>
+                <div v-if="item.props.website" class="my-1">
+                  <a
+                    :href="item.props.website"
+                    class="secondary--text font-weight-bold"
+                  >>>> Visit Website</a>
+                </div>
+              </div>
+            </l-popup>
+          </l-marker>
+        </div>
+        <div v-if="displayCsaDropoffSites">
+          <l-marker
+            v-for="(item, index) in csaDropoffSiteMarkers"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index + 'csaDropoffSite'"
+            :lat-lng="item"
+            data-cy="csaDropoffSitePoint"
+            :icon="item.icon"
+          >
+            <l-popup>
+              <div>
+                <div>
+                  <strong>{{ item.props.farm_name }}</strong>
+                </div>
+                <div v-if="item.props.location">
+                  <em>
+                    <span>{{ item.props.location }}</span>
+                  </em>
+                </div>
+                <v-divider class="my-1" color="accent"></v-divider>
+                <div v-if="item.props.hours_of_operation">
+                  <strong>Hours of Operation:</strong>
+                  {{ item.props.hours_of_operation }}
+                </div>
+                <div v-if="item.props.phone">
+                  <strong>Phone:</strong>
+                  {{ item.props.phone }}
+                </div>
+                <div v-if="item.props.farmdescri" class="my-2">{{ item.props.farmdescri }}</div>
+
+                <div v-if="item.props.main_produ">
+                  <strong>Main Product:</strong>
+                  {{ item.props.main_produ }}
+                </div>
+                <div v-if="item.props.add_produc">
+                  <strong>Additional Product:</strong>
+                  {{ item.props.add_produc }}
+                </div>
+                <div v-if="item.props.share_type">
+                  <strong>Share Type:</strong>
+                  {{ item.props.share_type }}
+                </div>
+                <div v-if="item.props.home_del">
+                  <strong>Home Delivery?</strong>
+                  {{ item.props.home_del }}
+                </div>
+                <div v-if="item.props.snap">
+                  <strong>Accepts SNAP?</strong>
+                  {{ item.props.snap }}
+                </div>
+                <div v-if="item.props.website" class="mt-1">
+                  <a
+                    :href="item.props.website"
+                    class="secondary--text font-weight-bold"
+                  >>>> Visit Website</a>
                 </div>
               </div>
             </l-popup>
@@ -113,7 +180,6 @@
                 <div>
                   <strong>{{ item.props.location_name }}</strong>
                 </div>
-                <v-divider class="my-1" color="accent"></v-divider>
                 <div v-if="item.props.street_address_1">
                   <em>
                     <span>{{ item.props.street_address_1 }}</span>
@@ -123,6 +189,7 @@
                     <span v-if="item.props.zip" class="ml-1">{{ item.props.zip }}</span>
                   </em>
                 </div>
+                <v-divider class="my-1" color="accent"></v-divider>
                 <div v-if="item.props.hours_of_operation">
                   <strong>Hours of Operation:</strong>
                   {{ item.props.hours_of_operation }}
@@ -131,9 +198,11 @@
                   <strong>Phone:</strong>
                   {{ item.props.phone }}
                 </div>
-                <div v-if="item.props.website">
-                  <strong>Website:</strong>
-                  {{ item.props.website }}
+                <div v-if="item.props.website" class="my-1">
+                  <a
+                    :href="item.props.website"
+                    class="secondary--text font-weight-bold"
+                  >>>> Visit Website</a>
                 </div>
               </div>
             </l-popup>
@@ -205,6 +274,15 @@ export default {
   name: "MainMap",
   components: { VGeosearch, MapControls, MapLayers },
   computed: {
+    csaDropoffSiteMarkers() {
+      const geojson = this.$store.state.csaDropoffSite.geoJSON;
+      let mapMarkers = [];
+      if (geojson.features) {
+        mapMarkers = this.createMarkers(geojson);
+        return mapMarkers;
+      }
+      return mapMarkers;
+    },
     groceryStoreMarkers() {
       const geojson = this.$store.state.groceryStore.geoJSON;
       let mapMarkers = [];
@@ -258,13 +336,13 @@ export default {
     ...mapState({
       center: state => state.map.center,
       displayStatusTooltip: state => state.map.displayStatusTooltip,
+      displayCsaDropoffSites: state => state.csaDropoffSite.displayStatus,
       displayFarmersMarkets: state => state.farmersMarket.displayStatus,
       displayFoodPantries: state => state.foodPantry.displayStatus,
       displayGroceryStores: state => state.groceryStore.displayStatus,
       displayPdxTracts: state => state.pdxTract.displayStatus,
       geojsonPdxTract: state => state.pdxTract.geoJSON,
-      geojsonFarmersMarket: state => state.farmersMarket.geoJSON,
-      geojsonGroceryStore: state => state.groceryStore.geoJSON,
+      loadingDataCsaDropoffSite: state => state.csaDropoffSite.loading,
       loadingDataFarmersMarket: state => state.farmersMarket.loading,
       loadingDataFoodPantry: state => state.foodPantry.loading,
       loadingDataGroceryStore: state => state.groceryStore.loading,

@@ -40,6 +40,7 @@ export default {
     this.loading = true;
     try {
       Promise.all([
+        await this.fetchCsaDropoffSiteData(),
         await this.fetchFarmersMarketData(),
         await this.fetchFoodPantryData(),
         await this.fetchGroceryStoreData(),
@@ -57,6 +58,7 @@ export default {
   },
   methods: {
     ...mapActions({
+      fetchCsaDropoffSiteData: "csaDropoffSite/geoJSON",
       fetchFarmersMarketData: "farmersMarket/geoJSON",
       fetchFoodPantryData: "foodPantry/geoJSON",
       fetchGroceryStoreData: "groceryStore/geoJSON",

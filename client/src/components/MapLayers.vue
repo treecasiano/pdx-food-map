@@ -38,6 +38,13 @@
                 <v-divider class="mb-4"></v-divider>
               </div>
               <v-checkbox
+                v-if="csaDropoffSiteData.features"
+                v-model="displayStatusCsaDropoffSite"
+                color="primary"
+                data-cy="checkbox--csaDropoffSite"
+                label="Community Supported Agriculture Dropoff Sites"
+              ></v-checkbox>
+              <v-checkbox
                 v-if="farmersMarketData.features"
                 v-model="displayStatusFarmersMarket"
                 color="primary"
@@ -93,6 +100,14 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   name: "MapLayers",
   computed: {
+    displayStatusCsaDropoffSite: {
+      get() {
+        return this.$store.state.csaDropoffSite.displayStatus;
+      },
+      set(value) {
+        this.setDisplayStatusCsaDropoffSiteData(value);
+      },
+    },
     displayStatusFarmersMarket: {
       get() {
         return this.$store.state.farmersMarket.displayStatus;
@@ -134,6 +149,7 @@ export default {
       },
     },
     ...mapState({
+      csaDropoffSiteData: state => state.csaDropoffSite.geoJSON,
       farmersMarketData: state => state.farmersMarket.geoJSON,
       foodPantryData: state => state.foodPantry.geoJSON,
       groceryStoreData: state => state.groceryStore.geoJSON,
@@ -159,6 +175,7 @@ export default {
       }
     },
     ...mapActions({
+      fetchCsaDropoffSiteData: "csaDropoffSide/geoJSON",
       fetchFarmersMarketData: "farmersMarket/geoJSON",
       fetchFoodPantryData: "foodPantry/geoJSON",
       fetchGroceryStoreData: "groceryStore/geoJSON",
@@ -167,6 +184,7 @@ export default {
     ...mapMutations({
       setDisplayStatusPdxTractData: "pdxTract/setDisplayStatus",
       setDisplayStatusTooltip: "map/setDisplayStatusTooltip",
+      setDisplayStatusCsaDropoffSiteData: "csaDropoffSite/setDisplayStatus",
       setDisplayStatusFarmersMarketData: "farmersMarket/setDisplayStatus",
       setDisplayStatusFoodPantryData: "foodPantry/setDisplayStatus",
       setDisplayStatusGroceryStoreData: "groceryStore/setDisplayStatus",
