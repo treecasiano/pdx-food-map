@@ -327,8 +327,9 @@ export default {
     csaDropoffSiteMarkers() {
       const geojson = this.$store.state.csaDropoffSite.geoJSON;
       let mapMarkers = [];
+      const icon = this.zoom > 12 ? this.csaIcon : this.csaIconSmall;
       if (geojson.features) {
-        mapMarkers = this.createMarkers(geojson);
+        mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
       }
       return mapMarkers;
@@ -347,8 +348,9 @@ export default {
     foodPantryMarkers() {
       const geojson = this.$store.state.foodPantry.geoJSON;
       let mapMarkers = [];
+      const icon = this.zoom > 12 ? this.pantryIcon : this.pantryIconSmall;
       if (geojson.features) {
-        mapMarkers = this.createMarkers(geojson);
+        mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
       }
       return mapMarkers;
@@ -388,7 +390,7 @@ export default {
       };
     },
     transitStopMarkerRadius() {
-      const radius = this.zoom > 11.75 ? 6 : 3;
+      const radius = this.zoom > 11.75 ? 5 : 3;
       return radius;
     },
     styleFunctionTract() {
@@ -445,30 +447,58 @@ export default {
       showMapControls: true,
       radiosDistance: "radio-1",
       // eslint-disable-next-line
+      csaIcon: L.icon({
+        iconUrl: "leaflet/map_marker_csa.svg",
+        iconSize: [40, 40],
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50],
+      }),
+      // eslint-disable-next-line
+      csaIconSmall: L.icon({
+        iconUrl: "leaflet/map_marker_csa.svg",
+        iconSize: [25, 25],
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50],
+      }),
+      // eslint-disable-next-line
       farmersMarketIcon: L.icon({
-        iconUrl: "leaflet/PDXFoodMap631.svg",
-        iconSize: [50, 50],
+        iconUrl: "leaflet/map_marker_market.svg",
+        iconSize: [40, 40],
         iconAnchor: [25, 50],
         popupAnchor: [-10, -50],
       }),
       // eslint-disable-next-line
       farmersMarketIconSmall: L.icon({
-        iconUrl: "leaflet/PDXFoodMap631.svg",
-        iconSize: [30, 30],
+        iconUrl: "leaflet/map_marker_market.svg",
+        iconSize: [25, 25],
         iconAnchor: [25, 50],
         popupAnchor: [-10, -50],
       }),
       // eslint-disable-next-line
       groceryStoreIcon: L.icon({
-        iconUrl: "leaflet/PDXFoodMap611.svg",
-        iconSize: [50, 50],
+        iconUrl: "leaflet/map_marker_store.svg",
+        iconSize: [40, 40],
         iconAnchor: [25, 50],
         popupAnchor: [-10, -50],
       }),
       // eslint-disable-next-line
       groceryStoreIconSmall: L.icon({
-        iconUrl: "leaflet/PDXFoodMap611.svg",
-        iconSize: [30, 30],
+        iconUrl: "leaflet/map_marker_store.svg",
+        iconSize: [25, 25],
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50],
+      }),
+      // eslint-disable-next-line
+      pantryIcon: L.icon({
+        iconUrl: "leaflet/map_marker_pantry.svg",
+        iconSize: [40, 40],
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50],
+      }),
+      // eslint-disable-next-line
+      pantryIconSmall: L.icon({
+        iconUrl: "leaflet/map_marker_pantry.svg",
+        iconSize: [25, 25],
         iconAnchor: [25, 50],
         popupAnchor: [-10, -50],
       }),
@@ -504,7 +534,7 @@ export default {
         autoClose: true,
         searchLabel: "Enter an address...",
       },
-      transitStopFillColor: "#51332D",
+      transitStopFillColor: "#2F4B53",
     };
   },
   mounted() {
@@ -616,14 +646,6 @@ export default {
         props.povertyrat
       }%</span></strong><div>
       `;
-      if (props.lilatrac_1 == 1) {
-        propertyString += foodDesertMessage;
-      }
-
-      if (props.hunvflag == 1) {
-        propertyString += lowVehicleMessage;
-      }
-
       return propertyString;
     },
     formatCurrency(dollarValue) {
