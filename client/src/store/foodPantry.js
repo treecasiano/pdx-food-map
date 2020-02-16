@@ -1,19 +1,19 @@
-import farmersMarketApi from "../api/farmersMarket";
+import foodPantryApi from "../api/foodPantry";
 
 const actions = {
   async displayData({ commit, status }) {
     return commit("setDisplayStatus", status);
   },
   async list({ commit }) {
-    const list = await farmersMarketApi.list();
+    const list = await foodPantryApi.list();
     return commit("setList", list.data);
   },
   async geoJSON({ commit }) {
-    const geoJSON = await farmersMarketApi.getGeoJSON();
+    const geoJSON = await foodPantryApi.getGeoJSON();
     return commit("setGeoJSON", geoJSON.data);
   },
   async search({ commit }, params) {
-    const results = await farmersMarketApi.search(params);
+    const results = await foodPantryApi.search(params);
     return commit("setSearchResult", results.data);
   },
   setDisplayStatus(state, status) {

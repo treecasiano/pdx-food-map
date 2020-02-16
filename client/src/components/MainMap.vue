@@ -51,9 +51,10 @@
                   <strong>{{ item.props.name }}</strong>
                 </div>
                 <div>
-                  <em>{{ item.props.type }}</em>
+                  <em>{{ item.props.address }}</em>
                 </div>
-                <div>{{ item.props.address }}</div>
+                <v-divider class="my-1" color="accent"></v-divider>
+                <div>{{ item.props.type }}</div>
               </div>
             </l-popup>
           </l-marker>
@@ -67,6 +68,7 @@
             :lat-lng="item"
             data-cy="farmersMarketPoint"
             :icon="item.icon"
+            :ref="`farmersMarketMarker${item.markerId}`"
           >
             <l-popup>
               <div>
@@ -76,6 +78,7 @@
                 <div>
                   <em>{{ item.props.location }}</em>
                 </div>
+                <v-divider class="my-1" color="accent"></v-divider>
                 <div v-if="item.props.day">
                   <strong>Day:</strong>
                   {{ item.props.day }}
@@ -92,15 +95,174 @@
                   <strong>Accepts:</strong>
                   {{ item.props.accepts }}
                 </div>
+                <div v-if="item.props.website" class="my-1">
+                  <a
+                    :href="item.props.website"
+                    class="secondary--text font-weight-bold"
+                  >>>> Visit Website</a>
+                </div>
               </div>
             </l-popup>
           </l-marker>
         </div>
+        <div v-if="displayCsaDropoffSites">
+          <l-marker
+            v-for="(item, index) in csaDropoffSiteMarkers"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index + 'csaDropoffSite'"
+            :lat-lng="item"
+            data-cy="csaDropoffSitePoint"
+            :icon="item.icon"
+          >
+            <l-popup>
+              <div>
+                <div>
+                  <strong>CSA Dropoff Site for {{ item.props.farm_name }}</strong>
+                </div>
+                <v-divider class="my-1" color="accent"></v-divider>
+                <div v-if="item.props.hours_of_operation">
+                  <strong>Hours of Operation:</strong>
+                  {{ item.props.hours_of_operation }}
+                </div>
+                <div v-if="item.props.phone">
+                  <strong>Phone:</strong>
+                  {{ item.props.phone }}
+                </div>
+                <div v-if="item.props.farmdescri" class="my-1">{{ item.props.farmdescri }}</div>
+
+                <div v-if="item.props.main_produ">
+                  <strong>Main Product:</strong>
+                  {{ item.props.main_produ }}
+                </div>
+                <div v-if="item.props.share_type">
+                  <strong>Share Type:</strong>
+                  {{ item.props.share_type }}
+                </div>
+                <div v-if="item.props.home_del">
+                  <strong>Home Delivery?</strong>
+                  {{ item.props.home_del }}
+                </div>
+                <div v-if="item.props.snap">
+                  <strong>Accepts SNAP?</strong>
+                  {{ item.props.snap }}
+                </div>
+                <div v-if="item.props.website" class="mt-1">
+                  <a
+                    :href="item.props.website"
+                    class="secondary--text font-weight-bold"
+                  >>>> Visit Website</a>
+                </div>
+              </div>
+            </l-popup>
+          </l-marker>
+        </div>
+        <div v-if="displayFoodPantries">
+          <l-marker
+            v-for="(item, index) in foodPantryMarkers"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index + 'foodPantry'"
+            :lat-lng="item"
+            data-cy="foodPantryPoint"
+            :icon="item.icon"
+          >
+            <l-popup>
+              <div>
+                <div>
+                  <strong>{{ item.props.location_name }}</strong>
+                </div>
+                <div v-if="item.props.street_address_1">
+                  <em>
+                    <span>{{ item.props.street_address_1 }}</span>
+                    <span v-if="item.props.street_address_2">, {{ item.props.street_address_2 }}</span>
+                    <span v-if="item.props.city">, {{ item.props.city }}</span>
+                    <span v-if="item.props.state">, {{ item.props.state }}</span>
+                    <span v-if="item.props.zip" class="ml-1">{{ item.props.zip }}</span>
+                  </em>
+                </div>
+                <v-divider class="my-1" color="accent"></v-divider>
+                <div v-if="item.props.hours_of_operation">
+                  <strong>Hours of Operation:</strong>
+                  {{ item.props.hours_of_operation }}
+                </div>
+                <div v-if="item.props.phone">
+                  <strong>Phone:</strong>
+                  {{ item.props.phone }}
+                </div>
+                <div v-if="item.props.website" class="my-1">
+                  <a
+                    :href="item.props.website"
+                    class="secondary--text font-weight-bold"
+                  >>>> Visit Website</a>
+                </div>
+              </div>
+            </l-popup>
+          </l-marker>
+        </div>
+        <div v-if="displayCtranStops">
+          <l-circle-marker
+            v-for="(item, index) in ctranStopMarkers"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index + 'ctranStop'"
+            :lat-lng="item"
+            :radius="transitStopMarkerRadius"
+            :fillColor="transitStopFillColor"
+            color="#f2f2f2"
+            :weight="1"
+            :opacity="1"
+            :fillOpacity="0.9"
+            data-cy="ctranStopPoint"
+          >
+            <l-popup>
+              <div>
+                <span class="font-weight-bold mr-1">C-TRAN Stop ID:</span>
+
+                <span>{{item.props.stop_id}}</span>
+              </div>
+              <div>
+                <span class="font-weight-bold mr-1">C-TRAN Stop Name:</span>
+
+                <span>{{item.props.stop_name}}</span>
+              </div>
+            </l-popup>
+          </l-circle-marker>
+        </div>
+        <div v-if="displayTrimetStops">
+          <l-circle-marker
+            v-for="(item, index) in trimetStopMarkers"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index + 'trimetStop'"
+            :lat-lng="item"
+            :radius="transitStopMarkerRadius"
+            :fillColor="transitStopFillColor"
+            color="#f2f2f2"
+            :weight="1"
+            :opacity="1"
+            :fillOpacity="0.9"
+            data-cy="trimetStopPoint"
+          >
+            <l-popup>
+              <div>
+                <span class="font-weight-bold mr-1">TriMet Stop ID:</span>
+
+                <span>{{item.props.stop_id}}</span>
+              </div>
+              <div>
+                <span class="font-weight-bold mr-1">TriMet Stop Name:</span>
+
+                <span>{{item.props.stop_name}}</span>
+              </div>
+            </l-popup>
+          </l-circle-marker>
+        </div>
         <l-geo-json
           v-if="displayPdxTracts"
           :geojson="geojsonPdxTract"
-          :options="options"
-          :options-style="styleFunction"
+          :options="tractOptions"
+          :options-style="styleFunctionTract"
         ></l-geo-json>
         <l-control-zoom position="bottomright"></l-control-zoom>
         <l-control position="topright" class="pdx-spinner">
@@ -117,23 +279,27 @@
 
 <script>
 // TODO: Constrain zoom out
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import MapControls from "@/components/MapControls.vue";
 import MapLayers from "@/components/MapLayers.vue";
 import VGeosearch from "@/components/VGeosearch.vue";
 
-const defaultCenter = [45.59, -122.6793];
-const defaultZoom = 10;
-
-const defaultStyle = {
+const tractDefaultStyle = {
   weight: 0.75,
   color: "#A9A9A9",
   opacity: 1,
   fillColor: "#B1B6B6",
   fillOpacity: 0.25,
 };
-const highlightStyle = {
+const tractSelectedStyle = {
+  weight: 0.75,
+  color: "#A9A9A9",
+  opacity: 1,
+  fillColor: "#eeeeee",
+  fillOpacity: 0.25,
+};
+const tractHighlightStyle = {
   weight: 2,
   color: "#c0ca33",
   opacity: 0.9,
@@ -158,11 +324,33 @@ export default {
   name: "MainMap",
   components: { VGeosearch, MapControls, MapLayers },
   computed: {
+    csaDropoffSiteMarkers() {
+      const geojson = this.$store.state.csaDropoffSite.geoJSON;
+      let mapMarkers = [];
+      const icon = this.zoom > 12 ? this.csaIcon : this.csaIconSmall;
+      if (geojson.features) {
+        mapMarkers = this.createMarkers(geojson, icon);
+        return mapMarkers;
+      }
+      return mapMarkers;
+    },
     groceryStoreMarkers() {
       const geojson = this.$store.state.groceryStore.geoJSON;
       let mapMarkers = [];
+      const icon =
+        this.zoom > 12 ? this.groceryStoreIcon : this.groceryStoreIconSmall;
       if (geojson.features) {
-        mapMarkers = this.createMarkers(geojson, this.groceryStoreIcon);
+        mapMarkers = this.createMarkers(geojson, icon);
+        return mapMarkers;
+      }
+      return mapMarkers;
+    },
+    foodPantryMarkers() {
+      const geojson = this.$store.state.foodPantry.geoJSON;
+      let mapMarkers = [];
+      const icon = this.zoom > 12 ? this.pantryIcon : this.pantryIconSmall;
+      if (geojson.features) {
+        mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
       }
       return mapMarkers;
@@ -170,73 +358,50 @@ export default {
     farmersMarketMarkers() {
       const geojson = this.$store.state.farmersMarket.geoJSON;
       let mapMarkers = [];
+      const icon =
+        this.zoom > 12 ? this.farmersMarketIcon : this.farmersMarketIconSmall;
       if (geojson.features) {
-        mapMarkers = this.createMarkers(geojson, this.farmersMarketIcon);
+        mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
       }
       return mapMarkers;
     },
-    options() {
-      return {
-        onEachFeature: this.onEachFeatureFunction,
-      };
-    },
-    styleFunction() {
-      return () => {
-        return defaultStyle;
-      };
-    },
-    onEachFeatureFunction() {
-      // TODO: refactor this nasty if statement
-      if (!this.displayStatusTooltip) {
-        return (feature, layer) => {
-          layer.on("click", e => {
-            const southWest = e.target._bounds._southWest;
-            const northEast = e.target._bounds._northEast;
-            const tractBounds = L.latLngBounds(southWest, northEast);
-            const {
-              target: {
-                feature: { properties },
-              },
-            } = e;
-            console.log("click of census tract");
-            this.setTract(properties);
-            this.setMapControlMini(false);
-            this.setSelectedTab("map");
-            this.$refs.map.fitBounds(tractBounds);
-          });
-          layer.unbindTooltip();
-          this.setDefaultStyles(layer, feature);
-        };
+    ctranStopMarkers() {
+      const geojson = this.$store.state.ctranStop.geoJSON;
+      let mapMarkers = [];
+      if (geojson.features) {
+        mapMarkers = this.createMarkers(geojson);
+        return mapMarkers;
       }
-      return (feature, layer) => {
-        const tooltipContent = this.createCensusTractContent(
-          feature.properties
-        );
-        layer.on("click", e => {
-          const southWest = e.target._bounds._southWest;
-          const northEast = e.target._bounds._northEast;
-          const tractBounds = L.latLngBounds(southWest, northEast);
-          const {
-            target: {
-              feature: { properties },
-            },
-          } = e;
-          this.setTract(properties);
-          this.setMapControlMini(false);
-          this.setSelectedTab("map");
-          this.$refs.map.fitBounds(tractBounds);
-        });
-        if (this.displayStatusTooltip) {
-          layer.bindTooltip(tooltipContent, {
-            permanent: false,
-            sticky: true,
-            className: "pdx-tooltip",
-          });
-        }
-
-        this.setDefaultStyles(layer, feature);
+      return mapMarkers;
+    },
+    trimetStopMarkers() {
+      const geojson = this.$store.state.trimetStop.geoJSON;
+      let mapMarkers = [];
+      if (geojson.features) {
+        mapMarkers = this.createMarkers(geojson);
+        return mapMarkers;
+      }
+      return mapMarkers;
+    },
+    tractOptions() {
+      return {
+        onEachFeature: this.onEachTractFeatureFunction,
       };
+    },
+    transitStopMarkerRadius() {
+      const radius = this.zoom > 11.75 ? 5 : 3;
+      return radius;
+    },
+    styleFunctionTract() {
+      return () => {
+        return tractDefaultStyle;
+      };
+    },
+    onEachTractFeatureFunction(feature, layer) {
+      // The onEachFeature function has to be a computed property here
+      // because of the binding of the tooltip when tooltips are hidden.
+      return this.createTractLayer(feature, layer, this.displayStatusTooltip);
     },
     searchDistance() {
       if (this.radiosDistance == "radio-half") {
@@ -249,15 +414,20 @@ export default {
     ...mapState({
       center: state => state.map.center,
       displayStatusTooltip: state => state.map.displayStatusTooltip,
+      displayCsaDropoffSites: state => state.csaDropoffSite.displayStatus,
       displayFarmersMarkets: state => state.farmersMarket.displayStatus,
+      displayFoodPantries: state => state.foodPantry.displayStatus,
       displayGroceryStores: state => state.groceryStore.displayStatus,
       displayPdxTracts: state => state.pdxTract.displayStatus,
       geojsonPdxTract: state => state.pdxTract.geoJSON,
-      geojsonFarmersMarket: state => state.farmersMarket.geoJSON,
-      geojsonGroceryStore: state => state.groceryStore.geoJSON,
+      displayCtranStops: state => state.ctranStop.displayStatus,
+      displayTrimetStops: state => state.trimetStop.displayStatus,
+      loadingDataCsaDropoffSite: state => state.csaDropoffSite.loading,
       loadingDataFarmersMarket: state => state.farmersMarket.loading,
+      loadingDataFoodPantry: state => state.foodPantry.loading,
       loadingDataGroceryStore: state => state.groceryStore.loading,
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,
+      searchResultFoodPantry: state => state.foodPantry.searchResult,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
       zoom: state => state.map.zoom,
     }),
@@ -270,21 +440,65 @@ export default {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: "abcd",
+      defaultCenter: [45.59, -122.6793],
+      defaultZoom: 10,
       maxZoom: 18,
       minZoom: 4,
       showMapControls: true,
       radiosDistance: "radio-1",
       // eslint-disable-next-line
+      csaIcon: L.icon({
+        iconUrl: "leaflet/map_marker_csa.svg",
+        iconSize: [40, 40],
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50],
+      }),
+      // eslint-disable-next-line
+      csaIconSmall: L.icon({
+        iconUrl: "leaflet/map_marker_csa.svg",
+        iconSize: [25, 25],
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50],
+      }),
+      // eslint-disable-next-line
       farmersMarketIcon: L.icon({
-        iconUrl: "leaflet/PDXFoodMap631.svg",
-        iconSize: [50, 50],
+        iconUrl: "leaflet/map_marker_market.svg",
+        iconSize: [40, 40],
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50],
+      }),
+      // eslint-disable-next-line
+      farmersMarketIconSmall: L.icon({
+        iconUrl: "leaflet/map_marker_market.svg",
+        iconSize: [25, 25],
         iconAnchor: [25, 50],
         popupAnchor: [-10, -50],
       }),
       // eslint-disable-next-line
       groceryStoreIcon: L.icon({
-        iconUrl: "leaflet/PDXFoodMap611.svg",
-        iconSize: [50, 50],
+        iconUrl: "leaflet/map_marker_store.svg",
+        iconSize: [40, 40],
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50],
+      }),
+      // eslint-disable-next-line
+      groceryStoreIconSmall: L.icon({
+        iconUrl: "leaflet/map_marker_store.svg",
+        iconSize: [25, 25],
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50],
+      }),
+      // eslint-disable-next-line
+      pantryIcon: L.icon({
+        iconUrl: "leaflet/map_marker_pantry.svg",
+        iconSize: [40, 40],
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50],
+      }),
+      // eslint-disable-next-line
+      pantryIconSmall: L.icon({
+        iconUrl: "leaflet/map_marker_pantry.svg",
+        iconSize: [25, 25],
         iconAnchor: [25, 50],
         popupAnchor: [-10, -50],
       }),
@@ -320,6 +534,7 @@ export default {
         autoClose: true,
         searchLabel: "Enter an address...",
       },
+      transitStopFillColor: "#2F4B53",
     };
   },
   mounted() {
@@ -342,34 +557,61 @@ export default {
         console.log(geom);
         this.$refs.map.setZoom(15.25);
         this.searchForPoints(params);
-        this.setDisplayStatusFarmersMarket(true);
-        this.setDisplayStatusGroceryStore(true);
-        this.setDisplayStatusPdxTract(true);
+        this.setDisplayAllPointLayers(true);
         this.setMapControlMini(false);
         this.setSelectedTab("search");
       });
 
       this.$refs.map.mapObject.on("zoomend", () => {
-        if (this.$refs.map.mapObject.getZoom() < 9) {
-          this.setDisplayStatusFarmersMarket(false);
-          this.setDisplayStatusGroceryStore(false);
+        if (this.$refs.map.mapObject.getZoom() < 8) {
+          this.setDisplayAllPointLayers(false);
         }
       });
     });
   },
   methods: {
-    centerUpdated(center) {
-      this.setCenter = center;
-    },
     boundsUpdated(bounds) {
       this.bounds = bounds;
+    },
+    centerUpdated(center) {
+      this.setCenter(center);
+    },
+    createTractLayer(feature, layer, tooltipDisplay) {
+      return (feature, layer) => {
+        layer.on("click", e => {
+          const southWest = e.target._bounds._southWest;
+          const northEast = e.target._bounds._northEast;
+          const tractBounds = L.latLngBounds(southWest, northEast);
+          const {
+            target: {
+              feature: { properties },
+            },
+          } = e;
+          this.setTract(properties);
+          this.setSelectedTab("map");
+          this.$refs.map.fitBounds(tractBounds);
+          this.setDisplayAllPointLayers(true);
+        });
+        if (tooltipDisplay) {
+          const tooltipContent = this.createCensusTractContent(
+            feature.properties
+          );
+          layer.bindTooltip(tooltipContent, {
+            permanent: false,
+            sticky: true,
+            className: "pdx-tooltip",
+          });
+        } else {
+          layer.unbindTooltip();
+        }
+        this.setDefaultTractStyles(layer, feature);
+      };
     },
     clearSearchResult() {
       this.$store.dispatch("groceryStore/clearSearchResult");
       this.$store.dispatch("farmersMarket/clearSearchResult");
-      this.showSearchResult = false;
     },
-    createMarkers(geojson, alternateIcon) {
+    createMarkers(geojson, customIcon) {
       const markersArray = geojson["features"].map(feature => {
         // eslint-disable-next-line no-undef
         let markerObject = L.latLng(
@@ -378,21 +620,18 @@ export default {
         );
         let props = feature["properties"];
 
-        if (alternateIcon) {
-          let icon = alternateIcon;
+        if (customIcon) {
+          let icon = customIcon;
           Object.assign(markerObject, { icon });
         }
 
-        Object.assign(markerObject, { props });
+        Object.assign(markerObject, { props, markerId: feature.id });
 
         return markerObject;
       });
       return markersArray;
     },
     createCensusTractContent(props) {
-      const foodDesertMessage = `<div>This census tract is classified as a <span class="pdx-message--foodDesert">food desert.<span></div>`;
-      const lowVehicleMessage = `<div>This census tract is classified as having <span class="pdx-message--foodDesert">low vehicle access.<span></div>`;
-
       let propertyString = `<div class="pdx-tooltip__title">${
         props.county_1
       } County, ${props.state_1}</div>
@@ -407,14 +646,6 @@ export default {
         props.povertyrat
       }%</span></strong><div>
       `;
-      if (props.lilatrac_1 == 1) {
-        propertyString += foodDesertMessage;
-      }
-
-      if (props.hunvflag == 1) {
-        propertyString += lowVehicleMessage;
-      }
-
       return propertyString;
     },
     formatCurrency(dollarValue) {
@@ -426,16 +657,25 @@ export default {
       });
     },
     resetMapView() {
-      this.$refs.map.setCenter(defaultCenter);
-      this.$refs.map.setZoom(defaultZoom);
+      this.setCenter(this.defaultCenter);
+      this.setZoom(this.defaultZoom);
     },
     async searchForPoints(params) {
-      await this.$store.dispatch("groceryStore/search", params);
-      await this.$store.dispatch("farmersMarket/search", params);
-      this.showSearchResult = true;
+      try {
+        Promise.all([
+          await this.$store.dispatch("groceryStore/search", params),
+          await this.$store.dispatch("farmersMarket/search", params),
+          await this.$store.dispatch("foodPantry/search", params),
+          await this.$store.dispatch("csaDropoffSite/search", params),
+        ]);
+      } catch (e) {
+        // TODO: Add notifications
+        console.error(e);
+      }
     },
-    setDefaultStyles(layer, feature) {
-      layer.setStyle(defaultStyle);
+    setDefaultTractStyles(layer, feature) {
+      // TODO: double-check measurment fo lilatrac_1 (1/2mi or 1mi?)
+      layer.setStyle(tractDefaultStyle);
       if (feature.properties.lilatrac_1 == 1) {
         layer.setStyle(foodDesertDefaultStyle);
       }
@@ -449,13 +689,13 @@ export default {
         if (feature.properties.lilatrac_1 == 1) {
           layer.setStyle(foodDesertHighlightStyle);
         } else {
-          layer.setStyle(highlightStyle);
+          layer.setStyle(tractHighlightStyle);
         }
         layer.on("mouseout", () => {
           if (feature.properties.lilatrac_1 == 1) {
             layer.setStyle(foodDesertDefaultStyle);
           } else {
-            layer.setStyle(defaultStyle);
+            layer.setStyle(tractDefaultStyle);
           }
           if (feature.properties.hunvflag == 1) {
             layer.setStyle({
@@ -466,13 +706,25 @@ export default {
         });
       });
     },
+    setDisplayAllPointLayers(val) {
+      this.setDisplayStatusFarmersMarket(val);
+      this.setDisplayStatusGroceryStore(val);
+      this.setDisplayStatusCsaDropoffSite(val);
+      this.setDisplayStatusCtranStop(val);
+      this.setDisplayStatusFoodPantry(val);
+      this.setDisplayStatusTrimetStop(val);
+    },
     zoomUpdated(zoom) {
-      this.setZoom = zoom;
+      this.setZoom(zoom);
     },
     ...mapMutations({
+      setDisplayStatusCsaDropoffSite: "csaDropoffSite/setDisplayStatus",
+      setDisplayStatusCtranStop: "trimetStop/setDisplayStatus",
       setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",
+      setDisplayStatusFoodPantry: "foodPantry/setDisplayStatus",
       setDisplayStatusGroceryStore: "groceryStore/setDisplayStatus",
       setDisplayStatusPdxTract: "pdxTract/setDisplayStatus",
+      setDisplayStatusTrimetStop: "trimetStop/setDisplayStatus",
       setCenter: "map/setCenter",
       setMapControlMini: "map/setMapControlMini",
       setSelectedTab: "map/setSelectedTab",

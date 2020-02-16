@@ -20,7 +20,6 @@ function factory(logger, farmersMarketService) {
   };
 
   async function GET(req, res) {
-    console.log("farmers market route logs?");
     let result;
     try {
       result = await farmersMarketService.getGeoJSON();

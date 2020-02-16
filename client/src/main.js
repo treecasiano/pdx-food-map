@@ -12,6 +12,7 @@ import store from "./store/index";
 
 // register Vue2Leaflet components
 import {
+  LCircleMarker,
   LControl,
   LControlZoom,
   LControlScale,
@@ -27,6 +28,7 @@ import vuetify from "@/plugins/vuetify";
 Vue.component("l-map", LMap);
 Vue.component("l-tile-layer", LTileLayer);
 Vue.component("l-marker", LMarker);
+Vue.component("l-circle-marker", LCircleMarker);
 Vue.component("l-popup", LPopup);
 Vue.component("l-geo-json", LGeoJson);
 Vue.component("l-control", LControl);

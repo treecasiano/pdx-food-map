@@ -1,19 +1,19 @@
-import farmersMarketApi from "../api/farmersMarket";
+import csaDropoffSiteApi from "../api/csaDropoffSite";
 
 const actions = {
   async displayData({ commit, status }) {
     return commit("setDisplayStatus", status);
   },
   async list({ commit }) {
-    const list = await farmersMarketApi.list();
+    const list = await csaDropoffSiteApi.list();
     return commit("setList", list.data);
   },
   async geoJSON({ commit }) {
-    const geoJSON = await farmersMarketApi.getGeoJSON();
+    const geoJSON = await csaDropoffSiteApi.getGeoJSON();
     return commit("setGeoJSON", geoJSON.data);
   },
   async search({ commit }, params) {
-    const results = await farmersMarketApi.search(params);
+    const results = await csaDropoffSiteApi.search(params);
     return commit("setSearchResult", results.data);
   },
   setDisplayStatus(state, status) {

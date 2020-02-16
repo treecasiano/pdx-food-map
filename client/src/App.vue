@@ -1,19 +1,13 @@
 <template>
   <v-app id="app" style="overflow: hidden;">
-    <v-toolbar
-      dense
-      flat
-      color="primary darken-3"
-      class="accent--text pdx-toolbar--main"
-    >
+    <v-toolbar dense flat color="primary darken-3" class="accent--text pdx-toolbar--main">
       <v-toolbar-title>
         <a
           alt="Link to Home"
           href="/"
           class="accent--text font-weight-bold"
           style="text-decoration: none;"
-          >PDX Metro Food Map</a
-        >
+        >PDX Metro Food Map</a>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <div id="nav">
@@ -46,9 +40,13 @@ export default {
     this.loading = true;
     try {
       Promise.all([
+        await this.fetchCsaDropoffSiteData(),
+        await this.fetchCtranStopData(),
         await this.fetchFarmersMarketData(),
+        await this.fetchFoodPantryData(),
         await this.fetchGroceryStoreData(),
         await this.fetchPdxTractData(),
+        await this.fetchTrimetStopData(),
       ]);
     } catch (e) {
       console.error(e);
@@ -62,9 +60,13 @@ export default {
   },
   methods: {
     ...mapActions({
+      fetchCsaDropoffSiteData: "csaDropoffSite/geoJSON",
+      fetchCtranStopData: "ctranStop/geoJSON",
       fetchFarmersMarketData: "farmersMarket/geoJSON",
+      fetchFoodPantryData: "foodPantry/geoJSON",
       fetchGroceryStoreData: "groceryStore/geoJSON",
       fetchPdxTractData: "pdxTract/geoJSON",
+      fetchTrimetStopData: "trimetStop/geoJSON",
     }),
   },
 };

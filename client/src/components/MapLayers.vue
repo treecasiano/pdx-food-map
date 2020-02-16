@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent>
+    <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent width="320px">
       <template v-slot:prepend>
         <div v-if="mini">
           <v-btn small icon @click.stop="mini = !mini">
@@ -38,6 +38,22 @@
                 <v-divider class="mb-4"></v-divider>
               </div>
               <v-checkbox
+                v-if="groceryStoreData.features"
+                v-model="displayStatusGroceryStore"
+                data-cy="checkbox--groceryStores"
+                label="Grocery Stores"
+              ></v-checkbox>
+              <v-select
+                v-if="displayStatusGroceryStore"
+                v-model="groceryStoreType"
+                @change="filterStores"
+                :items="items"
+                class="primary--text"
+                label="Filter by Store Type"
+                style="z-index: 10000"
+              ></v-select>
+
+              <v-checkbox
                 v-if="farmersMarketData.features"
                 v-model="displayStatusFarmersMarket"
                 color="primary"
@@ -45,33 +61,38 @@
                 label="Farmers Markets"
               ></v-checkbox>
               <v-checkbox
-                v-if="groceryStoreData.features"
-                v-model="displayStatusGroceryStore"
-                data-cy="checkbox--groceryStores"
-                label="Grocery Stores"
+                v-if="foodPantryData.features"
+                v-model="displayStatusFoodPantry"
+                color="primary"
+                data-cy="checkbox--foodPantry"
+                label="Food Pantries"
               ></v-checkbox>
-
-              <v-radio-group
-                v-if="displayStatusGroceryStore"
-                v-model="radiosStoreType"
-                style="margin: 0 0 -15px 32px;"
-                @change="filterStores"
-                label="Filter by Store Type"
-              >
-                <v-radio color="accent" value="all" data-cy="radioButton--allStores" label="All"></v-radio>
-                <v-radio
-                  color="accent"
-                  value="Large Chain Grocery"
-                  data-cy="radioButton--largeChain"
-                  label="Large Chain"
-                ></v-radio>
-                <v-radio
-                  color="accent"
-                  value="Independent or Ethnic Grocery"
-                  data-cy="radioButton--independent"
-                  label="Independent or Ethnic"
-                ></v-radio>
-              </v-radio-group>
+              <v-checkbox
+                v-if="csaDropoffSiteData.features"
+                v-model="displayStatusCsaDropoffSite"
+                color="primary"
+                data-cy="checkbox--csaDropoffSite"
+                label="Community Supported Agriculture Dropoff Sites"
+              ></v-checkbox>
+              <div class="mapLayers__heading my-2">
+                <v-divider></v-divider>
+                <div>Public Transportation</div>
+                <v-divider></v-divider>
+              </div>
+              <v-checkbox
+                v-if="trimetStopData.features"
+                v-model="displayStatusTrimetStop"
+                color="primary"
+                data-cy="checkbox--trimetStop"
+                label="TriMet Stops"
+              ></v-checkbox>
+              <v-checkbox
+                v-if="ctranStopData.features"
+                v-model="displayStatusCtranStop"
+                color="primary"
+                data-cy="checkbox--ctranStop"
+                label="C-TRAN Stops"
+              ></v-checkbox>
             </v-flex>
           </v-layout>
         </v-container>
@@ -86,12 +107,36 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   name: "MapLayers",
   computed: {
+    displayStatusCsaDropoffSite: {
+      get() {
+        return this.$store.state.csaDropoffSite.displayStatus;
+      },
+      set(value) {
+        this.setDisplayStatusCsaDropoffSiteData(value);
+      },
+    },
+    displayStatusCtranStop: {
+      get() {
+        return this.$store.state.ctranStop.displayStatus;
+      },
+      set(value) {
+        this.setDisplayStatusCtranStopData(value);
+      },
+    },
     displayStatusFarmersMarket: {
       get() {
         return this.$store.state.farmersMarket.displayStatus;
       },
       set(value) {
         this.setDisplayStatusFarmersMarketData(value);
+      },
+    },
+    displayStatusFoodPantry: {
+      get() {
+        return this.$store.state.foodPantry.displayStatus;
+      },
+      set(value) {
+        this.setDisplayStatusFoodPantryData(value);
       },
     },
     displayStatusGroceryStore: {
@@ -118,48 +163,71 @@ export default {
         this.setDisplayStatusTooltip(value);
       },
     },
+    displayStatusTrimetStop: {
+      get() {
+        return this.$store.state.trimetStop.displayStatus;
+      },
+      set(value) {
+        this.setDisplayStatusTrimetStopData(value);
+      },
+    },
     ...mapState({
+      csaDropoffSiteData: state => state.csaDropoffSite.geoJSON,
+      ctranStopData: state => state.ctranStop.geoJSON,
       farmersMarketData: state => state.farmersMarket.geoJSON,
+      foodPantryData: state => state.foodPantry.geoJSON,
       groceryStoreData: state => state.groceryStore.geoJSON,
       pdxTractData: state => state.pdxTract.geoJSON,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
+      trimetStopData: state => state.trimetStop.geoJSON,
     }),
   },
   data() {
     return {
       drawer: true,
       mini: false,
-      radiosGroceryStore: "all",
-      radiosStoreType: "all",
+      items: [
+        "All Stores",
+        "Large Chain Grocery",
+        "Independent or Ethnic Grocery",
+      ],
+      groceryStoreType: "All Stores",
     };
   },
   methods: {
     async filterStores(value) {
-      if (value == "all") {
+      const params = { type: value };
+      if (value == "All Stores") {
         await this.fetchGroceryStoreData();
       } else {
-        const params = { type: value };
         await this.fetchGroceryStoreData(params);
       }
     },
     ...mapActions({
+      fetchCsaDropoffSiteData: "csaDropoffSide/geoJSON",
+      fetchCtranStopData: "ctranStop/geoJSON",
       fetchFarmersMarketData: "farmersMarket/geoJSON",
+      fetchFoodPantryData: "foodPantry/geoJSON",
       fetchGroceryStoreData: "groceryStore/geoJSON",
       fetchPdxTractData: "pdxTract/geoJSON",
+      fetchTrimetStopData: "trimetStop/geoJSON",
     }),
     ...mapMutations({
+      setDisplayStatusCsaDropoffSiteData: "csaDropoffSite/setDisplayStatus",
+      setDisplayStatusCtranStopData: "ctranStop/setDisplayStatus",
+      setDisplayStatusFarmersMarketData: "farmersMarket/setDisplayStatus",
+      setDisplayStatusFoodPantryData: "foodPantry/setDisplayStatus",
+      setDisplayStatusGroceryStoreData: "groceryStore/setDisplayStatus",
       setDisplayStatusPdxTractData: "pdxTract/setDisplayStatus",
       setDisplayStatusTooltip: "map/setDisplayStatusTooltip",
-      setDisplayStatusFarmersMarketData: "farmersMarket/setDisplayStatus",
-      setDisplayStatusGroceryStoreData: "groceryStore/setDisplayStatus",
+      setDisplayStatusTrimetStopData: "trimetStop/setDisplayStatus",
     }),
   },
   watch: {
     searchResultGroceryStore: function() {
       if (this.searchResultGroceryStore.length) {
         this.fetchGroceryStoreData();
-        this.radiosGroceryStore = "all";
-        this.displayStatusParkLocations = true;
+        this.groceryStoreType = "All Stores";
       }
     },
   },
@@ -176,11 +244,6 @@ export default {
 .v-input--checkbox {
   margin: 0 !important;
   padding: 0 !important;
-}
-
-.layerControls--radioButtons {
-  height: 22px !important;
-  padding: 0;
 }
 
 .mapLayers
