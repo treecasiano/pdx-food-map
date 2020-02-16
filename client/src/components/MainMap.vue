@@ -215,12 +215,12 @@
             v-bind:index="index"
             v-bind:key="index + 'ctranStop'"
             :lat-lng="item"
-            radius="5"
-            fillColor="black"
+            :radius="transitStopMarkerRadius"
+            :fillColor="transitStopFillColor"
             color="#f2f2f2"
-            weight="1"
-            opacity="1"
-            fillOpacity="0.9"
+            :weight="1"
+            :opacity="1"
+            :fillOpacity="0.9"
             data-cy="ctranStopPoint"
           >
             <l-popup>
@@ -244,12 +244,12 @@
             v-bind:index="index"
             v-bind:key="index + 'trimetStop'"
             :lat-lng="item"
-            radius="5"
-            fillColor="black"
+            :radius="transitStopMarkerRadius"
+            :fillColor="transitStopFillColor"
             color="#f2f2f2"
-            weight="1"
-            opacity="1"
-            fillOpacity="0.9"
+            :weight="1"
+            :opacity="1"
+            :fillOpacity="0.9"
             data-cy="trimetStopPoint"
           >
             <l-popup>
@@ -344,8 +344,10 @@ export default {
     groceryStoreMarkers() {
       const geojson = this.$store.state.groceryStore.geoJSON;
       let mapMarkers = [];
+      const icon =
+        this.zoom > 12 ? this.groceryStoreIcon : this.groceryStoreIconSmall;
       if (geojson.features) {
-        mapMarkers = this.createMarkers(geojson, this.groceryStoreIcon);
+        mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
       }
       return mapMarkers;
@@ -362,8 +364,10 @@ export default {
     farmersMarketMarkers() {
       const geojson = this.$store.state.farmersMarket.geoJSON;
       let mapMarkers = [];
+      const icon =
+        this.zoom > 12 ? this.farmersMarketIcon : this.farmersMarketIconSmall;
       if (geojson.features) {
-        mapMarkers = this.createMarkers(geojson, this.farmersMarketIcon);
+        mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
       }
       return mapMarkers;
@@ -390,6 +394,10 @@ export default {
       return {
         onEachFeature: this.onEachTractFeatureFunction,
       };
+    },
+    transitStopMarkerRadius() {
+      const radius = this.zoom > 11.75 ? 5 : 3;
+      return radius;
     },
     styleFunctionTract() {
       return () => {
@@ -452,9 +460,23 @@ export default {
         popupAnchor: [-10, -50],
       }),
       // eslint-disable-next-line
+      farmersMarketIconSmall: L.icon({
+        iconUrl: "leaflet/PDXFoodMap631.svg",
+        iconSize: [30, 30],
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50],
+      }),
+      // eslint-disable-next-line
       groceryStoreIcon: L.icon({
         iconUrl: "leaflet/PDXFoodMap611.svg",
         iconSize: [50, 50],
+        iconAnchor: [25, 50],
+        popupAnchor: [-10, -50],
+      }),
+      // eslint-disable-next-line
+      groceryStoreIconSmall: L.icon({
+        iconUrl: "leaflet/PDXFoodMap611.svg",
+        iconSize: [30, 30],
         iconAnchor: [25, 50],
         popupAnchor: [-10, -50],
       }),
@@ -490,6 +512,7 @@ export default {
         autoClose: true,
         searchLabel: "Enter an address...",
       },
+      transitStopFillColor: "#51332D",
     };
   },
   mounted() {
@@ -512,17 +535,14 @@ export default {
         console.log(geom);
         this.$refs.map.setZoom(15.25);
         this.searchForPoints(params);
-        this.setDisplayStatusFarmersMarket(true);
-        this.setDisplayStatusGroceryStore(true);
-        this.setDisplayStatusPdxTract(true);
+        this.setDisplayAllPointLayers(true);
         this.setMapControlMini(false);
         this.setSelectedTab("search");
       });
 
       this.$refs.map.mapObject.on("zoomend", () => {
-        if (this.$refs.map.mapObject.getZoom() < 9) {
-          this.setDisplayStatusFarmersMarket(false);
-          this.setDisplayStatusGroceryStore(false);
+        if (this.$refs.map.mapObject.getZoom() < 8) {
+          this.setDisplayAllPointLayers(false);
         }
       });
     });
@@ -548,6 +568,7 @@ export default {
           this.setTract(properties);
           this.setSelectedTab("map");
           this.$refs.map.fitBounds(tractBounds);
+          this.setDisplayAllPointLayers(true);
         });
         if (tooltipDisplay) {
           const tooltipContent = this.createCensusTractContent(
@@ -665,12 +686,22 @@ export default {
         });
       });
     },
+    setDisplayAllPointLayers(val) {
+      this.setDisplayStatusFarmersMarket(val);
+      this.setDisplayStatusGroceryStore(val);
+      this.setDisplayStatusCsaDropoffSite(val);
+      this.setDisplayStatusCtranStop(val);
+      this.setDisplayStatusFoodPantry(val);
+      this.setDisplayStatusTrimetStop(val);
+    },
     zoomUpdated(zoom) {
       this.setZoom(zoom);
     },
     ...mapMutations({
+      setDisplayStatusCsaDropoffSite: "csaDropoffSite/setDisplayStatus",
       setDisplayStatusCtranStop: "trimetStop/setDisplayStatus",
       setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",
+      setDisplayStatusFoodPantry: "foodPantry/setDisplayStatus",
       setDisplayStatusGroceryStore: "groceryStore/setDisplayStatus",
       setDisplayStatusPdxTract: "pdxTract/setDisplayStatus",
       setDisplayStatusTrimetStop: "trimetStop/setDisplayStatus",

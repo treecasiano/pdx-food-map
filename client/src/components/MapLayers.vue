@@ -87,9 +87,9 @@
                 ></v-radio>
               </v-radio-group>
 
-              <div class="mapLayers__heading mt-2">
+              <div class="mapLayers__heading my-2">
                 <v-divider></v-divider>
-                <div>Transportation Layers</div>
+                <div>Public Transportation</div>
                 <v-divider></v-divider>
               </div>
               <v-checkbox
@@ -97,7 +97,7 @@
                 v-model="displayStatusTrimetStop"
                 color="primary"
                 data-cy="checkbox--trimetStop"
-                label="Trimet Stops"
+                label="TriMet Stops"
               ></v-checkbox>
               <v-checkbox
                 v-if="ctranStopData.features"
