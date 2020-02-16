@@ -86,6 +86,26 @@
                   label="Independent or Ethnic"
                 ></v-radio>
               </v-radio-group>
+
+              <div class="mapLayers__heading mt-2">
+                <v-divider></v-divider>
+                <div>Transportation Layers</div>
+                <v-divider></v-divider>
+              </div>
+              <v-checkbox
+                v-if="trimetStopData.features"
+                v-model="displayStatusTrimetStop"
+                color="primary"
+                data-cy="checkbox--trimetStop"
+                label="Trimet Stops"
+              ></v-checkbox>
+              <v-checkbox
+                v-if="ctranStopData.features"
+                v-model="displayStatusCtranStop"
+                color="primary"
+                data-cy="checkbox--ctranStop"
+                label="C-TRAN Stops"
+              ></v-checkbox>
             </v-flex>
           </v-layout>
         </v-container>
@@ -106,6 +126,14 @@ export default {
       },
       set(value) {
         this.setDisplayStatusCsaDropoffSiteData(value);
+      },
+    },
+    displayStatusCtranStop: {
+      get() {
+        return this.$store.state.ctranStop.displayStatus;
+      },
+      set(value) {
+        this.setDisplayStatusCtranStopData(value);
       },
     },
     displayStatusFarmersMarket: {
@@ -148,13 +176,23 @@ export default {
         this.setDisplayStatusTooltip(value);
       },
     },
+    displayStatusTrimetStop: {
+      get() {
+        return this.$store.state.trimetStop.displayStatus;
+      },
+      set(value) {
+        this.setDisplayStatusTrimetStopData(value);
+      },
+    },
     ...mapState({
       csaDropoffSiteData: state => state.csaDropoffSite.geoJSON,
+      ctranStopData: state => state.ctranStop.geoJSON,
       farmersMarketData: state => state.farmersMarket.geoJSON,
       foodPantryData: state => state.foodPantry.geoJSON,
       groceryStoreData: state => state.groceryStore.geoJSON,
       pdxTractData: state => state.pdxTract.geoJSON,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
+      trimetStopData: state => state.trimetStop.geoJSON,
     }),
   },
   data() {
@@ -176,18 +214,22 @@ export default {
     },
     ...mapActions({
       fetchCsaDropoffSiteData: "csaDropoffSide/geoJSON",
+      fetchCtranStopData: "ctranStop/geoJSON",
       fetchFarmersMarketData: "farmersMarket/geoJSON",
       fetchFoodPantryData: "foodPantry/geoJSON",
       fetchGroceryStoreData: "groceryStore/geoJSON",
       fetchPdxTractData: "pdxTract/geoJSON",
+      fetchTrimetStopData: "trimetStop/geoJSON",
     }),
     ...mapMutations({
-      setDisplayStatusPdxTractData: "pdxTract/setDisplayStatus",
-      setDisplayStatusTooltip: "map/setDisplayStatusTooltip",
       setDisplayStatusCsaDropoffSiteData: "csaDropoffSite/setDisplayStatus",
+      setDisplayStatusCtranStopData: "ctranStop/setDisplayStatus",
       setDisplayStatusFarmersMarketData: "farmersMarket/setDisplayStatus",
       setDisplayStatusFoodPantryData: "foodPantry/setDisplayStatus",
       setDisplayStatusGroceryStoreData: "groceryStore/setDisplayStatus",
+      setDisplayStatusPdxTractData: "pdxTract/setDisplayStatus",
+      setDisplayStatusTooltip: "map/setDisplayStatusTooltip",
+      setDisplayStatusTrimetStopData: "trimetStop/setDisplayStatus",
     }),
   },
   watch: {

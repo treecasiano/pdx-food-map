@@ -41,10 +41,12 @@ export default {
     try {
       Promise.all([
         await this.fetchCsaDropoffSiteData(),
+        await this.fetchCtranStopData(),
         await this.fetchFarmersMarketData(),
         await this.fetchFoodPantryData(),
         await this.fetchGroceryStoreData(),
         await this.fetchPdxTractData(),
+        await this.fetchTrimetStopData(),
       ]);
     } catch (e) {
       console.error(e);
@@ -59,10 +61,12 @@ export default {
   methods: {
     ...mapActions({
       fetchCsaDropoffSiteData: "csaDropoffSite/geoJSON",
+      fetchCtranStopData: "ctranStop/geoJSON",
       fetchFarmersMarketData: "farmersMarket/geoJSON",
       fetchFoodPantryData: "foodPantry/geoJSON",
       fetchGroceryStoreData: "groceryStore/geoJSON",
       fetchPdxTractData: "pdxTract/geoJSON",
+      fetchTrimetStopData: "trimetStop/geoJSON",
     }),
   },
 };

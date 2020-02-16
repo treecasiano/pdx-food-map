@@ -208,6 +208,54 @@
             </l-popup>
           </l-marker>
         </div>
+        <div v-if="displayCtranStops">
+          <l-marker
+            v-for="(item, index) in ctranStopMarkers"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index + 'ctranStop'"
+            :lat-lng="item"
+            data-cy="ctranStopPoint"
+            :icon="item.icon"
+          >
+            <l-popup>
+              <div>
+                <span class="font-weight-bold mr-1">C-TRAN Stop ID:</span>
+
+                <span>{{item.props.stop_id}}</span>
+              </div>
+              <div>
+                <span class="font-weight-bold mr-1">C-TRAN Stop Name:</span>
+
+                <span>{{item.props.stop_name}}</span>
+              </div>
+            </l-popup>
+          </l-marker>
+        </div>
+        <div v-if="displayTrimetStops">
+          <l-marker
+            v-for="(item, index) in trimetStopMarkers"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index + 'trimetStop'"
+            :lat-lng="item"
+            data-cy="trimetStopPoint"
+            :icon="item.icon"
+          >
+            <l-popup>
+              <div>
+                <span class="font-weight-bold mr-1">TriMet Stop ID:</span>
+
+                <span>{{item.props.stop_id}}</span>
+              </div>
+              <div>
+                <span class="font-weight-bold mr-1">TriMet Stop Name:</span>
+
+                <span>{{item.props.stop_name}}</span>
+              </div>
+            </l-popup>
+          </l-marker>
+        </div>
         <l-geo-json
           v-if="displayPdxTracts"
           :geojson="geojsonPdxTract"
@@ -310,6 +358,24 @@ export default {
       }
       return mapMarkers;
     },
+    ctranStopMarkers() {
+      const geojson = this.$store.state.ctranStop.geoJSON;
+      let mapMarkers = [];
+      if (geojson.features) {
+        mapMarkers = this.createMarkers(geojson);
+        return mapMarkers;
+      }
+      return mapMarkers;
+    },
+    trimetStopMarkers() {
+      const geojson = this.$store.state.trimetStop.geoJSON;
+      let mapMarkers = [];
+      if (geojson.features) {
+        mapMarkers = this.createMarkers(geojson);
+        return mapMarkers;
+      }
+      return mapMarkers;
+    },
     tractOptions() {
       return {
         onEachFeature: this.onEachTractFeatureFunction,
@@ -342,6 +408,8 @@ export default {
       displayGroceryStores: state => state.groceryStore.displayStatus,
       displayPdxTracts: state => state.pdxTract.displayStatus,
       geojsonPdxTract: state => state.pdxTract.geoJSON,
+      displayCtranStops: state => state.ctranStop.displayStatus,
+      displayTrimetStops: state => state.trimetStop.displayStatus,
       loadingDataCsaDropoffSite: state => state.csaDropoffSite.loading,
       loadingDataFarmersMarket: state => state.farmersMarket.loading,
       loadingDataFoodPantry: state => state.foodPantry.loading,
@@ -591,9 +659,11 @@ export default {
       this.setZoom(zoom);
     },
     ...mapMutations({
+      setDisplayStatusCtranStop: "trimetStop/setDisplayStatus",
       setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",
       setDisplayStatusGroceryStore: "groceryStore/setDisplayStatus",
       setDisplayStatusPdxTract: "pdxTract/setDisplayStatus",
+      setDisplayStatusTrimetStop: "trimetStop/setDisplayStatus",
       setCenter: "map/setCenter",
       setMapControlMini: "map/setMapControlMini",
       setSelectedTab: "map/setSelectedTab",
