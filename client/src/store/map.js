@@ -35,7 +35,7 @@ const state = {
   mapControlMini: false,
   searchResults: [],
   selectedTab: "map",
-  zoom: 10,
+  zoom: 11.5,
 };
 
 const getters = {};

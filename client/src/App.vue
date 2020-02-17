@@ -41,12 +41,15 @@ export default {
     try {
       Promise.all([
         await this.fetchCsaDropoffSiteData(),
+        await this.fetchCtranRouteData(),
         await this.fetchCtranStopData(),
         await this.fetchFarmersMarketData(),
         await this.fetchFoodPantryData(),
         await this.fetchGroceryStoreData(),
         await this.fetchPdxTractData(),
+        await this.fetchTrimetRouteData(),
         await this.fetchTrimetStopData(),
+        await this.fetchTrailClarkCountyData(),
       ]);
     } catch (e) {
       console.error(e);
@@ -61,11 +64,14 @@ export default {
   methods: {
     ...mapActions({
       fetchCsaDropoffSiteData: "csaDropoffSite/geoJSON",
+      fetchCtranRouteData: "ctranRoute/geoJSON",
       fetchCtranStopData: "ctranStop/geoJSON",
       fetchFarmersMarketData: "farmersMarket/geoJSON",
       fetchFoodPantryData: "foodPantry/geoJSON",
       fetchGroceryStoreData: "groceryStore/geoJSON",
       fetchPdxTractData: "pdxTract/geoJSON",
+      fetchTrailClarkCountyData: "trailClarkCounty/geoJSON",
+      fetchTrimetRouteData: "trimetRoute/geoJSON",
       fetchTrimetStopData: "trimetStop/geoJSON",
     }),
   },

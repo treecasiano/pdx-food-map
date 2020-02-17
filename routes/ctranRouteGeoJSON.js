@@ -1,4 +1,4 @@
-function factory(logger, ctranStopService) {
+function factory(logger, ctranRouteService) {
   GET.apiDoc = {
     summary: "GeoJSON Feature Collection (C-TRAN Transit Route)",
     tags: ["C-TRAN"],

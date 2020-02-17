@@ -200,6 +200,22 @@
             </l-popup>
           </l-marker>
         </div>
+        <div v-if="displayCtranRoutes">
+          <l-polyline
+            v-for="(item, index) in ctranRoutes"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index"
+            :lat-lngs="item.latlngs"
+            :color="item.color"
+            :weight="item.weight"
+          >
+            <l-popup>
+              <span class="font-weight-bold mr-1">C-TRAN Route:</span>
+              {{item.props.rt_long_nm}}
+            </l-popup>
+          </l-polyline>
+        </div>
         <div v-if="displayCtranStops">
           <l-circle-marker
             v-for="(item, index) in ctranStopMarkers"
@@ -229,6 +245,24 @@
             </l-popup>
           </l-circle-marker>
         </div>
+        <div v-if="displayTrimetRoutes">
+          <l-polyline
+            v-for="(item, index) in trimetRoutes"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index"
+            :lat-lngs="item.latlngs"
+            :color="item.color"
+            :weight="item.weight"
+          >
+            <l-popup>
+              <span class="font-weight-bold mr-1">TriMet Route:</span>
+              <span>{{item.props.public_rte}} - {{item.props.dir_desc}}</span>
+              <div v-if="item.props.frequent === 'True'">Frequent Service</div>
+              <div v-if="item.props.type">Route Type: {{item.props.type}}</div>
+            </l-popup>
+          </l-polyline>
+        </div>
         <div v-if="displayTrimetStops">
           <l-circle-marker
             v-for="(item, index) in trimetStopMarkers"
@@ -247,16 +281,50 @@
             <l-popup>
               <div>
                 <span class="font-weight-bold mr-1">TriMet Stop ID:</span>
-
                 <span>{{item.props.stop_id}}</span>
               </div>
               <div>
                 <span class="font-weight-bold mr-1">TriMet Stop Name:</span>
-
                 <span>{{item.props.stop_name}}</span>
               </div>
             </l-popup>
           </l-circle-marker>
+        </div>
+        <div v-if="displayTrailsClarkCounty">
+          <l-polyline
+            v-for="(item, index) in trailsClarkCounty"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index"
+            :lat-lngs="item.latlngs"
+            :color="item.color"
+            :weight="item.weight"
+          >
+            <l-popup>
+              <div v-if="item.props.trailname">
+                <strong>Trail Name:</strong>
+                {{item.props.trailname}}
+              </div>
+              <div v-if="item.props.systemname">
+                <strong>Trail System Name:</strong>
+                {{item.props.systemname}}
+              </div>
+              <div>
+                <strong>Status:</strong>
+                {{item.props.status}}
+              </div>
+              <div v-if="item.props.trlsurface">
+                <strong>Surface:</strong>
+                {{item.props.trlsurface}}
+              </div>
+              <div v-if="item.props.accessible">
+                <strong>Accessible:&nbsp;</strong>
+                <span v-if="item.props.accessible === 'Not Evaluated'">Not Evaluated</span>
+                <span v-if="item.props.accessible === 'Accessible'">Yes</span>
+                <span v-if="item.props.accessible === 'Not Accessible'">No</span>
+              </div>
+            </l-popup>
+          </l-polyline>
         </div>
         <l-geo-json
           v-if="displayPdxTracts"
@@ -366,6 +434,18 @@ export default {
       }
       return mapMarkers;
     },
+    ctranRoutes() {
+      const geojson = this.$store.state.ctranRoute.geoJSON;
+      let polylines = [];
+      if (geojson.features) {
+        polylines = this.createPolyline(geojson, {
+          color: this.transitStopFillColor,
+          weight: 3,
+        });
+        return polylines;
+      }
+      return polylines;
+    },
     ctranStopMarkers() {
       const geojson = this.$store.state.ctranStop.geoJSON;
       let mapMarkers = [];
@@ -374,6 +454,27 @@ export default {
         return mapMarkers;
       }
       return mapMarkers;
+    },
+    trailsClarkCounty() {
+      const geojson = this.$store.state.trailClarkCounty.geoJSON;
+      let polylines = [];
+      if (geojson.features) {
+        polylines = this.createPolyline(geojson, { color: "grey", weight: 3 });
+        return polylines;
+      }
+      return polylines;
+    },
+    trimetRoutes() {
+      const geojson = this.$store.state.trimetRoute.geoJSON;
+      let polylines = [];
+      if (geojson.features) {
+        polylines = this.createPolyline(geojson, {
+          color: this.transitStopFillColor,
+          weight: 3,
+        });
+        return polylines;
+      }
+      return polylines;
     },
     trimetStopMarkers() {
       const geojson = this.$store.state.trimetStop.geoJSON;
@@ -419,8 +520,11 @@ export default {
       displayFoodPantries: state => state.foodPantry.displayStatus,
       displayGroceryStores: state => state.groceryStore.displayStatus,
       displayPdxTracts: state => state.pdxTract.displayStatus,
+      displayTrailsClarkCounty: state => state.trailClarkCounty.displayStatus,
       geojsonPdxTract: state => state.pdxTract.geoJSON,
+      displayCtranRoutes: state => state.ctranRoute.displayStatus,
       displayCtranStops: state => state.ctranStop.displayStatus,
+      displayTrimetRoutes: state => state.trimetRoute.displayStatus,
       displayTrimetStops: state => state.trimetStop.displayStatus,
       loadingDataCsaDropoffSite: state => state.csaDropoffSite.loading,
       loadingDataFarmersMarket: state => state.farmersMarket.loading,
@@ -441,7 +545,7 @@ export default {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: "abcd",
       defaultCenter: [45.59, -122.6793],
-      defaultZoom: 10,
+      defaultZoom: 11.5,
       maxZoom: 18,
       minZoom: 4,
       showMapControls: true,
@@ -607,10 +711,6 @@ export default {
         this.setDefaultTractStyles(layer, feature);
       };
     },
-    clearSearchResult() {
-      this.$store.dispatch("groceryStore/clearSearchResult");
-      this.$store.dispatch("farmersMarket/clearSearchResult");
-    },
     createMarkers(geojson, customIcon) {
       const markersArray = geojson["features"].map(feature => {
         // eslint-disable-next-line no-undef
@@ -647,6 +747,28 @@ export default {
       }%</span></strong><div>
       `;
       return propertyString;
+    },
+    createPolyline(geoJSON, { color, weight }) {
+      const polyLineArray = geoJSON["features"].map(feature => {
+        // eslint-disable-next-line
+        const coordinatesArray = feature["geometry"]["coordinates"][0];
+        let polyLineObjectArray = coordinatesArray.map(coordinates => {
+          // Leaflet requires the order to lat,long; geojson is formatted as long,lat
+          return [coordinates[1], coordinates[0]];
+        });
+        let props = feature["properties"];
+        const polyLineObj = Object.assign(
+          {},
+          {
+            latlngs: polyLineObjectArray,
+            props,
+            color,
+            weight,
+          }
+        );
+        return polyLineObj;
+      });
+      return polyLineArray;
     },
     formatCurrency(dollarValue) {
       // syntax numObj.toLocaleString([locales [, options]])
@@ -719,11 +841,14 @@ export default {
     },
     ...mapMutations({
       setDisplayStatusCsaDropoffSite: "csaDropoffSite/setDisplayStatus",
-      setDisplayStatusCtranStop: "trimetStop/setDisplayStatus",
+      setDisplayStatusCtranRoute: "ctranRoute/setDisplayStatus",
+      setDisplayStatusCtranStop: "ctranStop/setDisplayStatus",
       setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",
       setDisplayStatusFoodPantry: "foodPantry/setDisplayStatus",
       setDisplayStatusGroceryStore: "groceryStore/setDisplayStatus",
       setDisplayStatusPdxTract: "pdxTract/setDisplayStatus",
+      setDisplayStatusTrailClarkCounty: "trailClarkCounty/setDisplayStatus",
+      setDisplayStatusTrimetRoute: "trimetRoute/setDisplayStatus",
       setDisplayStatusTrimetStop: "trimetStop/setDisplayStatus",
       setCenter: "map/setCenter",
       setMapControlMini: "map/setMapControlMini",
