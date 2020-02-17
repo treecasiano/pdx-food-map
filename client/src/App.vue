@@ -40,6 +40,7 @@ export default {
     this.loading = true;
     try {
       Promise.all([
+        await this.fetchBikePathPortlandData(),
         await this.fetchCsaDropoffSiteData(),
         await this.fetchCtranRouteData(),
         await this.fetchCtranStopData(),
@@ -63,6 +64,7 @@ export default {
   },
   methods: {
     ...mapActions({
+      fetchBikePathPortlandData: "bikePathPortland/geoJSON",
       fetchCsaDropoffSiteData: "csaDropoffSite/geoJSON",
       fetchCtranRouteData: "ctranRoute/geoJSON",
       fetchCtranStopData: "ctranStop/geoJSON",

@@ -1,4 +1,4 @@
-import ctranRouteApi from "../api/ctranRoute";
+import bikePathPortlandApi from "../api/bikePathPortland";
 
 const actions = {
   async displayData({ commit, status }) {
@@ -6,7 +6,7 @@ const actions = {
   },
   async geoJSON({ commit }) {
     commit("setLoadingStatus", true);
-    const geojson = await ctranRouteApi.getGeoJSON();
+    const geojson = await bikePathPortlandApi.getGeoJSON();
     commit("setLoadingStatus", false);
     return commit("setGeoJSON", geojson.data);
   },

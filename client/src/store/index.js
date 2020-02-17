@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import bikePathPortland from "./bikePathPortland";
 import csaDropoffSite from "./csaDropoffSite";
 import ctranRoute from "./ctranRoute";
 import ctranStop from "./ctranStop";
@@ -18,6 +19,7 @@ Vue.use(Vuex);
 
 const vuexStore = new Vuex.Store({
   modules: {
+    bikePathPortland,
     csaDropoffSite,
     ctranRoute,
     ctranStop,

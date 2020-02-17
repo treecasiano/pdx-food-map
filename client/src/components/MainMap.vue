@@ -200,6 +200,25 @@
             </l-popup>
           </l-marker>
         </div>
+        <div v-if="displayBikePathsPortland">
+          <l-polyline
+            v-for="(item, index) in bikePathsPortland"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index"
+            :lat-lngs="item.latlngs"
+            :color="item.color"
+            :weight="item.weight"
+          >
+            <l-popup>
+              <div>
+                <div class="font-weight-bold mr-1">Recommended Bike Path</div>
+                <div>{{ item.props.segmentnam }}</div>
+              </div>
+              <div v-if="item.props.facility">{{ item.props.facility }}</div>
+            </l-popup>
+          </l-polyline>
+        </div>
         <div v-if="displayCtranRoutes">
           <l-polyline
             v-for="(item, index) in ctranRoutes"
@@ -360,13 +379,6 @@ const tractDefaultStyle = {
   fillColor: "#B1B6B6",
   fillOpacity: 0.25,
 };
-const tractSelectedStyle = {
-  weight: 0.75,
-  color: "#A9A9A9",
-  opacity: 1,
-  fillColor: "#eeeeee",
-  fillOpacity: 0.25,
-};
 const tractHighlightStyle = {
   weight: 2,
   color: "#c0ca33",
@@ -377,15 +389,15 @@ const tractHighlightStyle = {
 const foodDesertDefaultStyle = {
   weight: 0.75,
   color: "#795548",
-  opacity: 1,
+  opacity: 0.8,
   fillColor: "#795548",
-  fillOpacity: 0.5,
+  fillOpacity: 0.65,
 };
 const foodDesertHighlightStyle = {
   weight: 2,
   color: "#c0ca33",
   opacity: 0.9,
-  fillOpacity: 0.65,
+  fillOpacity: 0.5,
 };
 
 export default {
@@ -433,6 +445,18 @@ export default {
         return mapMarkers;
       }
       return mapMarkers;
+    },
+    bikePathsPortland() {
+      const geojson = this.$store.state.bikePathPortland.geoJSON;
+      let polylines = [];
+      if (geojson.features) {
+        polylines = this.createPolyline(geojson, {
+          color: "green",
+          weight: 2,
+        });
+        return polylines;
+      }
+      return polylines;
     },
     ctranRoutes() {
       const geojson = this.$store.state.ctranRoute.geoJSON;
@@ -522,6 +546,7 @@ export default {
       displayPdxTracts: state => state.pdxTract.displayStatus,
       displayTrailsClarkCounty: state => state.trailClarkCounty.displayStatus,
       geojsonPdxTract: state => state.pdxTract.geoJSON,
+      displayBikePathsPortland: state => state.bikePathPortland.displayStatus,
       displayCtranRoutes: state => state.ctranRoute.displayStatus,
       displayCtranStops: state => state.ctranStop.displayStatus,
       displayTrimetRoutes: state => state.trimetRoute.displayStatus,
@@ -533,6 +558,7 @@ export default {
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,
       searchResultFoodPantry: state => state.foodPantry.searchResult,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
+      selectedTract: state => state.pdxTract.tract,
       zoom: state => state.map.zoom,
     }),
   },
@@ -813,19 +839,19 @@ export default {
         } else {
           layer.setStyle(tractHighlightStyle);
         }
-        layer.on("mouseout", () => {
-          if (feature.properties.lilatrac_1 == 1) {
-            layer.setStyle(foodDesertDefaultStyle);
-          } else {
-            layer.setStyle(tractDefaultStyle);
-          }
-          if (feature.properties.hunvflag == 1) {
-            layer.setStyle({
-              weight: 1.25,
-              color: "#49332b",
-            });
-          }
-        });
+      });
+      layer.on("mouseout", () => {
+        if (feature.properties.lilatrac_1 == 1) {
+          layer.setStyle(foodDesertDefaultStyle);
+        } else {
+          layer.setStyle(tractDefaultStyle);
+        }
+        if (feature.properties.hunvflag == 1) {
+          layer.setStyle({
+            weight: 1.25,
+            color: "#49332b",
+          });
+        }
       });
     },
     setDisplayAllPointLayers(val) {

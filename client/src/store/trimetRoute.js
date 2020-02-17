@@ -25,7 +25,7 @@ const mutations = {
 };
 
 const state = {
-  displayStatus: true,
+  displayStatus: false,
   loading: false,
   geoJSON: {},
 };
