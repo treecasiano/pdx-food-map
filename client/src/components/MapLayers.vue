@@ -18,7 +18,7 @@
             <v-flex class="mb-4">
               <div class="mapLayers__heading">
                 <v-divider></v-divider>
-                <div>Map Layers</div>
+                <div>Census Tracts</div>
                 <v-divider class="mb-4"></v-divider>
               </div>
               <v-checkbox
@@ -27,6 +27,8 @@
                 data-cy="checkbox--censusTracts"
               ></v-checkbox>
               <v-checkbox
+                class="ml-6"
+                color="accent"
                 v-if="displayStatusPdxTract"
                 v-model="displayStatusTooltip"
                 :label="`Enable Tract Tooltips`"
@@ -80,6 +82,13 @@
                 <v-divider></v-divider>
               </div>
               <v-checkbox
+                v-if="trimetRouteData.features"
+                v-model="displayStatusTrimetRoute"
+                color="primary"
+                data-cy="checkbox--trimetRoute"
+                label="TriMet Routes"
+              ></v-checkbox>
+              <v-checkbox
                 v-if="trimetStopData.features"
                 v-model="displayStatusTrimetStop"
                 color="primary"
@@ -87,11 +96,37 @@
                 label="TriMet Stops"
               ></v-checkbox>
               <v-checkbox
+                v-if="ctranRouteData.features"
+                v-model="displayStatusCtranRoute"
+                color="primary"
+                data-cy="checkbox--ctranRoute"
+                label="C-TRAN Routes"
+              ></v-checkbox>
+              <v-checkbox
                 v-if="ctranStopData.features"
                 v-model="displayStatusCtranStop"
                 color="primary"
                 data-cy="checkbox--ctranStop"
                 label="C-TRAN Stops"
+              ></v-checkbox>
+              <div class="mapLayers__heading my-2">
+                <v-divider></v-divider>
+                <div>Bike Paths</div>
+                <v-divider></v-divider>
+              </div>
+              <v-checkbox
+                v-if="trailClarkCountyData.features"
+                v-model="displayStatusTrailClarkCounty"
+                color="primary"
+                data-cy="checkbox--trailClarkCounty"
+                label="Bike and Pedestrian Trails, Clark County, WA"
+              ></v-checkbox>
+              <v-checkbox
+                v-if="bikePathPortlandData.features"
+                v-model="displayStatusBikePathPortland"
+                color="primary"
+                data-cy="checkbox--bikePathPortland"
+                label="Recommended Bike Paths, City of Portland, OR"
               ></v-checkbox>
             </v-flex>
           </v-layout>
@@ -107,12 +142,28 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   name: "MapLayers",
   computed: {
+    displayStatusBikePathPortland: {
+      get() {
+        return this.$store.state.bikePathPortland.displayStatus;
+      },
+      set(value) {
+        this.setDisplayStatusBikePathPortland(value);
+      },
+    },
     displayStatusCsaDropoffSite: {
       get() {
         return this.$store.state.csaDropoffSite.displayStatus;
       },
       set(value) {
-        this.setDisplayStatusCsaDropoffSiteData(value);
+        this.setDisplayStatusCsaDropoffSite(value);
+      },
+    },
+    displayStatusCtranRoute: {
+      get() {
+        return this.$store.state.ctranRoute.displayStatus;
+      },
+      set(value) {
+        this.setDisplayStatusCtranRoute(value);
       },
     },
     displayStatusCtranStop: {
@@ -120,7 +171,7 @@ export default {
         return this.$store.state.ctranStop.displayStatus;
       },
       set(value) {
-        this.setDisplayStatusCtranStopData(value);
+        this.setDisplayStatusCtranStop(value);
       },
     },
     displayStatusFarmersMarket: {
@@ -128,7 +179,7 @@ export default {
         return this.$store.state.farmersMarket.displayStatus;
       },
       set(value) {
-        this.setDisplayStatusFarmersMarketData(value);
+        this.setDisplayStatusFarmersMarket(value);
       },
     },
     displayStatusFoodPantry: {
@@ -136,7 +187,7 @@ export default {
         return this.$store.state.foodPantry.displayStatus;
       },
       set(value) {
-        this.setDisplayStatusFoodPantryData(value);
+        this.setDisplayStatusFoodPantry(value);
       },
     },
     displayStatusGroceryStore: {
@@ -144,7 +195,7 @@ export default {
         return this.$store.state.groceryStore.displayStatus;
       },
       set(value) {
-        this.setDisplayStatusGroceryStoreData(value);
+        this.setDisplayStatusGroceryStore(value);
       },
     },
     displayStatusPdxTract: {
@@ -152,7 +203,7 @@ export default {
         return this.$store.state.pdxTract.displayStatus;
       },
       set(value) {
-        this.setDisplayStatusPdxTractData(value);
+        this.setDisplayStatusPdxTract(value);
       },
     },
     displayStatusTooltip: {
@@ -163,22 +214,42 @@ export default {
         this.setDisplayStatusTooltip(value);
       },
     },
+    displayStatusTrailClarkCounty: {
+      get() {
+        return this.$store.state.trailClarkCounty.displayStatus;
+      },
+      set(value) {
+        this.setDisplayStatusTrailClarkCounty(value);
+      },
+    },
+    displayStatusTrimetRoute: {
+      get() {
+        return this.$store.state.trimetRoute.displayStatus;
+      },
+      set(value) {
+        this.setDisplayStatusTrimetRoute(value);
+      },
+    },
     displayStatusTrimetStop: {
       get() {
         return this.$store.state.trimetStop.displayStatus;
       },
       set(value) {
-        this.setDisplayStatusTrimetStopData(value);
+        this.setDisplayStatusTrimetStop(value);
       },
     },
     ...mapState({
+      bikePathPortlandData: state => state.bikePathPortland.geoJSON,
       csaDropoffSiteData: state => state.csaDropoffSite.geoJSON,
+      ctranRouteData: state => state.ctranRoute.geoJSON,
       ctranStopData: state => state.ctranStop.geoJSON,
       farmersMarketData: state => state.farmersMarket.geoJSON,
       foodPantryData: state => state.foodPantry.geoJSON,
       groceryStoreData: state => state.groceryStore.geoJSON,
       pdxTractData: state => state.pdxTract.geoJSON,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
+      trailClarkCountyData: state => state.trailClarkCounty.geoJSON,
+      trimetRouteData: state => state.trimetRoute.geoJSON,
       trimetStopData: state => state.trimetStop.geoJSON,
     }),
   },
@@ -204,23 +275,22 @@ export default {
       }
     },
     ...mapActions({
-      fetchCsaDropoffSiteData: "csaDropoffSide/geoJSON",
-      fetchCtranStopData: "ctranStop/geoJSON",
-      fetchFarmersMarketData: "farmersMarket/geoJSON",
-      fetchFoodPantryData: "foodPantry/geoJSON",
       fetchGroceryStoreData: "groceryStore/geoJSON",
-      fetchPdxTractData: "pdxTract/geoJSON",
-      fetchTrimetStopData: "trimetStop/geoJSON",
     }),
     ...mapMutations({
-      setDisplayStatusCsaDropoffSiteData: "csaDropoffSite/setDisplayStatus",
-      setDisplayStatusCtranStopData: "ctranStop/setDisplayStatus",
-      setDisplayStatusFarmersMarketData: "farmersMarket/setDisplayStatus",
-      setDisplayStatusFoodPantryData: "foodPantry/setDisplayStatus",
-      setDisplayStatusGroceryStoreData: "groceryStore/setDisplayStatus",
-      setDisplayStatusPdxTractData: "pdxTract/setDisplayStatus",
+      setDisplayStatusBikePathPortland: "bikePathPortland/setDisplayStatus",
+      setDisplayStatusCsaDropoffSite: "csaDropoffSite/setDisplayStatus",
+      setDisplayStatusCtranRoute: "ctranRoute/setDisplayStatus",
+      setDisplayStatusCtranRoute: "ctranRoute/setDisplayStatus",
+      setDisplayStatusCtranStop: "ctranStop/setDisplayStatus",
+      setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",
+      setDisplayStatusFoodPantry: "foodPantry/setDisplayStatus",
+      setDisplayStatusGroceryStore: "groceryStore/setDisplayStatus",
+      setDisplayStatusPdxTract: "pdxTract/setDisplayStatus",
       setDisplayStatusTooltip: "map/setDisplayStatusTooltip",
-      setDisplayStatusTrimetStopData: "trimetStop/setDisplayStatus",
+      setDisplayStatusTrailClarkCounty: "trailClarkCounty/setDisplayStatus",
+      setDisplayStatusTrimetRoute: "trimetRoute/setDisplayStatus",
+      setDisplayStatusTrimetStop: "trimetStop/setDisplayStatus",
     }),
   },
   watch: {
