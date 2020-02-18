@@ -40,13 +40,17 @@ export default {
     this.loading = true;
     try {
       Promise.all([
+        await this.fetchBikePathPortlandData(),
         await this.fetchCsaDropoffSiteData(),
+        await this.fetchCtranRouteData(),
         await this.fetchCtranStopData(),
         await this.fetchFarmersMarketData(),
         await this.fetchFoodPantryData(),
         await this.fetchGroceryStoreData(),
         await this.fetchPdxTractData(),
+        await this.fetchTrimetRouteData(),
         await this.fetchTrimetStopData(),
+        await this.fetchTrailClarkCountyData(),
       ]);
     } catch (e) {
       console.error(e);
@@ -60,12 +64,16 @@ export default {
   },
   methods: {
     ...mapActions({
+      fetchBikePathPortlandData: "bikePathPortland/geoJSON",
       fetchCsaDropoffSiteData: "csaDropoffSite/geoJSON",
+      fetchCtranRouteData: "ctranRoute/geoJSON",
       fetchCtranStopData: "ctranStop/geoJSON",
       fetchFarmersMarketData: "farmersMarket/geoJSON",
       fetchFoodPantryData: "foodPantry/geoJSON",
       fetchGroceryStoreData: "groceryStore/geoJSON",
       fetchPdxTractData: "pdxTract/geoJSON",
+      fetchTrailClarkCountyData: "trailClarkCounty/geoJSON",
+      fetchTrimetRouteData: "trimetRoute/geoJSON",
       fetchTrimetStopData: "trimetStop/geoJSON",
     }),
   },
@@ -98,7 +106,7 @@ li {
 }
 
 #nav a {
-  color: var(--v-secondary-lighten2);
+  color: var(--v-tertiary-lighten2);
   text-decoration: none;
 }
 
@@ -121,7 +129,8 @@ li {
 }
 
 .pdx-footer a {
-  color: var(--v-secondary-lighten2) !important;
+  color: white !important;
   text-decoration: none;
+  font-weight: bold;
 }
 </style>

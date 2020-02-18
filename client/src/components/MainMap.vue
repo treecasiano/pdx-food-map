@@ -25,13 +25,6 @@
         <l-control position="topleft">
           <MapControls />
         </l-control>
-        <l-control position="bottomleft" class="pdx-searchControls" style="width: 320px;">
-          <v-radio-group class="pa-0 ma-0" v-model="radiosDistance" row label="Search radius:">
-            <v-radio color="primary" label="0.5 miles" value="radio-half"></v-radio>
-            <v-radio color="primary" label="1 mile" value="radio-1"></v-radio>
-          </v-radio-group>
-        </l-control>
-
         <l-control-scale position="bottomleft"></l-control-scale>
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
 
@@ -200,6 +193,41 @@
             </l-popup>
           </l-marker>
         </div>
+        <div v-if="displayBikePathsPortland">
+          <l-polyline
+            v-for="(item, index) in bikePathsPortland"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index"
+            :lat-lngs="item.latlngs"
+            :color="item.color"
+            :weight="item.weight"
+          >
+            <l-popup>
+              <div>
+                <div class="font-weight-bold mr-1">Recommended Bike Path</div>
+                <div>{{ item.props.segmentnam }}</div>
+              </div>
+              <div v-if="item.props.facility">{{ item.props.facility }}</div>
+            </l-popup>
+          </l-polyline>
+        </div>
+        <div v-if="displayCtranRoutes">
+          <l-polyline
+            v-for="(item, index) in ctranRoutes"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index"
+            :lat-lngs="item.latlngs"
+            :color="item.color"
+            :weight="item.weight"
+          >
+            <l-popup>
+              <span class="font-weight-bold mr-1">C-TRAN Route:</span>
+              {{item.props.rt_long_nm}}
+            </l-popup>
+          </l-polyline>
+        </div>
         <div v-if="displayCtranStops">
           <l-circle-marker
             v-for="(item, index) in ctranStopMarkers"
@@ -229,6 +257,27 @@
             </l-popup>
           </l-circle-marker>
         </div>
+        <div v-if="displayTrimetRoutes">
+          <l-polyline
+            v-for="(item, index) in trimetRoutes"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index"
+            :lat-lngs="item.latlngs"
+            :color="item.color"
+            :weight="item.weight"
+          >
+            <l-popup>
+              <span class="font-weight-bold mr-1">TriMet Route:</span>
+              <span>{{item.props.public_rte}} - {{item.props.dir_desc}}</span>
+              <div v-if="item.props.frequent === 'True'" class="font-weight-bold">Frequent Service</div>
+              <div v-if="item.props.type">
+                <span class="font-weight-bold mr-1">Route Type:</span>
+                {{item.props.type}}
+              </div>
+            </l-popup>
+          </l-polyline>
+        </div>
         <div v-if="displayTrimetStops">
           <l-circle-marker
             v-for="(item, index) in trimetStopMarkers"
@@ -247,16 +296,50 @@
             <l-popup>
               <div>
                 <span class="font-weight-bold mr-1">TriMet Stop ID:</span>
-
                 <span>{{item.props.stop_id}}</span>
               </div>
               <div>
                 <span class="font-weight-bold mr-1">TriMet Stop Name:</span>
-
                 <span>{{item.props.stop_name}}</span>
               </div>
             </l-popup>
           </l-circle-marker>
+        </div>
+        <div v-if="displayTrailsClarkCounty">
+          <l-polyline
+            v-for="(item, index) in trailsClarkCounty"
+            v-bind:item="item"
+            v-bind:index="index"
+            v-bind:key="index"
+            :lat-lngs="item.latlngs"
+            :color="item.color"
+            :weight="item.weight"
+          >
+            <l-popup>
+              <div v-if="item.props.trailname">
+                <strong>Trail Name:</strong>
+                {{item.props.trailname}}
+              </div>
+              <div v-if="item.props.systemname">
+                <strong>Trail System Name:</strong>
+                {{item.props.systemname}}
+              </div>
+              <div>
+                <strong>Status:</strong>
+                {{item.props.status}}
+              </div>
+              <div v-if="item.props.trlsurface">
+                <strong>Surface:</strong>
+                {{item.props.trlsurface}}
+              </div>
+              <div v-if="item.props.accessible">
+                <strong>Accessible:&nbsp;</strong>
+                <span v-if="item.props.accessible === 'Not Evaluated'">Not Evaluated</span>
+                <span v-if="item.props.accessible === 'Accessible'">Yes</span>
+                <span v-if="item.props.accessible === 'Not Accessible'">No</span>
+              </div>
+            </l-popup>
+          </l-polyline>
         </div>
         <l-geo-json
           v-if="displayPdxTracts"
@@ -292,13 +375,6 @@ const tractDefaultStyle = {
   fillColor: "#B1B6B6",
   fillOpacity: 0.25,
 };
-const tractSelectedStyle = {
-  weight: 0.75,
-  color: "#A9A9A9",
-  opacity: 1,
-  fillColor: "#eeeeee",
-  fillOpacity: 0.25,
-};
 const tractHighlightStyle = {
   weight: 2,
   color: "#c0ca33",
@@ -309,15 +385,15 @@ const tractHighlightStyle = {
 const foodDesertDefaultStyle = {
   weight: 0.75,
   color: "#795548",
-  opacity: 1,
+  opacity: 0.8,
   fillColor: "#795548",
-  fillOpacity: 0.5,
+  fillOpacity: 0.65,
 };
 const foodDesertHighlightStyle = {
   weight: 2,
   color: "#c0ca33",
   opacity: 0.9,
-  fillOpacity: 0.65,
+  fillOpacity: 0.5,
 };
 
 export default {
@@ -366,6 +442,30 @@ export default {
       }
       return mapMarkers;
     },
+    bikePathsPortland() {
+      const geojson = this.$store.state.bikePathPortland.geoJSON;
+      let polylines = [];
+      if (geojson.features) {
+        polylines = this.createPolyline(geojson, {
+          color: "green",
+          weight: 2,
+        });
+        return polylines;
+      }
+      return polylines;
+    },
+    ctranRoutes() {
+      const geojson = this.$store.state.ctranRoute.geoJSON;
+      let polylines = [];
+      if (geojson.features) {
+        polylines = this.createPolyline(geojson, {
+          color: this.transitStopFillColor,
+          weight: 3,
+        });
+        return polylines;
+      }
+      return polylines;
+    },
     ctranStopMarkers() {
       const geojson = this.$store.state.ctranStop.geoJSON;
       let mapMarkers = [];
@@ -374,6 +474,27 @@ export default {
         return mapMarkers;
       }
       return mapMarkers;
+    },
+    trailsClarkCounty() {
+      const geojson = this.$store.state.trailClarkCounty.geoJSON;
+      let polylines = [];
+      if (geojson.features) {
+        polylines = this.createPolyline(geojson, { color: "grey", weight: 3 });
+        return polylines;
+      }
+      return polylines;
+    },
+    trimetRoutes() {
+      const geojson = this.$store.state.trimetRoute.geoJSON;
+      let polylines = [];
+      if (geojson.features) {
+        polylines = this.createPolyline(geojson, {
+          color: this.transitStopFillColor,
+          weight: 3,
+        });
+        return polylines;
+      }
+      return polylines;
     },
     trimetStopMarkers() {
       const geojson = this.$store.state.trimetStop.geoJSON;
@@ -403,32 +524,26 @@ export default {
       // because of the binding of the tooltip when tooltips are hidden.
       return this.createTractLayer(feature, layer, this.displayStatusTooltip);
     },
-    searchDistance() {
-      if (this.radiosDistance == "radio-half") {
-        return "1/2 mile";
-      } else if (this.radiosDistance == "radio-1") {
-        return "1 mile";
-      }
-      return "";
-    },
     ...mapState({
       center: state => state.map.center,
-      displayStatusTooltip: state => state.map.displayStatusTooltip,
+      displayBikePathsPortland: state => state.bikePathPortland.displayStatus,
       displayCsaDropoffSites: state => state.csaDropoffSite.displayStatus,
+      displayCtranRoutes: state => state.ctranRoute.displayStatus,
+      displayCtranStops: state => state.ctranStop.displayStatus,
       displayFarmersMarkets: state => state.farmersMarket.displayStatus,
       displayFoodPantries: state => state.foodPantry.displayStatus,
       displayGroceryStores: state => state.groceryStore.displayStatus,
       displayPdxTracts: state => state.pdxTract.displayStatus,
-      geojsonPdxTract: state => state.pdxTract.geoJSON,
-      displayCtranStops: state => state.ctranStop.displayStatus,
+      displayStatusTooltip: state => state.map.displayStatusTooltip,
+      displayTrailsClarkCounty: state => state.trailClarkCounty.displayStatus,
+      displayTrimetRoutes: state => state.trimetRoute.displayStatus,
       displayTrimetStops: state => state.trimetStop.displayStatus,
-      loadingDataCsaDropoffSite: state => state.csaDropoffSite.loading,
-      loadingDataFarmersMarket: state => state.farmersMarket.loading,
-      loadingDataFoodPantry: state => state.foodPantry.loading,
-      loadingDataGroceryStore: state => state.groceryStore.loading,
+      geojsonPdxTract: state => state.pdxTract.geoJSON,
+      searchRadius: state => state.map.searchRadius,
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,
       searchResultFoodPantry: state => state.foodPantry.searchResult,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
+      selectedTract: state => state.pdxTract.tract,
       zoom: state => state.map.zoom,
     }),
   },
@@ -441,11 +556,10 @@ export default {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: "abcd",
       defaultCenter: [45.59, -122.6793],
-      defaultZoom: 10,
+      defaultZoom: 11.5,
       maxZoom: 18,
       minZoom: 4,
       showMapControls: true,
-      radiosDistance: "radio-1",
       // eslint-disable-next-line
       csaIcon: L.icon({
         iconUrl: "leaflet/map_marker_csa.svg",
@@ -512,7 +626,7 @@ export default {
       }),
       geosearchOptions: {
         provider: new OpenStreetMapProvider(),
-        style: "button",
+        style: "bar",
         autoComplete: true,
         position: "topleft",
         autoCompleteDelay: 250,
@@ -533,6 +647,8 @@ export default {
         keepResult: true,
         autoClose: true,
         searchLabel: "Enter an address...",
+        showPopup: true,
+        notFoundMessage: "Sorry, that address could not be found.",
       },
       transitStopFillColor: "#2F4B53",
     };
@@ -540,26 +656,19 @@ export default {
   mounted() {
     this.$nextTick(() => {
       // this.$refs.myMap.mapObject.ANY_LEAFLET_MAP_METHOD();
-      this.$refs.map.mapObject.on("geosearch/showlocation", result => {
-        const x = result.location.x;
-        const y = result.location.y;
-        const geom = `${x}, ${y}`;
-        // default distance = 1 mile = 1609.34 meters
-        let distance = 1609.34;
-        if (this.radiosDistance === "radio-half") {
-          distance = 804.672;
+      this.$refs.map.mapObject.on(
+        "geosearch/showlocation",
+        async geosearchResult => {
+          this.$refs.map.setZoom(14.25);
+          this.searchForPoints(geosearchResult);
+          this.setDisplayAllPointLayers(true);
+          this.setSelectedTab("search");
         }
+      );
 
-        const params = { geom, distance };
-        // eslint-disable-next-line
-        console.log(result.location.label);
-        // eslint-disable-next-line
-        console.log(geom);
-        this.$refs.map.setZoom(15.25);
-        this.searchForPoints(params);
-        this.setDisplayAllPointLayers(true);
-        this.setMapControlMini(false);
-        this.setSelectedTab("search");
+      const geosearchResetButton = document.querySelector(".reset");
+      geosearchResetButton.addEventListener("click", () => {
+        this.setGeosearchResult(null);
       });
 
       this.$refs.map.mapObject.on("zoomend", () => {
@@ -607,10 +716,6 @@ export default {
         this.setDefaultTractStyles(layer, feature);
       };
     },
-    clearSearchResult() {
-      this.$store.dispatch("groceryStore/clearSearchResult");
-      this.$store.dispatch("farmersMarket/clearSearchResult");
-    },
     createMarkers(geojson, customIcon) {
       const markersArray = geojson["features"].map(feature => {
         // eslint-disable-next-line no-undef
@@ -648,6 +753,28 @@ export default {
       `;
       return propertyString;
     },
+    createPolyline(geoJSON, { color, weight }) {
+      const polyLineArray = geoJSON["features"].map(feature => {
+        // eslint-disable-next-line
+        const coordinatesArray = feature["geometry"]["coordinates"][0];
+        let polyLineObjectArray = coordinatesArray.map(coordinates => {
+          // Leaflet requires the order to lat,long; geojson is formatted as long,lat
+          return [coordinates[1], coordinates[0]];
+        });
+        let props = feature["properties"];
+        const polyLineObj = Object.assign(
+          {},
+          {
+            latlngs: polyLineObjectArray,
+            props,
+            color,
+            weight,
+          }
+        );
+        return polyLineObj;
+      });
+      return polyLineArray;
+    },
     formatCurrency(dollarValue) {
       // syntax numObj.toLocaleString([locales [, options]])
       return dollarValue.toLocaleString("en-US", {
@@ -660,7 +787,23 @@ export default {
       this.setCenter(this.defaultCenter);
       this.setZoom(this.defaultZoom);
     },
-    async searchForPoints(params) {
+    async searchForPoints(geosearchResult) {
+      const x = geosearchResult.location.x;
+      const y = geosearchResult.location.y;
+      const geom = `${x}, ${y}`;
+      // 1 mile = 1609.34 meters
+      const distance = this.searchRadius * 1609.34;
+      const params = { geom, distance };
+      // eslint-disable-next-line
+      console.log(geosearchResult.location.label);
+      // eslint-disable-next-line
+      console.log(geom);
+      this.setGeosearchResult(
+        Object.assign(
+          {},
+          { geom, locationLabel: geosearchResult.location.label }
+        )
+      );
       try {
         Promise.all([
           await this.$store.dispatch("groceryStore/search", params),
@@ -669,7 +812,6 @@ export default {
           await this.$store.dispatch("csaDropoffSite/search", params),
         ]);
       } catch (e) {
-        // TODO: Add notifications
         console.error(e);
       }
     },
@@ -691,19 +833,19 @@ export default {
         } else {
           layer.setStyle(tractHighlightStyle);
         }
-        layer.on("mouseout", () => {
-          if (feature.properties.lilatrac_1 == 1) {
-            layer.setStyle(foodDesertDefaultStyle);
-          } else {
-            layer.setStyle(tractDefaultStyle);
-          }
-          if (feature.properties.hunvflag == 1) {
-            layer.setStyle({
-              weight: 1.25,
-              color: "#49332b",
-            });
-          }
-        });
+      });
+      layer.on("mouseout", () => {
+        if (feature.properties.lilatrac_1 == 1) {
+          layer.setStyle(foodDesertDefaultStyle);
+        } else {
+          layer.setStyle(tractDefaultStyle);
+        }
+        if (feature.properties.hunvflag == 1) {
+          layer.setStyle({
+            weight: 1.25,
+            color: "#49332b",
+          });
+        }
       });
     },
     setDisplayAllPointLayers(val) {
@@ -719,13 +861,17 @@ export default {
     },
     ...mapMutations({
       setDisplayStatusCsaDropoffSite: "csaDropoffSite/setDisplayStatus",
-      setDisplayStatusCtranStop: "trimetStop/setDisplayStatus",
+      setDisplayStatusCtranRoute: "ctranRoute/setDisplayStatus",
+      setDisplayStatusCtranStop: "ctranStop/setDisplayStatus",
       setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",
       setDisplayStatusFoodPantry: "foodPantry/setDisplayStatus",
       setDisplayStatusGroceryStore: "groceryStore/setDisplayStatus",
       setDisplayStatusPdxTract: "pdxTract/setDisplayStatus",
+      setDisplayStatusTrailClarkCounty: "trailClarkCounty/setDisplayStatus",
+      setDisplayStatusTrimetRoute: "trimetRoute/setDisplayStatus",
       setDisplayStatusTrimetStop: "trimetStop/setDisplayStatus",
       setCenter: "map/setCenter",
+      setGeosearchResult: "map/setGeosearchResult",
       setMapControlMini: "map/setMapControlMini",
       setSelectedTab: "map/setSelectedTab",
       setTract: "pdxTract/setTract",
@@ -754,11 +900,6 @@ export default {
 
 .pdx-layerControls {
   height: 30px !important;
-}
-
-.pdx-layerControls--radioButtons {
-  height: 20px !important;
-  padding: 0;
 }
 
 .pdx-leafletControl__card {
