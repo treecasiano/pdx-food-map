@@ -11,6 +11,9 @@ const mutations = {
   setDisplayStatusTooltip(state, status) {
     state.displayStatusTooltip = status;
   },
+  setGeosearchResult(state, result) {
+    state.geosearchResult = result;
+  },
   setUserCoordinates(state, coordinates) {
     state.userLatitude = coordinates.latitude;
     state.userLongitude = coordinates.longitude;
@@ -30,8 +33,9 @@ const mutations = {
 };
 
 const state = {
-  displayStatusTooltip: true,
   center: [45.59, -122.6793],
+  displayStatusTooltip: true,
+  geosearchResult: null,
   userLatitude: null,
   userLongitude: null,
   loading: false,

@@ -262,7 +262,7 @@ export default {
   data() {
     return {
       drawer: true,
-      mini: false,
+      mini: true,
       items: [
         "All Stores",
         "Large Chain Grocery",

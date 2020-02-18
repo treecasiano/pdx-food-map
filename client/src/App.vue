@@ -106,7 +106,7 @@ li {
 }
 
 #nav a {
-  color: var(--v-secondary-lighten2);
+  color: var(--v-tertiary-lighten2);
   text-decoration: none;
 }
 
@@ -129,7 +129,8 @@ li {
 }
 
 .pdx-footer a {
-  color: var(--v-secondary-lighten2) !important;
+  color: white !important;
   text-decoration: none;
+  font-weight: bold;
 }
 </style>

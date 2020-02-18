@@ -626,7 +626,7 @@ export default {
       }),
       geosearchOptions: {
         provider: new OpenStreetMapProvider(),
-        style: "button",
+        style: "bar",
         autoComplete: true,
         position: "topleft",
         autoCompleteDelay: 250,
@@ -648,6 +648,7 @@ export default {
         autoClose: true,
         searchLabel: "Enter an address...",
         showPopup: true,
+        notFoundMessage: "Sorry, that address could not be found.",
       },
       transitStopFillColor: "#2F4B53",
     };
@@ -655,22 +656,19 @@ export default {
   mounted() {
     this.$nextTick(() => {
       // this.$refs.myMap.mapObject.ANY_LEAFLET_MAP_METHOD();
-      this.$refs.map.mapObject.on("geosearch/showlocation", result => {
-        const x = result.location.x;
-        const y = result.location.y;
-        const geom = `${x}, ${y}`;
-        // 1 mile = 1609.34 meters
-        let distance = this.searchRadius * 1609.34;
-        const params = { geom, distance };
-        // eslint-disable-next-line
-        console.log(result.location.label);
-        // eslint-disable-next-line
-        console.log(geom);
-        this.$refs.map.setZoom(14.25);
-        this.searchForPoints(params);
-        this.setDisplayAllPointLayers(true);
-        // this.setMapControlMini(false);
-        this.setSelectedTab("search");
+      this.$refs.map.mapObject.on(
+        "geosearch/showlocation",
+        async geosearchResult => {
+          this.$refs.map.setZoom(14.25);
+          this.searchForPoints(geosearchResult);
+          this.setDisplayAllPointLayers(true);
+          this.setSelectedTab("search");
+        }
+      );
+
+      const geosearchResetButton = document.querySelector(".reset");
+      geosearchResetButton.addEventListener("click", () => {
+        this.setGeosearchResult(null);
       });
 
       this.$refs.map.mapObject.on("zoomend", () => {
@@ -789,7 +787,24 @@ export default {
       this.setCenter(this.defaultCenter);
       this.setZoom(this.defaultZoom);
     },
-    async searchForPoints(params) {
+    async searchForPoints(geosearchResult) {
+      const x = geosearchResult.location.x;
+      const y = geosearchResult.location.y;
+      const geom = `${x}, ${y}`;
+      // 1 mile = 1609.34 meters
+      const distance = this.searchRadius * 1609.34;
+      const params = { geom, distance };
+      // eslint-disable-next-line
+      console.log(geosearchResult.location.label);
+      // eslint-disable-next-line
+      console.log(geom);
+      console.log("params from main map", params);
+      this.setGeosearchResult(
+        Object.assign(
+          {},
+          { geom, locationLabel: geosearchResult.location.label }
+        )
+      );
       try {
         Promise.all([
           await this.$store.dispatch("groceryStore/search", params),
@@ -798,7 +813,6 @@ export default {
           await this.$store.dispatch("csaDropoffSite/search", params),
         ]);
       } catch (e) {
-        // TODO: Add notifications
         console.error(e);
       }
     },
@@ -858,6 +872,7 @@ export default {
       setDisplayStatusTrimetRoute: "trimetRoute/setDisplayStatus",
       setDisplayStatusTrimetStop: "trimetStop/setDisplayStatus",
       setCenter: "map/setCenter",
+      setGeosearchResult: "map/setGeosearchResult",
       setMapControlMini: "map/setMapControlMini",
       setSelectedTab: "map/setSelectedTab",
       setTract: "pdxTract/setTract",
