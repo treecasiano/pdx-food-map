@@ -212,6 +212,8 @@ export default {
       // 1 mile = 1609.34 meters
       const distance = this.searchRadius * 1609.34;
       const params = { geom, distance };
+      const latLong = geom.split(",").reverse();
+      this.setCenter(latLong);
       try {
         Promise.all([
           await this.$store.dispatch("groceryStore/search", params),

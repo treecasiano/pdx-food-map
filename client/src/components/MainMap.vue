@@ -798,7 +798,6 @@ export default {
       console.log(geosearchResult.location.label);
       // eslint-disable-next-line
       console.log(geom);
-      console.log("params from main map", params);
       this.setGeosearchResult(
         Object.assign(
           {},
