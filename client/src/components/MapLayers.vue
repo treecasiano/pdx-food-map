@@ -15,7 +15,12 @@
           </v-btn>
         </v-list-item>
         <v-container v-if="!mini" class="mapLayers">
-          <v-expansion-panels accordion hover flat active-class="pdx-expansion--active">
+          <v-expansion-panels
+            accordion
+            hover
+            flat
+            active-class="pdx-mapLayerExpansionPanels--active"
+          >
             <v-expansion-panel>
               <v-expansion-panel-header class="font-weight-bold primary--text">Census Tracts</v-expansion-panel-header>
               <v-expansion-panel-content>
@@ -323,7 +328,7 @@ export default {
   margin: 0.25rem !important;
 }
 
-.pdx-expansion--active {
+.pdx-mapLayerExpansionPanels--active {
   background: var(--v-accent-lighten5) !important;
 }
 </style>

@@ -25,13 +25,6 @@
         <l-control position="topleft">
           <MapControls />
         </l-control>
-        <l-control position="bottomleft" class="pdx-searchControls" style="width: 320px;">
-          <v-radio-group class="pa-0 ma-0" v-model="radiosDistance" row label="Search radius:">
-            <v-radio color="primary" label="0.5 miles" value="radio-half"></v-radio>
-            <v-radio color="primary" label="1 mile" value="radio-1"></v-radio>
-          </v-radio-group>
-        </l-control>
-
         <l-control-scale position="bottomleft"></l-control-scale>
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
 
@@ -277,8 +270,11 @@
             <l-popup>
               <span class="font-weight-bold mr-1">TriMet Route:</span>
               <span>{{item.props.public_rte}} - {{item.props.dir_desc}}</span>
-              <div v-if="item.props.frequent === 'True'">Frequent Service</div>
-              <div v-if="item.props.type">Route Type: {{item.props.type}}</div>
+              <div v-if="item.props.frequent === 'True'" class="font-weight-bold">Frequent Service</div>
+              <div v-if="item.props.type">
+                <span class="font-weight-bold mr-1">Route Type:</span>
+                {{item.props.type}}
+              </div>
             </l-popup>
           </l-polyline>
         </div>
@@ -528,14 +524,6 @@ export default {
       // because of the binding of the tooltip when tooltips are hidden.
       return this.createTractLayer(feature, layer, this.displayStatusTooltip);
     },
-    searchDistance() {
-      if (this.radiosDistance == "radio-half") {
-        return "1/2 mile";
-      } else if (this.radiosDistance == "radio-1") {
-        return "1 mile";
-      }
-      return "";
-    },
     ...mapState({
       center: state => state.map.center,
       displayBikePathsPortland: state => state.bikePathPortland.displayStatus,
@@ -551,6 +539,7 @@ export default {
       displayTrimetRoutes: state => state.trimetRoute.displayStatus,
       displayTrimetStops: state => state.trimetStop.displayStatus,
       geojsonPdxTract: state => state.pdxTract.geoJSON,
+      searchRadius: state => state.map.searchRadius,
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,
       searchResultFoodPantry: state => state.foodPantry.searchResult,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
@@ -571,7 +560,6 @@ export default {
       maxZoom: 18,
       minZoom: 4,
       showMapControls: true,
-      radiosDistance: "radio-1",
       // eslint-disable-next-line
       csaIcon: L.icon({
         iconUrl: "leaflet/map_marker_csa.svg",
@@ -659,6 +647,7 @@ export default {
         keepResult: true,
         autoClose: true,
         searchLabel: "Enter an address...",
+        showPopup: true,
       },
       transitStopFillColor: "#2F4B53",
     };
@@ -670,21 +659,17 @@ export default {
         const x = result.location.x;
         const y = result.location.y;
         const geom = `${x}, ${y}`;
-        // default distance = 1 mile = 1609.34 meters
-        let distance = 1609.34;
-        if (this.radiosDistance === "radio-half") {
-          distance = 804.672;
-        }
-
+        // 1 mile = 1609.34 meters
+        let distance = this.searchRadius * 1609.34;
         const params = { geom, distance };
         // eslint-disable-next-line
         console.log(result.location.label);
         // eslint-disable-next-line
         console.log(geom);
-        this.$refs.map.setZoom(15.25);
+        this.$refs.map.setZoom(14.25);
         this.searchForPoints(params);
         this.setDisplayAllPointLayers(true);
-        this.setMapControlMini(false);
+        // this.setMapControlMini(false);
         this.setSelectedTab("search");
       });
 
@@ -901,11 +886,6 @@ export default {
 
 .pdx-layerControls {
   height: 30px !important;
-}
-
-.pdx-layerControls--radioButtons {
-  height: 20px !important;
-  padding: 0;
 }
 
 .pdx-leafletControl__card {

@@ -18,6 +18,9 @@ const mutations = {
   setMapControlMini(state, val) {
     state.mapControlMini = val;
   },
+  setSearchRadius(state, radiusInMiles) {
+    state.searchRadius = radiusInMiles;
+  },
   setSelectedTab(state, tab) {
     state.selectedTab = tab;
   },
@@ -34,6 +37,7 @@ const state = {
   loading: false,
   mapControlMini: false,
   searchResults: [],
+  searchRadius: 0.5,
   selectedTab: "map",
   zoom: 11.5,
 };
