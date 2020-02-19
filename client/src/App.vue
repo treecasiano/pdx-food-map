@@ -18,7 +18,7 @@
     </v-toolbar>
     <router-view :loading="loading" />
     <v-footer color="primary darken-3" class="pa-3 accent--text pdx-footer">
-      <v-layout column>
+      <v-layout column class="text-center">
         <v-flex>
           View this project on
           <a href="https://github.com/treecasiano/pdx-food-map">GitHub</a>.
@@ -89,7 +89,6 @@ export default {
   font-family: "Muli", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
 }
 
 .mono-font {

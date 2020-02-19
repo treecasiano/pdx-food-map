@@ -9,7 +9,7 @@
           <v-card-title class="secondary--text">
             <h2>The Map</h2>
           </v-card-title>
-          <v-card-text class="text-left">
+          <v-card-text>
             <p>The PDX Food Environment Map is an evolving project first launched to satisfy final project requirements for GEOG 576 Geospatial Web and Mobile Programming, a course in the University of Wisconsin's MS in Cartography and GIS Development program.</p>
             <p>
               The map facilitates discovery of sources of fresh produce in the
@@ -41,7 +41,7 @@
             <v-card-title class="accent--text text--darken-2">
               <h2>The Data</h2>
             </v-card-title>
-            <v-card-text class="text-left">
+            <v-card-text>
               <ul style="padding: 0;">
                 <li>
                   <strong>Grocery Stores</strong>
@@ -84,7 +84,7 @@
             <v-card-title class="tertiary--text">
               <h2>The Map Author</h2>
             </v-card-title>
-            <v-card-text class="text-left">
+            <v-card-text>
               <p>
                 <a href="http://treecasiano.com">Tree Casiano</a> is a software developer for a healthcare IT company in Portland, OR and a graduate student studying Cartography and GIS Development at the University of Wisconsin-Madison.
               </p>

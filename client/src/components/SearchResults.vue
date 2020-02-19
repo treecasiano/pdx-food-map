@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-left" v-if="geosearchResult">
+    <div v-if="geosearchResult">
       <div class="font-weight-bold primary--text title">SEARCH LOCATION</div>
       <div>{{geosearchResult.locationLabel}}</div>
       <div class="d-flex align-center my-2">
@@ -36,20 +36,14 @@
             <v-expansion-panel-content>
               <v-layout column justify-start>
                 <div v-if="searchResultGroceryStore.length > 0">
-                  <ul class="text-left" style="list-style-type: none; padding-left: 0;">
+                  <ul style="list-style-type: none; padding-left: 0;">
                     <li
                       v-for="item in searchResultGroceryStore"
                       v-bind:item="item"
                       v-bind:key="item.gid"
                       style="display: block;"
                     >
-                      <v-btn
-                        icon
-                        small
-                        class="text-left"
-                        color="primary"
-                        @click.stop="centerOnPoint(item)"
-                      >
+                      <v-btn icon small color="primary" @click.stop="centerOnPoint(item)">
                         <v-icon small>near_me</v-icon>
                       </v-btn>
                       {{ item.name }} ({{ item.distance | metersToMiles }} mi)
@@ -70,20 +64,14 @@
             <v-expansion-panel-content>
               <v-layout column justify-start>
                 <div v-if="searchResultFarmersMarket.length > 0">
-                  <ul class="text-left" style="list-style-type: none; padding-left: 0;">
+                  <ul style="list-style-type: none; padding-left: 0;">
                     <li
                       v-for="item in searchResultFarmersMarket"
                       v-bind:item="item"
                       v-bind:key="item.gid"
                       style="display: block;"
                     >
-                      <v-btn
-                        text
-                        small
-                        class="text-left"
-                        color="primary"
-                        @click.stop="centerOnPoint(item)"
-                      >
+                      <v-btn text small color="primary" @click.stop="centerOnPoint(item)">
                         <v-icon class="mr-1" small>near_me</v-icon>
                       </v-btn>
                       {{ item.market }} ({{ item.distance | metersToMiles }} mi)
@@ -104,20 +92,14 @@
             <v-expansion-panel-content>
               <v-layout column justify-start>
                 <div v-if="searchResultFoodPantry.length > 0">
-                  <ul class="text-left" style="list-style-type: none; padding-left: 0;">
+                  <ul style="list-style-type: none; padding-left: 0;">
                     <li
                       v-for="item in searchResultFoodPantry"
                       v-bind:item="item"
                       v-bind:key="item.gid"
                       style="display: block;"
                     >
-                      <v-btn
-                        icon
-                        small
-                        class="text-left"
-                        color="primary"
-                        @click.stop="centerOnPoint(item)"
-                      >
+                      <v-btn icon small color="primary" @click.stop="centerOnPoint(item)">
                         <v-icon small>near_me</v-icon>
                       </v-btn>
                       {{ item.location_name }} ({{ item.distance | metersToMiles }} mi)
@@ -138,20 +120,14 @@
             <v-expansion-panel-content>
               <v-layout column justify-start>
                 <div v-if="searchResultCsaDropoffSite.length > 0">
-                  <ul class="text-left" style="list-style-type: none; padding-left: 0">
+                  <ul style="list-style-type: none; padding-left: 0">
                     <li
                       v-for="item in searchResultCsaDropoffSite"
                       v-bind:item="item"
                       v-bind:key="item.gid"
                       style="display: block;"
                     >
-                      <v-btn
-                        icon
-                        small
-                        class="text-left"
-                        color="primary"
-                        @click.stop="centerOnPoint(item)"
-                      >
+                      <v-btn icon small color="primary" @click.stop="centerOnPoint(item)">
                         <v-icon small>near_me</v-icon>
                       </v-btn>
                       {{ item.farm_name }} ({{ item.distance | metersToMiles }} mi)
