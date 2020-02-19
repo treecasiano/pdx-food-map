@@ -648,7 +648,6 @@ export default {
         autoClose: true,
         searchLabel: "Enter an address...",
         showPopup: true,
-        notFoundMessage: "Sorry, that address could not be found.",
       },
       transitStopFillColor: "#2F4B53",
     };
@@ -690,6 +689,7 @@ export default {
         layer.on("click", e => {
           const southWest = e.target._bounds._southWest;
           const northEast = e.target._bounds._northEast;
+          // eslint-disable-next-line
           const tractBounds = L.latLngBounds(southWest, northEast);
           const {
             target: {
@@ -812,6 +812,7 @@ export default {
           await this.$store.dispatch("csaDropoffSite/search", params),
         ]);
       } catch (e) {
+        // eslint-disable-next-line
         console.error(e);
       }
     },

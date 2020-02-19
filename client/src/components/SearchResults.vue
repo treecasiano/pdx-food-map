@@ -222,6 +222,7 @@ export default {
           await this.$store.dispatch("csaDropoffSite/search", params),
         ]);
       } catch (e) {
+        // eslint-disable-next-line
         console.error(e);
       }
       this.searchResultsLoading = false;

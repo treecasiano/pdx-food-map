@@ -287,7 +287,6 @@ export default {
       setDisplayStatusBikePathPortland: "bikePathPortland/setDisplayStatus",
       setDisplayStatusCsaDropoffSite: "csaDropoffSite/setDisplayStatus",
       setDisplayStatusCtranRoute: "ctranRoute/setDisplayStatus",
-      setDisplayStatusCtranRoute: "ctranRoute/setDisplayStatus",
       setDisplayStatusCtranStop: "ctranStop/setDisplayStatus",
       setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",
       setDisplayStatusFoodPantry: "foodPantry/setDisplayStatus",

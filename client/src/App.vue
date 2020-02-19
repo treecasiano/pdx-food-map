@@ -53,6 +53,7 @@ export default {
         await this.fetchTrailClarkCountyData(),
       ]);
     } catch (e) {
+      // eslint-disable-next-line
       console.error(e);
     }
     this.loading = false;
