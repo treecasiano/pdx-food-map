@@ -1,6 +1,10 @@
 import groceryStoreApi from "../api/groceryStore";
 
 const actions = {
+  async create({ commit, state }) {
+    const record = await groceryStoreApi.create(state.record);
+    return commit("setRecord", record);
+  },
   async list({ commit }) {
     const list = await groceryStoreApi.list();
     return commit("setList", list.data);
@@ -21,6 +25,10 @@ const actions = {
   clearSearchResult({ commit }) {
     return commit("clearSearchResult");
   },
+  async update({ commit, state }) {
+    const response = await groceryStoreApi.update(state.record);
+    return commit("setRecord", response.data.result);
+  },
 };
 
 const mutations = {
@@ -32,6 +40,9 @@ const mutations = {
   },
   setGeoJSON(state, data) {
     state.geoJSON = data;
+  },
+  setRecord(state, record) {
+    state.record = record;
   },
   setSearchResult(state, data) {
     state.searchResult = data;
@@ -46,10 +57,17 @@ const state = {
   geoJSON: {},
   list: [],
   loading: false,
+  record: {},
   searchResult: [],
 };
 
-const getters = {};
+const getters = {
+  getById: state => id => {
+    return state.list.find(el => {
+      return el.gid === id;
+    });
+  },
+};
 
 export default {
   actions,

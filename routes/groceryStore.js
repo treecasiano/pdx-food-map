@@ -41,7 +41,7 @@ function factory(logger, groceryStoreService) {
             status: {
               description: "Status",
               type: "string",
-              enum: ["Existing", "Closed"]
+              enum: ["Existing", "Closed", "Under Construction"]
             },
             type: {
               description: "Type of Store",

@@ -11,6 +11,7 @@
         >
           <v-tab href="#farmersMarket" ripple>Farmers Markets</v-tab>
           <v-tab href="#foodPantry" ripple>Food Pantries</v-tab>
+          <v-tab href="#groceryStore" ripple>Grocery Stores</v-tab>
 
           <v-tab-item key="1" value="farmersMarket">
             <tab-farmers-market
@@ -28,6 +29,14 @@
               @failure="notifyFailure"
             ></tab-food-pantry>
           </v-tab-item>
+          <v-tab-item key="3" value="groceryStore">
+            <tab-grocery-store
+              :mode="$route.params.mode"
+              object="groceryStore"
+              @success="notifySuccess"
+              @failure="notifyFailure"
+            ></tab-grocery-store>
+          </v-tab-item>
         </v-tabs>
       </v-flex>
       <div class="d-flex justify-end">
@@ -40,9 +49,10 @@
 <script>
 import TabFarmersMarket from "./TabFarmersMarket";
 import TabFoodPantry from "./TabFoodPantry";
+import TabGroceryStore from "./TabGroceryStore";
 import { removeCookie } from "tiny-cookie";
 export default {
-  components: { TabFarmersMarket, TabFoodPantry },
+  components: { TabFarmersMarket, TabFoodPantry, TabGroceryStore },
   created() {
     this.tab = this.$route.params.object;
   },
