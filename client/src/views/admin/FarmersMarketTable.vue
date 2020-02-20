@@ -4,13 +4,7 @@
       <v-card-title>
         List of Farmers Markets
         <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
+        <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
         <div class="d-flex justify-left ma-4">
           <v-btn
             rounded
@@ -30,7 +24,7 @@
           :headers="headers"
           :items="list"
           :search="search"
-          items-per-page="5"
+          :items-per-page="5"
         >
           <template v-slot:body="{ items }">
             <tbody>

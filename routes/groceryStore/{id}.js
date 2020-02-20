@@ -52,11 +52,11 @@ function factory(logger, groceryStoreService) {
             },
             address: {
               description: "Grocery Store Location",
-              type: "string"
+              type: ["string", "null"]
             },
             bldg_sqft: {
               description: "Building Square Feet",
-              type: "string"
+              type: ["string", "null"]
             },
             status: {
               description: "Status",

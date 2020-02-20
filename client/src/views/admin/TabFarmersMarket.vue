@@ -2,66 +2,65 @@
   <v-card flat>
     <admin-layout>
       <template v-slot:list>
-        <farmers-market-table
-          id="gid"
-          itemName="market"
-          :list="list"
-          name="farmersMarket"
-        ></farmers-market-table>
+        <farmers-market-table id="gid" itemName="market" :list="list" name="farmersMarket"></farmers-market-table>
       </template>
       <template v-slot:form>
         <v-container>
-          <v-form
-            v-if="(mode === 'edit' || mode === 'create') && record"
-            v-model="valid"
-          >
+          <v-form v-if="(mode === 'edit' || mode === 'create') && record" v-model="valid">
             <v-card>
-              <v-card-title v-if="mode === 'edit'"
-                >Edit Farmers Market</v-card-title
-              >
-              <v-card-title v-if="mode === 'create'"
-                >Create Farmers Market</v-card-title
-              >
+              <v-card-title v-if="mode === 'edit'">Edit Farmers Market</v-card-title>
+              <v-card-title v-if="mode === 'create'">Create Farmers Market</v-card-title>
               <v-container>
                 <v-text-field
                   v-model="record.market"
                   label="Farmers Market Name (REQUIRED)"
                   required
-                  class="mr-1"
+                  class="mx-3"
                   :rules="nameRules"
+                  clearable
                 ></v-text-field>
-                <v-text-field
-                  v-model="record.latitude"
-                  label="Latitude (REQUIRED)"
-                  required
-                  type="number"
-                ></v-text-field>
-                <v-text-field
-                  v-model="record.longitude"
-                  label="Longitude (REQUIRED)"
-                  required
-                  type="number"
-                ></v-text-field>
+                <div class="d-flex flex-wrap">
+                  <v-text-field
+                    v-model="record.latitude"
+                    label="Latitude (REQUIRED)"
+                    required
+                    type="number"
+                    :rules="latitudeRules"
+                    clearable
+                    class="mx-3"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="record.longitude"
+                    label="Longitude (REQUIRED)"
+                    required
+                    type="number"
+                    :rules="longitudeRules"
+                    clearable
+                    class="mx-3"
+                  ></v-text-field>
+                </div>
                 <v-text-field
                   v-model="record.location"
-                  class="mr-1"
+                  class="mx-3"
                   label="Location (address)"
+                  clearable
                 ></v-text-field>
-                <v-text-field
-                  v-model="record.day"
-                  class="mr-1"
-                  label="Day"
-                ></v-text-field>
-                <v-text-field
-                  v-model="record.open_dates"
-                  class="mr-1"
-                  label="Open Dates"
-                ></v-text-field>
-                <v-text-field
-                  v-model="record.open_times"
-                  class="mr-1"
-                  label="Open Times"
-                ></v-text-field>
+
+                <div class="d-flex flex-wrap">
+                  <v-text-field v-model="record.day" class="mx-3" label="Day" clearable></v-text-field>
+                  <v-text-field
+                    v-model="record.open_dates"
+                    class="mx-3"
+                    label="Open Dates"
+                    clearable
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="record.open_times"
+                    class="mx-3"
+                    label="Open Times"
+                    clearable
+                  ></v-text-field>
+                </div>
                 <v-textarea
                   v-model="record.website"
                   auto-grow
@@ -69,6 +68,7 @@
                   dense
                   rows="2"
                   label="Website"
+                  class="mx-3"
                 ></v-textarea>
                 <v-textarea
                   v-model="record.accepts"
@@ -78,12 +78,13 @@
                   dense
                   rows="2"
                   label="Forms of Payment Accepted"
+                  class="mx-3"
                 ></v-textarea>
                 <v-select
                   v-if="record.status"
                   v-model="record.status"
                   :items="statusOptions"
-                  class="primary--text"
+                  class="mx-3"
                   label="Status"
                 ></v-select>
 
@@ -99,8 +100,7 @@
                         params: { object: 'farmersMarket' },
                       })
                     "
-                    >Cancel</v-btn
-                  >
+                  >Cancel</v-btn>
 
                   <v-btn
                     rounded
@@ -109,8 +109,7 @@
                     color="primary"
                     @click="update"
                     :disabled="!valid"
-                    >Update</v-btn
-                  >
+                  >Update</v-btn>
 
                   <v-btn
                     rounded
@@ -119,8 +118,7 @@
                     color="primary"
                     @click="create"
                     :disabled="!valid"
-                    >Submit</v-btn
-                  >
+                  >Submit</v-btn>
                 </div>
               </v-container>
             </v-card>
