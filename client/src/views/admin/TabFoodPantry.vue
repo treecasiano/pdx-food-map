@@ -2,90 +2,80 @@
   <v-card flat>
     <admin-layout>
       <template v-slot:list>
-        <food-pantry-table
-          id="gid"
-          itemName="location_name"
-          :list="list"
-          name="foodPantry"
-        ></food-pantry-table>
+        <food-pantry-table id="gid" itemName="location_name" :list="list" name="foodPantry"></food-pantry-table>
       </template>
       <template v-slot:form>
         <v-container>
-          <v-form
-            v-if="(mode === 'edit' || mode === 'create') && record"
-            v-model="valid"
-          >
+          <v-form v-if="(mode === 'edit' || mode === 'create') && record" v-model="valid">
             <v-card>
-              <v-card-title v-if="mode === 'edit'"
-                >Edit Food Pantry</v-card-title
-              >
-              <v-card-title v-if="mode === 'create'"
-                >Create Food Pantry</v-card-title
-              >
+              <v-card-title v-if="mode === 'edit'">Edit Food Pantry</v-card-title>
+              <v-card-title v-if="mode === 'create'">Create Food Pantry</v-card-title>
               <v-container>
                 <v-text-field
                   v-model="record.location_name"
                   label="Food Pantry Name (REQUIRED)"
                   required
-                  class="mr-1"
+                  class="mx-3"
                   :rules="nameRules"
+                  clearable
                 ></v-text-field>
-                <v-text-field
-                  v-model="record.latitude"
-                  label="Latitude (REQUIRED)"
-                  required
-                  type="number"
-                ></v-text-field>
-                <v-text-field
-                  v-model="record.longitude"
-                  label="Longitude (REQUIRED)"
-                  required
-                  type="number"
-                ></v-text-field>
+                <div class="d-flex flex-wrap">
+                  <v-text-field
+                    v-model="record.latitude"
+                    label="Latitude (REQUIRED)"
+                    required
+                    type="number"
+                    :rules="latitudeRules"
+                    clearable
+                    class="mx-3"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="record.longitude"
+                    label="Longitude (REQUIRED)"
+                    required
+                    type="number"
+                    :rules="longitudeRules"
+                    clearable
+                    class="mx-3"
+                  ></v-text-field>
+                </div>
                 <v-text-field
                   v-model="record.street_address_1"
-                  class="mr-1"
+                  class="mx-3"
                   label="Street Address 1"
+                  clearable
                 ></v-text-field>
                 <v-text-field
                   v-model="record.street_address_2"
-                  class="mr-1"
+                  class="mx-3"
                   label="Street Address 2"
+                  clearable
                 ></v-text-field>
-                <v-text-field
-                  v-model="record.city"
-                  class="mr-1"
-                  label="City"
-                ></v-text-field>
-                <v-select
-                  v-model="record.state"
-                  class="mr-1"
-                  :items="['OR', 'WA']"
-                  label="State"
-                ></v-select>
-                <v-text-field
-                  v-model="record.zip"
-                  class="mr-1"
-                  label="ZIP Code"
-                ></v-text-field>
+                <div class="d-flex flex-wrap">
+                  <v-text-field v-model="record.city" class="mx-3" label="City" clearable></v-text-field>
+                  <v-select v-model="record.state" class="mx-3" :items="['OR', 'WA']" label="State"></v-select>
+                  <v-text-field v-model="record.zip" class="mx-3" label="ZIP Code" clearable></v-text-field>
+                </div>
+                <v-text-field v-model="record.website" class="mx-3" label="Website" clearable></v-text-field>
+                <v-text-field v-model="record.phone" class="mx-3" label="Phone" clearable></v-text-field>
                 <v-textarea
                   v-model="record.hours_of_operation"
                   auto-grow
                   clearable
+                  counter="250"
                   dense
-                  rows="2"
                   label="Hours of Operation"
+                  class="mx-3"
                 ></v-textarea>
-                <v-text-field
-                  v-model="record.website"
-                  class="mr-1"
-                  label="Website"
-                ></v-text-field>
-                <v-text-field
-                  v-model="record.phone"
-                  class="mr-1"
-                  label="Phone"
-                ></v-text-field>
+                <v-textarea
+                  v-model="record.areas_served"
+                  auto-grow
+                  clearable
+                  counter="250"
+                  dense
+                  label="Areas Served"
+                  class="mx-3"
+                ></v-textarea>
 
                 <div class="d-flex justify-start my-3">
                   <v-btn
@@ -99,8 +89,7 @@
                         params: { object: 'foodPantry' },
                       })
                     "
-                    >Cancel</v-btn
-                  >
+                  >Cancel</v-btn>
 
                   <v-btn
                     rounded
@@ -109,8 +98,7 @@
                     color="primary"
                     @click="update"
                     :disabled="!valid"
-                    >Update</v-btn
-                  >
+                  >Update</v-btn>
 
                   <v-btn
                     rounded
@@ -119,8 +107,7 @@
                     color="primary"
                     @click="create"
                     :disabled="!valid"
-                    >Submit</v-btn
-                  >
+                  >Submit</v-btn>
                 </div>
               </v-container>
             </v-card>

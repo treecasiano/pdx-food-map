@@ -179,6 +179,10 @@
                   <strong>Hours of Operation:</strong>
                   {{ item.props.hours_of_operation }}
                 </div>
+                <div v-if="item.props.areas_served">
+                  <strong>Areas Served:</strong>
+                  {{ item.props.areas_served }}
+                </div>
                 <div v-if="item.props.phone">
                   <strong>Phone:</strong>
                   {{ item.props.phone }}

@@ -4,13 +4,7 @@
       <v-card-title>
         List of Food Pantries
         <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
+        <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
         <div class="d-flex justify-left ma-4">
           <v-btn
             rounded
@@ -30,6 +24,7 @@
           :headers="headers"
           :items="list"
           :search="search"
+          :items-per-page="5"
         >
           <template v-slot:body="{ items }">
             <tbody>
@@ -43,18 +38,18 @@
               >
                 <td>{{ item.location_name }}</td>
                 <td>
-                  {{ item.street_address_1 }}
-                  <span v-if="item.street_address_2">{{
+                  <div>{{ item.street_address_1 }}</div>
+                  <div v-if="item.street_address_2">
+                    {{
                     item.street_address_2
-                  }}</span>
-                  <div>
-                    <span>{{ item.city }}</span
-                    >, {{ item.state }}
+                    }}
                   </div>
+                  <div>{{ item.city }}, {{ item.state }} {{ item.zip }}</div>
                 </td>
                 <td>{{ item.hours_of_operation }}</td>
                 <td>{{ item.website }}</td>
                 <td>{{ item.phone }}</td>
+                <td>{{ item.areas_served}}</td>
               </tr>
             </tbody>
           </template>
@@ -89,6 +84,10 @@ export default {
       {
         text: "Phone",
         value: "phone",
+      },
+      {
+        text: "Areas Served",
+        value: "areas_served",
       },
     ],
   }),
