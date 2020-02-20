@@ -3,6 +3,7 @@ import { removeCookie } from "tiny-cookie";
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import Admin from "./views/admin/Admin.vue";
 import Login from "./views/Login.vue";
 import store from "./store";
 
@@ -14,8 +15,8 @@ async function checkSession(next) {
 
     const {
       state: {
-        session: { loggedIn }
-      }
+        session: { loggedIn },
+      },
     } = store;
 
     if (!loggedIn) {
@@ -36,7 +37,7 @@ const router = new Router({
     {
       path: "/",
       name: "home",
-      component: Home
+      component: Home,
     },
     {
       path: "/about",
@@ -45,7 +46,7 @@ const router = new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+        import(/* webpackChunkName: "about" */ "./views/About.vue"),
     },
     {
       path: "/admin",
@@ -57,8 +58,8 @@ const router = new Router({
 
         const {
           state: {
-            session: { isAdmin }
-          }
+            session: { isAdmin },
+          },
         } = store;
 
         if (!isAdmin) {
@@ -67,14 +68,34 @@ const router = new Router({
         }
 
         next();
-      }
+      },
+      redirect: { name: "adminObject", params: { object: "farmersMarket" } },
+      children: [
+        {
+          component: Admin,
+          path: ":object",
+          name: "adminObject",
+          children: [
+            {
+              component: Admin,
+              path: ":id/:mode",
+              name: "adminObjectEdit",
+            },
+            {
+              component: Admin,
+              path: ":mode",
+              name: "adminObjectCreate",
+            },
+          ],
+        },
+      ],
     },
     {
       path: "/login",
       name: "login",
-      component: Login
-    }
-  ]
+      component: Login,
+    },
+  ],
 });
 
 axios.interceptors.response.use(null, e => {

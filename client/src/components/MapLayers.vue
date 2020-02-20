@@ -2,7 +2,7 @@
   <v-card>
     <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent width="340px">
       <template v-slot:prepend>
-        <div v-if="mini">
+        <div v-if="mini" class="text-center">
           <v-btn small icon @click.stop="mini = !mini">
             <v-icon color="primary">mdi-layers</v-icon>
           </v-btn>
@@ -286,7 +286,6 @@ export default {
     ...mapMutations({
       setDisplayStatusBikePathPortland: "bikePathPortland/setDisplayStatus",
       setDisplayStatusCsaDropoffSite: "csaDropoffSite/setDisplayStatus",
-      setDisplayStatusCtranRoute: "ctranRoute/setDisplayStatus",
       setDisplayStatusCtranRoute: "ctranRoute/setDisplayStatus",
       setDisplayStatusCtranStop: "ctranStop/setDisplayStatus",
       setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",

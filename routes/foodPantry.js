@@ -62,6 +62,10 @@ function factory(logger, foodPantryService) {
               description: "Food Pantry Phone Number",
               type: "string"
             },
+            areas_served: {
+              description: "Areas Served",
+              type: ["string", "null"]
+            },
             longitude: {
               description: "longitude",
               type: "number"

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-left">
+  <div>
     <div v-if="tract.gid">
       <div class="title">{{tract.county_1}} County, {{tract.state_1}}</div>
       <div class="subtitle-1">Tract No. {{tract.censustrac}}</div>

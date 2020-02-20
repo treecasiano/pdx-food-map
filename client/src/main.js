@@ -9,6 +9,7 @@ import "material-design-icons-iconfont/dist/material-design-icons.css";
 require("./assets/css/geosearch.css");
 import router from "./router";
 import store from "./store/index";
+import "./notifications";
 
 // register Vue2Leaflet components
 import {

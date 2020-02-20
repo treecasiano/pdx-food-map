@@ -78,15 +78,15 @@ function factory(logger, foodPantryService) {
             },
             street_address_1: {
               description: "Street Address Line 1",
-              type: "string"
+              type: ["string", "null"]
             },
             street_address_2: {
               description: "Street Address Line 2",
-              type: "string"
+              type: ["string", "null"]
             },
             city: {
               description: "City",
-              type: "string"
+              type: ["string", "null"]
             },
             state: {
               description: "State",
@@ -94,19 +94,23 @@ function factory(logger, foodPantryService) {
             },
             zip: {
               description: "ZIP Code",
-              type: "string"
+              type: ["string", "null"]
             },
             hours_of_operation: {
               description: "Hours of Operation",
-              type: "string"
+              type: ["string", "null"]
             },
             website: {
               description: "Food Pantry URL",
-              type: "string"
+              type: ["string", "null"]
             },
             phone: {
               description: "Food Pantry Phone Number",
-              type: "string"
+              type: ["string", "null"]
+            },
+            areas_served: {
+              description: "Areas Served",
+              type: ["string", "null"]
             },
             longitude: {
               description: "longitude",

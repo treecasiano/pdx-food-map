@@ -52,32 +52,32 @@ function factory(logger, farmersMarketService) {
             },
             location: {
               description: "Farmers Market Location",
-              type: "string"
+              type: ["string", "null"]
             },
             day: {
               description: "Farmers Market Day",
-              type: "string"
+              type: ["string", "null"]
             },
             open_dates: {
               description: "Open Dates",
-              type: "string"
+              type: ["string", "null"]
             },
             open_times: {
               description: "Open Time",
-              type: "string"
+              type: ["string", "null"]
             },
             accepts: {
               description: "Methods of Payment Accepted",
-              type: "string"
+              type: ["string", "null"]
             },
             status: {
               description: "Status",
               default: "Active",
-              type: "string"
+              type: ["string", "null"]
             },
             website: {
               description: "Farmers Market URL",
-              type: "string"
+              type: ["string", "null"]
             },
             longitude: {
               description: "longitude",

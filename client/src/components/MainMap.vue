@@ -179,6 +179,10 @@
                   <strong>Hours of Operation:</strong>
                   {{ item.props.hours_of_operation }}
                 </div>
+                <div v-if="item.props.areas_served">
+                  <strong>Areas Served:</strong>
+                  {{ item.props.areas_served }}
+                </div>
                 <div v-if="item.props.phone">
                   <strong>Phone:</strong>
                   {{ item.props.phone }}
@@ -648,7 +652,6 @@ export default {
         autoClose: true,
         searchLabel: "Enter an address...",
         showPopup: true,
-        notFoundMessage: "Sorry, that address could not be found.",
       },
       transitStopFillColor: "#2F4B53",
     };
@@ -690,6 +693,7 @@ export default {
         layer.on("click", e => {
           const southWest = e.target._bounds._southWest;
           const northEast = e.target._bounds._northEast;
+          // eslint-disable-next-line
           const tractBounds = L.latLngBounds(southWest, northEast);
           const {
             target: {
@@ -812,6 +816,7 @@ export default {
           await this.$store.dispatch("csaDropoffSite/search", params),
         ]);
       } catch (e) {
+        // eslint-disable-next-line
         console.error(e);
       }
     },
