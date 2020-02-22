@@ -19,26 +19,6 @@
                   :rules="nameRules"
                   clearable
                 ></v-text-field>
-                <div class="d-flex flex-wrap">
-                  <v-text-field
-                    v-model="record.latitude"
-                    label="Latitude (REQUIRED)"
-                    required
-                    type="number"
-                    :rules="latitudeRules"
-                    clearable
-                    class="mx-3"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="record.longitude"
-                    label="Longitude (REQUIRED)"
-                    required
-                    type="number"
-                    :rules="longitudeRules"
-                    clearable
-                    class="mx-3"
-                  ></v-text-field>
-                </div>
                 <v-text-field
                   v-model="record.address"
                   class="mx-3"
@@ -58,6 +38,26 @@
                     class="mx-3"
                     label="Status"
                   ></v-select>
+                </div>
+                <div class="d-flex flex-wrap">
+                  <v-text-field
+                    v-model="record.latitude"
+                    label="Latitude (REQUIRED)"
+                    required
+                    type="number"
+                    :rules="latitudeRules"
+                    clearable
+                    class="mx-3"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="record.longitude"
+                    label="Longitude (REQUIRED)"
+                    required
+                    type="number"
+                    :rules="longitudeRules"
+                    clearable
+                    class="mx-3"
+                  ></v-text-field>
                 </div>
 
                 <div class="d-flex justify-start my-3">
@@ -154,6 +154,7 @@ export default {
       }
       this.$emit("success");
       await this.fetchList();
+      await this.fetchGeoJSON();
       this.$router.push({
         name: "adminObject",
         params: { object: "groceryStore" },
@@ -171,9 +172,11 @@ export default {
       }
       this.$emit("success");
       await this.fetchList();
+      await this.fetchGeoJSON();
     },
     ...mapActions({
       createRecord: "groceryStore/create",
+      fetchGeoJSON: "groceryStore/geoJSON",
       fetchList: "groceryStore/list",
       updateRecord: "groceryStore/update",
     }),
