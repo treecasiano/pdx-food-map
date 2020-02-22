@@ -8,30 +8,31 @@ test("Retrieves a GeoJSON feature collection (grocery store point features)", as
     });
     expect(results.status).toEqual(200);
     expect(results.data).toBeInstanceOf(Object);
-    expect(results.data.features.length).toEqual(264);
+    expect(results.data.features.length).toEqual(265);
     expect(results.data.type).toEqual("FeatureCollection");
     expect(results.data.features[0].type).toEqual("Feature");
-    expect(results.data.features[0]).toEqual({
-      geometry: {
-        coordinates: [-122.697560163699, 45.5773330459487],
-        type: "Point"
-      },
-      id: 1,
-      properties: {
-        address: "3011 N LOMBARD ST",
-        bldg_sqft: 5823,
-        latitude: null,
-        longitude: null,
-        name: "Green Zebra Grocery",
-        objectid: 101,
-        state_id: "1N1E09CC  5600",
-        status: "Existing",
-        type: "Independent or Ethnic Grocery",
-        x: 7639467.013063886,
-        y: 704231.9593578038
-      },
-      type: "Feature"
-    });
+    const featureAttributes = ["geometry", "id", "properties", "type"];
+    const propertyAttributes = [
+      "address",
+      "bldg_sqft",
+      "latitude",
+      "longitude",
+      "name",
+      "objectid",
+      "state_id",
+      "status",
+      "type",
+      "x",
+      "y"
+    ];
+
+    const geojsonFeatureKeys = Object.keys(results.data.features[0]).sort();
+    const geojsonPropertiesKeys = Object.keys(
+      results.data.features[0].properties
+    ).sort();
+
+    expect(geojsonFeatureKeys.sort()).toEqual(featureAttributes);
+    expect(geojsonPropertiesKeys).toEqual(propertyAttributes);
     expect(results.data.type).toEqual("FeatureCollection");
   } catch (e) {
     console.log(e);
