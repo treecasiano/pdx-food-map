@@ -35,7 +35,7 @@ test("Retrieves a GeoJSON feature collection (grocery store point features)", as
     expect(geojsonPropertiesKeys).toEqual(propertyAttributes);
     expect(results.data.type).toEqual("FeatureCollection");
   } catch (e) {
-    console.log(e);
+    console.error(e);
     throw e;
   }
 });

@@ -33,7 +33,7 @@ test("Retrieves a geojson object (census tracts polygon features)", async () => 
     expect(results.data.features[0].type).toEqual("Feature");
     expect(results.data.features[0].geometry.coordinates).toBeInstanceOf(Array);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     throw e;
   }
 });

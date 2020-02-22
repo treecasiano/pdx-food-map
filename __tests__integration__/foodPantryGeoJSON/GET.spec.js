@@ -39,7 +39,7 @@ test("Retrieves a GeoJSON feature collection (food pantry point features)", asyn
 
     expect(results.data.type).toEqual("FeatureCollection");
   } catch (e) {
-    console.log(e);
+    console.error(e);
     throw e;
   }
 });
