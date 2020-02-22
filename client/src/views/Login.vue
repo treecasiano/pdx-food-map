@@ -2,12 +2,7 @@
   <v-container fill-height class="pdx-loginCard">
     <v-layout data-cy="loginContainer">
       <v-flex>
-        <v-toolbar
-          color="primary darken-2 "
-          :flat="true"
-          dense
-          class="pl-2 font-weight-bold"
-        >
+        <v-toolbar color="primary darken-2 " :flat="true" dense class="pl-2 font-weight-bold">
           <v-icon>fas fa-user-circle</v-icon>&nbsp;&nbsp;
           <span class="accent--text">LOGIN</span>
           <v-spacer></v-spacer>
@@ -15,9 +10,7 @@
             <template v-slot:activator="{ on }">
               <v-icon color="accent" small v-on="on">help</v-icon>
             </template>
-            <span>
-              Only authorized administrators can access the Admin Console.
-            </span>
+            <span>Only authorized administrators can access the Admin Console.</span>
           </v-tooltip>
         </v-toolbar>
         <v-form>
@@ -29,8 +22,7 @@
                 type="error"
                 class="red darken-2"
                 :dismissible="true"
-                >{{ error.loginErrorMessage }}</v-alert
-              >
+              >{{ error.loginErrorMessage }}</v-alert>
               <v-text-field
                 label="Username"
                 placeholder=" "
@@ -54,8 +46,7 @@
                 outlined
                 @click="login()"
                 :disabled="disableLoginButton"
-                >{{ loginButtonText }}</v-btn
-              >
+              >{{ loginButtonText }}</v-btn>
             </v-card-actions>
           </v-card>
         </v-form>
@@ -93,7 +84,9 @@ export default {
           password: this.password,
           username: this.username,
         });
-        document.location = "/";
+        this.$router.push({
+          name: "home",
+        });
       } catch (e) {
         if (e.response.status === 400 || e.response.status === 401) {
           this.error.loginErrorMessage = "Invalid username or password.";
