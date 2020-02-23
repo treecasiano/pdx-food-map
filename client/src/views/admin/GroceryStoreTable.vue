@@ -25,6 +25,7 @@
           :items="list"
           :search="search"
           :items-per-page="5"
+          dense
         >
           <template v-slot:body="{ items }">
             <tbody>

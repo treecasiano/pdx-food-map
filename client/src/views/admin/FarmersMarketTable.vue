@@ -25,6 +25,7 @@
           :items="list"
           :search="search"
           :items-per-page="5"
+          dense
         >
           <template v-slot:body="{ items }">
             <tbody>
@@ -41,7 +42,11 @@
                 <td>{{ item.day }}</td>
                 <td>{{ item.open_dates }}</td>
                 <td>{{ item.open_times }}</td>
-                <td>{{ item.website }}</td>
+                <td>
+                  <span v-if="item.website">
+                    <a :href="item.website" @click.stop>{{ item.website }}</a>
+                  </span>
+                </td>
                 <td>{{ item.accepts }}</td>
                 <td>{{ item.status }}</td>
               </tr>

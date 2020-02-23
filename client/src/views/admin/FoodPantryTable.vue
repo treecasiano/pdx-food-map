@@ -25,6 +25,7 @@
           :items="list"
           :search="search"
           :items-per-page="5"
+          dense
         >
           <template v-slot:body="{ items }">
             <tbody>
@@ -47,7 +48,11 @@
                   <div>{{ item.city }}, {{ item.state }} {{ item.zip }}</div>
                 </td>
                 <td>{{ item.hours_of_operation }}</td>
-                <td>{{ item.website }}</td>
+                <td>
+                  <span v-if="item.website">
+                    <a :href="item.website" @click.stop>{{ item.website }}</a>
+                  </span>
+                </td>
                 <td>{{ item.phone }}</td>
                 <td>{{ item.areas_served}}</td>
               </tr>
