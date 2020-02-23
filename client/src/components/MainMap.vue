@@ -399,6 +399,11 @@ const foodDesertHighlightStyle = {
   fillOpacity: 0.5,
 };
 
+/*limits to panning*/
+var southWest = L.latLng(46.75, -124.0),
+  northEast = L.latLng(44.5, -121.0);
+var bounds = L.latLngBounds(southWest, northEast);
+
 export default {
   name: "MainMap",
   components: { VGeosearch, MapControls, MapLayers },
@@ -671,6 +676,11 @@ export default {
       const geosearchResetButton = document.querySelector(".reset");
       geosearchResetButton.addEventListener("click", () => {
         this.setGeosearchResult(null);
+      });
+
+      this.$refs.map.mapObject.setMaxBounds(bounds);
+      this.$refs.map.mapObject.on("drag", () => {
+        this.$refs.map.mapObject.panInsideBounds(bounds, { animate: true });
       });
 
       const mapControl = L.DomUtil.get(this.$refs.mapControl.mapObject.element);
