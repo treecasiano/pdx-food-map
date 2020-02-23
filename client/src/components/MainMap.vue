@@ -365,7 +365,6 @@
 </template>
 
 <script>
-// TODO: Constrain zoom out
 import { mapMutations, mapState } from "vuex";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import MapControls from "@/components/MapControls.vue";
@@ -824,7 +823,7 @@ export default {
       }
     },
     setDefaultTractStyles(layer, feature) {
-      // TODO: double-check measurment fo lilatrac_1 (1/2mi or 1mi?)
+      // TODO: double-check measurement fo lilatrac_1 (1/2mi or 1mi?)
       layer.setStyle(tractDefaultStyle);
       if (feature.properties.lilatrac_1 == 1) {
         layer.setStyle(foodDesertDefaultStyle);
