@@ -156,8 +156,8 @@ export default {
       await this.fetchList();
       await this.fetchGeoJSON();
       this.$router.push({
-        name: "adminObject",
-        params: { object: "groceryStore" },
+        name: "adminObjectEdit",
+        params: { object: "groceryStore", id: this.record.gid, mode: "edit" },
       });
     },
     async update() {
