@@ -18,11 +18,11 @@
             <v-icon color="primary">home</v-icon>
           </v-btn>
         </l-control>
-        <l-control position="topright">
+        <l-control position="topright" ref="mapLayerControl">
           <MapLayers />
         </l-control>
         <v-geosearch :options="geosearchOptions" ref="geosearch"></v-geosearch>
-        <l-control position="topleft">
+        <l-control position="topleft" ref="mapControl">
           <MapControls />
         </l-control>
         <l-control-scale position="bottomleft"></l-control-scale>
@@ -365,7 +365,6 @@
 </template>
 
 <script>
-// TODO: Constrain zoom out
 import { mapMutations, mapState } from "vuex";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import MapControls from "@/components/MapControls.vue";
@@ -674,10 +673,22 @@ export default {
         this.setGeosearchResult(null);
       });
 
-      this.$refs.map.mapObject.on("zoomend", () => {
-        if (this.$refs.map.mapObject.getZoom() < 8) {
-          this.setDisplayAllPointLayers(false);
-        }
+      const mapControl = L.DomUtil.get(this.$refs.mapControl.mapObject.element);
+      mapControl.addEventListener("mouseover", () => {
+        this.$refs.map.mapObject.dragging.disable();
+      });
+      mapControl.addEventListener("mouseout", () => {
+        this.$refs.map.mapObject.dragging.enable();
+      });
+
+      const mapLayerControl = L.DomUtil.get(
+        this.$refs.mapLayerControl.mapObject.element
+      );
+      mapLayerControl.addEventListener("mouseover", () => {
+        this.$refs.map.mapObject.dragging.disable();
+      });
+      mapLayerControl.addEventListener("mouseout", () => {
+        this.$refs.map.mapObject.dragging.enable();
       });
     });
   },
@@ -702,7 +713,7 @@ export default {
           } = e;
           this.setTract(properties);
           this.setSelectedTab("map");
-          this.$refs.map.fitBounds(tractBounds);
+          // this.$refs.map.fitBounds(tractBounds);
           this.setDisplayAllPointLayers(true);
         });
         if (tooltipDisplay) {
@@ -788,8 +799,11 @@ export default {
       });
     },
     resetMapView() {
+      this.setDisplayAllPointLayers(false);
+      this.setDisplayAllLineLayers(false);
       this.setCenter(this.defaultCenter);
       this.setZoom(this.defaultZoom);
+      this.setTract({});
     },
     async searchForPoints(geosearchResult) {
       const x = geosearchResult.location.x;
@@ -821,7 +835,7 @@ export default {
       }
     },
     setDefaultTractStyles(layer, feature) {
-      // TODO: double-check measurment fo lilatrac_1 (1/2mi or 1mi?)
+      // TODO: double-check measurement fo lilatrac_1 (1/2mi or 1mi?)
       layer.setStyle(tractDefaultStyle);
       if (feature.properties.lilatrac_1 == 1) {
         layer.setStyle(foodDesertDefaultStyle);
@@ -861,10 +875,17 @@ export default {
       this.setDisplayStatusFoodPantry(val);
       this.setDisplayStatusTrimetStop(val);
     },
+    setDisplayAllLineLayers(val) {
+      this.setDisplayStatusBikePathPortland(val);
+      this.setDisplayStatusCtranRoute(val);
+      this.setDisplayStatusTrailClarkCounty(val);
+      this.setDisplayStatusTrimetRoute(val);
+    },
     zoomUpdated(zoom) {
       this.setZoom(zoom);
     },
     ...mapMutations({
+      setDisplayStatusBikePathPortland: "bikePathPortland/setDisplayStatus",
       setDisplayStatusCsaDropoffSite: "csaDropoffSite/setDisplayStatus",
       setDisplayStatusCtranRoute: "ctranRoute/setDisplayStatus",
       setDisplayStatusCtranStop: "ctranStop/setDisplayStatus",
