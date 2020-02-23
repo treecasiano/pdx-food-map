@@ -702,7 +702,7 @@ export default {
           } = e;
           this.setTract(properties);
           this.setSelectedTab("map");
-          this.$refs.map.fitBounds(tractBounds);
+          // this.$refs.map.fitBounds(tractBounds);
           this.setDisplayAllPointLayers(true);
         });
         if (tooltipDisplay) {
@@ -788,8 +788,11 @@ export default {
       });
     },
     resetMapView() {
+      this.setDisplayAllPointLayers(false);
+      this.setDisplayAllLineLayers(false);
       this.setCenter(this.defaultCenter);
       this.setZoom(this.defaultZoom);
+      this.setTract({});
     },
     async searchForPoints(geosearchResult) {
       const x = geosearchResult.location.x;
@@ -861,10 +864,17 @@ export default {
       this.setDisplayStatusFoodPantry(val);
       this.setDisplayStatusTrimetStop(val);
     },
+    setDisplayAllLineLayers(val) {
+      this.setDisplayStatusBikePathPortland(val);
+      this.setDisplayStatusCtranRoute(val);
+      this.setDisplayStatusTrailClarkCounty(val);
+      this.setDisplayStatusTrimetRoute(val);
+    },
     zoomUpdated(zoom) {
       this.setZoom(zoom);
     },
     ...mapMutations({
+      setDisplayStatusBikePathPortland: "bikePathPortland/setDisplayStatus",
       setDisplayStatusCsaDropoffSite: "csaDropoffSite/setDisplayStatus",
       setDisplayStatusCtranRoute: "ctranRoute/setDisplayStatus",
       setDisplayStatusCtranStop: "ctranStop/setDisplayStatus",

@@ -23,9 +23,10 @@
       </div>
     </div>
     <div v-else>
-      <div class="title">Portland-Vancouver-Hillsboro Metropolitan Statistical Area</div>
+      <div class="title text-center">Portland-Vancouver-Hillsboro Metropolitan Statistical Area</div>
       <v-divider class="my-2"></v-divider>
-      <div>Click on a census tract!</div>
+
+      <div>Click on a census tract to learn more about its food environment.</div>
     </div>
   </div>
 </template>
