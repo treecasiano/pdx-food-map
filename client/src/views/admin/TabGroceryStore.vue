@@ -8,8 +8,14 @@
         <v-container>
           <v-form v-if="(mode === 'edit' || mode === 'create') && record" v-model="valid">
             <v-card>
-              <v-card-title v-if="mode === 'edit'">Edit Grocery Store</v-card-title>
-              <v-card-title v-if="mode === 'create'">Create Grocery Store</v-card-title>
+              <v-card-title
+                v-if="mode === 'edit'"
+                class="secondary--text font-weight-bold"
+              >Edit Grocery Store</v-card-title>
+              <v-card-title
+                v-if="mode === 'create'"
+                class="accent--text text--darken-2 font-weight-bold"
+              >Create Grocery Store</v-card-title>
               <v-container>
                 <v-text-field
                   v-model="record.name"
@@ -18,12 +24,14 @@
                   class="mx-3"
                   :rules="nameRules"
                   clearable
+                  dense
                 ></v-text-field>
                 <v-text-field
                   v-model="record.address"
                   class="mx-3"
                   label="Location (address)"
                   clearable
+                  dense
                 ></v-text-field>
                 <div class="d-flex flex-row">
                   <v-select
@@ -31,12 +39,14 @@
                     class="mx-3"
                     :items="['Large Chain Grocery', 'Independent or Ethnic Grocery']"
                     label="Store Type"
+                    dense
                   ></v-select>
                   <v-select
                     v-model="record.status"
                     :items="statusOptions"
                     class="mx-3"
                     label="Status"
+                    dense
                   ></v-select>
                 </div>
                 <div class="d-flex flex-wrap">
@@ -48,6 +58,7 @@
                     :rules="latitudeRules"
                     clearable
                     class="mx-3"
+                    dense
                   ></v-text-field>
                   <v-text-field
                     v-model="record.longitude"
@@ -57,6 +68,7 @@
                     :rules="longitudeRules"
                     clearable
                     class="mx-3"
+                    dense
                   ></v-text-field>
                 </div>
 
@@ -81,6 +93,7 @@
                     color="primary"
                     @click="update"
                     :disabled="!valid"
+                    class="secondary"
                   >Update</v-btn>
 
                   <v-btn
@@ -90,6 +103,7 @@
                     color="primary"
                     @click="create"
                     :disabled="!valid"
+                    class="accent darken-2"
                   >Submit</v-btn>
                 </div>
               </v-container>

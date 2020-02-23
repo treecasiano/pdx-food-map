@@ -8,8 +8,14 @@
         <v-container>
           <v-form v-if="(mode === 'edit' || mode === 'create') && record" v-model="valid">
             <v-card>
-              <v-card-title v-if="mode === 'edit'">Edit Farmers Market</v-card-title>
-              <v-card-title v-if="mode === 'create'">Create Farmers Market</v-card-title>
+              <v-card-title
+                v-if="mode === 'edit'"
+                class="secondary--text font-weight-bold"
+              >Edit Farmers Market</v-card-title>
+              <v-card-title
+                v-if="mode === 'create'"
+                class="accent--text text--darken-2 font-weight-bold"
+              >Create Farmers Market</v-card-title>
               <v-container>
                 <v-text-field
                   v-model="record.market"
@@ -18,6 +24,7 @@
                   class="mx-3"
                   :rules="nameRules"
                   clearable
+                  dense
                 ></v-text-field>
 
                 <v-text-field
@@ -25,21 +32,24 @@
                   class="mx-3"
                   label="Location (address)"
                   clearable
+                  dense
                 ></v-text-field>
 
                 <div class="d-flex flex-wrap">
-                  <v-text-field v-model="record.day" class="mx-3" label="Day" clearable></v-text-field>
+                  <v-text-field v-model="record.day" class="mx-3" label="Day" clearable dense></v-text-field>
                   <v-text-field
                     v-model="record.open_dates"
                     class="mx-3"
                     label="Open Dates"
                     clearable
+                    dense
                   ></v-text-field>
                   <v-text-field
                     v-model="record.open_times"
                     class="mx-3"
                     label="Open Times"
                     clearable
+                    dense
                   ></v-text-field>
                 </div>
                 <v-textarea
@@ -67,6 +77,7 @@
                   :items="statusOptions"
                   class="mx-3"
                   label="Status"
+                  dense
                 ></v-select>
                 <div class="d-flex flex-wrap">
                   <v-text-field
@@ -77,6 +88,7 @@
                     :rules="latitudeRules"
                     clearable
                     class="mx-3"
+                    dense
                   ></v-text-field>
                   <v-text-field
                     v-model="record.longitude"
@@ -86,6 +98,7 @@
                     :rules="longitudeRules"
                     clearable
                     class="mx-3"
+                    dense
                   ></v-text-field>
                 </div>
 
@@ -110,6 +123,7 @@
                     color="primary"
                     @click="update"
                     :disabled="!valid"
+                    class="secondary"
                   >Update</v-btn>
 
                   <v-btn
@@ -119,6 +133,7 @@
                     color="primary"
                     @click="create"
                     :disabled="!valid"
+                    class="accent darken-2"
                   >Submit</v-btn>
                 </div>
               </v-container>

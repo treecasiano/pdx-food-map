@@ -8,8 +8,14 @@
         <v-container>
           <v-form v-if="(mode === 'edit' || mode === 'create') && record" v-model="valid">
             <v-card>
-              <v-card-title v-if="mode === 'edit'">Edit Food Pantry</v-card-title>
-              <v-card-title v-if="mode === 'create'">Create Food Pantry</v-card-title>
+              <v-card-title
+                v-if="mode === 'edit'"
+                class="secondary--text font-weight-bold"
+              >Edit Food Pantry</v-card-title>
+              <v-card-title
+                v-if="mode === 'create'"
+                class="accent--text text--darken-2 font-weight-bold"
+              >Create Food Pantry</v-card-title>
               <v-container>
                 <v-text-field
                   v-model="record.location_name"
@@ -18,26 +24,35 @@
                   class="mx-3"
                   :rules="nameRules"
                   clearable
+                  dense
                 ></v-text-field>
                 <v-text-field
                   v-model="record.street_address_1"
                   class="mx-3"
                   label="Street Address 1"
                   clearable
+                  dense
                 ></v-text-field>
                 <v-text-field
                   v-model="record.street_address_2"
                   class="mx-3"
                   label="Street Address 2"
                   clearable
+                  dense
                 ></v-text-field>
                 <div class="d-flex flex-wrap">
-                  <v-text-field v-model="record.city" class="mx-3" label="City" clearable></v-text-field>
-                  <v-select v-model="record.state" class="mx-3" :items="['OR', 'WA']" label="State"></v-select>
-                  <v-text-field v-model="record.zip" class="mx-3" label="ZIP Code" clearable></v-text-field>
+                  <v-text-field v-model="record.city" class="mx-3" label="City" clearable dense></v-text-field>
+                  <v-select
+                    v-model="record.state"
+                    class="mx-3"
+                    :items="['OR', 'WA']"
+                    label="State"
+                    dense
+                  ></v-select>
+                  <v-text-field v-model="record.zip" class="mx-3" label="ZIP Code" clearable dense></v-text-field>
                 </div>
-                <v-text-field v-model="record.website" class="mx-3" label="Website" clearable></v-text-field>
-                <v-text-field v-model="record.phone" class="mx-3" label="Phone" clearable></v-text-field>
+                <v-text-field v-model="record.website" class="mx-3" label="Website" clearable dense></v-text-field>
+                <v-text-field v-model="record.phone" class="mx-3" label="Phone" clearable dense></v-text-field>
                 <v-textarea
                   v-model="record.hours_of_operation"
                   auto-grow
@@ -46,6 +61,7 @@
                   dense
                   label="Hours of Operation"
                   class="mx-3"
+                  rows="2"
                 ></v-textarea>
                 <v-textarea
                   v-model="record.areas_served"
@@ -55,6 +71,7 @@
                   dense
                   label="Areas Served"
                   class="mx-3"
+                  rows="2"
                 ></v-textarea>
                 <div class="d-flex flex-wrap">
                   <v-text-field
@@ -65,6 +82,7 @@
                     :rules="latitudeRules"
                     clearable
                     class="mx-3"
+                    dense
                   ></v-text-field>
                   <v-text-field
                     v-model="record.longitude"
@@ -74,6 +92,7 @@
                     :rules="longitudeRules"
                     clearable
                     class="mx-3"
+                    dense
                   ></v-text-field>
                 </div>
 
@@ -98,15 +117,16 @@
                     color="primary"
                     @click="update"
                     :disabled="!valid"
+                    class="secondary"
                   >Update</v-btn>
 
                   <v-btn
                     rounded
                     v-if="mode === 'create'"
                     data-cy="foodPantryForm__button--create"
-                    color="primary"
                     @click="create"
                     :disabled="!valid"
+                    class="accent darken-2"
                   >Submit</v-btn>
                 </div>
               </v-container>

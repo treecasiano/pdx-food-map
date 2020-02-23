@@ -2,7 +2,7 @@
   <div>
     <v-card>
       <v-card-title>
-        List of Farmers Markets
+        <span class="font-weight-bold primary--text">List of Farmers Markets</span>
         <v-spacer></v-spacer>
         <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
         <div class="d-flex justify-left ma-4">
