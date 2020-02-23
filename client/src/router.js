@@ -21,12 +21,12 @@ async function checkSession(next) {
 
     if (!loggedIn) {
       removeCookie("jwt");
-      next("login");
+      next("/");
     }
     return next();
   } catch (e) {
     removeCookie("jwt");
-    next("login");
+    next("/");
   }
 }
 
@@ -102,7 +102,7 @@ axios.interceptors.response.use(null, e => {
   if (e.response.status === 401) {
     removeCookie("jwt");
     store.commit("session/logout");
-    router.push({ name: "login" });
+    router.push({ name: "home" });
   }
   throw e;
 });

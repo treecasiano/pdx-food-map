@@ -1,19 +1,16 @@
 <template>
   <v-app id="app" style="overflow: hidden;">
     <v-toolbar dense flat color="primary darken-3" class="accent--text pdx-toolbar--main">
-      <v-toolbar-title>
-        <a
-          alt="Link to Home"
-          href="/"
-          class="accent--text font-weight-bold"
-          style="text-decoration: none;"
-        >PDX Metro Food Map</a>
-      </v-toolbar-title>
+      <v-toolbar-title>PDX Metro Food Map</v-toolbar-title>
       <v-spacer></v-spacer>
       <div id="nav">
         <router-link to="/">Map</router-link>
         <span class="mx-2 white--text">|</span>
         <router-link to="/about">About</router-link>
+        <span v-if="isAdmin">
+          <span class="mx-2 white--text">|</span>
+          <router-link to="/admin">Admin</router-link>
+        </span>
       </div>
     </v-toolbar>
     <router-view :loading="loading" />
@@ -33,9 +30,14 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
+  computed: {
+    ...mapState({
+      isAdmin: state => state.session.isAdmin,
+    }),
+  },
   async created() {
     this.loading = true;
     try {

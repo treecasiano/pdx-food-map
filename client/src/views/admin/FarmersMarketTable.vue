@@ -2,7 +2,7 @@
   <div>
     <v-card>
       <v-card-title>
-        List of Farmers Markets
+        <span class="font-weight-bold primary--text">List of Farmers Markets</span>
         <v-spacer></v-spacer>
         <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
         <div class="d-flex justify-left ma-4">
@@ -25,6 +25,7 @@
           :items="list"
           :search="search"
           :items-per-page="5"
+          dense
         >
           <template v-slot:body="{ items }">
             <tbody>
@@ -41,7 +42,11 @@
                 <td>{{ item.day }}</td>
                 <td>{{ item.open_dates }}</td>
                 <td>{{ item.open_times }}</td>
-                <td>{{ item.website }}</td>
+                <td>
+                  <span v-if="item.website">
+                    <a :href="item.website" @click.stop>{{ item.website }}</a>
+                  </span>
+                </td>
                 <td>{{ item.accepts }}</td>
                 <td>{{ item.status }}</td>
               </tr>
