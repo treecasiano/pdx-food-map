@@ -37,6 +37,11 @@
                 class="foodPantryTableRow text-left"
                 tabindex="0"
               >
+                <td>
+                  <v-btn icon small color="secondary" @click.stop="centerOnPoint(item)">
+                    <v-icon>map</v-icon>
+                  </v-btn>
+                </td>
                 <td>{{ item.location_name }}</td>
                 <td>
                   <div>{{ item.street_address_1 }}</div>
@@ -53,7 +58,7 @@
                     <a :href="item.website" @click.stop>{{ item.website }}</a>
                   </span>
                 </td>
-                <td>{{ item.phone }}</td>
+                <td style="white-space: nowrap;">{{ item.phone }}</td>
                 <td>{{ item.areas_served}}</td>
               </tr>
             </tbody>
@@ -66,10 +71,13 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+
 export default {
   data: () => ({
     search: "",
     headers: [
+      { text: "" },
       {
         text: "Name",
         value: "location_name",
@@ -97,6 +105,14 @@ export default {
     ],
   }),
   methods: {
+    centerOnPoint(item) {
+      this.$router.push({
+        name: "home",
+      });
+      this.setCenter([item.latitude, item.longitude]);
+      this.setZoom(18);
+      this.setDisplayStatusFoodPantry(true);
+    },
     goToCreateForm() {
       this.$refs.bottomOfTable.scrollIntoView();
       if (this.$router.currentRoute.path === `/admin/${this.name}/create`) {
@@ -120,6 +136,11 @@ export default {
         params: { mode: "edit", object: this.name, id: item[this.id] },
       });
     },
+    ...mapMutations({
+      setCenter: "map/setCenter",
+      setDisplayStatusFoodPantry: "foodPantry/setDisplayStatus",
+      setZoom: "map/setZoom",
+    }),
   },
   props: ["itemName", "list", "name", "id"],
 };
