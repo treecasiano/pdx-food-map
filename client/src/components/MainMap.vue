@@ -18,11 +18,11 @@
             <v-icon color="primary">home</v-icon>
           </v-btn>
         </l-control>
-        <l-control position="topright">
+        <l-control position="topright" ref="mapLayerControl">
           <MapLayers />
         </l-control>
         <v-geosearch :options="geosearchOptions" ref="geosearch"></v-geosearch>
-        <l-control position="topleft">
+        <l-control position="topleft" ref="mapControl">
           <MapControls />
         </l-control>
         <l-control-scale position="bottomleft"></l-control-scale>
@@ -673,10 +673,22 @@ export default {
         this.setGeosearchResult(null);
       });
 
-      this.$refs.map.mapObject.on("zoomend", () => {
-        if (this.$refs.map.mapObject.getZoom() < 8) {
-          this.setDisplayAllPointLayers(false);
-        }
+      const mapControl = L.DomUtil.get(this.$refs.mapControl.mapObject.element);
+      mapControl.addEventListener("mouseover", () => {
+        this.$refs.map.mapObject.dragging.disable();
+      });
+      mapControl.addEventListener("mouseout", () => {
+        this.$refs.map.mapObject.dragging.enable();
+      });
+
+      const mapLayerControl = L.DomUtil.get(
+        this.$refs.mapLayerControl.mapObject.element
+      );
+      mapLayerControl.addEventListener("mouseover", () => {
+        this.$refs.map.mapObject.dragging.disable();
+      });
+      mapLayerControl.addEventListener("mouseout", () => {
+        this.$refs.map.mapObject.dragging.enable();
       });
     });
   },
