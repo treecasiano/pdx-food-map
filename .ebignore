@@ -1,5 +1,7 @@
-scratch.md
+.git/
+
+client/node_modules/
+config/local.json
 node_modules/
 npm-debug.log
-config/local.json
-.git/
+scratch/
