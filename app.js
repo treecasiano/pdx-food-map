@@ -203,7 +203,7 @@ process.env.TZ = "UTC";
       res.sendFile(path.join(__dirname, "client/dist/index.html"));
     });
 
-    const port = 3000;
+    const port = 8081;
     app.listen(port, () => console.log(`App launched on port ${port}`));
   } catch (e) {
     logger.error(e);
