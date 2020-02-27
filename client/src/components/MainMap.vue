@@ -379,7 +379,7 @@ const tractDefaultStyle = {
   fillOpacity: 0.25,
 };
 const tractHighlightStyle = {
-  weight: 2,
+  weight: 4.5,
   color: "#c0ca33",
   opacity: 0.9,
   fillColor: "#B1B6B6",
@@ -393,9 +393,10 @@ const foodDesertDefaultStyle = {
   fillOpacity: 0.65,
 };
 const foodDesertHighlightStyle = {
-  weight: 2,
+  weight: 4.5,
   color: "#c0ca33",
   opacity: 0.9,
+  fillColor: "#795548",
   fillOpacity: 0.5,
 };
 
@@ -842,18 +843,20 @@ export default {
       }
     },
     setDefaultTractStyles(layer, feature) {
-      // TODO: double-check measurement fo lilatrac_1 (1/2mi or 1mi?)
+      // TODO: Double-check measurement fo lilatrac_1 (1/2mi or 1mi?)
+      // TODO: Refactor this nasty styling code -too many ifs!
       layer.setStyle(tractDefaultStyle);
       if (feature.properties.lilatrac_1 == 1) {
         layer.setStyle(foodDesertDefaultStyle);
       }
       if (feature.properties.hunvflag == 1) {
         layer.setStyle({
-          weight: 1.25,
+          weight: 4.5,
           color: "#49332b",
         });
       }
       layer.on("mouseover", () => {
+        layer.bringToFront();
         if (feature.properties.lilatrac_1 == 1) {
           layer.setStyle(foodDesertHighlightStyle);
         } else {
@@ -868,7 +871,7 @@ export default {
         }
         if (feature.properties.hunvflag == 1) {
           layer.setStyle({
-            weight: 1.25,
+            weight: 4.5,
             color: "#49332b",
           });
         }
