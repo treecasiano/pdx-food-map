@@ -668,7 +668,7 @@ export default {
         async geosearchResult => {
           this.$refs.map.setZoom(14.25);
           this.searchForPoints(geosearchResult);
-          this.setDisplayAllPointLayers(true);
+          this.setDisplayAllFoodSources(true);
           this.setSelectedTab("search");
         }
       );
@@ -724,7 +724,6 @@ export default {
           this.setTract(properties);
           this.setSelectedTab("map");
           // this.$refs.map.fitBounds(tractBounds);
-          this.setDisplayAllPointLayers(true);
         });
         if (tooltipDisplay) {
           const tooltipContent = this.createCensusTractContent(
@@ -809,8 +808,6 @@ export default {
       });
     },
     resetMapView() {
-      this.setDisplayAllPointLayers(false);
-      this.setDisplayAllLineLayers(false);
       this.setCenter(this.defaultCenter);
       this.setZoom(this.defaultZoom);
       this.setTract({});
@@ -877,13 +874,11 @@ export default {
         }
       });
     },
-    setDisplayAllPointLayers(val) {
+    setDisplayAllFoodSources(val) {
       this.setDisplayStatusFarmersMarket(val);
       this.setDisplayStatusGroceryStore(val);
       this.setDisplayStatusCsaDropoffSite(val);
-      this.setDisplayStatusCtranStop(val);
       this.setDisplayStatusFoodPantry(val);
-      this.setDisplayStatusTrimetStop(val);
     },
     setDisplayAllLineLayers(val) {
       this.setDisplayStatusBikePathPortland(val);
