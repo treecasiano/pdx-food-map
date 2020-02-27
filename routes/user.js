@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 function factory(logger, userService) {
   GET.apiDoc = {

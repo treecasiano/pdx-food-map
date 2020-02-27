@@ -16,7 +16,7 @@ coverage/
 node_modules/
 
 ### CLIENT
-client/node_modules
+client/node_modules/
 client/dist
 client/config
 
@@ -43,3 +43,8 @@ client/*.ntvs*
 client/*.njsproj
 client/*.sln
 client/*.sw*
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

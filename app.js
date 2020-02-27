@@ -19,7 +19,7 @@ const PdxTractService = require("./lib/pdxTractService");
 const TrimetRouteService = require("./lib/trimetRouteService");
 const TrailClarkCountyService = require("./lib/trailClarkCountyService");
 const TrimetStopService = require("./lib/trimetStopService");
-const UserService = require("./lib/UserService");
+const UserService = require("./lib/userService");
 const pgFactory = require("./lib/pg");
 
 const env = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
@@ -203,7 +203,7 @@ process.env.TZ = "UTC";
       res.sendFile(path.join(__dirname, "client/dist/index.html"));
     });
 
-    const port = 3000;
+    const port = 8081;
     app.listen(port, () => console.log(`App launched on port ${port}`));
   } catch (e) {
     logger.error(e);
