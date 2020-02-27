@@ -2,7 +2,7 @@
   <div>
     <div v-if="tract.gid">
       <div class="title">{{tract.county_1}} County, {{tract.state_1}}</div>
-      <div class="subtitle-1">Tract No. {{tract.censustrac}}</div>
+      <div class="subtitle-1 secondary--text">Selected Tract No. {{tract.censustrac}}</div>
       <v-divider class="my-2"></v-divider>
       <div class="body-1">
         <div v-if="tract.lilatrac_1">
