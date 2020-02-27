@@ -11,7 +11,7 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
         @update:bounds="boundsUpdated"
-        :options="{ zoomControl: false, zoomDelta: 0.25, zoomSnap: 0.25 }"
+        :options="{ zoomControl: false, zoomDelta: 0.5, zoomSnap: 0.5 }"
       >
         <l-control position="topright">
           <v-btn small light @click="resetMapView">
@@ -350,6 +350,7 @@
           :geojson="geojsonPdxTract"
           :options="tractOptions"
           :options-style="styleFunctionTract"
+          ref="tractGeojson"
         ></l-geo-json>
         <l-control-zoom position="bottomright"></l-control-zoom>
         <l-control position="topright" class="pdx-spinner">
@@ -367,38 +368,10 @@
 <script>
 import { mapMutations, mapState } from "vuex";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
+import { cloneDeep } from "lodash";
 import MapControls from "@/components/MapControls.vue";
 import MapLayers from "@/components/MapLayers.vue";
 import VGeosearch from "@/components/VGeosearch.vue";
-
-const tractDefaultStyle = {
-  weight: 0.75,
-  color: "#A9A9A9",
-  opacity: 1,
-  fillColor: "#B1B6B6",
-  fillOpacity: 0.25,
-};
-const tractHighlightStyle = {
-  weight: 4.5,
-  color: "#c0ca33",
-  opacity: 0.9,
-  fillColor: "#B1B6B6",
-  fillOpacity: 0.1,
-};
-const foodDesertDefaultStyle = {
-  weight: 0.75,
-  color: "#795548",
-  opacity: 0.8,
-  fillColor: "#795548",
-  fillOpacity: 0.65,
-};
-const foodDesertHighlightStyle = {
-  weight: 4.5,
-  color: "#c0ca33",
-  opacity: 0.9,
-  fillColor: "#795548",
-  fillOpacity: 0.5,
-};
 
 /*limits to panning*/
 var southWest = L.latLng(46.75, -124.0),
@@ -524,14 +497,37 @@ export default {
       return radius;
     },
     styleFunctionTract() {
-      return () => {
-        return tractDefaultStyle;
+      return feature => {
+        let styleConfig = {
+          weight: 0.75,
+          color: "#A9A9A9",
+          opacity: 1,
+          fillColor: "#B1B6B6",
+          fillOpacity: 0.5,
+        };
+        if (feature.properties.lilatrac_1 === 1) {
+          styleConfig.color = "#795548";
+          styleConfig.fillColor = "#795548";
+        }
+        if (feature.properties.hunvflag === 1) {
+          styleConfig.color = "#49332b";
+          styleConfig.weight = 3;
+        }
+        return styleConfig;
       };
     },
     onEachTractFeatureFunction(feature, layer) {
       // The onEachFeature function has to be a computed property here
-      // because of the binding of the tooltip when tooltips are hidden.
-      return this.createTractLayer(feature, layer, this.displayStatusTooltip);
+      // because of the need to change the behavior of the layer
+      // based on the binding of the tooltip
+      // and the need to update layer styles when this.selectedTract changes.
+      // This feels hacky, but it'll suffice for now.
+      return this.createTractLayer(
+        feature,
+        layer,
+        this.displayStatusTooltip,
+        this.selectedTract
+      );
     },
     ...mapState({
       center: state => state.map.center,
@@ -710,7 +706,7 @@ export default {
     centerUpdated(center) {
       this.setCenter(center);
     },
-    createTractLayer(feature, layer, tooltipDisplay) {
+    createTractLayer(feature, layer, tooltipDisplay, selectedTract) {
       return (feature, layer) => {
         layer.on("click", e => {
           const southWest = e.target._bounds._southWest;
@@ -724,8 +720,12 @@ export default {
           } = e;
           this.setTract(properties);
           this.setSelectedTab("map");
-          // this.$refs.map.fitBounds(tractBounds);
+          const polygonCenter = layer.getBounds().getCenter();
+          // eslint-disable-next-line
+          console.info("polygonCenter", polygonCenter);
+          this.$refs.map.fitBounds(tractBounds);
         });
+
         if (tooltipDisplay) {
           const tooltipContent = this.createCensusTractContent(
             feature.properties
@@ -738,7 +738,19 @@ export default {
         } else {
           layer.unbindTooltip();
         }
-        this.setDefaultTractStyles(layer, feature);
+        if (feature.properties.hunvflag === 1) {
+          layer.bringToFront();
+        }
+        if (selectedTract.censustrac === feature.properties.censustrac) {
+          layer.setStyle({ fillColor: "#c0ca33" });
+        }
+        layer.on("mouseover", () => {
+          layer.bringToFront();
+          layer.setStyle({ fillOpacity: 0.4 });
+        });
+        layer.on("mouseout", e => {
+          layer.setStyle({ fillOpacity: 0.5 });
+        });
       };
     },
     createMarkers(geojson, customIcon) {
@@ -811,7 +823,7 @@ export default {
     resetMapView() {
       this.setCenter(this.defaultCenter);
       this.setZoom(this.defaultZoom);
-      this.setTract({});
+      // this.setTract({});
     },
     async searchForPoints(geosearchResult) {
       const x = geosearchResult.location.x;
@@ -841,41 +853,6 @@ export default {
         // eslint-disable-next-line
         console.error(e);
       }
-    },
-    setDefaultTractStyles(layer, feature) {
-      // TODO: Double-check measurement fo lilatrac_1 (1/2mi or 1mi?)
-      // TODO: Refactor this nasty styling code -too many ifs!
-      layer.setStyle(tractDefaultStyle);
-      if (feature.properties.lilatrac_1 == 1) {
-        layer.setStyle(foodDesertDefaultStyle);
-      }
-      if (feature.properties.hunvflag == 1) {
-        layer.setStyle({
-          weight: 4.5,
-          color: "#49332b",
-        });
-      }
-      layer.on("mouseover", () => {
-        layer.bringToFront();
-        if (feature.properties.lilatrac_1 == 1) {
-          layer.setStyle(foodDesertHighlightStyle);
-        } else {
-          layer.setStyle(tractHighlightStyle);
-        }
-      });
-      layer.on("mouseout", () => {
-        if (feature.properties.lilatrac_1 == 1) {
-          layer.setStyle(foodDesertDefaultStyle);
-        } else {
-          layer.setStyle(tractDefaultStyle);
-        }
-        if (feature.properties.hunvflag == 1) {
-          layer.setStyle({
-            weight: 4.5,
-            color: "#49332b",
-          });
-        }
-      });
     },
     setDisplayAllFoodSources(val) {
       this.setDisplayStatusFarmersMarket(val);
