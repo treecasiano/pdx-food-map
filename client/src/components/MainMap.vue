@@ -162,9 +162,7 @@
           >
             <l-popup>
               <div>
-                <div>
-                  <strong>{{ item.props.location_name }}</strong>
-                </div>
+                <div class="font-weight-bold">{{ item.props.location_name }}</div>
                 <div v-if="item.props.street_address_1">
                   <em>
                     <span>{{ item.props.street_address_1 }}</span>
@@ -175,6 +173,8 @@
                   </em>
                 </div>
                 <v-divider class="my-1" color="accent"></v-divider>
+
+                <div class="font-weight-black my-2">Food Pantry</div>
                 <div v-if="item.props.hours_of_operation">
                   <strong>Hours of Operation:</strong>
                   {{ item.props.hours_of_operation }}
@@ -823,7 +823,6 @@ export default {
     resetMapView() {
       this.setCenter(this.defaultCenter);
       this.setZoom(this.defaultZoom);
-      // this.setTract({});
     },
     async searchForPoints(geosearchResult) {
       const x = geosearchResult.location.x;
