@@ -566,7 +566,7 @@ export default {
       defaultCenter: [45.59, -122.6793],
       defaultZoom: 11.5,
       maxZoom: 18,
-      minZoom: 4,
+      minZoom: 8.5,
       showMapControls: true,
       // eslint-disable-next-line
       csaIcon: L.icon({

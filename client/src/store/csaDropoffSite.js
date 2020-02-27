@@ -43,7 +43,7 @@ const mutations = {
 };
 
 const state = {
-  displayStatus: false,
+  displayStatus: true,
   geoJSON: {},
   loading: false,
   list: [],
