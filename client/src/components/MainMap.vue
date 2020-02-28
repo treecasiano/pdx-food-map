@@ -377,6 +377,11 @@ import VGeosearch from "@/components/VGeosearch.vue";
 var southWest = L.latLng(46.75, -124.0),
   northEast = L.latLng(44.5, -121.0);
 var bounds = L.latLngBounds(southWest, northEast);
+const iconAttributes = {
+  iconSize: [40, 40],
+  iconAnchor: [20, 20],
+  popupAnchor: [0, -24],
+};
 
 export default {
   name: "MainMap",
@@ -571,58 +576,58 @@ export default {
       // eslint-disable-next-line
       csaIcon: L.icon({
         iconUrl: "leaflet/map_marker_csa.svg",
-        iconSize: [40, 40],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [30, 30],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       csaIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_csa.svg",
-        iconSize: [25, 25],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [20, 20],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: "leaflet/map_marker_market.svg",
-        iconSize: [40, 40],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [30, 30],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       farmersMarketIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_market.svg",
-        iconSize: [25, 25],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [20, 20],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       groceryStoreIcon: L.icon({
         iconUrl: "leaflet/map_marker_store.svg",
-        iconSize: [40, 40],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [30, 30],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       groceryStoreIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_store.svg",
-        iconSize: [25, 25],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [20, 20],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       pantryIcon: L.icon({
         iconUrl: "leaflet/map_marker_pantry.svg",
-        iconSize: [40, 40],
+        iconSize: [30, 30],
         iconAnchor: [25, 50],
         popupAnchor: [-10, -50],
       }),
       // eslint-disable-next-line
       pantryIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_pantry.svg",
-        iconSize: [25, 25],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [20, 20],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       geosearchIcon: L.icon({
