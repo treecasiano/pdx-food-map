@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="geosearchResult">
-      <div class="font-weight-bold primary--text title">SEARCH LOCATION</div>
+      <div class="font-weight-bold primary--text overline">Search Location</div>
       <div>{{geosearchResult.locationLabel}}</div>
       <div class="d-flex align-center my-2">
         <v-text-field
@@ -24,7 +24,7 @@
         >Search</v-btn>
       </div>
       <div v-if="!searchResultsLoading">
-        <div class="font-weight-bold primary--text title">SEARCH RESULTS</div>
+        <div class="font-weight-bold primary--text overline">Search Results</div>
         <v-expansion-panels accordion hover flat>
           <v-expansion-panel>
             <v-expansion-panel-header
