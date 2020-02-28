@@ -84,7 +84,6 @@ export default {
   },
   methods: {
     clearSelectedTract() {
-      console.log("this.setTract");
       this.setTract({});
     },
     formatCurrency(dollarValue) {

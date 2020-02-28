@@ -350,7 +350,6 @@
           :geojson="geojsonPdxTract"
           :options="tractOptions"
           :options-style="styleFunctionTract"
-          ref="tractGeojson"
         ></l-geo-json>
         <l-control-zoom position="bottomright"></l-control-zoom>
         <l-control position="topright" class="pdx-spinner">
@@ -377,11 +376,6 @@ import VGeosearch from "@/components/VGeosearch.vue";
 var southWest = L.latLng(46.75, -124.0),
   northEast = L.latLng(44.5, -121.0);
 var bounds = L.latLngBounds(southWest, northEast);
-const iconAttributes = {
-  iconSize: [40, 40],
-  iconAnchor: [20, 20],
-  popupAnchor: [0, -24],
-};
 
 export default {
   name: "MainMap",
