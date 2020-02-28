@@ -429,8 +429,8 @@ export default {
       let polylines = [];
       if (geojson.features) {
         polylines = this.createPolyline(geojson, {
-          color: "green",
-          weight: 2,
+          color: "orange",
+          weight: 4,
         });
         return polylines;
       }
@@ -442,7 +442,7 @@ export default {
       if (geojson.features) {
         polylines = this.createPolyline(geojson, {
           color: this.transitStopFillColor,
-          weight: 3,
+          weight: 4,
         });
         return polylines;
       }
@@ -461,7 +461,10 @@ export default {
       const geojson = this.$store.state.trailClarkCounty.geoJSON;
       let polylines = [];
       if (geojson.features) {
-        polylines = this.createPolyline(geojson, { color: "grey", weight: 3 });
+        polylines = this.createPolyline(geojson, {
+          color: "orange",
+          weight: 4,
+        });
         return polylines;
       }
       return polylines;
@@ -472,7 +475,7 @@ export default {
       if (geojson.features) {
         polylines = this.createPolyline(geojson, {
           color: this.transitStopFillColor,
-          weight: 3,
+          weight: 4,
         });
         return polylines;
       }
