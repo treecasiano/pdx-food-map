@@ -33,7 +33,7 @@
       </div>
     </div>
     <div v-else>
-      <div class="title text-center">Portland-Vancouver-Hillsboro Metropolitan Statistical Area</div>
+      <h1 class="text-center">Portland-Vancouver-Hillsboro Metropolitan Statistical Area</h1>
       <v-divider class="my-2"></v-divider>
 
       <div>
