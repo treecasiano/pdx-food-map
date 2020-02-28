@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="geosearchResult">
-      <div class="font-weight-bold primary--text title">SEARCH LOCATION</div>
+      <div class="font-weight-bold primary--text overline">Search Location</div>
       <div>{{geosearchResult.locationLabel}}</div>
       <div class="d-flex align-center my-2">
         <v-text-field
@@ -24,7 +24,7 @@
         >Search</v-btn>
       </div>
       <div v-if="!searchResultsLoading">
-        <div class="font-weight-bold primary--text title">SEARCH RESULTS</div>
+        <div class="font-weight-bold primary--text overline">Search Results</div>
         <v-expansion-panels accordion hover flat>
           <v-expansion-panel>
             <v-expansion-panel-header
@@ -144,8 +144,8 @@
         <v-progress-circular indeterminate rotate class="ma-2" color="secondary darken-1"></v-progress-circular>Loading Search Results..
       </div>
     </div>
-    <div v-else class="primary--text body-1">
-      <div class="secondary--text font-weight-bold my-3">Show Me the Vegetables!</div>
+    <div v-else class="primary--text">
+      <h1 class="secondary--text my-3">Show Me the Vegetables!</h1>
       <div>Enter a Portland Metro area address in the search bar at the top of the map and discover nearby sources of fresh produce.</div>
     </div>
   </div>
@@ -180,7 +180,7 @@ export default {
   methods: {
     centerOnPoint(item) {
       this.setCenter([item.latitude, item.longitude]);
-      this.setZoom(18);
+      this.setZoom(17);
     },
     async searchForPoints() {
       this.searchResultsLoading = true;

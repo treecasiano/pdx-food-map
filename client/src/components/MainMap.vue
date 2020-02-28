@@ -11,7 +11,7 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
         @update:bounds="boundsUpdated"
-        :options="{ zoomControl: false, zoomDelta: 0.25, zoomSnap: 0.25 }"
+        :options="{ zoomControl: false, zoomDelta: 0.5, zoomSnap: 0.5 }"
       >
         <l-control position="topright">
           <v-btn small light @click="resetMapView">
@@ -162,9 +162,7 @@
           >
             <l-popup>
               <div>
-                <div>
-                  <strong>{{ item.props.location_name }}</strong>
-                </div>
+                <div class="font-weight-bold">{{ item.props.location_name }}</div>
                 <div v-if="item.props.street_address_1">
                   <em>
                     <span>{{ item.props.street_address_1 }}</span>
@@ -175,6 +173,8 @@
                   </em>
                 </div>
                 <v-divider class="my-1" color="accent"></v-divider>
+
+                <div class="font-weight-black my-2">Food Pantry</div>
                 <div v-if="item.props.hours_of_operation">
                   <strong>Hours of Operation:</strong>
                   {{ item.props.hours_of_operation }}
@@ -367,37 +367,10 @@
 <script>
 import { mapMutations, mapState } from "vuex";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
+import { cloneDeep } from "lodash";
 import MapControls from "@/components/MapControls.vue";
 import MapLayers from "@/components/MapLayers.vue";
 import VGeosearch from "@/components/VGeosearch.vue";
-
-const tractDefaultStyle = {
-  weight: 0.75,
-  color: "#A9A9A9",
-  opacity: 1,
-  fillColor: "#B1B6B6",
-  fillOpacity: 0.25,
-};
-const tractHighlightStyle = {
-  weight: 2,
-  color: "#c0ca33",
-  opacity: 0.9,
-  fillColor: "#B1B6B6",
-  fillOpacity: 0.1,
-};
-const foodDesertDefaultStyle = {
-  weight: 0.75,
-  color: "#795548",
-  opacity: 0.8,
-  fillColor: "#795548",
-  fillOpacity: 0.65,
-};
-const foodDesertHighlightStyle = {
-  weight: 2,
-  color: "#c0ca33",
-  opacity: 0.9,
-  fillOpacity: 0.5,
-};
 
 /*limits to panning*/
 var southWest = L.latLng(46.75, -124.0),
@@ -455,8 +428,8 @@ export default {
       let polylines = [];
       if (geojson.features) {
         polylines = this.createPolyline(geojson, {
-          color: "green",
-          weight: 2,
+          color: "orange",
+          weight: 4,
         });
         return polylines;
       }
@@ -468,7 +441,7 @@ export default {
       if (geojson.features) {
         polylines = this.createPolyline(geojson, {
           color: this.transitStopFillColor,
-          weight: 3,
+          weight: 4,
         });
         return polylines;
       }
@@ -487,7 +460,10 @@ export default {
       const geojson = this.$store.state.trailClarkCounty.geoJSON;
       let polylines = [];
       if (geojson.features) {
-        polylines = this.createPolyline(geojson, { color: "grey", weight: 3 });
+        polylines = this.createPolyline(geojson, {
+          color: "orange",
+          weight: 4,
+        });
         return polylines;
       }
       return polylines;
@@ -498,7 +474,7 @@ export default {
       if (geojson.features) {
         polylines = this.createPolyline(geojson, {
           color: this.transitStopFillColor,
-          weight: 3,
+          weight: 4,
         });
         return polylines;
       }
@@ -523,14 +499,37 @@ export default {
       return radius;
     },
     styleFunctionTract() {
-      return () => {
-        return tractDefaultStyle;
+      return feature => {
+        let styleConfig = {
+          weight: 0.75,
+          color: "#A9A9A9",
+          opacity: 1,
+          fillColor: "#B1B6B6",
+          fillOpacity: 0.5,
+        };
+        if (feature.properties.lilatrac_1 === 1) {
+          styleConfig.color = "#795548";
+          styleConfig.fillColor = "#795548";
+        }
+        if (feature.properties.hunvflag === 1) {
+          styleConfig.color = "#49332b";
+          styleConfig.weight = 3;
+        }
+        return styleConfig;
       };
     },
     onEachTractFeatureFunction(feature, layer) {
       // The onEachFeature function has to be a computed property here
-      // because of the binding of the tooltip when tooltips are hidden.
-      return this.createTractLayer(feature, layer, this.displayStatusTooltip);
+      // because of the need to change the behavior of the layer
+      // based on the binding of the tooltip
+      // and the need to update layer styles when this.selectedTract changes.
+      // This feels hacky, but it'll suffice for now.
+      return this.createTractLayer(
+        feature,
+        layer,
+        this.displayStatusTooltip,
+        this.selectedTract
+      );
     },
     ...mapState({
       center: state => state.map.center,
@@ -571,58 +570,58 @@ export default {
       // eslint-disable-next-line
       csaIcon: L.icon({
         iconUrl: "leaflet/map_marker_csa.svg",
-        iconSize: [40, 40],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [30, 30],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       csaIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_csa.svg",
-        iconSize: [25, 25],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [20, 20],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: "leaflet/map_marker_market.svg",
-        iconSize: [40, 40],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [30, 30],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       farmersMarketIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_market.svg",
-        iconSize: [25, 25],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [20, 20],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       groceryStoreIcon: L.icon({
         iconUrl: "leaflet/map_marker_store.svg",
-        iconSize: [40, 40],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [30, 30],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       groceryStoreIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_store.svg",
-        iconSize: [25, 25],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [20, 20],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       pantryIcon: L.icon({
         iconUrl: "leaflet/map_marker_pantry.svg",
-        iconSize: [40, 40],
+        iconSize: [30, 30],
         iconAnchor: [25, 50],
         popupAnchor: [-10, -50],
       }),
       // eslint-disable-next-line
       pantryIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_pantry.svg",
-        iconSize: [25, 25],
-        iconAnchor: [25, 50],
-        popupAnchor: [-10, -50],
+        iconSize: [20, 20],
+        iconAnchor: [20, 20],
+        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       geosearchIcon: L.icon({
@@ -668,7 +667,7 @@ export default {
         async geosearchResult => {
           this.$refs.map.setZoom(14.25);
           this.searchForPoints(geosearchResult);
-          this.setDisplayAllPointLayers(true);
+          this.setDisplayAllFoodSources(true);
           this.setSelectedTab("search");
         }
       );
@@ -709,7 +708,7 @@ export default {
     centerUpdated(center) {
       this.setCenter(center);
     },
-    createTractLayer(feature, layer, tooltipDisplay) {
+    createTractLayer(feature, layer, tooltipDisplay, selectedTract) {
       return (feature, layer) => {
         layer.on("click", e => {
           const southWest = e.target._bounds._southWest;
@@ -723,9 +722,12 @@ export default {
           } = e;
           this.setTract(properties);
           this.setSelectedTab("map");
-          // this.$refs.map.fitBounds(tractBounds);
-          this.setDisplayAllPointLayers(true);
+          const polygonCenter = layer.getBounds().getCenter();
+          // eslint-disable-next-line
+          console.info("polygonCenter", polygonCenter);
+          this.$refs.map.fitBounds(tractBounds);
         });
+
         if (tooltipDisplay) {
           const tooltipContent = this.createCensusTractContent(
             feature.properties
@@ -738,7 +740,19 @@ export default {
         } else {
           layer.unbindTooltip();
         }
-        this.setDefaultTractStyles(layer, feature);
+        if (feature.properties.hunvflag === 1) {
+          layer.bringToFront();
+        }
+        if (selectedTract.censustrac === feature.properties.censustrac) {
+          layer.setStyle({ fillColor: "#c0ca33" });
+        }
+        layer.on("mouseover", () => {
+          layer.bringToFront();
+          layer.setStyle({ fillOpacity: 0.4 });
+        });
+        layer.on("mouseout", e => {
+          layer.setStyle({ fillOpacity: 0.5 });
+        });
       };
     },
     createMarkers(geojson, customIcon) {
@@ -809,11 +823,8 @@ export default {
       });
     },
     resetMapView() {
-      this.setDisplayAllPointLayers(false);
-      this.setDisplayAllLineLayers(false);
       this.setCenter(this.defaultCenter);
       this.setZoom(this.defaultZoom);
-      this.setTract({});
     },
     async searchForPoints(geosearchResult) {
       const x = geosearchResult.location.x;
@@ -844,46 +855,11 @@ export default {
         console.error(e);
       }
     },
-    setDefaultTractStyles(layer, feature) {
-      // TODO: double-check measurement fo lilatrac_1 (1/2mi or 1mi?)
-      layer.setStyle(tractDefaultStyle);
-      if (feature.properties.lilatrac_1 == 1) {
-        layer.setStyle(foodDesertDefaultStyle);
-      }
-      if (feature.properties.hunvflag == 1) {
-        layer.setStyle({
-          weight: 1.25,
-          color: "#49332b",
-        });
-      }
-      layer.on("mouseover", () => {
-        if (feature.properties.lilatrac_1 == 1) {
-          layer.setStyle(foodDesertHighlightStyle);
-        } else {
-          layer.setStyle(tractHighlightStyle);
-        }
-      });
-      layer.on("mouseout", () => {
-        if (feature.properties.lilatrac_1 == 1) {
-          layer.setStyle(foodDesertDefaultStyle);
-        } else {
-          layer.setStyle(tractDefaultStyle);
-        }
-        if (feature.properties.hunvflag == 1) {
-          layer.setStyle({
-            weight: 1.25,
-            color: "#49332b",
-          });
-        }
-      });
-    },
-    setDisplayAllPointLayers(val) {
+    setDisplayAllFoodSources(val) {
       this.setDisplayStatusFarmersMarket(val);
       this.setDisplayStatusGroceryStore(val);
       this.setDisplayStatusCsaDropoffSite(val);
-      this.setDisplayStatusCtranStop(val);
       this.setDisplayStatusFoodPantry(val);
-      this.setDisplayStatusTrimetStop(val);
     },
     setDisplayAllLineLayers(val) {
       this.setDisplayStatusBikePathPortland(val);
