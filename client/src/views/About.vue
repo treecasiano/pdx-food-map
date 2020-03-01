@@ -3,14 +3,14 @@
     <v-layout>
       <v-flex>
         <div class="primary--text">
-          <h1>About</h1>
+          <h1>About the Portland Metro Food Environment Map</h1>
         </div>
         <v-card class="ma-3 pa-3 primary--text">
           <v-card-title class="secondary--text">
             <h2>The Map</h2>
           </v-card-title>
           <v-card-text>
-            <p>The PDX Food Environment Map is an evolving project first launched to satisfy final project requirements for GEOG 576 Geospatial Web and Mobile Programming, a course in the University of Wisconsin's MS in Cartography and GIS Development program.</p>
+            <p>The PDX Metro Food Environment Map is an evolving project first launched to satisfy final project requirements for GEOG 576 Geospatial Web and Mobile Programming, a course in the University of Wisconsin's MS in Cartography and GIS Development program.</p>
             <p>
               The map facilitates discovery of sources of fresh produce in the
               <a
