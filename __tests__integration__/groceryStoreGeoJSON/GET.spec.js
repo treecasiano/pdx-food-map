@@ -4,7 +4,7 @@ test("Retrieves a GeoJSON feature collection (grocery store point features)", as
   try {
     const results = await axios({
       method: "get",
-      url: "http://localhost:3000/api/groceryStoreGeoJSON"
+      url: "http://localhost:8080/api/groceryStoreGeoJSON"
     });
     expect(results.status).toEqual(200);
     expect(results.data).toBeInstanceOf(Object);
