@@ -103,8 +103,11 @@ ul {
 }
 
 li {
-  display: inline-block;
   margin: 0 10px;
+}
+
+#nav li {
+  display: inline-block;
 }
 
 #nav a {
