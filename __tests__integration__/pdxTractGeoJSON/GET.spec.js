@@ -4,7 +4,7 @@ test("Retrieves a geojson object (census tracts polygon features)", async () => 
   try {
     const results = await axios({
       method: "get",
-      url: "http://localhost:3000/api/pdxTractGeoJSON"
+      url: "http://localhost:8080/api/pdxTractGeoJSON"
     });
     expect(results.status).toEqual(200);
     expect(results.data).toBeInstanceOf(Object);
@@ -17,8 +17,10 @@ test("Retrieves a geojson object (census tracts polygon features)", async () => 
       "hunvflag",
       "lilatrac_1",
       "medianfami",
+      "pop2010",
       "povertyrat",
-      "state_1"
+      "state_1",
+      "urban"
     ];
 
     const geojsonFeatureKeys = Object.keys(results.data.features[0]).sort();

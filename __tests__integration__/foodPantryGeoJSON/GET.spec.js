@@ -4,7 +4,7 @@ test("Retrieves a GeoJSON feature collection (food pantry point features)", asyn
   try {
     const results = await axios({
       method: "get",
-      url: "http://localhost:3000/api/foodPantryGeoJSON"
+      url: "http://localhost:8080/api/foodPantryGeoJSON"
     });
     expect(results.status).toEqual(200);
     expect(results.data).toBeInstanceOf(Object);
