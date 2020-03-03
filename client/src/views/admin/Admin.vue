@@ -51,6 +51,7 @@ import TabFarmersMarket from "./TabFarmersMarket";
 import TabFoodPantry from "./TabFoodPantry";
 import TabGroceryStore from "./TabGroceryStore";
 import { removeCookie } from "tiny-cookie";
+import { mapMutations } from "vuex";
 export default {
   components: { TabFarmersMarket, TabFoodPantry, TabGroceryStore },
   created() {
@@ -65,6 +66,7 @@ export default {
     logout() {
       removeCookie("jwt");
       document.location = "/";
+      this.sessionLogout();
     },
     notifyFailure() {
       this.failureNotification();
@@ -72,6 +74,9 @@ export default {
     notifySuccess() {
       this.successNotification();
     },
+    ...mapMutations({
+      sessionLogout: "session/logout",
+    }),
   },
   notifications: {
     successNotification: {
