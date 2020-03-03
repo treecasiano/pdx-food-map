@@ -9,6 +9,12 @@ import store from "./store";
 
 Vue.use(Router);
 
+const {
+  state: {
+    admin: { selectedTab },
+  },
+} = store;
+
 async function checkSession(next) {
   try {
     await store.dispatch("session/loadSession");
@@ -38,6 +44,25 @@ const router = new Router({
       path: "/",
       name: "home",
       component: Home,
+      async beforeEnter(to, from, next) {
+        try {
+          await store.dispatch("session/loadSession");
+
+          const {
+            state: {
+              session: { loggedIn },
+            },
+          } = store;
+
+          if (!loggedIn) {
+            removeCookie("jwt");
+          }
+          return next();
+        } catch (e) {
+          removeCookie("jwt");
+        }
+        next();
+      },
     },
     {
       path: "/about",
@@ -47,6 +72,10 @@ const router = new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/About.vue"),
+      async beforeEnter(to, from, next) {
+        await checkSession(next);
+        next();
+      },
     },
     {
       path: "/admin",
@@ -66,10 +95,9 @@ const router = new Router({
           next({ path: "/" });
           return;
         }
-
         next();
       },
-      redirect: { name: "adminObject", params: { object: "farmersMarket" } },
+      redirect: { name: "adminObject", params: { object: selectedTab } },
       children: [
         {
           component: Admin,
@@ -96,15 +124,6 @@ const router = new Router({
       component: Login,
     },
   ],
-});
-
-axios.interceptors.response.use(null, e => {
-  if (e.response.status === 401) {
-    removeCookie("jwt");
-    store.commit("session/logout");
-    router.push({ name: "home" });
-  }
-  throw e;
 });
 
 export default router;
