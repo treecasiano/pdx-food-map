@@ -2,13 +2,7 @@
   <v-container fill-height fluid>
     <v-layout column>
       <v-flex xs12 pa-1>
-        <v-tabs
-          v-model="tab"
-          @change="
-            object =>
-              this.$router.push({ name: 'adminObject', params: { object } })
-          "
-        >
+        <v-tabs v-model="selectedTab" @change="changeTab">
           <v-tab href="#farmersMarket" ripple>Farmers Markets</v-tab>
           <v-tab href="#foodPantry" ripple>Food Pantries</v-tab>
           <v-tab href="#groceryStore" ripple>Grocery Stores</v-tab>
@@ -54,6 +48,16 @@ import { removeCookie } from "tiny-cookie";
 import { mapMutations } from "vuex";
 export default {
   components: { TabFarmersMarket, TabFoodPantry, TabGroceryStore },
+  computed: {
+    selectedTab: {
+      get() {
+        return this.$store.state.admin.selectedTab;
+      },
+      set(value) {
+        this.setTab(value);
+      },
+    },
+  },
   created() {
     this.tab = this.$route.params.object;
   },
@@ -65,8 +69,11 @@ export default {
   methods: {
     logout() {
       removeCookie("jwt");
-      document.location = "/";
       this.sessionLogout();
+      document.location = "/";
+    },
+    changeTab(object) {
+      this.$router.push({ name: "adminObject", params: { object } });
     },
     notifyFailure() {
       this.failureNotification();
@@ -76,6 +83,7 @@ export default {
     },
     ...mapMutations({
       sessionLogout: "session/logout",
+      setTab: "admin/setTab",
     }),
   },
   notifications: {

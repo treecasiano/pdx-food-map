@@ -9,6 +9,12 @@ import store from "./store";
 
 Vue.use(Router);
 
+const {
+  state: {
+    admin: { selectedTab },
+  },
+} = store;
+
 async function checkSession(next) {
   try {
     await store.dispatch("session/loadSession");
@@ -91,7 +97,7 @@ const router = new Router({
         }
         next();
       },
-      redirect: { name: "adminObject", params: { object: "farmersMarket" } },
+      redirect: { name: "adminObject", params: { object: selectedTab } },
       children: [
         {
           component: Admin,

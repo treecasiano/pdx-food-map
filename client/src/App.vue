@@ -9,7 +9,7 @@
         <router-link to="/about">About</router-link>
         <span v-if="isAdmin">
           <span class="mx-2 white--text">|</span>
-          <router-link to="/admin">Admin</router-link>
+          <router-link :to="`/admin/${selectedAdminTab}`">Admin</router-link>
         </span>
       </div>
     </v-toolbar>
@@ -36,6 +36,7 @@ export default {
   computed: {
     ...mapState({
       isAdmin: state => state.session.isAdmin,
+      selectedAdminTab: state => state.admin.selectedTab,
     }),
   },
   async created() {

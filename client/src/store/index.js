@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import admin from "./admin";
 import bikePathPortland from "./bikePathPortland";
 import csaDropoffSite from "./csaDropoffSite";
 import ctranRoute from "./ctranRoute";
@@ -19,6 +20,7 @@ Vue.use(Vuex);
 
 const vuexStore = new Vuex.Store({
   modules: {
+    admin,
     bikePathPortland,
     csaDropoffSite,
     ctranRoute,
