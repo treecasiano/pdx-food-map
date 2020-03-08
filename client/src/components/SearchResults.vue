@@ -3,7 +3,7 @@
     <div v-if="geosearchResult">
       <div class="font-weight-bold primary--text overline">Search Location</div>
       <div>{{geosearchResult.locationLabel}}</div>
-      <div class="d-flex align-center my-2">
+      <div class="d-flex align-center">
         <v-text-field
           v-model="searchRadius"
           class="ma-2"
@@ -17,11 +17,21 @@
         <v-btn
           @click="searchForPoints"
           :disabled="!geosearchResult"
-          class="ma-2 font-weight-bold"
-          small
+          class="mx-5 font-weight-bold"
           color="secondary"
           rounded
         >Search</v-btn>
+      </div>
+      <div class="d-flex justify-center">
+        <v-btn
+          @click="clearSearchResults"
+          :disabled="!geosearchResult"
+          class="mb-3 font-weight-bold"
+          small
+          color="secondary"
+          rounded
+          outlined
+        >Clear Search Results</v-btn>
       </div>
       <div v-if="!searchResultsLoading">
         <div class="font-weight-bold primary--text overline">Search Results</div>
@@ -182,6 +192,14 @@ export default {
       this.setCenter([item.latitude, item.longitude]);
       this.setZoom(17);
     },
+    clearSearchResults(e) {
+      // Programmatically click on the reset button
+      // to clear the third-party geosearch plugin.
+      const geosearchResetButton = document.querySelector(".reset");
+      geosearchResetButton.click();
+      // Clear the results in the Vuex state.
+      this.setGeosearchResult(null);
+    },
     async searchForPoints() {
       this.searchResultsLoading = true;
       const { geom } = this.geosearchResult;
@@ -205,6 +223,7 @@ export default {
     },
     ...mapMutations({
       setCenter: "map/setCenter",
+      setGeosearchResult: "map/setGeosearchResult",
       setSearchRadius: "map/setSearchRadius",
       setZoom: "map/setZoom",
     }),
