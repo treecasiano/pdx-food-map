@@ -545,6 +545,7 @@ export default {
       displayTrailsClarkCounty: state => state.trailClarkCounty.displayStatus,
       displayTrimetRoutes: state => state.trimetRoute.displayStatus,
       displayTrimetStops: state => state.trimetStop.displayStatus,
+      flyToOptions: state => state.map.flyToOptions,
       geojsonPdxTract: state => state.pdxTract.geoJSON,
       searchRadius: state => state.map.searchRadius,
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,
@@ -637,7 +638,7 @@ export default {
         autoComplete: true,
         position: "topleft",
         autoCompleteDelay: 250,
-        animateZoom: false,
+        animateZoom: true,
         marker: {
           // eslint-disable-next-line
           icon: L.icon({
@@ -665,7 +666,6 @@ export default {
       this.$refs.map.mapObject.on(
         "geosearch/showlocation",
         async geosearchResult => {
-          this.$refs.map.setZoom(14.25);
           this.searchForPoints(geosearchResult);
           this.setDisplayAllFoodSources(true);
           this.setSelectedTab("search");
@@ -883,6 +883,7 @@ export default {
       setDisplayStatusTrimetRoute: "trimetRoute/setDisplayStatus",
       setDisplayStatusTrimetStop: "trimetStop/setDisplayStatus",
       setCenter: "map/setCenter",
+      setFlyToOptions: "map/setFlyToOptions",
       setGeosearchResult: "map/setGeosearchResult",
       setMapControlMini: "map/setMapControlMini",
       setSelectedTab: "map/setSelectedTab",
@@ -894,6 +895,12 @@ export default {
     loading: Boolean,
     default: function() {
       return false;
+    },
+  },
+  watch: {
+    flyToOptions() {
+      const { latLong, zoom } = this.flyToOptions;
+      this.$refs.map.mapObject.flyTo(latLong, zoom);
     },
   },
 };
