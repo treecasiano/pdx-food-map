@@ -11,6 +11,9 @@ const mutations = {
   setDisplayStatusTooltip(state, status) {
     state.displayStatusTooltip = status;
   },
+  setFlyToOptions(state, flyToOptions) {
+    state.flyToOptions = flyToOptions;
+  },
   setGeosearchResult(state, result) {
     state.geosearchResult = result;
   },
@@ -38,6 +41,7 @@ const state = {
   geosearchResult: null,
   userLatitude: null,
   userLongitude: null,
+  flyToOptions: {},
   loading: false,
   mapControlMini: false,
   searchResults: [],
