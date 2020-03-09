@@ -53,7 +53,12 @@
                       v-bind:key="item.gid"
                       style="display: block;"
                     >
-                      <v-btn icon small color="primary" @click.stop="flyToPoint(item)">
+                      <v-btn
+                        icon
+                        small
+                        color="primary"
+                        @click.stop="flyToPoint(item, 'groceryStore')"
+                      >
                         <v-icon small>near_me</v-icon>
                       </v-btn>
                       {{ item.name }} ({{ item.distance | metersToMiles }} mi)
@@ -81,7 +86,12 @@
                       v-bind:key="item.gid"
                       style="display: block;"
                     >
-                      <v-btn text small color="primary" @click.stop="flyToPoint(item)">
+                      <v-btn
+                        text
+                        small
+                        color="primary"
+                        @click.stop="flyToPoint(item, 'farmersMarket')"
+                      >
                         <v-icon class="mr-1" small>near_me</v-icon>
                       </v-btn>
                       {{ item.market }} ({{ item.distance | metersToMiles }} mi)
@@ -109,7 +119,12 @@
                       v-bind:key="item.gid"
                       style="display: block;"
                     >
-                      <v-btn icon small color="primary" @click.stop="flyToPoint(item)">
+                      <v-btn
+                        icon
+                        small
+                        color="primary"
+                        @click.stop="flyToPoint(item, 'foodPantry')"
+                      >
                         <v-icon small>near_me</v-icon>
                       </v-btn>
                       {{ item.location_name }} ({{ item.distance | metersToMiles }} mi)
@@ -137,7 +152,12 @@
                       v-bind:key="item.gid"
                       style="display: block;"
                     >
-                      <v-btn icon small color="primary" @click.stop="flyToPoint(item)">
+                      <v-btn
+                        icon
+                        small
+                        color="primary"
+                        @click.stop="flyToPoint(item, 'csaDropoffSite')"
+                      >
                         <v-icon small>near_me</v-icon>
                       </v-btn>
                       {{ item.farm_name }} ({{ item.distance | metersToMiles }} mi)
@@ -188,10 +208,12 @@ export default {
     };
   },
   methods: {
-    flyToPoint(item) {
-      console.log("centering on point");
+    flyToPoint(item, itemType) {
+      this.setSelectedSearchResult(
+        Object.assign(item, { markerRef: `${itemType}Marker${item.gid}` })
+      );
       const latLong = [item.latitude, item.longitude];
-      this.setFlyToOptions({ latLong, zoom: 18 });
+      this.setFlyToOptions({ latLong, zoom: 13 });
     },
     clearSearchResults(e) {
       // Programmatically click on the reset button
@@ -208,7 +230,7 @@ export default {
       const distance = this.searchRadius * 1609.34;
       const params = { geom, distance };
       const latLong = geom.split(",").reverse();
-      this.setFlyToOptions({ latLong, zoom: 18 });
+      this.setFlyToOptions({ latLong, zoom: 13 });
       try {
         Promise.all([
           await this.$store.dispatch("groceryStore/search", params),
@@ -227,6 +249,7 @@ export default {
       setFlyToOptions: "map/setFlyToOptions",
       setGeosearchResult: "map/setGeosearchResult",
       setSearchRadius: "map/setSearchRadius",
+      setSelectedSearchResult: "map/setSelectedSearchResult",
       setZoom: "map/setZoom",
     }),
   },

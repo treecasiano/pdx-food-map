@@ -37,6 +37,7 @@
             :lat-lng="item"
             data-cy="groceryStorePoint"
             :icon="item.icon"
+            :ref="`groceryStoreMarker${item.markerId}`"
           >
             <l-popup>
               <div>
@@ -107,6 +108,7 @@
             :lat-lng="item"
             data-cy="csaDropoffSitePoint"
             :icon="item.icon"
+            :ref="`csaDropoffSiteMarker${item.markerId}`"
           >
             <l-popup>
               <div>
@@ -159,6 +161,7 @@
             :lat-lng="item"
             data-cy="foodPantryPoint"
             :icon="item.icon"
+            :ref="`foodPantryMarker${item.markerId}`"
           >
             <l-popup>
               <div>
@@ -551,6 +554,7 @@ export default {
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,
       searchResultFoodPantry: state => state.foodPantry.searchResult,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
+      selectedSearchResult: state => state.map.selectedSearchResult,
       selectedTract: state => state.pdxTract.tract,
       zoom: state => state.map.zoom,
     }),
@@ -573,42 +577,42 @@ export default {
         iconUrl: "leaflet/map_marker_csa.svg",
         iconSize: [30, 30],
         iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
+        popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
       csaIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_csa.svg",
         iconSize: [20, 20],
         iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
+        popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: "leaflet/map_marker_market.svg",
         iconSize: [30, 30],
         iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
+        popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
       farmersMarketIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_market.svg",
         iconSize: [20, 20],
         iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
+        popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
       groceryStoreIcon: L.icon({
         iconUrl: "leaflet/map_marker_store.svg",
         iconSize: [30, 30],
         iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
+        popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
       groceryStoreIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_store.svg",
         iconSize: [20, 20],
         iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
+        popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
       pantryIcon: L.icon({
@@ -638,15 +642,15 @@ export default {
         autoComplete: true,
         position: "topleft",
         autoCompleteDelay: 250,
-        animateZoom: true,
+        animateZoom: false,
         marker: {
           // eslint-disable-next-line
           icon: L.icon({
             iconUrl: "leaflet/PDXFoodMap34.svg",
             iconSize: [64, 64],
-            iconAnchor: [22, 94],
+            iconAnchor: [22, 50],
             shadowAnchor: [4, 62],
-            popupAnchor: [-2, -96],
+            popupAnchor: [0, -50],
           }),
           draggable: false,
         },
@@ -656,6 +660,7 @@ export default {
         autoClose: true,
         searchLabel: "Enter an address...",
         showPopup: true,
+        retainZoomLevel: true,
       },
       transitStopFillColor: "#2F4B53",
     };
@@ -901,6 +906,11 @@ export default {
     flyToOptions() {
       const { latLong, zoom } = this.flyToOptions;
       this.$refs.map.mapObject.flyTo(latLong, zoom);
+      this.setZoom(zoom);
+    },
+    selectedSearchResult() {
+      const { markerRef } = this.selectedSearchResult;
+      this.$refs[markerRef][0].mapObject.openPopup();
     },
   },
 };
