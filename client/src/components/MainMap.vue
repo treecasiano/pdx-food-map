@@ -697,6 +697,14 @@ export default {
       mapControl.addEventListener("click", e => {
         e.stopPropagation();
       });
+      mapControl.addEventListener("touchmove", e => {
+        if (e.srcElement === "li.searchResultListItem") {
+          e.stopPropagation();
+        }
+      });
+      mapControl.addEventListener("touchstart", e => {
+        e.stopPropagation();
+      });
 
       const mapLayerControl = L.DomUtil.get(
         this.$refs.mapLayerControl.mapObject.element
