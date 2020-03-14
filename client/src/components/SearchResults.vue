@@ -34,7 +34,7 @@
         >Clear Search Results</v-btn>
       </div>
       <div v-if="!searchResultsLoading">
-        <div class="font-weight-bold primary--text overline">Search Results</div>
+        <div class="font-weight-bold primary--text overline mt-2">Search Results</div>
         <v-expansion-panels accordion hover flat>
           <v-expansion-panel>
             <v-expansion-panel-header
@@ -46,12 +46,12 @@
             <v-expansion-panel-content>
               <v-layout column justify-start>
                 <div v-if="searchResultGroceryStore.length > 0">
-                  <ul style="list-style-type: none; padding-left: 0;">
+                  <ul class="searchResultUnorderedList">
                     <li
+                      class="searchResultListItem"
                       v-for="item in searchResultGroceryStore"
                       v-bind:item="item"
                       v-bind:key="item.gid"
-                      style="display: block;"
                     >
                       <v-btn
                         icon
@@ -79,12 +79,12 @@
             <v-expansion-panel-content>
               <v-layout column justify-start>
                 <div v-if="searchResultFarmersMarket.length > 0">
-                  <ul style="list-style-type: none; padding-left: 0;">
+                  <ul class="searchResultUnorderedList">
                     <li
+                      class="searchResultListItem"
                       v-for="item in searchResultFarmersMarket"
                       v-bind:item="item"
                       v-bind:key="item.gid"
-                      style="display: block;"
                     >
                       <v-btn
                         text
@@ -112,12 +112,12 @@
             <v-expansion-panel-content>
               <v-layout column justify-start>
                 <div v-if="searchResultFoodPantry.length > 0">
-                  <ul style="list-style-type: none; padding-left: 0;">
+                  <ul class="searchResultUnorderedList">
                     <li
+                      class="searchResultListItem"
                       v-for="item in searchResultFoodPantry"
                       v-bind:item="item"
                       v-bind:key="item.gid"
-                      style="display: block;"
                     >
                       <v-btn
                         icon
@@ -145,12 +145,12 @@
             <v-expansion-panel-content>
               <v-layout column justify-start>
                 <div v-if="searchResultCsaDropoffSite.length > 0">
-                  <ul style="list-style-type: none; padding-left: 0">
+                  <ul class="searchResultUnorderedList">
                     <li
+                      class="searchResultListItem"
                       v-for="item in searchResultCsaDropoffSite"
                       v-bind:item="item"
                       v-bind:key="item.gid"
-                      style="display: block;"
                     >
                       <v-btn
                         icon
@@ -259,6 +259,14 @@ export default {
 };
 </script>
 <style>
+.searchResultUnorderedList {
+  list-style-type: none !important;
+  padding-left: 0 !important;
+}
+.searchResultListItem {
+  display: block;
+  margin-left: -0.6rem;
+}
 .scrollBox {
   overflow: auto;
 }
