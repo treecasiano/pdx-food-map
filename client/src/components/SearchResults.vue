@@ -20,7 +20,7 @@
       </div>
       <div v-if="!searchResultsLoading">
         <div class="font-weight-bold primary--text mt-2">Search Results</div>
-        <v-expansion-panels accordion hover flat>
+        <v-expansion-panels accordion hover flat focusable>
           <v-expansion-panel>
             <v-expansion-panel-header
               class="font-weight-bold"
@@ -38,15 +38,17 @@
                       v-bind:item="item"
                       v-bind:key="item.gid"
                     >
-                      <v-btn
-                        icon
-                        small
-                        color="primary"
-                        @click.stop="flyToPoint(item, 'groceryStore')"
-                      >
-                        <v-icon small>near_me</v-icon>
-                      </v-btn>
-                      {{ item.name }} ({{ item.distance | metersToMiles }} mi)
+                      <div class="d-flex align-center">
+                        <v-btn
+                          icon
+                          small
+                          color="tertiary"
+                          @click.stop="flyToPoint(item, 'groceryStore')"
+                        >
+                          <v-icon small>near_me</v-icon>
+                        </v-btn>
+                        <div>{{ item.name }} ({{ item.distance | metersToMiles }} mi)</div>
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -71,15 +73,17 @@
                       v-bind:item="item"
                       v-bind:key="item.gid"
                     >
-                      <v-btn
-                        icon
-                        small
-                        color="primary"
-                        @click.stop="flyToPoint(item, 'farmersMarket')"
-                      >
-                        <v-icon class="mr-1" small>near_me</v-icon>
-                      </v-btn>
-                      {{ item.market }} ({{ item.distance | metersToMiles }} mi)
+                      <div class="d-flex">
+                        <v-btn
+                          icon
+                          small
+                          color="tertiary"
+                          @click.stop="flyToPoint(item, 'farmersMarket')"
+                        >
+                          <v-icon small>near_me</v-icon>
+                        </v-btn>
+                        <div>{{ item.market }} ({{ item.distance | metersToMiles }} mi)</div>
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -104,15 +108,17 @@
                       v-bind:item="item"
                       v-bind:key="item.gid"
                     >
-                      <v-btn
-                        icon
-                        small
-                        color="primary"
-                        @click.stop="flyToPoint(item, 'foodPantry')"
-                      >
-                        <v-icon small>near_me</v-icon>
-                      </v-btn>
-                      {{ item.location_name }} ({{ item.distance | metersToMiles }} mi)
+                      <div class="d-flex align-center">
+                        <v-btn
+                          icon
+                          small
+                          color="tertiary"
+                          @click.stop="flyToPoint(item, 'foodPantry')"
+                        >
+                          <v-icon small>near_me</v-icon>
+                        </v-btn>
+                        <div>{{ item.location_name }} ({{ item.distance | metersToMiles }} mi)</div>
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -137,15 +143,17 @@
                       v-bind:item="item"
                       v-bind:key="item.gid"
                     >
-                      <v-btn
-                        icon
-                        small
-                        color="primary"
-                        @click.stop="flyToPoint(item, 'csaDropoffSite')"
-                      >
-                        <v-icon small>near_me</v-icon>
-                      </v-btn>
-                      {{ item.farm_name }} ({{ item.distance | metersToMiles }} mi)
+                      <div class="d-flex align-center">
+                        <v-btn
+                          icon
+                          small
+                          color="tertiary"
+                          @click.stop="flyToPoint(item, 'csaDropoffSite')"
+                        >
+                          <v-icon small>near_me</v-icon>
+                        </v-btn>
+                        <div>{{ item.farm_name }} ({{ item.distance | metersToMiles }} mi)</div>
+                      </div>
                     </li>
                   </ul>
                 </div>
