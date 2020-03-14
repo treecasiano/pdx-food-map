@@ -1,6 +1,6 @@
 <template>
   <v-card class="mt-10">
-    <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" width="340" permanent>
+    <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" width="300" permanent>
       <template v-slot:prepend>
         <v-list-item v-if="mini" dense>
           <v-btn small icon @click.stop="mini = false">
