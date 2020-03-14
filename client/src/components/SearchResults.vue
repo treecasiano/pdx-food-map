@@ -1,40 +1,8 @@
 <template>
   <div>
     <div v-if="geosearchResult">
-      <div class="font-weight-bold primary--text overline">Search Location</div>
-      <div>{{geosearchResult.locationLabel}}</div>
-      <div class="d-flex align-center">
-        <v-text-field
-          v-model="searchRadius"
-          class="ma-2"
-          color="primary"
-          type="number"
-          step="0.25"
-          max="10"
-          min="0.25"
-          label="Search radius (0.25 - 10 mi)"
-        ></v-text-field>
-        <v-btn
-          @click="searchForPoints"
-          :disabled="!geosearchResult"
-          class="mx-5 font-weight-bold"
-          color="secondary"
-          rounded
-        >Search</v-btn>
-      </div>
-      <div class="d-flex justify-center">
-        <v-btn
-          @click="clearSearchResults"
-          :disabled="!geosearchResult"
-          class="mb-3 font-weight-bold"
-          small
-          color="secondary"
-          rounded
-          outlined
-        >Clear Search Results</v-btn>
-      </div>
       <div v-if="!searchResultsLoading">
-        <div class="font-weight-bold primary--text overline mt-2">Search Results</div>
+        <div class="font-weight-bold primary--text mt-2">Search Results ({{searchRadius}}mi)</div>
         <v-expansion-panels accordion hover flat>
           <v-expansion-panel>
             <v-expansion-panel-header
@@ -43,7 +11,7 @@
             >
               <div>Grocery Stores ({{ searchResultGroceryStore.length }})</div>
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content class="scrollBox--searchResult">
               <v-layout column justify-start>
                 <div v-if="searchResultGroceryStore.length > 0">
                   <ul class="searchResultUnorderedList">
@@ -76,7 +44,7 @@
             >
               <div>Farmers Markets ({{ searchResultFarmersMarket.length }})</div>
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content class="scrollBox--searchResult">
               <v-layout column justify-start>
                 <div v-if="searchResultFarmersMarket.length > 0">
                   <ul class="searchResultUnorderedList">
@@ -109,7 +77,7 @@
             >
               <div>Food Pantries ({{ searchResultFoodPantry.length }})</div>
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content class="scrollBox--searchResult">
               <v-layout column justify-start>
                 <div v-if="searchResultFoodPantry.length > 0">
                   <ul class="searchResultUnorderedList">
@@ -142,7 +110,7 @@
             >
               <div>CSA Dropoff Sites ({{ searchResultCsaDropoffSite.length }})</div>
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content class="scrollBox--searchResult">
               <v-layout column justify-start>
                 <div v-if="searchResultCsaDropoffSite.length > 0">
                   <ul class="searchResultUnorderedList">
@@ -172,6 +140,38 @@
       </div>
       <div v-else>
         <v-progress-circular indeterminate rotate class="ma-2" color="secondary darken-1"></v-progress-circular>Loading Search Results..
+      </div>
+      <div class="font-weight-bold primary--text my-2">Search Location</div>
+      <div>{{geosearchResult.locationLabel}}</div>
+      <div class="d-flex align-center">
+        <v-text-field
+          v-model="searchRadius"
+          class="ma-2"
+          color="primary"
+          type="number"
+          step="0.25"
+          max="10"
+          min="0.25"
+          label="Search radius (0.25 - 10 mi)"
+        ></v-text-field>
+        <v-btn
+          @click="searchForPoints"
+          :disabled="!geosearchResult"
+          class="mx-5 font-weight-bold"
+          color="secondary"
+          rounded
+        >Search</v-btn>
+      </div>
+      <div class="d-flex justify-center">
+        <v-btn
+          @click="clearSearchResults"
+          :disabled="!geosearchResult"
+          class="font-weight-bold"
+          small
+          color="secondary"
+          rounded
+          outlined
+        >Clear Search Results</v-btn>
       </div>
     </div>
     <div v-else class="primary--text">
@@ -267,7 +267,8 @@ export default {
   display: block;
   margin-left: -0.6rem;
 }
-.scrollBox {
+.scrollBox--searchResult {
+  max-height: 130px;
   overflow: auto;
 }
 </style>
