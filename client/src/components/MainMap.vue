@@ -914,7 +914,9 @@ export default {
       const { markerRef } = this.selectedSearchResult;
       const { latLong, zoom } = this.flyToOptions;
       this.$refs.map.mapObject.flyTo(latLong, zoom);
-      this.$refs[markerRef][0].mapObject.openPopup();
+      this.$nextTick(() => {
+        this.$refs[markerRef][0].mapObject.openPopup();
+      });
       this.setZoom(zoom);
     },
   },
