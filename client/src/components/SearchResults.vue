@@ -200,6 +200,7 @@ export default {
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,
       searchResultFoodPantry: state => state.foodPantry.searchResult,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
+      zoom: state => state.map.zoom,
     }),
   },
   data() {
@@ -213,7 +214,8 @@ export default {
         Object.assign(item, { markerRef: `${itemType}Marker${item.gid}` })
       );
       const latLong = [item.latitude, item.longitude];
-      this.setFlyToOptions({ latLong, zoom: 13 });
+      const zoom = this.zoom < 13 ? 13 : this.zoom;
+      this.setFlyToOptions({ latLong, zoom });
     },
     clearSearchResults(e) {
       // Programmatically click on the reset button
@@ -230,7 +232,8 @@ export default {
       const distance = this.searchRadius * 1609.34;
       const params = { geom, distance };
       const latLong = geom.split(",").reverse();
-      this.setFlyToOptions({ latLong, zoom: 13 });
+      const zoom = this.zoom < 13 ? 13 : this.zoom;
+      this.setFlyToOptions({ latLong, zoom });
       try {
         Promise.all([
           await this.$store.dispatch("groceryStore/search", params),
