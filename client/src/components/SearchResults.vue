@@ -1,8 +1,25 @@
 <template>
   <div>
     <div v-if="geosearchResult">
+      <div class="d-flex align-center">
+        <v-slider
+          :max="10"
+          :min=".25"
+          @change="searchForPoints"
+          class="mt-10"
+          color="secondary"
+          label="Search Radius (miles)"
+          step=".25"
+          thumb-color="secondary"
+          thumb-size="34"
+          thumb-label="always"
+          tick-size=".25"
+          ticks="always"
+          v-model="searchRadius"
+        ></v-slider>
+      </div>
       <div v-if="!searchResultsLoading">
-        <div class="font-weight-bold primary--text mt-2">Search Results ({{searchRadius}}mi)</div>
+        <div class="font-weight-bold primary--text mt-2">Search Results</div>
         <v-expansion-panels accordion hover flat>
           <v-expansion-panel>
             <v-expansion-panel-header
@@ -55,7 +72,7 @@
                       v-bind:key="item.gid"
                     >
                       <v-btn
-                        text
+                        icon
                         small
                         color="primary"
                         @click.stop="flyToPoint(item, 'farmersMarket')"
@@ -143,35 +160,18 @@
       </div>
       <div class="font-weight-bold primary--text my-2">Search Location</div>
       <div>{{geosearchResult.locationLabel}}</div>
-      <div class="d-flex align-center">
-        <v-text-field
-          v-model="searchRadius"
-          class="ma-2"
-          color="primary"
-          type="number"
-          step="0.25"
-          max="10"
-          min="0.25"
-          label="Search radius (0.25 - 10 mi)"
-        ></v-text-field>
-        <v-btn
-          @click="searchForPoints"
-          :disabled="!geosearchResult"
-          class="mx-5 font-weight-bold"
-          color="secondary"
-          rounded
-        >Search</v-btn>
-      </div>
-      <div class="d-flex justify-center">
+
+      <div class="d-flex justify-end">
         <v-btn
           @click="clearSearchResults"
           :disabled="!geosearchResult"
-          class="font-weight-bold"
+          class="mx-3 font-weight-bold"
           small
           color="secondary"
-          rounded
-          outlined
-        >Clear Search Results</v-btn>
+          text
+        >
+          <v-icon class="mr-1">close</v-icon>Clear Search Results
+        </v-btn>
       </div>
     </div>
     <div v-else class="primary--text">
@@ -232,8 +232,8 @@ export default {
       const distance = this.searchRadius * 1609.34;
       const params = { geom, distance };
       const latLong = geom.split(",").reverse();
-      const zoom = this.zoom < 13 ? 13 : this.zoom;
-      this.setFlyToOptions({ latLong, zoom });
+      // const zoom = this.zoom < 13 ? 13 : this.zoom;
+      // this.setFlyToOptions({ latLong, zoom });
       try {
         Promise.all([
           await this.$store.dispatch("groceryStore/search", params),
@@ -268,7 +268,8 @@ export default {
   margin-left: -0.6rem;
 }
 .scrollBox--searchResult {
-  max-height: 130px;
-  overflow: auto;
+  max-height: 100px;
+  overflow-y: scroll;
+  padding-bottom: 0.25rem;
 }
 </style>
