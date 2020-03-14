@@ -694,6 +694,9 @@ export default {
       mapControl.addEventListener("mouseout", () => {
         this.$refs.map.mapObject.dragging.enable();
       });
+      mapControl.addEventListener("click", e => {
+        e.stopPropagation();
+      });
 
       const mapLayerControl = L.DomUtil.get(
         this.$refs.mapLayerControl.mapObject.element
@@ -703,6 +706,9 @@ export default {
       });
       mapLayerControl.addEventListener("mouseout", () => {
         this.$refs.map.mapObject.dragging.enable();
+      });
+      mapLayerControl.addEventListener("click", e => {
+        e.stopPropagation();
       });
     });
   },
@@ -904,13 +910,12 @@ export default {
   },
   watch: {
     flyToOptions() {
+      this.setDisplayAllFoodSources(true);
+      const { markerRef } = this.selectedSearchResult;
       const { latLong, zoom } = this.flyToOptions;
       this.$refs.map.mapObject.flyTo(latLong, zoom);
-      this.setZoom(zoom);
-    },
-    selectedSearchResult() {
-      const { markerRef } = this.selectedSearchResult;
       this.$refs[markerRef][0].mapObject.openPopup();
+      this.setZoom(zoom);
     },
   },
 };
