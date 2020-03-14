@@ -1068,14 +1068,15 @@ input {
 
 .leaflet-control-geosearch form {
   border: 2px solid var(--v-primary-base) !important;
-  max-width: 390px;
+  margin-left: 10px !important;
+  max-width: 300px;
 }
 
 .leaflet-control-geosearch input {
   max-width: 400px;
 }
 
-@media screen and (min-width: 1400px) {
+@media screen and (min-width: 768px) {
   .leaflet-control-geosearch form {
     min-width: 500px !important;
     max-width: 800px !important;
