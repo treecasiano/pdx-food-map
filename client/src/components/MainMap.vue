@@ -11,7 +11,7 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
         @update:bounds="boundsUpdated"
-        :options="{ zoomControl: false, zoomDelta: 0.5, zoomSnap: 0.5 }"
+        :options="{ tap: false, zoomControl: false, zoomDelta: 0.5, zoomSnap: 0.5 }"
       >
         <l-control position="topright">
           <v-btn small light @click="resetMapView">
