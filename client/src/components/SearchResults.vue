@@ -185,7 +185,9 @@
     </div>
     <div v-else class="primary--text">
       <h1 class="secondary--text my-3">Show Me the Vegetables!</h1>
-      <div>Enter a Portland Metro area address in the search bar at the top of the map and discover nearby sources of fresh produce.</div>
+      <div
+        class="body-2"
+      >Enter a Portland Metro area address in the search bar at the top of the map and discover nearby sources of fresh produce.</div>
     </div>
   </div>
 </template>
