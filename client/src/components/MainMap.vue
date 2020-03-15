@@ -694,11 +694,9 @@ export default {
 
       const mapControl = L.DomUtil.get(this.$refs.mapControl.mapObject.element);
       mapControl.addEventListener("mouseenter", () => {
-        console.log("mouseenter");
         this.$refs.map.mapObject.dragging.disable();
       });
       mapControl.addEventListener("mouseover", () => {
-        console.log("mouseover");
         this.$refs.map.mapObject.dragging.disable();
       });
       mapControl.addEventListener("mouseout", () => {
