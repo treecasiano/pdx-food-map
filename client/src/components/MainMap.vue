@@ -683,26 +683,31 @@ export default {
       });
 
       this.$refs.map.mapObject.setMaxBounds(bounds);
+
       this.$refs.map.mapObject.on("drag", () => {
         this.$refs.map.mapObject.panInsideBounds(bounds, { animate: true });
       });
 
+      this.$refs.map.mapObject.on("click", () => {
+        this.$refs.map.mapObject.dragging.enable();
+      });
+
       const mapControl = L.DomUtil.get(this.$refs.mapControl.mapObject.element);
+      mapControl.addEventListener("mouseenter", () => {
+        console.log("mouseenter");
+        this.$refs.map.mapObject.dragging.disable();
+      });
       mapControl.addEventListener("mouseover", () => {
+        console.log("mouseover");
         this.$refs.map.mapObject.dragging.disable();
       });
       mapControl.addEventListener("mouseout", () => {
         this.$refs.map.mapObject.dragging.enable();
       });
+      mapControl.addEventListener("mouseleave", () => {
+        this.$refs.map.mapObject.dragging.enable();
+      });
       mapControl.addEventListener("click", e => {
-        e.stopPropagation();
-      });
-      mapControl.addEventListener("touchmove", e => {
-        if (e.srcElement === "li.searchResultListItem") {
-          e.stopPropagation();
-        }
-      });
-      mapControl.addEventListener("touchstart", e => {
         e.stopPropagation();
       });
 
