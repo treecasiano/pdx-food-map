@@ -816,8 +816,6 @@ export default {
       ).toFixed(0)}</span></strong><div>
       `;
       return propertyString;
-
-      // {{ (tract.pop2010 / tract.area_sqmiles).toFixed(2)}}
     },
     createPolyline(geoJSON, { color, weight }) {
       const polyLineArray = geoJSON["features"].map(feature => {
