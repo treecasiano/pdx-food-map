@@ -811,8 +811,13 @@ export default {
       <div>Poverty Rate: <strong><span class="mono-font">${
         props.povertyrat
       }%</span></strong><div>
+      <div>Persons per Square Mile: <strong><span class="mono-font">${(
+        props.pop2010 / props.area_sqmiles
+      ).toFixed(0)}</span></strong><div>
       `;
       return propertyString;
+
+      // {{ (tract.pop2010 / tract.area_sqmiles).toFixed(2)}}
     },
     createPolyline(geoJSON, { color, weight }) {
       const polyLineArray = geoJSON["features"].map(feature => {
