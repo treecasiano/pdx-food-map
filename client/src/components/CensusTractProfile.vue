@@ -29,7 +29,7 @@
         <span class="font-weight-bold tertiary--text title">LOW VEHICLE ACCESS</span>
       </div>
       <div>
-        <v-btn color="secondary" small rounded outlined class="mt-4" @click="clearSelectedTract">
+        <v-btn color="secondary" small text class="mt-4" @click="clearSelectedTract">
           <v-icon class="mr-1">close</v-icon>Clear Tract Selection
         </v-btn>
       </div>
