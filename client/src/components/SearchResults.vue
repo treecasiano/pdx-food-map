@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="searchResultsContainer">
     <div v-if="geosearchResult">
       <div class="d-flex align-center">
         <v-slider
@@ -19,8 +19,8 @@
         ></v-slider>
       </div>
       <div v-if="!searchResultsLoading">
-        <div class="font-weight-bold primary--text mt-2">Search Results</div>
-        <v-expansion-panels accordion hover flat focusable>
+        <div class="font-weight-bold primary--text overline">Sources of Fresh Produce</div>
+        <v-expansion-panels hover popout class="mt-1">
           <v-expansion-panel>
             <v-expansion-panel-header
               class="font-weight-bold"
@@ -73,7 +73,7 @@
                       v-bind:item="item"
                       v-bind:key="item.gid"
                     >
-                      <div class="d-flex">
+                      <div class="d-flex align-center">
                         <v-btn
                           icon
                           small
@@ -166,20 +166,21 @@
       <div v-else>
         <v-progress-circular indeterminate rotate class="ma-2" color="secondary darken-1"></v-progress-circular>Loading Search Results..
       </div>
-      <div class="font-weight-bold primary--text my-2">Search Location</div>
-      <div>{{geosearchResult.locationLabel}}</div>
-
       <div class="d-flex justify-end">
         <v-btn
           @click="clearSearchResults"
           :disabled="!geosearchResult"
-          class="mx-3 font-weight-bold"
+          class="mt-3 font-weight-bold"
           small
           color="secondary"
           text
         >
-          <v-icon class="mr-1">close</v-icon>Clear Search Results
+          <v-icon class="mr-1">close</v-icon>Clear Search
         </v-btn>
+      </div>
+      <div class="searchLocation">
+        <div class="font-weight-bold primary--text mt-2 overline">Search Location</div>
+        <div>{{geosearchResult.locationLabel}}</div>
       </div>
     </div>
     <div v-else class="primary--text">
@@ -240,8 +241,6 @@ export default {
       const distance = this.searchRadius * 1609.34;
       const params = { geom, distance };
       const latLong = geom.split(",").reverse();
-      // const zoom = this.zoom < 13 ? 13 : this.zoom;
-      // this.setFlyToOptions({ latLong, zoom });
       try {
         Promise.all([
           await this.$store.dispatch("groceryStore/search", params),
@@ -267,6 +266,26 @@ export default {
 };
 </script>
 <style>
+.searchLocation {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .searchLocation {
+    display: inline-block;
+  }
+}
+
+.searchResultsContainer .v-expansion-panel-header,
+.search ResultsContainer .v-expansion-panel-header--active {
+  padding: 5px 10px !important;
+  min-height: 10px;
+}
+
+.search ResultsContainer .v-expansion-panel-header--active {
+  margin-bottom: 5px;
+  height: 10px !important;
+}
 .searchResultUnorderedList {
   list-style-type: none !important;
   padding-left: 0 !important;
@@ -278,6 +297,5 @@ export default {
 .scrollBox--searchResult {
   max-height: 100px;
   overflow-y: scroll;
-  padding-bottom: 0.25rem;
 }
 </style>
