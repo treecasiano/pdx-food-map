@@ -1,6 +1,11 @@
 <template>
   <v-card class="mt-10">
-    <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" width="300" permanent>
+    <v-navigation-drawer
+      class="mapControls__navDrawer"
+      v-model="drawer"
+      :mini-variant.sync="mini"
+      permanent
+    >
       <template v-slot:prepend>
         <v-list-item v-if="mini" dense>
           <v-btn small icon @click.stop="mini = false">
@@ -60,7 +65,6 @@ export default {
         return this.$store.state.map.mapControlMini;
       },
       set(value) {
-        console.log("setting value of mini");
         this.setMapControlMini(value);
       },
     },
@@ -91,5 +95,15 @@ export default {
 }
 .mapControls__tabs--active {
   background-color: var(--v-accent-lighten4);
+}
+
+.mapControls__navDrawer {
+  width: 340px !important;
+}
+
+@media screen and (min-width: 768px) {
+  .mapControls__navDrawer {
+    width: 400px !important;
+  }
 }
 </style>
