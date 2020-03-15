@@ -98,7 +98,7 @@ export default {
 }
 
 .mapControls__navDrawer {
-  width: 340px !important;
+  width: 300px !important;
 }
 
 @media screen and (min-width: 768px) {
