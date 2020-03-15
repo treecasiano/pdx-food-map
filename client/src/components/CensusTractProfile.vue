@@ -1,13 +1,13 @@
 <template>
   <div>
     <div v-if="tract.gid" class="text-center">
-      <div class="title secondary--text">Census Tract No. {{tract.censustrac}}</div>
-      <div class="subtitle-1 display-3 primary--text">{{tract.county_1}} County, {{tract.state_1}}</div>
+      <h1 class="secondary--text">Census Tract No. {{tract.censustrac}}</h1>
+      <div class="primary--text">{{tract.county_1}} County, {{tract.state_1}}</div>
       <v-divider class="my-2"></v-divider>
-      <div class="body-1">
+      <div>
         <div class="my-5">
           <div class="font-weight-black display-1 primary--text">{{tract.povertyrat}}%</div>
-          <div class="font-weight-thin">Poverty Rate</div>
+          <div class="font-weight-thin primary--text">Poverty Rate</div>
         </div>
         <div class="my-5">
           <div
@@ -23,10 +23,10 @@
         </div>
       </div>
       <div v-if="tract.lilatrac_1">
-        <span class="font-weight-black primary--text title">FOOD DESERT</span>
+        <span class="font-weight-black tertiary--text title">FOOD DESERT</span>
       </div>
       <div v-if="tract.hunvflag">
-        <span class="font-weight-bold primary-text title">LOW VEHICLE ACCESS</span>
+        <span class="font-weight-bold tertiary--text title">LOW VEHICLE ACCESS</span>
       </div>
       <div>
         <v-btn color="secondary" small rounded outlined class="mt-4" @click="clearSelectedTract">
@@ -41,7 +41,7 @@
       </h1>
       <v-divider class="my-2"></v-divider>
 
-      <div class="body-2 primary--text">
+      <div class="primary--text">
         Click on a census tract to learn more about food access indicators in the Portland Metro area.
         <v-flex class="ma-5">
           <v-layout align-center>
