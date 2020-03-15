@@ -90,10 +90,10 @@
                   {{ item.props.accepts }}
                 </div>
                 <div v-if="item.props.website" class="my-1">
-                  <a
-                    :href="item.props.website"
-                    class="secondary--text font-weight-bold"
-                  >>>> Visit Website</a>
+                  <a :href="item.props.website" class="secondary--text font-weight-bold">
+                    >>> Visit Website
+                    <v-icon small color="secondary">launch</v-icon>
+                  </a>
                 </div>
               </div>
             </l-popup>
@@ -143,10 +143,10 @@
                   {{ item.props.snap }}
                 </div>
                 <div v-if="item.props.website" class="mt-1">
-                  <a
-                    :href="item.props.website"
-                    class="secondary--text font-weight-bold"
-                  >>>> Visit Website</a>
+                  <a :href="item.props.website" class="secondary--text font-weight-bold">
+                    >>> Visit Website
+                    <v-icon small color="secondary">launch</v-icon>
+                  </a>
                 </div>
               </div>
             </l-popup>
@@ -253,12 +253,10 @@
             <l-popup>
               <div>
                 <span class="font-weight-bold mr-1">C-TRAN Stop ID:</span>
-
                 <span>{{item.props.stop_id}}</span>
               </div>
               <div>
                 <span class="font-weight-bold mr-1">C-TRAN Stop Name:</span>
-
                 <span>{{item.props.stop_name}}</span>
               </div>
             </l-popup>
@@ -303,7 +301,13 @@
             <l-popup>
               <div>
                 <span class="font-weight-bold mr-1">TriMet Stop ID:</span>
-                <span>{{item.props.stop_id}}</span>
+                <a
+                  :href="`https://trimet.org/ride/stop.html?stop_id=${item.props.stop_id}`"
+                  class="font-weight-bold secondary--text"
+                >
+                  {{item.props.stop_id}}
+                  <v-icon small color="secondary">launch</v-icon>
+                </a>
               </div>
               <div>
                 <span class="font-weight-bold mr-1">TriMet Stop Name:</span>
@@ -387,7 +391,7 @@ export default {
     csaDropoffSiteMarkers() {
       const geojson = this.$store.state.csaDropoffSite.geoJSON;
       let mapMarkers = [];
-      const icon = this.zoom > 12 ? this.csaIcon : this.csaIconSmall;
+      const icon = this.csaIcon;
       if (geojson.features) {
         mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
@@ -397,8 +401,7 @@ export default {
     groceryStoreMarkers() {
       const geojson = this.$store.state.groceryStore.geoJSON;
       let mapMarkers = [];
-      const icon =
-        this.zoom > 12 ? this.groceryStoreIcon : this.groceryStoreIconSmall;
+      const icon = this.groceryStoreIcon;
       if (geojson.features) {
         mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
@@ -408,7 +411,7 @@ export default {
     foodPantryMarkers() {
       const geojson = this.$store.state.foodPantry.geoJSON;
       let mapMarkers = [];
-      const icon = this.zoom > 12 ? this.pantryIcon : this.pantryIconSmall;
+      const icon = this.pantryIcon;
       if (geojson.features) {
         mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
@@ -418,8 +421,7 @@ export default {
     farmersMarketMarkers() {
       const geojson = this.$store.state.farmersMarket.geoJSON;
       let mapMarkers = [];
-      const icon =
-        this.zoom > 12 ? this.farmersMarketIcon : this.farmersMarketIconSmall;
+      const icon = this.farmersMarketIcon;
       if (geojson.features) {
         mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
@@ -580,23 +582,9 @@ export default {
         popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
-      csaIconSmall: L.icon({
-        iconUrl: "leaflet/map_marker_csa.svg",
-        iconSize: [20, 20],
-        iconAnchor: [20, 20],
-        popupAnchor: [-4, -20],
-      }),
-      // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: "leaflet/map_marker_market.svg",
         iconSize: [30, 30],
-        iconAnchor: [20, 20],
-        popupAnchor: [-4, -20],
-      }),
-      // eslint-disable-next-line
-      farmersMarketIconSmall: L.icon({
-        iconUrl: "leaflet/map_marker_market.svg",
-        iconSize: [20, 20],
         iconAnchor: [20, 20],
         popupAnchor: [-4, -20],
       }),
@@ -608,25 +596,11 @@ export default {
         popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
-      groceryStoreIconSmall: L.icon({
-        iconUrl: "leaflet/map_marker_store.svg",
-        iconSize: [20, 20],
-        iconAnchor: [20, 20],
-        popupAnchor: [-4, -20],
-      }),
-      // eslint-disable-next-line
       pantryIcon: L.icon({
         iconUrl: "leaflet/map_marker_pantry.svg",
         iconSize: [30, 30],
         iconAnchor: [25, 50],
         popupAnchor: [-10, -50],
-      }),
-      // eslint-disable-next-line
-      pantryIconSmall: L.icon({
-        iconUrl: "leaflet/map_marker_pantry.svg",
-        iconSize: [20, 20],
-        iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       geosearchIcon: L.icon({
@@ -733,10 +707,6 @@ export default {
     createTractLayer(feature, layer, tooltipDisplay, selectedTract) {
       return (feature, layer) => {
         layer.on("click", e => {
-          const southWest = e.target._bounds._southWest;
-          const northEast = e.target._bounds._northEast;
-          // eslint-disable-next-line
-          const tractBounds = L.latLngBounds(southWest, northEast);
           const {
             target: {
               feature: { properties },
@@ -744,10 +714,6 @@ export default {
           } = e;
           this.setTract(properties);
           this.setSelectedTab("map");
-          const polygonCenter = layer.getBounds().getCenter();
-          // eslint-disable-next-line
-          console.info("polygonCenter", polygonCenter);
-          this.$refs.map.fitBounds(tractBounds);
         });
 
         if (tooltipDisplay) {

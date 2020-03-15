@@ -125,6 +125,10 @@ li {
   opacity: 0.8;
 }
 
+.leaflet-container {
+  font-size: 0.95rem !important;
+}
+
 .pdx-toolbar--main {
   font-weight: bold;
 }
