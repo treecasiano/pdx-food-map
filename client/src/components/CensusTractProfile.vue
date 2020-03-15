@@ -19,7 +19,7 @@
           <div
             class="font-weight-black display-1 primary--text"
           >{{(tract.pop2010 / tract.area_sqmiles).toFixed(0)}}</div>
-          <div class="font-weight-thin primary--text">Persons per Square Mile</div>
+          <div class="font-weight-thin primary--text">People per Square Mile</div>
         </div>
       </div>
       <div v-if="tract.lilatrac_1">
