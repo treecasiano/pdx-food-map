@@ -90,10 +90,10 @@
                   {{ item.props.accepts }}
                 </div>
                 <div v-if="item.props.website" class="my-1">
-                  <a
-                    :href="item.props.website"
-                    class="secondary--text font-weight-bold"
-                  >>>> Visit Website</a>
+                  <a :href="item.props.website" class="secondary--text font-weight-bold">
+                    >>> Visit Website
+                    <v-icon small color="secondary">launch</v-icon>
+                  </a>
                 </div>
               </div>
             </l-popup>
@@ -143,10 +143,10 @@
                   {{ item.props.snap }}
                 </div>
                 <div v-if="item.props.website" class="mt-1">
-                  <a
-                    :href="item.props.website"
-                    class="secondary--text font-weight-bold"
-                  >>>> Visit Website</a>
+                  <a :href="item.props.website" class="secondary--text font-weight-bold">
+                    >>> Visit Website
+                    <v-icon small color="secondary">launch</v-icon>
+                  </a>
                 </div>
               </div>
             </l-popup>
@@ -253,12 +253,10 @@
             <l-popup>
               <div>
                 <span class="font-weight-bold mr-1">C-TRAN Stop ID:</span>
-
                 <span>{{item.props.stop_id}}</span>
               </div>
               <div>
                 <span class="font-weight-bold mr-1">C-TRAN Stop Name:</span>
-
                 <span>{{item.props.stop_name}}</span>
               </div>
             </l-popup>
@@ -303,7 +301,13 @@
             <l-popup>
               <div>
                 <span class="font-weight-bold mr-1">TriMet Stop ID:</span>
-                <span>{{item.props.stop_id}}</span>
+                <a
+                  :href="`https://trimet.org/ride/stop.html?stop_id=${item.props.stop_id}`"
+                  class="font-weight-bold secondary--text"
+                >
+                  {{item.props.stop_id}}
+                  <v-icon small color="secondary">launch</v-icon>
+                </a>
               </div>
               <div>
                 <span class="font-weight-bold mr-1">TriMet Stop Name:</span>
