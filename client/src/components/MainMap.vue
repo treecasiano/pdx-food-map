@@ -11,7 +11,7 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
         @update:bounds="boundsUpdated"
-        :options="{ zoomControl: false, zoomDelta: 0.5, zoomSnap: 0.5 }"
+        :options="{ tap: false, zoomControl: false, zoomDelta: 0.5, zoomSnap: 0.5 }"
       >
         <l-control position="topright">
           <v-btn small light @click="resetMapView">
@@ -37,6 +37,7 @@
             :lat-lng="item"
             data-cy="groceryStorePoint"
             :icon="item.icon"
+            :ref="`groceryStoreMarker${item.markerId}`"
           >
             <l-popup>
               <div>
@@ -107,6 +108,7 @@
             :lat-lng="item"
             data-cy="csaDropoffSitePoint"
             :icon="item.icon"
+            :ref="`csaDropoffSiteMarker${item.markerId}`"
           >
             <l-popup>
               <div>
@@ -159,6 +161,7 @@
             :lat-lng="item"
             data-cy="foodPantryPoint"
             :icon="item.icon"
+            :ref="`foodPantryMarker${item.markerId}`"
           >
             <l-popup>
               <div>
@@ -545,11 +548,13 @@ export default {
       displayTrailsClarkCounty: state => state.trailClarkCounty.displayStatus,
       displayTrimetRoutes: state => state.trimetRoute.displayStatus,
       displayTrimetStops: state => state.trimetStop.displayStatus,
+      flyToOptions: state => state.map.flyToOptions,
       geojsonPdxTract: state => state.pdxTract.geoJSON,
       searchRadius: state => state.map.searchRadius,
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,
       searchResultFoodPantry: state => state.foodPantry.searchResult,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
+      selectedSearchResult: state => state.map.selectedSearchResult,
       selectedTract: state => state.pdxTract.tract,
       zoom: state => state.map.zoom,
     }),
@@ -572,42 +577,42 @@ export default {
         iconUrl: "leaflet/map_marker_csa.svg",
         iconSize: [30, 30],
         iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
+        popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
       csaIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_csa.svg",
         iconSize: [20, 20],
         iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
+        popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: "leaflet/map_marker_market.svg",
         iconSize: [30, 30],
         iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
+        popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
       farmersMarketIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_market.svg",
         iconSize: [20, 20],
         iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
+        popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
       groceryStoreIcon: L.icon({
         iconUrl: "leaflet/map_marker_store.svg",
         iconSize: [30, 30],
         iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
+        popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
       groceryStoreIconSmall: L.icon({
         iconUrl: "leaflet/map_marker_store.svg",
         iconSize: [20, 20],
         iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
+        popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
       pantryIcon: L.icon({
@@ -643,9 +648,9 @@ export default {
           icon: L.icon({
             iconUrl: "leaflet/PDXFoodMap34.svg",
             iconSize: [64, 64],
-            iconAnchor: [22, 94],
+            iconAnchor: [22, 50],
             shadowAnchor: [4, 62],
-            popupAnchor: [-2, -96],
+            popupAnchor: [0, -50],
           }),
           draggable: false,
         },
@@ -655,6 +660,7 @@ export default {
         autoClose: true,
         searchLabel: "Enter an address...",
         showPopup: true,
+        retainZoomLevel: true,
       },
       transitStopFillColor: "#2F4B53",
     };
@@ -665,7 +671,6 @@ export default {
       this.$refs.map.mapObject.on(
         "geosearch/showlocation",
         async geosearchResult => {
-          this.$refs.map.setZoom(14.25);
           this.searchForPoints(geosearchResult);
           this.setDisplayAllFoodSources(true);
           this.setSelectedTab("search");
@@ -678,16 +683,30 @@ export default {
       });
 
       this.$refs.map.mapObject.setMaxBounds(bounds);
+
       this.$refs.map.mapObject.on("drag", () => {
         this.$refs.map.mapObject.panInsideBounds(bounds, { animate: true });
       });
 
+      this.$refs.map.mapObject.on("click", () => {
+        this.$refs.map.mapObject.dragging.enable();
+      });
+
       const mapControl = L.DomUtil.get(this.$refs.mapControl.mapObject.element);
+      mapControl.addEventListener("mouseenter", () => {
+        this.$refs.map.mapObject.dragging.disable();
+      });
       mapControl.addEventListener("mouseover", () => {
         this.$refs.map.mapObject.dragging.disable();
       });
       mapControl.addEventListener("mouseout", () => {
         this.$refs.map.mapObject.dragging.enable();
+      });
+      mapControl.addEventListener("mouseleave", () => {
+        this.$refs.map.mapObject.dragging.enable();
+      });
+      mapControl.addEventListener("click", e => {
+        e.stopPropagation();
       });
 
       const mapLayerControl = L.DomUtil.get(
@@ -698,6 +717,9 @@ export default {
       });
       mapLayerControl.addEventListener("mouseout", () => {
         this.$refs.map.mapObject.dragging.enable();
+      });
+      mapLayerControl.addEventListener("click", e => {
+        e.stopPropagation();
       });
     });
   },
@@ -883,6 +905,7 @@ export default {
       setDisplayStatusTrimetRoute: "trimetRoute/setDisplayStatus",
       setDisplayStatusTrimetStop: "trimetStop/setDisplayStatus",
       setCenter: "map/setCenter",
+      setFlyToOptions: "map/setFlyToOptions",
       setGeosearchResult: "map/setGeosearchResult",
       setMapControlMini: "map/setMapControlMini",
       setSelectedTab: "map/setSelectedTab",
@@ -894,6 +917,18 @@ export default {
     loading: Boolean,
     default: function() {
       return false;
+    },
+  },
+  watch: {
+    flyToOptions() {
+      this.setDisplayAllFoodSources(true);
+      const { markerRef } = this.selectedSearchResult;
+      const { latLong, zoom } = this.flyToOptions;
+      this.$refs.map.mapObject.flyTo(latLong, zoom);
+      this.$nextTick(() => {
+        this.$refs[markerRef][0].mapObject.openPopup();
+      });
+      this.setZoom(zoom);
     },
   },
 };
@@ -1036,14 +1071,15 @@ input {
 
 .leaflet-control-geosearch form {
   border: 2px solid var(--v-primary-base) !important;
-  max-width: 390px;
+  margin-left: 10px !important;
+  max-width: 300px;
 }
 
 .leaflet-control-geosearch input {
   max-width: 400px;
 }
 
-@media screen and (min-width: 1400px) {
+@media screen and (min-width: 768px) {
   .leaflet-control-geosearch form {
     min-width: 500px !important;
     max-width: 800px !important;

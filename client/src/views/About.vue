@@ -27,10 +27,10 @@
               <li>
                 <em>Low Access</em> classification is based on distance to a supermarket. There are four measures available in the dataset. The PDX Metro Food Environment Map uses the first set of criteria in the list below.
                 <ol>
-                  <li>1) Low-income AND at least 500 people OR 33% of the population live more than ½ mile from a supermarket (10 miles if in a rural area)</li>
-                  <li>2) Low-income AND at least 500 people OR 33% of the population live more than 1 mile from a supermarket (or 10 miles if in a rural area)</li>
-                  <li>3) Low-income AND at least 500 people or 33% of the population live more than 2 miles from a supermarket (or 20 miles if in a rural area)</li>
-                  <li>4) Low-income and at least 100 households are more than ½ mile from a supermarket and have no vehicle access OR at least 500 people or 33% of the population > 20 miles away from a supermarket, regardless of their vehicle access status.</li>
+                  <li>Low-income AND at least 500 people OR 33% of the population live more than ½ mile from a supermarket (10 miles if in a rural area)</li>
+                  <li>Low-income AND at least 500 people OR 33% of the population live more than 1 mile from a supermarket (or 10 miles if in a rural area)</li>
+                  <li>Low-income AND at least 500 people or 33% of the population live more than 2 miles from a supermarket (or 20 miles if in a rural area)</li>
+                  <li>Low-income and at least 100 households are more than ½ mile from a supermarket and have no vehicle access OR at least 500 people or 33% of the population > 20 miles away from a supermarket, regardless of their vehicle access status.</li>
                 </ol>
               </li>
             </ul>

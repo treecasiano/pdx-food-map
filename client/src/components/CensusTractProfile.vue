@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-if="tract.gid" class="text-center">
-      <div class="title display-3 primary--text">{{tract.county_1}} County, {{tract.state_1}}</div>
-      <div class="subtitle-1 secondary--text">Selected Tract No. {{tract.censustrac}}</div>
+      <div class="title secondary--text">Census Tract No. {{tract.censustrac}}</div>
+      <div class="subtitle-1 display-3 primary--text">{{tract.county_1}} County, {{tract.state_1}}</div>
       <v-divider class="my-2"></v-divider>
       <div class="body-1">
         <div class="my-5">
@@ -17,19 +17,15 @@
         </div>
       </div>
       <div v-if="tract.lilatrac_1">
-        <span class="font-weight-black primary--text">FOOD DESERT</span>
+        <span class="font-weight-black primary--text title">FOOD DESERT</span>
       </div>
       <div v-if="tract.hunvflag">
-        <span class="font-weight-bold primary-text">LOW VEHICLE ACCESS</span>
+        <span class="font-weight-bold primary-text title">LOW VEHICLE ACCESS</span>
       </div>
       <div>
-        <v-btn
-          small
-          text
-          class="my-2"
-          color="secondary"
-          @click="clearSelectedTract"
-        >Clear Tract Selection</v-btn>
+        <v-btn color="secondary" small rounded outlined class="mt-4" @click="clearSelectedTract">
+          <v-icon class="mr-1">close</v-icon>Clear Tract Selection
+        </v-btn>
       </div>
     </div>
     <div v-else>

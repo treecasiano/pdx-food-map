@@ -11,6 +11,9 @@ const mutations = {
   setDisplayStatusTooltip(state, status) {
     state.displayStatusTooltip = status;
   },
+  setFlyToOptions(state, flyToOptions) {
+    state.flyToOptions = flyToOptions;
+  },
   setGeosearchResult(state, result) {
     state.geosearchResult = result;
   },
@@ -23,6 +26,9 @@ const mutations = {
   },
   setSearchRadius(state, radiusInMiles) {
     state.searchRadius = radiusInMiles;
+  },
+  setSelectedSearchResult(state, searchResult) {
+    state.selectedSearchResult = searchResult;
   },
   setSelectedTab(state, tab) {
     state.selectedTab = tab;
@@ -38,10 +44,12 @@ const state = {
   geosearchResult: null,
   userLatitude: null,
   userLongitude: null,
+  flyToOptions: {},
   loading: false,
   mapControlMini: false,
   searchResults: [],
   searchRadius: 0.5,
+  selectedSearchResult: null,
   selectedTab: "map",
   zoom: 11.5,
 };
