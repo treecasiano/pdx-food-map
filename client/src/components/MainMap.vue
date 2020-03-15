@@ -387,7 +387,7 @@ export default {
     csaDropoffSiteMarkers() {
       const geojson = this.$store.state.csaDropoffSite.geoJSON;
       let mapMarkers = [];
-      const icon = this.zoom > 12 ? this.csaIcon : this.csaIconSmall;
+      const icon = this.csaIcon;
       if (geojson.features) {
         mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
@@ -397,8 +397,7 @@ export default {
     groceryStoreMarkers() {
       const geojson = this.$store.state.groceryStore.geoJSON;
       let mapMarkers = [];
-      const icon =
-        this.zoom > 12 ? this.groceryStoreIcon : this.groceryStoreIconSmall;
+      const icon = this.groceryStoreIcon;
       if (geojson.features) {
         mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
@@ -408,7 +407,7 @@ export default {
     foodPantryMarkers() {
       const geojson = this.$store.state.foodPantry.geoJSON;
       let mapMarkers = [];
-      const icon = this.zoom > 12 ? this.pantryIcon : this.pantryIconSmall;
+      const icon = this.pantryIcon;
       if (geojson.features) {
         mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
@@ -418,8 +417,7 @@ export default {
     farmersMarketMarkers() {
       const geojson = this.$store.state.farmersMarket.geoJSON;
       let mapMarkers = [];
-      const icon =
-        this.zoom > 12 ? this.farmersMarketIcon : this.farmersMarketIconSmall;
+      const icon = this.farmersMarketIcon;
       if (geojson.features) {
         mapMarkers = this.createMarkers(geojson, icon);
         return mapMarkers;
@@ -580,23 +578,9 @@ export default {
         popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
-      csaIconSmall: L.icon({
-        iconUrl: "leaflet/map_marker_csa.svg",
-        iconSize: [20, 20],
-        iconAnchor: [20, 20],
-        popupAnchor: [-4, -20],
-      }),
-      // eslint-disable-next-line
       farmersMarketIcon: L.icon({
         iconUrl: "leaflet/map_marker_market.svg",
         iconSize: [30, 30],
-        iconAnchor: [20, 20],
-        popupAnchor: [-4, -20],
-      }),
-      // eslint-disable-next-line
-      farmersMarketIconSmall: L.icon({
-        iconUrl: "leaflet/map_marker_market.svg",
-        iconSize: [20, 20],
         iconAnchor: [20, 20],
         popupAnchor: [-4, -20],
       }),
@@ -608,25 +592,11 @@ export default {
         popupAnchor: [-4, -20],
       }),
       // eslint-disable-next-line
-      groceryStoreIconSmall: L.icon({
-        iconUrl: "leaflet/map_marker_store.svg",
-        iconSize: [20, 20],
-        iconAnchor: [20, 20],
-        popupAnchor: [-4, -20],
-      }),
-      // eslint-disable-next-line
       pantryIcon: L.icon({
         iconUrl: "leaflet/map_marker_pantry.svg",
         iconSize: [30, 30],
         iconAnchor: [25, 50],
         popupAnchor: [-10, -50],
-      }),
-      // eslint-disable-next-line
-      pantryIconSmall: L.icon({
-        iconUrl: "leaflet/map_marker_pantry.svg",
-        iconSize: [20, 20],
-        iconAnchor: [20, 20],
-        popupAnchor: [0, -24],
       }),
       // eslint-disable-next-line
       geosearchIcon: L.icon({
