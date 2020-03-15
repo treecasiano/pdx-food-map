@@ -733,10 +733,6 @@ export default {
     createTractLayer(feature, layer, tooltipDisplay, selectedTract) {
       return (feature, layer) => {
         layer.on("click", e => {
-          const southWest = e.target._bounds._southWest;
-          const northEast = e.target._bounds._northEast;
-          // eslint-disable-next-line
-          const tractBounds = L.latLngBounds(southWest, northEast);
           const {
             target: {
               feature: { properties },
@@ -744,10 +740,6 @@ export default {
           } = e;
           this.setTract(properties);
           this.setSelectedTab("map");
-          const polygonCenter = layer.getBounds().getCenter();
-          // eslint-disable-next-line
-          console.info("polygonCenter", polygonCenter);
-          this.$refs.map.fitBounds(tractBounds);
         });
 
         if (tooltipDisplay) {
