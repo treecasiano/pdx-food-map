@@ -35,36 +35,32 @@
       </div>
     </div>
     <div v-else>
-      <h1 class="text-center">Portland-Vancouver-Hillsboro Metropolitan Statistical Area</h1>
+      <h1 class="text-center secondary--text">
+        Portland-Vancouver-Hillsboro
+        <br />Metropolitan Statistical Area
+      </h1>
       <v-divider class="my-2"></v-divider>
 
-      <div>
-        Zoom to any track by clicking on it and discover more about the tract's food environment.
-        <v-flex>
+      <div class="body-2 primary--text">
+        Click on a census tract to learn more about food access indicators in the Portland Metro area.
+        <v-flex class="ma-5">
           <v-layout align-center>
             <div class="pdx-legendSymbol--foodDesert"></div>
-            <div>Food Desert</div>
+            <div class="font-weight-bold">Food Desert</div>
           </v-layout>
+          <div class="my-2">
+            More than 20%
+            of households are low-income AND at least 33% live more than 1/2
+            mile from the nearest supermarket.
+          </div>
           <v-layout align-center>
             <div class="pdx-legendSymbol--lowVehicle"></div>
-            <div>Low Vehicle Access</div>
+            <div class="font-weight-bold">Low Vehicle Access</div>
           </v-layout>
-        </v-flex>
-        <v-flex mt-2 class="text-xs-left">
-          <div>
-            <Strong>Food Desert</Strong>: a census tract where more than 20%
-            of households are low-income AND at least 33% live more than 1/2
-            mile (urban areas) or more than 10 miles (rural areas) from the
-            nearest supermarket.
-          </div>
           <div class="mt-2">
-            <strong>Low Vehicle Access</strong>: a census tract where at
-            least 100 households are more than ½ mile from the nearest
-            supermarket and have no access to a vehicle;
-            <em>or</em>, at
-            least 500 people or 33 percent of the population live more than
-            20 miles from the nearest supermarket, regardless of vehicle
-            access.
+            At least 100 households
+            are more than ½ mile from the nearest
+            supermarket and have no access to a vehicle.
           </div>
         </v-flex>
       </div>
