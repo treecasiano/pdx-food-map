@@ -874,7 +874,6 @@ export default {
       setDisplayStatusTrimetRoute: "trimetRoute/setDisplayStatus",
       setDisplayStatusTrimetStop: "trimetStop/setDisplayStatus",
       setCenter: "map/setCenter",
-      setFlyToOptions: "map/setFlyToOptions",
       setGeosearchResult: "map/setGeosearchResult",
       setMapControlMini: "map/setMapControlMini",
       setSelectedTab: "map/setSelectedTab",
