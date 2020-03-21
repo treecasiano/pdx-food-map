@@ -12,34 +12,42 @@
             <v-icon color="primary">mdi-chevron-right</v-icon>
           </v-btn>
         </v-list-item>
-        <v-container v-if="!mini" class="text-left">
+        <v-list-item v-if="!mini" dense>
           <v-btn small icon @click.stop="mini = true">
             <v-icon color="primary">mdi-chevron-left</v-icon>
           </v-btn>
-          <v-tabs
-            v-model="selectedTab"
-            centered
-            active-class="mapControls__tabs--active"
-            height="30"
-          >
-            <v-tab href="#map" ripple>
-              <v-icon>map</v-icon>
-            </v-tab>
-            <v-tab href="#search" ripple>
-              <v-icon>search</v-icon>
-            </v-tab>
-            <v-tab-item key="1" value="map">
-              <v-layout column mt-2>
-                <CensusTractProfile />
-              </v-layout>
-            </v-tab-item>
-            <v-tab-item key="2" value="search">
-              <v-layout column mt-2>
-                <SearchResults />
-              </v-layout>
-            </v-tab-item>
-          </v-tabs>
-        </v-container>
+        </v-list-item>
+        <v-list v-if="!mini">
+          <v-list-item>
+            <v-list-item-content>
+              <div class="text-left">
+                <v-tabs
+                  v-model="selectedTab"
+                  centered
+                  active-class="mapControls__tabs--active"
+                  height="30"
+                >
+                  <v-tab href="#map" ripple>
+                    <v-icon>map</v-icon>
+                  </v-tab>
+                  <v-tab href="#search" ripple>
+                    <v-icon>search</v-icon>
+                  </v-tab>
+                  <v-tab-item key="1" value="map">
+                    <v-layout column mt-2>
+                      <CensusTractProfile />
+                    </v-layout>
+                  </v-tab-item>
+                  <v-tab-item key="2" value="search">
+                    <v-layout column mt-2>
+                      <SearchResults />
+                    </v-layout>
+                  </v-tab-item>
+                </v-tabs>
+              </div>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
       </template>
     </v-navigation-drawer>
   </v-card>

@@ -388,7 +388,7 @@
         <l-control-zoom position="bottomright"></l-control-zoom>
         <l-control position="topright" class="pdx-spinner">
           <div v-if="loading">
-            <v-card class="pdx-leafletControl__card">
+            <v-card class="pdx-leafletControl__mapLoading">
               <v-progress-circular indeterminate rotate class="ma-2" color="accent darken-1"></v-progress-circular>Loading Map Layers...
             </v-card>
           </div>
@@ -677,6 +677,7 @@ export default {
           this.searchForPoints(geosearchResult);
           this.setDisplayAllFoodSources(true);
           this.setSelectedTab("search");
+          this.setMapControlMini(false);
         }
       );
 
@@ -954,7 +955,7 @@ export default {
   height: 30px !important;
 }
 
-.pdx-leafletControl__card {
+.pdx-leafletControl__mapLoading {
   padding: 15px;
   max-height: 600px;
   opacity: 0.95;
@@ -962,7 +963,7 @@ export default {
   font-size: small;
 }
 
-.pdx-leafletControl__card img {
+.pdx-leafletControl__mapLoading img {
   height: 50px;
   width: 50px;
 }
