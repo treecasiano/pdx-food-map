@@ -1,7 +1,7 @@
 <template>
   <div class="searchResultsContainer">
     <div v-if="geosearchResult">
-      <div class="d-flex align-center">
+      <div class="d-flex align-center mx-3">
         <v-slider
           :max="10"
           :min=".25"
