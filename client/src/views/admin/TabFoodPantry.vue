@@ -25,41 +25,31 @@
                   class="mx-3"
                   :rules="nameRules"
                   clearable
-                  dense
                 ></v-text-field>
                 <v-text-field
                   v-model="record.street_address_1"
                   class="mx-3"
                   label="Street Address 1"
                   clearable
-                  dense
                 ></v-text-field>
                 <v-text-field
                   v-model="record.street_address_2"
                   class="mx-3"
                   label="Street Address 2"
                   clearable
-                  dense
                 ></v-text-field>
                 <div class="d-flex flex-wrap">
-                  <v-text-field v-model="record.city" class="mx-3" label="City" clearable dense></v-text-field>
-                  <v-select
-                    v-model="record.state"
-                    class="mx-3"
-                    :items="['OR', 'WA']"
-                    label="State"
-                    dense
-                  ></v-select>
-                  <v-text-field v-model="record.zip" class="mx-3" label="ZIP Code" clearable dense></v-text-field>
+                  <v-text-field v-model="record.city" class="mx-3" label="City" clearable></v-text-field>
+                  <v-select v-model="record.state" class="mx-3" :items="['OR', 'WA']" label="State"></v-select>
+                  <v-text-field v-model="record.zip" class="mx-3" label="ZIP Code" clearable></v-text-field>
                 </div>
-                <v-text-field v-model="record.website" class="mx-3" label="Website" clearable dense></v-text-field>
-                <v-text-field v-model="record.phone" class="mx-3" label="Phone" clearable dense></v-text-field>
+                <v-text-field v-model="record.website" class="mx-3" label="Website" clearable></v-text-field>
+                <v-text-field v-model="record.phone" class="mx-3" label="Phone" clearable></v-text-field>
                 <v-textarea
                   v-model="record.hours_of_operation"
                   auto-grow
                   clearable
                   counter="250"
-                  dense
                   label="Hours of Operation"
                   class="mx-3"
                   rows="2"
@@ -69,7 +59,6 @@
                   auto-grow
                   clearable
                   counter="250"
-                  dense
                   label="Areas Served"
                   class="mx-3"
                   rows="2"
@@ -83,7 +72,6 @@
                     :rules="latitudeRules"
                     clearable
                     class="mx-3"
-                    dense
                   ></v-text-field>
                   <v-text-field
                     v-model="record.longitude"
@@ -93,7 +81,6 @@
                     :rules="longitudeRules"
                     clearable
                     class="mx-3"
-                    dense
                   ></v-text-field>
                 </div>
 

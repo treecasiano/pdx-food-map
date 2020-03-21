@@ -25,7 +25,6 @@
                   class="mx-3"
                   :rules="nameRules"
                   clearable
-                  dense
                 ></v-text-field>
 
                 <v-text-field
@@ -33,31 +32,27 @@
                   class="mx-3"
                   label="Location (address)"
                   clearable
-                  dense
                 ></v-text-field>
 
                 <div class="d-flex flex-wrap">
-                  <v-text-field v-model="record.day" class="mx-3" label="Day" clearable dense></v-text-field>
+                  <v-text-field v-model="record.day" class="mx-3" label="Day" clearable></v-text-field>
                   <v-text-field
                     v-model="record.open_dates"
                     class="mx-3"
                     label="Open Dates"
                     clearable
-                    dense
                   ></v-text-field>
                   <v-text-field
                     v-model="record.open_times"
                     class="mx-3"
                     label="Open Times"
                     clearable
-                    dense
                   ></v-text-field>
                 </div>
                 <v-textarea
                   v-model="record.website"
                   auto-grow
                   clearable
-                  dense
                   rows="2"
                   label="Website"
                   class="mx-3"
@@ -67,7 +62,6 @@
                   auto-grow
                   clearable
                   counter="250"
-                  dense
                   rows="2"
                   label="Forms of Payment Accepted"
                   class="mx-3"
@@ -78,7 +72,6 @@
                   :items="statusOptions"
                   class="mx-3"
                   label="Status"
-                  dense
                 ></v-select>
                 <div class="d-flex flex-wrap">
                   <v-text-field
@@ -89,7 +82,6 @@
                     :rules="latitudeRules"
                     clearable
                     class="mx-3"
-                    dense
                   ></v-text-field>
                   <v-text-field
                     v-model="record.longitude"
@@ -99,7 +91,6 @@
                     :rules="longitudeRules"
                     clearable
                     class="mx-3"
-                    dense
                   ></v-text-field>
                 </div>
 

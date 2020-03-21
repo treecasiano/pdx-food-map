@@ -25,14 +25,12 @@
                   class="mx-3"
                   :rules="nameRules"
                   clearable
-                  dense
                 ></v-text-field>
                 <v-text-field
                   v-model="record.address"
                   class="mx-3"
                   label="Location (address)"
                   clearable
-                  dense
                 ></v-text-field>
                 <div class="d-flex flex-row">
                   <v-select
@@ -40,14 +38,12 @@
                     class="mx-3"
                     :items="['Large Chain Grocery', 'Independent or Ethnic Grocery']"
                     label="Store Type"
-                    dense
                   ></v-select>
                   <v-select
                     v-model="record.status"
                     :items="statusOptions"
                     class="mx-3"
                     label="Status"
-                    dense
                   ></v-select>
                 </div>
                 <div class="d-flex flex-wrap">
@@ -59,7 +55,6 @@
                     :rules="latitudeRules"
                     clearable
                     class="mx-3"
-                    dense
                   ></v-text-field>
                   <v-text-field
                     v-model="record.longitude"
@@ -69,7 +64,6 @@
                     :rules="longitudeRules"
                     clearable
                     class="mx-3"
-                    dense
                   ></v-text-field>
                 </div>
 
