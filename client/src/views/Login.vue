@@ -103,6 +103,7 @@ export default {
 <style>
 .pdx-loginCard {
   margin: 0 auto;
+  margin-top: 5rem;
   max-width: 500px;
   width: 75%;
 }

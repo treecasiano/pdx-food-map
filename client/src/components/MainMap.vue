@@ -3,7 +3,7 @@
     <v-layout>
       <l-map
         ref="map"
-        style="height: calc(100vh - 108px); width: 100%"
+        style="height: calc(100vh - 50px); width: 100%"
         :zoom="zoom"
         :center="center"
         :maxZoom="maxZoom"
