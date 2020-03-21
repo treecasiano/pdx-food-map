@@ -38,7 +38,13 @@
                 tabindex="0"
               >
                 <td>
-                  <v-btn icon small color="secondary" @click.stop="centerOnPoint(item)">
+                  <v-btn
+                    icon
+                    small
+                    color="secondary"
+                    @click.stop="centerOnPoint(item)"
+                    title="View on Map"
+                  >
                     <v-icon>map</v-icon>
                   </v-btn>
                 </td>
