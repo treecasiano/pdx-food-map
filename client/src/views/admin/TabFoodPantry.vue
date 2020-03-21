@@ -161,8 +161,16 @@ export default {
   },
   data: () => ({
     valid: false,
-    latitudeRules: [v => !!v || "Latitude is required"],
-    longitudeRules: [v => !!v || "Longitude is required"],
+    latitudeRules: [
+      v => !!v || "Latitude is required",
+      v => v >= 44.6 || "Latitude is outside the Metro area",
+      v => v <= 46.75 || "Latitude is outside the Metro area",
+    ],
+    longitudeRules: [
+      v => !!v || "Longitude is required",
+      v => v >= -124.0 || "Longitude is outside the Metro area",
+      v => v <= -122.0 || "Longitude is outside the Metro area",
+    ],
     nameRules: [v => !!v || "Name is required"],
   }),
   methods: {
