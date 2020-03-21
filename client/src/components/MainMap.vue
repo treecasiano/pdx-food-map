@@ -686,12 +686,6 @@ export default {
         this.setGeosearchResult(null);
       });
 
-      this.$refs.map.mapObject.setMaxBounds(bounds);
-
-      this.$refs.map.mapObject.on("drag", () => {
-        this.$refs.map.mapObject.panInsideBounds(bounds, { animate: true });
-      });
-
       this.$refs.map.mapObject.on("click", () => {
         this.$refs.map.mapObject.dragging.enable();
       });
