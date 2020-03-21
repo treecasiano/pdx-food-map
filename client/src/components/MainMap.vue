@@ -3,7 +3,7 @@
     <v-layout>
       <l-map
         ref="map"
-        style="height: calc(100vh - 108px); width: 100%"
+        style="height: calc(100vh - 50px); width: 100%"
         :zoom="zoom"
         :center="center"
         :maxZoom="maxZoom"
@@ -50,6 +50,15 @@
                 <v-divider class="my-1" color="accent"></v-divider>
                 <div>{{ item.props.type }}</div>
               </div>
+              <v-btn
+                class="font-weight-bold mt-3"
+                @click="goToAdminEdit('groceryStore', item.markerId)"
+                color="tertiary"
+                outlined
+                rounded
+                small
+                v-if="session.isAdmin"
+              >Edit Details</v-btn>
             </l-popup>
           </l-marker>
         </div>
@@ -92,9 +101,18 @@
                 <div v-if="item.props.website" class="my-1">
                   <a :href="item.props.website" class="secondary--text font-weight-bold">
                     >>> Visit Website
-                    <v-icon small color="secondary">launch</v-icon>
+                    <v-icon small class="mb-1" color="secondary">launch</v-icon>
                   </a>
                 </div>
+                <v-btn
+                  class="font-weight-bold mt-3"
+                  @click="goToAdminEdit('farmersMarket', item.markerId)"
+                  color="tertiary"
+                  outlined
+                  rounded
+                  small
+                  v-if="session.isAdmin"
+                >Edit Details</v-btn>
               </div>
             </l-popup>
           </l-marker>
@@ -145,7 +163,7 @@
                 <div v-if="item.props.website" class="mt-1">
                   <a :href="item.props.website" class="secondary--text font-weight-bold">
                     >>> Visit Website
-                    <v-icon small color="secondary">launch</v-icon>
+                    <v-icon small class="mb-1" color="secondary">launch</v-icon>
                   </a>
                 </div>
               </div>
@@ -191,12 +209,21 @@
                   {{ item.props.phone }}
                 </div>
                 <div v-if="item.props.website" class="my-1">
-                  <a
-                    :href="item.props.website"
-                    class="secondary--text font-weight-bold"
-                  >>>> Visit Website</a>
+                  <a :href="item.props.website" class="secondary--text font-weight-bold">
+                    >>> Visit Website
+                    <v-icon small class="mb-1" color="secondary">launch</v-icon>
+                  </a>
                 </div>
               </div>
+              <v-btn
+                class="font-weight-bold mt-3"
+                @click="goToAdminEdit('foodPantry', item.markerId)"
+                color="tertiary"
+                outlined
+                rounded
+                small
+                v-if="session.isAdmin"
+              >Edit Details</v-btn>
             </l-popup>
           </l-marker>
         </div>
@@ -306,7 +333,7 @@
                   class="font-weight-bold secondary--text"
                 >
                   {{item.props.stop_id}}
-                  <v-icon small color="secondary">launch</v-icon>
+                  <v-icon small class="mb-1" color="secondary">launch</v-icon>
                 </a>
               </div>
               <div>
@@ -361,7 +388,7 @@
         <l-control-zoom position="bottomright"></l-control-zoom>
         <l-control position="topright" class="pdx-spinner">
           <div v-if="loading">
-            <v-card class="pdx-leafletControl__card">
+            <v-card class="pdx-leafletControl__mapLoading">
               <v-progress-circular indeterminate rotate class="ma-2" color="accent darken-1"></v-progress-circular>Loading Map Layers...
             </v-card>
           </div>
@@ -557,7 +584,9 @@ export default {
       searchResultFoodPantry: state => state.foodPantry.searchResult,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
       selectedSearchResult: state => state.map.selectedSearchResult,
+      selectedTabAdmin: state => state.admin.selectedTab,
       selectedTract: state => state.pdxTract.tract,
+      session: state => state.session,
       zoom: state => state.map.zoom,
     }),
   },
@@ -648,18 +677,13 @@ export default {
           this.searchForPoints(geosearchResult);
           this.setDisplayAllFoodSources(true);
           this.setSelectedTab("search");
+          this.setMapControlMini(false);
         }
       );
 
       const geosearchResetButton = document.querySelector(".reset");
       geosearchResetButton.addEventListener("click", () => {
         this.setGeosearchResult(null);
-      });
-
-      this.$refs.map.mapObject.setMaxBounds(bounds);
-
-      this.$refs.map.mapObject.on("drag", () => {
-        this.$refs.map.mapObject.panInsideBounds(bounds, { animate: true });
       });
 
       this.$refs.map.mapObject.on("click", () => {
@@ -805,6 +829,13 @@ export default {
       });
       return polyLineArray;
     },
+    goToAdminEdit(pointFeatureType, pointFeatureId) {
+      this.setSelectedTabAdmin(pointFeatureType);
+      this.$router.push({
+        name: "adminObjectEdit",
+        params: { mode: "edit", object: pointFeatureType, id: pointFeatureId },
+      });
+    },
     formatCurrency(dollarValue) {
       // syntax numObj.toLocaleString([locales [, options]])
       return dollarValue.toLocaleString("en-US", {
@@ -874,10 +905,10 @@ export default {
       setDisplayStatusTrimetRoute: "trimetRoute/setDisplayStatus",
       setDisplayStatusTrimetStop: "trimetStop/setDisplayStatus",
       setCenter: "map/setCenter",
-      setFlyToOptions: "map/setFlyToOptions",
       setGeosearchResult: "map/setGeosearchResult",
       setMapControlMini: "map/setMapControlMini",
-      setSelectedTab: "map/setSelectedTab",
+      setSelectedTab: "map/setTab",
+      setSelectedTabAdmin: "admin/setTab",
       setTract: "pdxTract/setTract",
       setZoom: "map/setZoom",
     }),
@@ -918,7 +949,7 @@ export default {
   height: 30px !important;
 }
 
-.pdx-leafletControl__card {
+.pdx-leafletControl__mapLoading {
   padding: 15px;
   max-height: 600px;
   opacity: 0.95;
@@ -926,7 +957,7 @@ export default {
   font-size: small;
 }
 
-.pdx-leafletControl__card img {
+.pdx-leafletControl__mapLoading img {
   height: 50px;
   width: 50px;
 }
@@ -948,16 +979,14 @@ export default {
   width: 30px;
 }
 
-.pdx-tooltip,
-.pdx-popup--census {
+.pdx-tooltip {
   border-radius: 0 !important;
   text-align: left;
   color: var(--v-primary-darken2) !important;
   font-family: "Muli" !important;
 }
 
-.pdx-tooltip__title,
-.pdx-popup__title--census {
+.pdx-tooltip__title {
   font-weight: bold;
 }
 
@@ -1075,5 +1104,8 @@ input {
   font-family: "Muli" !important;
   opacity: 0.95 !important;
   color: var(--v-primary-base) !important;
+}
+.leaflet-popup-content-wrapper a {
+  text-decoration: none;
 }
 </style>

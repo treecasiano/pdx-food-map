@@ -38,7 +38,13 @@
                 tabindex="0"
               >
                 <td>
-                  <v-btn icon small color="secondary" @click.stop="centerOnPoint(item)">
+                  <v-btn
+                    icon
+                    small
+                    color="secondary"
+                    @click.stop="centerOnPoint(item)"
+                    title="View on Map"
+                  >
                     <v-icon>map</v-icon>
                   </v-btn>
                 </td>
@@ -65,7 +71,6 @@
           </template>
         </v-data-table>
       </template>
-      <div ref="bottomOfTable"></div>
     </v-card>
   </div>
 </template>
@@ -106,15 +111,14 @@ export default {
   }),
   methods: {
     centerOnPoint(item) {
+      this.setDisplayStatusFoodPantry(true);
       this.$router.push({
         name: "home",
       });
       this.setCenter([item.latitude, item.longitude]);
       this.setZoom(18);
-      this.setDisplayStatusFoodPantry(true);
     },
     goToCreateForm() {
-      this.$refs.bottomOfTable.scrollIntoView();
       if (this.$router.currentRoute.path === `/admin/${this.name}/create`) {
         return;
       }
@@ -124,7 +128,6 @@ export default {
       });
     },
     goToEditForm(item) {
-      this.$refs.bottomOfTable.scrollIntoView();
       if (
         this.$router.currentRoute.path ===
         `/admin/${this.name}/${item[this.id]}/edit`

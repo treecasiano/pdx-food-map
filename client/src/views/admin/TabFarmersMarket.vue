@@ -17,6 +17,7 @@
                 class="accent--text text--darken-2 font-weight-bold"
               >Create Farmers Market</v-card-title>
               <v-container>
+                <div ref="topOfForm"></div>
                 <v-text-field
                   v-model="record.market"
                   label="Farmers Market Name (REQUIRED)"
@@ -24,7 +25,6 @@
                   class="mx-3"
                   :rules="nameRules"
                   clearable
-                  dense
                 ></v-text-field>
 
                 <v-text-field
@@ -32,31 +32,27 @@
                   class="mx-3"
                   label="Location (address)"
                   clearable
-                  dense
                 ></v-text-field>
 
                 <div class="d-flex flex-wrap">
-                  <v-text-field v-model="record.day" class="mx-3" label="Day" clearable dense></v-text-field>
+                  <v-text-field v-model="record.day" class="mx-3" label="Day" clearable></v-text-field>
                   <v-text-field
                     v-model="record.open_dates"
                     class="mx-3"
                     label="Open Dates"
                     clearable
-                    dense
                   ></v-text-field>
                   <v-text-field
                     v-model="record.open_times"
                     class="mx-3"
                     label="Open Times"
                     clearable
-                    dense
                   ></v-text-field>
                 </div>
                 <v-textarea
                   v-model="record.website"
                   auto-grow
                   clearable
-                  dense
                   rows="2"
                   label="Website"
                   class="mx-3"
@@ -66,7 +62,6 @@
                   auto-grow
                   clearable
                   counter="250"
-                  dense
                   rows="2"
                   label="Forms of Payment Accepted"
                   class="mx-3"
@@ -77,7 +72,6 @@
                   :items="statusOptions"
                   class="mx-3"
                   label="Status"
-                  dense
                 ></v-select>
                 <div class="d-flex flex-wrap">
                   <v-text-field
@@ -88,7 +82,6 @@
                     :rules="latitudeRules"
                     clearable
                     class="mx-3"
-                    dense
                   ></v-text-field>
                   <v-text-field
                     v-model="record.longitude"
@@ -98,7 +91,6 @@
                     :rules="longitudeRules"
                     clearable
                     class="mx-3"
-                    dense
                   ></v-text-field>
                 </div>
 
@@ -135,6 +127,17 @@
                     :disabled="!valid"
                     class="accent darken-2"
                   >Submit</v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    rounded
+                    outlined
+                    color="secondary"
+                    v-if="mode === 'edit'"
+                    data-cy="farmersMarketForm__button--centerOnPoint"
+                    @click="centerOnPoint(record)"
+                  >
+                    <v-icon class="mr-1">map</v-icon>View on Map
+                  </v-btn>
                 </div>
               </v-container>
             </v-card>
@@ -169,12 +172,28 @@ export default {
   },
   data: () => ({
     valid: false,
-    latitudeRules: [v => !!v || "Latitude is required"],
-    longitudeRules: [v => !!v || "Longitude is required"],
+    latitudeRules: [
+      v => !!v || "Latitude is required",
+      v => v >= 44.6 || "Latitude is outside the Metro area",
+      v => v <= 46.75 || "Latitude is outside the Metro area",
+    ],
+    longitudeRules: [
+      v => !!v || "Longitude is required",
+      v => v >= -124.0 || "Longitude is outside the Metro area",
+      v => v <= -122.0 || "Longitude is outside the Metro area",
+    ],
     nameRules: [v => !!v || "Name is required"],
     statusOptions: ["Active", "Closed"],
   }),
   methods: {
+    centerOnPoint(item) {
+      this.setDisplayStatusFarmersMarket(true);
+      this.$router.push({
+        name: "home",
+      });
+      this.setCenter([item.latitude, item.longitude]);
+      this.setZoom(18);
+    },
     changeRecord() {
       const id = this.$route.params.id;
       let record = {};
@@ -185,6 +204,11 @@ export default {
         record = Object.assign({}, record);
       }
       this.setRecord(record);
+      this.$nextTick(() => {
+        if (this.$refs.topOfForm) {
+          this.$refs.topOfForm.scrollIntoView();
+        }
+      });
     },
     async create() {
       this.record.latitude = Number(this.record.latitude);
@@ -225,7 +249,10 @@ export default {
       updateRecord: "farmersMarket/update",
     }),
     ...mapMutations({
+      setCenter: "map/setCenter",
+      setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",
       setRecord: "farmersMarket/setRecord",
+      setZoom: "map/setZoom",
     }),
   },
   props: {

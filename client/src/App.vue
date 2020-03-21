@@ -1,6 +1,6 @@
 <template>
-  <v-app id="app" style="overflow: hidden;">
-    <v-toolbar dense flat color="primary darken-3" class="accent--text pdx-toolbar--main">
+  <v-app id="app">
+    <v-app-bar app dense flat color="primary darken-3" class="accent--text pdx-toolbar--main">
       <v-toolbar-title>PDX Metro Food Map</v-toolbar-title>
       <v-spacer></v-spacer>
       <div id="nav">
@@ -12,20 +12,10 @@
           <router-link :to="`/admin/${selectedAdminTab}`">Admin</router-link>
         </span>
       </div>
-    </v-toolbar>
-    <router-view :loading="loading" />
-    <v-footer color="primary darken-3" class="pa-3 accent--text pdx-footer">
-      <v-layout column class="text-center">
-        <v-flex>
-          View this project on
-          <a href="https://github.com/treecasiano/pdx-food-map">GitHub</a>.
-        </v-flex>
-        <v-flex>
-          &copy; {{ new Date().getFullYear() }}
-          <a href="http://treecasiano.com">Tree Casiano</a>
-        </v-flex>
-      </v-layout>
-    </v-footer>
+    </v-app-bar>
+    <v-content>
+      <router-view :loading="loading" />
+    </v-content>
   </v-app>
 </template>
 
@@ -87,6 +77,10 @@ export default {
 <style>
 /* GLOBAL STYLES  */
 @import url("https://fonts.googleapis.com/css?family=Muli");
+
+html {
+  overflow-y: auto !important;
+}
 
 #app {
   font-family: "Muli", sans-serif !important;

@@ -60,6 +60,8 @@ export default {
   },
   created() {
     this.tab = this.$route.params.object;
+    // Set tab on created so that routing is correct on reload.
+    this.setTab(this.tab);
   },
   data() {
     return {

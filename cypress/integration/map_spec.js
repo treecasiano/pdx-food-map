@@ -16,8 +16,6 @@ describe("Map Controls", () => {
     "div[data-cy=checkbox--tooltips] > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple";
   const searchButton = ".leaflet-bar-part";
   const mapControlButton = ".row > .v-btn > .v-btn__content > .v-icon";
-  const clearResultsButton =
-    ".pdx-leafletControl__card > .v-btn > .v-btn__content";
   const welcomeWindowCloseButton = "[data-cy=welcomeWindow__button--close]";
   const zoomInButton = ".leaflet-control-zoom-in";
 

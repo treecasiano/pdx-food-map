@@ -1,10 +1,10 @@
 <template>
-  <v-container fill-height>
+  <v-container>
+    <div class="primary--text">
+      <h1>About the PDX Food Map Project</h1>
+    </div>
     <v-layout>
       <v-flex>
-        <div class="primary--text">
-          <h1>About the Portland Metro Food Environment Map</h1>
-        </div>
         <v-card class="ma-3 pa-3 primary--text">
           <v-card-title class="secondary--text">
             <h2>The Map</h2>
@@ -147,5 +147,17 @@
         </v-flex>
       </v-flex>
     </v-layout>
+    <v-footer app color="primary darken-3" class="pb-2 accent--text pdx-footer">
+      <v-layout column class="text-center">
+        <v-flex>
+          View this project on
+          <a href="https://github.com/treecasiano/pdx-food-map">GitHub</a>.
+        </v-flex>
+        <v-flex>
+          &copy; {{ new Date().getFullYear() }}
+          <a href="http://treecasiano.com">Tree Casiano</a>
+        </v-flex>
+      </v-layout>
+    </v-footer>
   </v-container>
 </template>

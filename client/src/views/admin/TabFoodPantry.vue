@@ -8,6 +8,7 @@
         <v-container>
           <v-form v-if="(mode === 'edit' || mode === 'create') && record" v-model="valid">
             <v-card>
+              <div ref="topOfForm"></div>
               <v-card-title
                 v-if="mode === 'edit'"
                 class="secondary--text font-weight-bold"
@@ -24,41 +25,31 @@
                   class="mx-3"
                   :rules="nameRules"
                   clearable
-                  dense
                 ></v-text-field>
                 <v-text-field
                   v-model="record.street_address_1"
                   class="mx-3"
                   label="Street Address 1"
                   clearable
-                  dense
                 ></v-text-field>
                 <v-text-field
                   v-model="record.street_address_2"
                   class="mx-3"
                   label="Street Address 2"
                   clearable
-                  dense
                 ></v-text-field>
                 <div class="d-flex flex-wrap">
-                  <v-text-field v-model="record.city" class="mx-3" label="City" clearable dense></v-text-field>
-                  <v-select
-                    v-model="record.state"
-                    class="mx-3"
-                    :items="['OR', 'WA']"
-                    label="State"
-                    dense
-                  ></v-select>
-                  <v-text-field v-model="record.zip" class="mx-3" label="ZIP Code" clearable dense></v-text-field>
+                  <v-text-field v-model="record.city" class="mx-3" label="City" clearable></v-text-field>
+                  <v-select v-model="record.state" class="mx-3" :items="['OR', 'WA']" label="State"></v-select>
+                  <v-text-field v-model="record.zip" class="mx-3" label="ZIP Code" clearable></v-text-field>
                 </div>
-                <v-text-field v-model="record.website" class="mx-3" label="Website" clearable dense></v-text-field>
-                <v-text-field v-model="record.phone" class="mx-3" label="Phone" clearable dense></v-text-field>
+                <v-text-field v-model="record.website" class="mx-3" label="Website" clearable></v-text-field>
+                <v-text-field v-model="record.phone" class="mx-3" label="Phone" clearable></v-text-field>
                 <v-textarea
                   v-model="record.hours_of_operation"
                   auto-grow
                   clearable
                   counter="250"
-                  dense
                   label="Hours of Operation"
                   class="mx-3"
                   rows="2"
@@ -68,7 +59,6 @@
                   auto-grow
                   clearable
                   counter="250"
-                  dense
                   label="Areas Served"
                   class="mx-3"
                   rows="2"
@@ -82,7 +72,6 @@
                     :rules="latitudeRules"
                     clearable
                     class="mx-3"
-                    dense
                   ></v-text-field>
                   <v-text-field
                     v-model="record.longitude"
@@ -92,7 +81,6 @@
                     :rules="longitudeRules"
                     clearable
                     class="mx-3"
-                    dense
                   ></v-text-field>
                 </div>
 
@@ -173,18 +161,26 @@ export default {
   },
   data: () => ({
     valid: false,
-    latitudeRules: [v => !!v || "Latitude is required"],
-    longitudeRules: [v => !!v || "Longitude is required"],
+    latitudeRules: [
+      v => !!v || "Latitude is required",
+      v => v >= 44.6 || "Latitude is outside the Metro area",
+      v => v <= 46.75 || "Latitude is outside the Metro area",
+    ],
+    longitudeRules: [
+      v => !!v || "Longitude is required",
+      v => v >= -124.0 || "Longitude is outside the Metro area",
+      v => v <= -122.0 || "Longitude is outside the Metro area",
+    ],
     nameRules: [v => !!v || "Name is required"],
   }),
   methods: {
     centerOnPoint(item) {
+      this.setDisplayStatusFoodPantry(true);
       this.$router.push({
         name: "home",
       });
       this.setCenter([item.latitude, item.longitude]);
       this.setZoom(18);
-      this.setDisplayStatusFoodPantry(true);
     },
     changeRecord() {
       const id = this.$route.params.id;
@@ -196,6 +192,11 @@ export default {
         record = Object.assign({}, record);
       }
       this.setRecord(record);
+      this.$nextTick(() => {
+        if (this.$refs.topOfForm) {
+          this.$refs.topOfForm.scrollIntoView();
+        }
+      });
     },
     async create() {
       this.record.latitude = Number(this.record.latitude);
