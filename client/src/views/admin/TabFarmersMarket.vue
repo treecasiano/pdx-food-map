@@ -136,6 +136,17 @@
                     :disabled="!valid"
                     class="accent darken-2"
                   >Submit</v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    rounded
+                    outlined
+                    color="secondary"
+                    v-if="mode === 'edit'"
+                    data-cy="farmersMarketForm__button--centerOnPoint"
+                    @click="centerOnPoint(record)"
+                  >
+                    <v-icon class="mr-1">map</v-icon>View on Map
+                  </v-btn>
                 </div>
               </v-container>
             </v-card>
@@ -176,6 +187,14 @@ export default {
     statusOptions: ["Active", "Closed"],
   }),
   methods: {
+    centerOnPoint(item) {
+      this.setDisplayStatusFarmersMarket(true);
+      this.$router.push({
+        name: "home",
+      });
+      this.setCenter([item.latitude, item.longitude]);
+      this.setZoom(18);
+    },
     changeRecord() {
       const id = this.$route.params.id;
       let record = {};
@@ -231,7 +250,10 @@ export default {
       updateRecord: "farmersMarket/update",
     }),
     ...mapMutations({
+      setCenter: "map/setCenter",
+      setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",
       setRecord: "farmersMarket/setRecord",
+      setZoom: "map/setZoom",
     }),
   },
   props: {

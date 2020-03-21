@@ -37,6 +37,17 @@
                 class="farmersMarketTableRow text-left"
                 tabindex="0"
               >
+                <td>
+                  <v-btn
+                    icon
+                    small
+                    color="secondary"
+                    @click.stop="centerOnPoint(item)"
+                    title="View on Map"
+                  >
+                    <v-icon>map</v-icon>
+                  </v-btn>
+                </td>
                 <td>{{ item.market }}</td>
                 <td>{{ item.location }}</td>
                 <td>{{ item.day }}</td>
@@ -59,10 +70,13 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   data: () => ({
     search: "",
     headers: [
+      { text: "" },
       {
         text: "Market Name",
         value: "market",
@@ -98,6 +112,14 @@ export default {
     ],
   }),
   methods: {
+    centerOnPoint(item) {
+      this.setDisplayStatusFarmersMarket(true);
+      this.$router.push({
+        name: "home",
+      });
+      this.setCenter([item.latitude, item.longitude]);
+      this.setZoom(18);
+    },
     goToCreateForm() {
       if (this.$router.currentRoute.path === `/admin/${this.name}/create`) {
         return;
@@ -119,6 +141,11 @@ export default {
         params: { mode: "edit", object: this.name, id: item[this.id] },
       });
     },
+    ...mapMutations({
+      setCenter: "map/setCenter",
+      setDisplayStatusFarmersMarket: "farmersMarket/setDisplayStatus",
+      setZoom: "map/setZoom",
+    }),
   },
   props: ["itemName", "list", "name", "id"],
 };
