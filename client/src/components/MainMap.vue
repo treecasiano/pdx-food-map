@@ -50,6 +50,15 @@
                 <v-divider class="my-1" color="accent"></v-divider>
                 <div>{{ item.props.type }}</div>
               </div>
+              <v-btn
+                class="font-weight-bold mt-3"
+                @click="goToAdminEdit('groceryStore', item.markerId)"
+                color="tertiary"
+                outlined
+                rounded
+                small
+                v-if="session.isAdmin"
+              >Edit Details</v-btn>
             </l-popup>
           </l-marker>
         </div>
@@ -95,6 +104,15 @@
                     <v-icon small color="secondary">launch</v-icon>
                   </a>
                 </div>
+                <v-btn
+                  class="font-weight-bold mt-3"
+                  @click="goToAdminEdit('farmersMarket', item.markerId)"
+                  color="tertiary"
+                  outlined
+                  rounded
+                  small
+                  v-if="session.isAdmin"
+                >Edit Details</v-btn>
               </div>
             </l-popup>
           </l-marker>
@@ -197,6 +215,15 @@
                   >>>> Visit Website</a>
                 </div>
               </div>
+              <v-btn
+                class="font-weight-bold mt-3"
+                @click="goToAdminEdit('foodPantry', item.markerId)"
+                color="tertiary"
+                outlined
+                rounded
+                small
+                v-if="session.isAdmin"
+              >Edit Details</v-btn>
             </l-popup>
           </l-marker>
         </div>
@@ -557,7 +584,9 @@ export default {
       searchResultFoodPantry: state => state.foodPantry.searchResult,
       searchResultGroceryStore: state => state.groceryStore.searchResult,
       selectedSearchResult: state => state.map.selectedSearchResult,
+      selectedTabAdmin: state => state.admin.selectedTab,
       selectedTract: state => state.pdxTract.tract,
+      session: state => state.session,
       zoom: state => state.map.zoom,
     }),
   },
@@ -805,6 +834,13 @@ export default {
       });
       return polyLineArray;
     },
+    goToAdminEdit(pointFeatureType, pointFeatureId) {
+      this.setSelectedTabAdmin(pointFeatureType);
+      this.$router.push({
+        name: "adminObjectEdit",
+        params: { mode: "edit", object: pointFeatureType, id: pointFeatureId },
+      });
+    },
     formatCurrency(dollarValue) {
       // syntax numObj.toLocaleString([locales [, options]])
       return dollarValue.toLocaleString("en-US", {
@@ -876,7 +912,8 @@ export default {
       setCenter: "map/setCenter",
       setGeosearchResult: "map/setGeosearchResult",
       setMapControlMini: "map/setMapControlMini",
-      setSelectedTab: "map/setSelectedTab",
+      setSelectedTab: "map/setTab",
+      setSelectedTabAdmin: "admin/setTab",
       setTract: "pdxTract/setTract",
       setZoom: "map/setZoom",
     }),

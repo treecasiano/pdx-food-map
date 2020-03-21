@@ -83,7 +83,7 @@ export default {
   methods: {
     ...mapMutations({
       setMapControlMini: "map/setMapControlMini",
-      setSelectedTab: "map/setSelectedTab",
+      setSelectedTab: "map/setTab",
     }),
   },
 };

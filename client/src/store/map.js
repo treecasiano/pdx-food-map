@@ -30,7 +30,7 @@ const mutations = {
   setSelectedSearchResult(state, searchResult) {
     state.selectedSearchResult = searchResult;
   },
-  setSelectedTab(state, tab) {
+  setTab(state, tab) {
     state.selectedTab = tab;
   },
   setZoom(state, zoom) {
