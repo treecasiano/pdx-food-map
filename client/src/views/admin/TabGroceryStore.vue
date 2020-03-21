@@ -106,6 +106,17 @@
                     :disabled="!valid"
                     class="accent darken-2"
                   >Submit</v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    rounded
+                    outlined
+                    color="secondary"
+                    v-if="mode === 'edit'"
+                    data-cy="groceryStoreForm__button--centerOnPoint"
+                    @click="centerOnPoint(record)"
+                  >
+                    <v-icon class="mr-1">map</v-icon>View on Map
+                  </v-btn>
                 </div>
               </v-container>
             </v-card>
@@ -146,6 +157,14 @@ export default {
     statusOptions: ["Existing", "Under Construction", "Closed"],
   }),
   methods: {
+    centerOnPoint(item) {
+      this.setDisplayStatusGroceryStore(true);
+      this.$router.push({
+        name: "home",
+      });
+      this.setCenter([item.latitude, item.longitude]);
+      this.setZoom(18);
+    },
     changeRecord() {
       const id = this.$route.params.id;
       let record = {};
@@ -201,7 +220,10 @@ export default {
       updateRecord: "groceryStore/update",
     }),
     ...mapMutations({
+      setCenter: "map/setCenter",
+      setDisplayStatusGroceryStore: "groceryStore/setDisplayStatus",
       setRecord: "groceryStore/setRecord",
+      setZoom: "map/setZoom",
     }),
   },
   props: {

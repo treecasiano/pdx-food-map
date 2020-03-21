@@ -37,6 +37,17 @@
                 class="groceryStoreTableRow text-left"
                 tabindex="0"
               >
+                <td>
+                  <v-btn
+                    icon
+                    small
+                    color="secondary"
+                    @click.stop="centerOnPoint(item)"
+                    title="View on Map"
+                  >
+                    <v-icon>map</v-icon>
+                  </v-btn>
+                </td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.address }}</td>
                 <td>{{ item.type }}</td>
@@ -51,10 +62,13 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   data: () => ({
     search: "",
     headers: [
+      { text: "" },
       {
         text: "Store Name",
         value: "name",
@@ -74,6 +88,14 @@ export default {
     ],
   }),
   methods: {
+    centerOnPoint(item) {
+      this.setDisplayStatusGroceryStore(true);
+      this.$router.push({
+        name: "home",
+      });
+      this.setCenter([item.latitude, item.longitude]);
+      this.setZoom(18);
+    },
     goToCreateForm() {
       if (this.$router.currentRoute.path === `/admin/${this.name}/create`) {
         return;
@@ -95,6 +117,11 @@ export default {
         params: { mode: "edit", object: this.name, id: item[this.id] },
       });
     },
+    ...mapMutations({
+      setCenter: "map/setCenter",
+      setDisplayStatusGroceryStore: "groceryStore/setDisplayStatus",
+      setZoom: "map/setZoom",
+    }),
   },
   props: ["itemName", "list", "name", "id"],
 };
