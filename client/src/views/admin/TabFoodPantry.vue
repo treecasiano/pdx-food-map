@@ -8,6 +8,7 @@
         <v-container>
           <v-form v-if="(mode === 'edit' || mode === 'create') && record" v-model="valid">
             <v-card>
+              <div ref="topOfForm"></div>
               <v-card-title
                 v-if="mode === 'edit'"
                 class="secondary--text font-weight-bold"
@@ -179,12 +180,12 @@ export default {
   }),
   methods: {
     centerOnPoint(item) {
+      this.setDisplayStatusFoodPantry(true);
       this.$router.push({
         name: "home",
       });
       this.setCenter([item.latitude, item.longitude]);
       this.setZoom(18);
-      this.setDisplayStatusFoodPantry(true);
     },
     changeRecord() {
       const id = this.$route.params.id;
@@ -196,6 +197,11 @@ export default {
         record = Object.assign({}, record);
       }
       this.setRecord(record);
+      this.$nextTick(() => {
+        if (this.$refs.topOfForm) {
+          this.$refs.topOfForm.scrollIntoView();
+        }
+      });
     },
     async create() {
       this.record.latitude = Number(this.record.latitude);

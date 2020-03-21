@@ -17,6 +17,7 @@
                 class="accent--text text--darken-2 font-weight-bold"
               >Create Farmers Market</v-card-title>
               <v-container>
+                <div ref="topOfForm"></div>
                 <v-text-field
                   v-model="record.market"
                   label="Farmers Market Name (REQUIRED)"
@@ -185,6 +186,11 @@ export default {
         record = Object.assign({}, record);
       }
       this.setRecord(record);
+      this.$nextTick(() => {
+        if (this.$refs.topOfForm) {
+          this.$refs.topOfForm.scrollIntoView();
+        }
+      });
     },
     async create() {
       this.record.latitude = Number(this.record.latitude);

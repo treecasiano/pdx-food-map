@@ -54,7 +54,6 @@
           </template>
         </v-data-table>
       </template>
-      <div ref="bottomOfTable"></div>
     </v-card>
   </div>
 </template>
@@ -100,7 +99,6 @@ export default {
   }),
   methods: {
     goToCreateForm() {
-      this.$refs.bottomOfTable.scrollIntoView();
       if (this.$router.currentRoute.path === `/admin/${this.name}/create`) {
         return;
       }
@@ -110,7 +108,6 @@ export default {
       });
     },
     goToEditForm(item) {
-      this.$refs.bottomOfTable.scrollIntoView();
       if (
         this.$router.currentRoute.path ===
         `/admin/${this.name}/${item[this.id]}/edit`
