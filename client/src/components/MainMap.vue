@@ -101,7 +101,7 @@
                 <div v-if="item.props.website" class="my-1">
                   <a :href="item.props.website" class="secondary--text font-weight-bold">
                     >>> Visit Website
-                    <v-icon small color="secondary">launch</v-icon>
+                    <v-icon small class="mb-1" color="secondary">launch</v-icon>
                   </a>
                 </div>
                 <v-btn
@@ -163,7 +163,7 @@
                 <div v-if="item.props.website" class="mt-1">
                   <a :href="item.props.website" class="secondary--text font-weight-bold">
                     >>> Visit Website
-                    <v-icon small color="secondary">launch</v-icon>
+                    <v-icon small class="mb-1" color="secondary">launch</v-icon>
                   </a>
                 </div>
               </div>
@@ -209,10 +209,10 @@
                   {{ item.props.phone }}
                 </div>
                 <div v-if="item.props.website" class="my-1">
-                  <a
-                    :href="item.props.website"
-                    class="secondary--text font-weight-bold"
-                  >>>> Visit Website</a>
+                  <a :href="item.props.website" class="secondary--text font-weight-bold">
+                    >>> Visit Website
+                    <v-icon small class="mb-1" color="secondary">launch</v-icon>
+                  </a>
                 </div>
               </div>
               <v-btn
@@ -333,7 +333,7 @@
                   class="font-weight-bold secondary--text"
                 >
                   {{item.props.stop_id}}
-                  <v-icon small color="secondary">launch</v-icon>
+                  <v-icon small class="mb-1" color="secondary">launch</v-icon>
                 </a>
               </div>
               <div>
@@ -984,16 +984,14 @@ export default {
   width: 30px;
 }
 
-.pdx-tooltip,
-.pdx-popup--census {
+.pdx-tooltip {
   border-radius: 0 !important;
   text-align: left;
   color: var(--v-primary-darken2) !important;
   font-family: "Muli" !important;
 }
 
-.pdx-tooltip__title,
-.pdx-popup__title--census {
+.pdx-tooltip__title {
   font-weight: bold;
 }
 
@@ -1111,5 +1109,8 @@ input {
   font-family: "Muli" !important;
   opacity: 0.95 !important;
   color: var(--v-primary-base) !important;
+}
+.leaflet-popup-content-wrapper a {
+  text-decoration: none;
 }
 </style>
