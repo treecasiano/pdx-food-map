@@ -216,6 +216,9 @@
                     <v-icon small class="mb-1" color="secondary">launch</v-icon>
                   </a>
                 </div>
+                <div
+                  class="caption mt-2"
+                >*Be sure to call ahead or visit the website to get the most up-to-date information.</div>
               </div>
               <v-btn
                 class="font-weight-bold mt-3"
