@@ -186,11 +186,13 @@
                 <div class="font-weight-bold">{{ item.props.location_name }}</div>
                 <div v-if="item.props.street_address_1">
                   <em>
-                    <span>{{ item.props.street_address_1 }}</span>
-                    <span v-if="item.props.street_address_2">, {{ item.props.street_address_2 }}</span>
-                    <span v-if="item.props.city">, {{ item.props.city }}</span>
-                    <span v-if="item.props.state">, {{ item.props.state }}</span>
-                    <span v-if="item.props.zip" class="ml-1">{{ item.props.zip }}</span>
+                    <div>{{ item.props.street_address_1 }}</div>
+                    <div v-if="item.props.street_address_2">{{ item.props.street_address_2 }}</div>
+                    <div>
+                      <span v-if="item.props.city">{{ item.props.city }}</span>
+                      <span v-if="item.props.state">, {{ item.props.state }}</span>
+                      <span v-if="item.props.zip" class="ml-1">{{ item.props.zip }}</span>
+                    </div>
                   </em>
                 </div>
                 <v-divider class="my-1" color="accent"></v-divider>
@@ -214,6 +216,9 @@
                     <v-icon small class="mb-1" color="secondary">launch</v-icon>
                   </a>
                 </div>
+                <div
+                  class="caption mt-2"
+                >*Be sure to call ahead or visit the website to get the most up-to-date information.</div>
               </div>
               <v-btn
                 class="font-weight-bold mt-3"

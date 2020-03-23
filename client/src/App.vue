@@ -120,7 +120,7 @@ li {
 }
 
 .leaflet-container {
-  font-size: 0.95rem !important;
+  font-size: 0.9rem !important;
 }
 
 .pdx-toolbar--main {
