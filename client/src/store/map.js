@@ -39,7 +39,7 @@ const mutations = {
 };
 
 const state = {
-  center: [45.59, -122.6793],
+  center: [45.54, -122.6793],
   displayStatusTooltip: false,
   geosearchResult: null,
   userLatitude: null,
@@ -51,7 +51,7 @@ const state = {
   searchRadius: 0.5,
   selectedSearchResult: null,
   selectedTab: "map",
-  zoom: 11.5,
+  zoom: 12,
 };
 
 const getters = {};

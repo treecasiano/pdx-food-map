@@ -603,8 +603,8 @@ export default {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: "abcd",
-      defaultCenter: [45.59, -122.6793],
-      defaultZoom: 11.5,
+      defaultCenter: [45.54, -122.6793],
+      defaultZoom: 12,
       maxZoom: 18,
       minZoom: 8.5,
       showMapControls: true,
