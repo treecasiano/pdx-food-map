@@ -218,7 +218,7 @@
                 </div>
                 <div
                   class="caption mt-2"
-                >*Be sure to call ahead or visit the website to get the most up-to-date information.</div>
+                >*Check website or call to get the most up-to-date schedule and information.</div>
               </div>
               <v-btn
                 class="font-weight-bold mt-3"
