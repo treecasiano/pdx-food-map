@@ -120,7 +120,7 @@
                     rounded
                     outlined
                     color="secondary"
-                    v-if="mode === 'edit'"
+                    v-if="mode === 'edit' && record.status !== 'Closed'"
                     data-cy="farmersMarketForm__button--centerOnPoint"
                     @click="centerOnPoint(record)"
                   >
