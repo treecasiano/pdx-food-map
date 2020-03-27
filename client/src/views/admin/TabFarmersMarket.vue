@@ -34,21 +34,9 @@
                   clearable
                 ></v-text-field>
 
-                <div class="d-flex flex-wrap">
-                  <v-text-field v-model="record.day" class="mx-3" label="Day" clearable></v-text-field>
-                  <v-text-field
-                    v-model="record.open_dates"
-                    class="mx-3"
-                    label="Open Dates"
-                    clearable
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="record.open_times"
-                    class="mx-3"
-                    label="Open Times"
-                    clearable
-                  ></v-text-field>
-                </div>
+                <v-text-field v-model="record.day" class="mx-3" label="Day" clearable></v-text-field>
+                <v-text-field v-model="record.open_dates" class="mx-3" label="Open Dates" clearable></v-text-field>
+                <v-text-field v-model="record.open_times" class="mx-3" label="Open Times" clearable></v-text-field>
                 <v-textarea
                   v-model="record.website"
                   auto-grow
@@ -61,7 +49,7 @@
                   v-model="record.accepts"
                   auto-grow
                   clearable
-                  counter="250"
+                  counter="80"
                   rows="2"
                   label="Forms of Payment Accepted"
                   class="mx-3"
@@ -132,7 +120,7 @@
                     rounded
                     outlined
                     color="secondary"
-                    v-if="mode === 'edit'"
+                    v-if="mode === 'edit' && record.status !== 'Closed'"
                     data-cy="farmersMarketForm__button--centerOnPoint"
                     @click="centerOnPoint(record)"
                   >
