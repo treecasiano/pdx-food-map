@@ -520,8 +520,8 @@ export default {
       let polylines = [];
       if (geojson.features) {
         polylines = this.createPolyline(geojson, {
-          color: "orange",
-          weight: 4,
+          color: "green",
+          weight: 2,
         });
         return polylines;
       }
@@ -557,8 +557,8 @@ export default {
       let polylines = [];
       if (geojson.features) {
         polylines = this.createPolyline(geojson, {
-          color: "orange",
-          weight: 4,
+          color: "green",
+          weight: 2,
         });
         return polylines;
       }
@@ -885,7 +885,7 @@ export default {
       <div>Poverty Rate: <strong><span class="mono-font">${
         props.povertyrat
       }%</span></strong><div>
-      
+
       <div>Median Family Income: <strong><span class="mono-font text-lg">${this.formatCurrency(
         props.medianfami
       )}</span></strong></div>
