@@ -1,6 +1,11 @@
 <template>
   <v-card>
-    <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent width="340px">
+    <v-navigation-drawer
+      v-model="drawer"
+      :mini-variant.sync="mini"
+      permanent
+      width="340px"
+    >
       <template v-slot:prepend>
         <div v-if="mini" class="text-center">
           <v-btn small icon @click.stop="mini = !mini">
@@ -22,16 +27,22 @@
             active-class="pdx-mapLayerExpansionPanels--active"
           >
             <v-expansion-panel>
-              <v-expansion-panel-header class="font-weight-bold primary--text">Census Tracts</v-expansion-panel-header>
+              <v-expansion-panel-header class="font-weight-bold primary--text"
+                >Census Tracts</v-expansion-panel-header
+              >
               <v-expansion-panel-content>
                 <v-checkbox
                   v-model="displayStatusPdxTract"
-                  :label="`Census Tracts`"
+                  :label="`Food Desert Status`"
                   data-cy="checkbox--censusTracts"
                 ></v-checkbox>
                 <v-checkbox
+                  v-model="displayStatusPdxTractPovertyRate"
+                  :label="`Poverty Rate`"
+                  data-cy="checkbox--censusTractsPovertyRate"
+                ></v-checkbox>
+                <v-checkbox
                   color="accent"
-                  v-if="displayStatusPdxTract"
                   v-model="displayStatusTooltip"
                   :label="`Census Tract Tooltips`"
                   data-cy="checkbox--tooltips"
@@ -39,9 +50,9 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
-              <v-expansion-panel-header
-                class="font-weight-bold primary--text"
-              >Sources of Healthy Food</v-expansion-panel-header>
+              <v-expansion-panel-header class="font-weight-bold primary--text"
+                >Sources of Healthy Food</v-expansion-panel-header
+              >
               <v-expansion-panel-content>
                 <v-checkbox
                   v-if="groceryStoreData.features"
@@ -84,7 +95,9 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
-              <v-expansion-panel-header class="font-weight-bold primary--text">Public Transportation</v-expansion-panel-header>
+              <v-expansion-panel-header class="font-weight-bold primary--text"
+                >Public Transportation</v-expansion-panel-header
+              >
               <v-expansion-panel-content>
                 <v-checkbox
                   v-if="trimetRouteData.features"
@@ -117,7 +130,9 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
-              <v-expansion-panel-header class="font-weight-bold primary--text">Paths & Trails</v-expansion-panel-header>
+              <v-expansion-panel-header class="font-weight-bold primary--text"
+                >Paths & Trails</v-expansion-panel-header
+              >
               <v-expansion-panel-content>
                 <v-checkbox
                   v-if="bikePathPortlandData.features"
@@ -212,6 +227,14 @@ export default {
         this.setDisplayStatusPdxTract(value);
       },
     },
+    displayStatusPdxTractPovertyRate: {
+      get() {
+        return this.$store.state.pdxTract.displayStatusPovertyRate;
+      },
+      set(value) {
+        this.setDisplayStatusPdxTractPovertyRate(value);
+      },
+    },
     displayStatusTooltip: {
       get() {
         return this.$store.state.map.displayStatusTooltip;
@@ -292,6 +315,8 @@ export default {
       setDisplayStatusFoodPantry: "foodPantry/setDisplayStatus",
       setDisplayStatusGroceryStore: "groceryStore/setDisplayStatus",
       setDisplayStatusPdxTract: "pdxTract/setDisplayStatus",
+      setDisplayStatusPdxTractPovertyRate:
+        "pdxTract/setDisplayStatusPovertyRate",
       setDisplayStatusTooltip: "map/setDisplayStatusTooltip",
       setDisplayStatusTrailClarkCounty: "trailClarkCounty/setDisplayStatus",
       setDisplayStatusTrimetRoute: "trimetRoute/setDisplayStatus",
@@ -303,6 +328,16 @@ export default {
       if (this.searchResultGroceryStore.length) {
         this.fetchGroceryStoreData();
         this.groceryStoreType = "All Stores";
+      }
+    },
+    displayStatusPdxTractPovertyRate(val) {
+      if (val) {
+        this.setDisplayStatusPdxTract(!val);
+      }
+    },
+    displayStatusPdxTract(val) {
+      if (val) {
+        this.setDisplayStatusPdxTractPovertyRate(!val);
       }
     },
   },
