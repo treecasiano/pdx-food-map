@@ -11,7 +11,12 @@
         @update:zoom="zoomUpdated"
         @update:center="centerUpdated"
         @update:bounds="boundsUpdated"
-        :options="{ tap: false, zoomControl: false, zoomDelta: 0.5, zoomSnap: 0.5 }"
+        :options="{
+          tap: false,
+          zoomControl: false,
+          zoomDelta: 0.5,
+          zoomSnap: 0.5,
+        }"
       >
         <l-control position="topright">
           <v-btn small light @click="resetMapView">
@@ -58,7 +63,8 @@
                 rounded
                 small
                 v-if="session.isAdmin"
-              >Edit Details</v-btn>
+                >Edit Details</v-btn
+              >
             </l-popup>
           </l-marker>
         </div>
@@ -99,7 +105,10 @@
                   {{ item.props.accepts }}
                 </div>
                 <div v-if="item.props.website" class="my-1">
-                  <a :href="item.props.website" class="secondary--text font-weight-bold">
+                  <a
+                    :href="item.props.website"
+                    class="secondary--text font-weight-bold"
+                  >
                     >>> Visit Website
                     <v-icon small class="mb-1" color="secondary">launch</v-icon>
                   </a>
@@ -112,7 +121,8 @@
                   rounded
                   small
                   v-if="session.isAdmin"
-                >Edit Details</v-btn>
+                  >Edit Details</v-btn
+                >
               </div>
             </l-popup>
           </l-marker>
@@ -131,7 +141,9 @@
             <l-popup>
               <div>
                 <div>
-                  <strong>CSA Dropoff Site for {{ item.props.farm_name }}</strong>
+                  <strong
+                    >CSA Dropoff Site for {{ item.props.farm_name }}</strong
+                  >
                 </div>
                 <v-divider class="my-1" color="accent"></v-divider>
                 <div v-if="item.props.hours_of_operation">
@@ -142,7 +154,9 @@
                   <strong>Phone:</strong>
                   {{ item.props.phone }}
                 </div>
-                <div v-if="item.props.farmdescri" class="my-1">{{ item.props.farmdescri }}</div>
+                <div v-if="item.props.farmdescri" class="my-1">
+                  {{ item.props.farmdescri }}
+                </div>
 
                 <div v-if="item.props.main_produ">
                   <strong>Main Product:</strong>
@@ -161,7 +175,10 @@
                   {{ item.props.snap }}
                 </div>
                 <div v-if="item.props.website" class="mt-1">
-                  <a :href="item.props.website" class="secondary--text font-weight-bold">
+                  <a
+                    :href="item.props.website"
+                    class="secondary--text font-weight-bold"
+                  >
                     >>> Visit Website
                     <v-icon small class="mb-1" color="secondary">launch</v-icon>
                   </a>
@@ -183,15 +200,23 @@
           >
             <l-popup>
               <div>
-                <div class="font-weight-bold">{{ item.props.location_name }}</div>
+                <div class="font-weight-bold">
+                  {{ item.props.location_name }}
+                </div>
                 <div v-if="item.props.street_address_1">
                   <em>
                     <div>{{ item.props.street_address_1 }}</div>
-                    <div v-if="item.props.street_address_2">{{ item.props.street_address_2 }}</div>
+                    <div v-if="item.props.street_address_2">
+                      {{ item.props.street_address_2 }}
+                    </div>
                     <div>
                       <span v-if="item.props.city">{{ item.props.city }}</span>
-                      <span v-if="item.props.state">, {{ item.props.state }}</span>
-                      <span v-if="item.props.zip" class="ml-1">{{ item.props.zip }}</span>
+                      <span v-if="item.props.state"
+                        >, {{ item.props.state }}</span
+                      >
+                      <span v-if="item.props.zip" class="ml-1">{{
+                        item.props.zip
+                      }}</span>
                     </div>
                   </em>
                 </div>
@@ -211,14 +236,18 @@
                   {{ item.props.phone }}
                 </div>
                 <div v-if="item.props.website" class="my-1">
-                  <a :href="item.props.website" class="secondary--text font-weight-bold">
+                  <a
+                    :href="item.props.website"
+                    class="secondary--text font-weight-bold"
+                  >
                     >>> Visit Website
                     <v-icon small class="mb-1" color="secondary">launch</v-icon>
                   </a>
                 </div>
-                <div
-                  class="caption mt-2"
-                >*Check website or call to get the most up-to-date schedule and information.</div>
+                <div class="caption mt-2">
+                  *Check website or call to get the most up-to-date schedule and
+                  information.
+                </div>
               </div>
               <v-btn
                 class="font-weight-bold mt-3"
@@ -228,7 +257,8 @@
                 rounded
                 small
                 v-if="session.isAdmin"
-              >Edit Details</v-btn>
+                >Edit Details</v-btn
+              >
             </l-popup>
           </l-marker>
         </div>
@@ -263,7 +293,7 @@
           >
             <l-popup>
               <span class="font-weight-bold mr-1">C-TRAN Route:</span>
-              {{item.props.rt_long_nm}}
+              {{ item.props.rt_long_nm }}
             </l-popup>
           </l-polyline>
         </div>
@@ -285,11 +315,11 @@
             <l-popup>
               <div>
                 <span class="font-weight-bold mr-1">C-TRAN Stop ID:</span>
-                <span>{{item.props.stop_id}}</span>
+                <span>{{ item.props.stop_id }}</span>
               </div>
               <div>
                 <span class="font-weight-bold mr-1">C-TRAN Stop Name:</span>
-                <span>{{item.props.stop_name}}</span>
+                <span>{{ item.props.stop_name }}</span>
               </div>
             </l-popup>
           </l-circle-marker>
@@ -306,11 +336,18 @@
           >
             <l-popup>
               <span class="font-weight-bold mr-1">TriMet Route:</span>
-              <span>{{item.props.public_rte}} - {{item.props.dir_desc}}</span>
-              <div v-if="item.props.frequent === 'True'" class="font-weight-bold">Frequent Service</div>
+              <span
+                >{{ item.props.public_rte }} - {{ item.props.dir_desc }}</span
+              >
+              <div
+                v-if="item.props.frequent === 'True'"
+                class="font-weight-bold"
+              >
+                Frequent Service
+              </div>
               <div v-if="item.props.type">
                 <span class="font-weight-bold mr-1">Route Type:</span>
-                {{item.props.type}}
+                {{ item.props.type }}
               </div>
             </l-popup>
           </l-polyline>
@@ -334,16 +371,18 @@
               <div>
                 <span class="font-weight-bold mr-1">TriMet Stop ID:</span>
                 <a
-                  :href="`https://trimet.org/ride/stop.html?stop_id=${item.props.stop_id}`"
+                  :href="
+                    `https://trimet.org/ride/stop.html?stop_id=${item.props.stop_id}`
+                  "
                   class="font-weight-bold secondary--text"
                 >
-                  {{item.props.stop_id}}
+                  {{ item.props.stop_id }}
                   <v-icon small class="mb-1" color="secondary">launch</v-icon>
                 </a>
               </div>
               <div>
                 <span class="font-weight-bold mr-1">TriMet Stop Name:</span>
-                <span>{{item.props.stop_name}}</span>
+                <span>{{ item.props.stop_name }}</span>
               </div>
             </l-popup>
           </l-circle-marker>
@@ -361,25 +400,29 @@
             <l-popup>
               <div v-if="item.props.trailname">
                 <strong>Trail Name:</strong>
-                {{item.props.trailname}}
+                {{ item.props.trailname }}
               </div>
               <div v-if="item.props.systemname">
                 <strong>Trail System Name:</strong>
-                {{item.props.systemname}}
+                {{ item.props.systemname }}
               </div>
               <div>
                 <strong>Status:</strong>
-                {{item.props.status}}
+                {{ item.props.status }}
               </div>
               <div v-if="item.props.trlsurface">
                 <strong>Surface:</strong>
-                {{item.props.trlsurface}}
+                {{ item.props.trlsurface }}
               </div>
               <div v-if="item.props.accessible">
                 <strong>Accessible:&nbsp;</strong>
-                <span v-if="item.props.accessible === 'Not Evaluated'">Not Evaluated</span>
+                <span v-if="item.props.accessible === 'Not Evaluated'"
+                  >Not Evaluated</span
+                >
                 <span v-if="item.props.accessible === 'Accessible'">Yes</span>
-                <span v-if="item.props.accessible === 'Not Accessible'">No</span>
+                <span v-if="item.props.accessible === 'Not Accessible'"
+                  >No</span
+                >
               </div>
             </l-popup>
           </l-polyline>
@@ -390,11 +433,23 @@
           :options="tractOptions"
           :options-style="styleFunctionTract"
         ></l-geo-json>
+        <l-geo-json
+          v-if="displayPdxTractsPovertyRate"
+          :geojson="geojsonPdxTract"
+          :options="tractOptions"
+          :options-style="styleFunctionTractPovertyRate"
+        ></l-geo-json>
         <l-control-zoom position="bottomright"></l-control-zoom>
         <l-control position="topright" class="pdx-spinner">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__mapLoading">
-              <v-progress-circular indeterminate rotate class="ma-2" color="accent darken-1"></v-progress-circular>Loading Map Layers...
+              <v-progress-circular
+                indeterminate
+                rotate
+                class="ma-2"
+                color="accent darken-1"
+              ></v-progress-circular
+              >Loading Map Layers...
             </v-card>
           </div>
         </l-control>
@@ -404,7 +459,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { cloneDeep } from "lodash";
 import MapControls from "@/components/MapControls.vue";
@@ -465,8 +520,8 @@ export default {
       let polylines = [];
       if (geojson.features) {
         polylines = this.createPolyline(geojson, {
-          color: "orange",
-          weight: 4,
+          color: "green",
+          weight: 2,
         });
         return polylines;
       }
@@ -493,13 +548,17 @@ export default {
       }
       return mapMarkers;
     },
+    povertyRateBreakPoints() {
+      const { classBreakPoints } = this.getClassesTractsPovertyRate;
+      return classBreakPoints;
+    },
     trailsClarkCounty() {
       const geojson = this.$store.state.trailClarkCounty.geoJSON;
       let polylines = [];
       if (geojson.features) {
         polylines = this.createPolyline(geojson, {
-          color: "orange",
-          weight: 4,
+          color: "green",
+          weight: 2,
         });
         return polylines;
       }
@@ -542,7 +601,7 @@ export default {
           color: "#A9A9A9",
           opacity: 1,
           fillColor: "#B1B6B6",
-          fillOpacity: 0.5,
+          fillOpacity: 0.6,
         };
         if (feature.properties.lilatrac_1 === 1) {
           styleConfig.color = "#795548";
@@ -551,6 +610,23 @@ export default {
         if (feature.properties.hunvflag === 1) {
           styleConfig.color = "#49332b";
           styleConfig.weight = 3;
+        }
+        return styleConfig;
+      };
+    },
+    styleFunctionTractPovertyRate() {
+      return feature => {
+        let styleConfig = {
+          weight: 0.75,
+          color: "#A9A9A9",
+          opacity: 1,
+          fillOpacity: 0.6,
+        };
+        if (feature.properties.povertyrat) {
+          styleConfig.fillColor = this.getCensusTractsFillColorPovertyRate(
+            feature
+          );
+          return styleConfig;
         }
         return styleConfig;
       };
@@ -568,6 +644,9 @@ export default {
         this.selectedTract
       );
     },
+    ...mapGetters({
+      getClassesTractsPovertyRate: "pdxTract/getClassesTractsPovertyRate",
+    }),
     ...mapState({
       center: state => state.map.center,
       displayBikePathsPortland: state => state.bikePathPortland.displayStatus,
@@ -578,6 +657,8 @@ export default {
       displayFoodPantries: state => state.foodPantry.displayStatus,
       displayGroceryStores: state => state.groceryStore.displayStatus,
       displayPdxTracts: state => state.pdxTract.displayStatus,
+      displayPdxTractsPovertyRate: state =>
+        state.pdxTract.displayStatusPovertyRate,
       displayStatusTooltip: state => state.map.displayStatusTooltip,
       displayTrailsClarkCounty: state => state.trailClarkCounty.displayStatus,
       displayTrimetRoutes: state => state.trimetRoute.displayStatus,
@@ -768,7 +849,7 @@ export default {
           layer.setStyle({ fillOpacity: 0.4 });
         });
         layer.on("mouseout", e => {
-          layer.setStyle({ fillOpacity: 0.5 });
+          layer.setStyle({ fillOpacity: 0.6 });
         });
       };
     },
@@ -793,6 +874,7 @@ export default {
       return markersArray;
     },
     createCensusTractContent(props) {
+      const ppsqm = props.pop2010 / props.area_sqmiles;
       let propertyString = `<div class="pdx-tooltip__title">${
         props.county_1
       } County, ${props.state_1}</div>
@@ -800,15 +882,26 @@ export default {
         props.censustrac
       }</div>
       <hr>
-      <div>Median Family Income: <strong><span class="mono-font text-lg">${this.formatCurrency(
-        props.medianfami
-      )}</span></strong></div>
+
       <div>Poverty Rate: <strong><span class="mono-font">${
         props.povertyrat
       }%</span></strong><div>
-      <div>People per Square Mile: <strong><span class="mono-font">${(
-        props.pop2010 / props.area_sqmiles
-      ).toFixed(0)}</span></strong><div>
+
+      <div>Median Family Income: <strong><span class="mono-font text-lg">${this.formatCurrency(
+        props.medianfami
+      )}</span></strong></div>
+
+      <div>Population Density (People per Square Mile): <strong><span class="mono-font">${ppsqm.toFixed(
+        0
+      )}</span></strong><div>
+
+      <div>Total Tract Population (Census 2010): <strong><span class="mono-font">${
+        props.pop2010
+      }</span></strong><div>
+      
+      <div>Urban/Rural: <strong><span class="mono-font">${
+        props.urban ? "Urban" : "Rural"
+      }</span></strong><div>
       `;
       return propertyString;
     },
@@ -833,6 +926,29 @@ export default {
         return polyLineObj;
       });
       return polyLineArray;
+    },
+    getCensusTractsFillColorPovertyRate(feature) {
+      const colorRamp = ["#f7f7f7", "#cccccc", "#969696", "#636363", "#252525"];
+      const classBreakPoints = this.povertyRateBreakPoints;
+      if (!feature.properties.povertyrat) {
+        return "transparent";
+      }
+      if (feature.properties.povertyrat < classBreakPoints[0]) {
+        return colorRamp[0];
+      }
+      if (feature.properties.povertyrat < classBreakPoints[1]) {
+        return colorRamp[1];
+      }
+      if (feature.properties.povertyrat < classBreakPoints[2]) {
+        return colorRamp[2];
+      }
+      if (feature.properties.povertyrat < classBreakPoints[3]) {
+        return colorRamp[3];
+      }
+      if (feature.properties.povertyrat >= classBreakPoints[3]) {
+        return colorRamp[4];
+      }
+      return "transparent";
     },
     goToAdminEdit(pointFeatureType, pointFeatureId) {
       this.setSelectedTabAdmin(pointFeatureType);
@@ -929,7 +1045,10 @@ export default {
       this.setDisplayAllFoodSources(true);
       const { markerRef } = this.selectedSearchResult;
       const { latLong, zoom } = this.flyToOptions;
-      this.$refs.map.mapObject.flyTo(latLong, zoom);
+      this.$refs.map.mapObject.flyTo(latLong, zoom, {
+        animate: true,
+        duration: 1,
+      });
       this.$nextTick(() => {
         this.$refs[markerRef][0].mapObject.openPopup();
       });
