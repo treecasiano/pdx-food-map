@@ -874,6 +874,7 @@ export default {
       return markersArray;
     },
     createCensusTractContent(props) {
+      const ppsqm = props.pop2010 / props.area_sqmiles;
       let propertyString = `<div class="pdx-tooltip__title">${
         props.county_1
       } County, ${props.state_1}</div>
@@ -890,9 +891,17 @@ export default {
         props.medianfami
       )}</span></strong></div>
 
-      <div>People per Square Mile: <strong><span class="mono-font">${(
-        props.pop2010 / props.area_sqmiles
-      ).toFixed(0)}</span></strong><div>
+      <div>Population Density (People per Square Mile): <strong><span class="mono-font">${ppsqm.toFixed(
+        0
+      )}</span></strong><div>
+
+      <div>Total Tract Population (Census 2010): <strong><span class="mono-font">${
+        props.pop2010
+      }</span></strong><div>
+      
+      <div>Urban/Rural: <strong><span class="mono-font">${
+        props.urban ? "Urban" : "Rural"
+      }</span></strong><div>
       `;
       return propertyString;
     },
@@ -1036,7 +1045,10 @@ export default {
       this.setDisplayAllFoodSources(true);
       const { markerRef } = this.selectedSearchResult;
       const { latLong, zoom } = this.flyToOptions;
-      this.$refs.map.mapObject.flyTo(latLong, zoom);
+      this.$refs.map.mapObject.flyTo(latLong, zoom, {
+        animate: true,
+        duration: 1,
+      });
       this.$nextTick(() => {
         this.$refs[markerRef][0].mapObject.openPopup();
       });

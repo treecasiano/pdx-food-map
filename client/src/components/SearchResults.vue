@@ -4,7 +4,7 @@
       <div class="d-flex align-center mx-3">
         <v-slider
           :max="10"
-          :min=".25"
+          :min="0.25"
           @change="searchForPoints"
           class="mt-10"
           color="secondary"
@@ -19,12 +19,18 @@
         ></v-slider>
       </div>
       <div v-if="!searchResultsLoading">
-        <div class="font-weight-bold primary--text overline">Sources of Fresh Produce</div>
+        <div class="font-weight-bold primary--text overline">
+          Sources of Fresh Produce within {{ searchRadius }} mile(s)
+        </div>
         <v-expansion-panels hover popout class="mt-1">
           <v-expansion-panel>
             <v-expansion-panel-header
               class="font-weight-bold"
-              :class="searchResultGroceryStore.length ? 'secondary--text' : 'primary--text'"
+              :class="
+                searchResultGroceryStore.length
+                  ? 'secondary--text'
+                  : 'primary--text'
+              "
             >
               <div>Grocery Stores ({{ searchResultGroceryStore.length }})</div>
             </v-expansion-panel-header>
@@ -47,7 +53,10 @@
                         >
                           <v-icon small>near_me</v-icon>
                         </v-btn>
-                        <div>{{ item.name }} ({{ item.distance | metersToMiles }} mi)</div>
+                        <div>
+                          {{ item.name }} ({{ item.distance | metersToMiles }}
+                          mi)
+                        </div>
                       </div>
                     </li>
                   </ul>
@@ -59,9 +68,15 @@
           <v-expansion-panel>
             <v-expansion-panel-header
               class="font-weight-bold"
-              :class="searchResultFarmersMarket.length ? 'secondary--text' : 'primary--text'"
+              :class="
+                searchResultFarmersMarket.length
+                  ? 'secondary--text'
+                  : 'primary--text'
+              "
             >
-              <div>Farmers Markets ({{ searchResultFarmersMarket.length }})</div>
+              <div>
+                Farmers Markets ({{ searchResultFarmersMarket.length }})
+              </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="scrollBox--searchResult">
               <v-layout column justify-start>
@@ -82,7 +97,10 @@
                         >
                           <v-icon small>near_me</v-icon>
                         </v-btn>
-                        <div>{{ item.market }} ({{ item.distance | metersToMiles }} mi)</div>
+                        <div>
+                          {{ item.market }} ({{ item.distance | metersToMiles }}
+                          mi)
+                        </div>
                       </div>
                     </li>
                   </ul>
@@ -94,7 +112,11 @@
           <v-expansion-panel>
             <v-expansion-panel-header
               class="font-weight-bold"
-              :class="searchResultFoodPantry.length ? 'secondary--text' : 'primary--text'"
+              :class="
+                searchResultFoodPantry.length
+                  ? 'secondary--text'
+                  : 'primary--text'
+              "
             >
               <div>Food Pantries ({{ searchResultFoodPantry.length }})</div>
             </v-expansion-panel-header>
@@ -117,7 +139,12 @@
                         >
                           <v-icon small>near_me</v-icon>
                         </v-btn>
-                        <div>{{ item.location_name }} ({{ item.distance | metersToMiles }} mi)</div>
+                        <div>
+                          {{ item.location_name }} ({{
+                            item.distance | metersToMiles
+                          }}
+                          mi)
+                        </div>
                       </div>
                     </li>
                   </ul>
@@ -129,9 +156,15 @@
           <v-expansion-panel>
             <v-expansion-panel-header
               class="font-weight-bold"
-              :class="searchResultCsaDropoffSite.length ? 'secondary--text' : 'primary--text'"
+              :class="
+                searchResultCsaDropoffSite.length
+                  ? 'secondary--text'
+                  : 'primary--text'
+              "
             >
-              <div>CSA Dropoff Sites ({{ searchResultCsaDropoffSite.length }})</div>
+              <div>
+                CSA Dropoff Sites ({{ searchResultCsaDropoffSite.length }})
+              </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="scrollBox--searchResult">
               <v-layout column justify-start>
@@ -152,7 +185,12 @@
                         >
                           <v-icon small>near_me</v-icon>
                         </v-btn>
-                        <div>{{ item.farm_name }} ({{ item.distance | metersToMiles }} mi)</div>
+                        <div>
+                          {{ item.farm_name }} ({{
+                            item.distance | metersToMiles
+                          }}
+                          mi)
+                        </div>
                       </div>
                     </li>
                   </ul>
@@ -164,7 +202,13 @@
         </v-expansion-panels>
       </div>
       <div v-else>
-        <v-progress-circular indeterminate rotate class="ma-2" color="secondary darken-1"></v-progress-circular>Loading Search Results..
+        <v-progress-circular
+          indeterminate
+          rotate
+          class="ma-2"
+          color="secondary darken-1"
+        ></v-progress-circular
+        >Loading Search Results..
       </div>
       <div class="d-flex justify-end">
         <v-btn
@@ -179,13 +223,18 @@
         </v-btn>
       </div>
       <div class="searchLocation">
-        <div class="font-weight-bold primary--text mt-2 overline">Search Location</div>
-        <div>{{geosearchResult.locationLabel}}</div>
+        <div class="font-weight-bold primary--text mt-2 overline">
+          Search Location
+        </div>
+        <div>{{ geosearchResult.locationLabel }}</div>
       </div>
     </div>
     <div v-else class="primary--text">
       <h1 class="secondary--text my-3">Show Me the Vegetables!</h1>
-      <div>Enter a Portland Metro area address in the search bar at the top of the map and discover nearby sources of fresh produce.</div>
+      <div>
+        Enter a Portland Metro area address in the search bar at the top of the
+        map and discover nearby sources of fresh produce.
+      </div>
     </div>
   </div>
 </template>
