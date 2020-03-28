@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="primary--text">
-      <h1>About the PDX Food Map Project</h1>
+      <h1>About the PDX Metropolitan Food Environment Map Project</h1>
     </div>
     <v-layout>
       <v-flex>
@@ -11,10 +11,11 @@
           </v-card-title>
           <v-card-text>
             <p>
-              The PDX Metro Food Environment Map is an evolving project first
-              launched to satisfy final project requirements for GEOG 576
-              Geospatial Web and Mobile Programming, a course in the University
-              of Wisconsin's MS in Cartography and GIS Development program.
+              The PDX Metro Food Environment Map ("PDX Food Map") is an evolving
+              project first launched to satisfy final project requirements for
+              GEOG 576 Geospatial Web and Mobile Programming, a course in the
+              University of Wisconsin's MS in Cartography and GIS Development
+              program.
             </p>
             <p>
               The map facilitates discovery of sources of fresh produce in the
@@ -46,8 +47,8 @@
               <li>
                 <em>Low Access</em> classification is based on distance to a
                 supermarket. There are four measures available in the dataset.
-                The PDX Metro Food Environment Map uses the first set of
-                criteria in the list below.
+                The PDX Food Map uses the first set of criteria in the list
+                below.
                 <ol>
                   <li>
                     Low-income AND at least 500 people OR 33% of the population

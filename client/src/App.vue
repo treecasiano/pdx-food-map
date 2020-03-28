@@ -7,7 +7,7 @@
       color="primary darken-3"
       class="accent--text pdx-toolbar--main"
     >
-      <v-toolbar-title>PDX Food Map</v-toolbar-title>
+      <v-toolbar-title>PDX Metro Food Environment Map</v-toolbar-title>
       <v-spacer></v-spacer>
       <div id="nav">
         <router-link to="/">Map</router-link>
