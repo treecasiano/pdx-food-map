@@ -1047,7 +1047,7 @@ export default {
       const { latLong, zoom } = this.flyToOptions;
       this.$refs.map.mapObject.flyTo(latLong, zoom, {
         animate: true,
-        duration: 1,
+        duration: 0.25,
       });
       this.$nextTick(() => {
         this.$refs[markerRef][0].mapObject.openPopup();
