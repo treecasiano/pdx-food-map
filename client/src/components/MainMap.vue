@@ -63,8 +63,7 @@
                 rounded
                 small
                 v-if="session.isAdmin"
-                >Edit Details</v-btn
-              >
+              >Edit Details</v-btn>
             </l-popup>
           </l-marker>
         </div>
@@ -105,10 +104,7 @@
                   {{ item.props.accepts }}
                 </div>
                 <div v-if="item.props.website" class="my-1">
-                  <a
-                    :href="item.props.website"
-                    class="secondary--text font-weight-bold"
-                  >
+                  <a :href="item.props.website" class="secondary--text font-weight-bold">
                     >>> Visit Website
                     <v-icon small class="mb-1" color="secondary">launch</v-icon>
                   </a>
@@ -121,8 +117,7 @@
                   rounded
                   small
                   v-if="session.isAdmin"
-                  >Edit Details</v-btn
-                >
+                >Edit Details</v-btn>
               </div>
             </l-popup>
           </l-marker>
@@ -141,9 +136,7 @@
             <l-popup>
               <div>
                 <div>
-                  <strong
-                    >CSA Dropoff Site for {{ item.props.farm_name }}</strong
-                  >
+                  <strong>CSA Dropoff Site for {{ item.props.farm_name }}</strong>
                 </div>
                 <v-divider class="my-1" color="accent"></v-divider>
                 <div v-if="item.props.hours_of_operation">
@@ -154,9 +147,7 @@
                   <strong>Phone:</strong>
                   {{ item.props.phone }}
                 </div>
-                <div v-if="item.props.farmdescri" class="my-1">
-                  {{ item.props.farmdescri }}
-                </div>
+                <div v-if="item.props.farmdescri" class="my-1">{{ item.props.farmdescri }}</div>
 
                 <div v-if="item.props.main_produ">
                   <strong>Main Product:</strong>
@@ -175,10 +166,7 @@
                   {{ item.props.snap }}
                 </div>
                 <div v-if="item.props.website" class="mt-1">
-                  <a
-                    :href="item.props.website"
-                    class="secondary--text font-weight-bold"
-                  >
+                  <a :href="item.props.website" class="secondary--text font-weight-bold">
                     >>> Visit Website
                     <v-icon small class="mb-1" color="secondary">launch</v-icon>
                   </a>
@@ -200,23 +188,19 @@
           >
             <l-popup>
               <div>
-                <div class="font-weight-bold">
-                  {{ item.props.location_name }}
-                </div>
+                <div class="font-weight-bold">{{ item.props.location_name }}</div>
                 <div v-if="item.props.street_address_1">
                   <em>
                     <div>{{ item.props.street_address_1 }}</div>
-                    <div v-if="item.props.street_address_2">
-                      {{ item.props.street_address_2 }}
-                    </div>
+                    <div v-if="item.props.street_address_2">{{ item.props.street_address_2 }}</div>
                     <div>
                       <span v-if="item.props.city">{{ item.props.city }}</span>
-                      <span v-if="item.props.state"
-                        >, {{ item.props.state }}</span
-                      >
-                      <span v-if="item.props.zip" class="ml-1">{{
+                      <span v-if="item.props.state">, {{ item.props.state }}</span>
+                      <span v-if="item.props.zip" class="ml-1">
+                        {{
                         item.props.zip
-                      }}</span>
+                        }}
+                      </span>
                     </div>
                   </em>
                 </div>
@@ -236,10 +220,7 @@
                   {{ item.props.phone }}
                 </div>
                 <div v-if="item.props.website" class="my-1">
-                  <a
-                    :href="item.props.website"
-                    class="secondary--text font-weight-bold"
-                  >
+                  <a :href="item.props.website" class="secondary--text font-weight-bold">
                     >>> Visit Website
                     <v-icon small class="mb-1" color="secondary">launch</v-icon>
                   </a>
@@ -257,8 +238,7 @@
                 rounded
                 small
                 v-if="session.isAdmin"
-                >Edit Details</v-btn
-              >
+              >Edit Details</v-btn>
             </l-popup>
           </l-marker>
         </div>
@@ -336,15 +316,8 @@
           >
             <l-popup>
               <span class="font-weight-bold mr-1">TriMet Route:</span>
-              <span
-                >{{ item.props.public_rte }} - {{ item.props.dir_desc }}</span
-              >
-              <div
-                v-if="item.props.frequent === 'True'"
-                class="font-weight-bold"
-              >
-                Frequent Service
-              </div>
+              <span>{{ item.props.public_rte }} - {{ item.props.dir_desc }}</span>
+              <div v-if="item.props.frequent === 'True'" class="font-weight-bold">Frequent Service</div>
               <div v-if="item.props.type">
                 <span class="font-weight-bold mr-1">Route Type:</span>
                 {{ item.props.type }}
@@ -416,13 +389,9 @@
               </div>
               <div v-if="item.props.accessible">
                 <strong>Accessible:&nbsp;</strong>
-                <span v-if="item.props.accessible === 'Not Evaluated'"
-                  >Not Evaluated</span
-                >
+                <span v-if="item.props.accessible === 'Not Evaluated'">Not Evaluated</span>
                 <span v-if="item.props.accessible === 'Accessible'">Yes</span>
-                <span v-if="item.props.accessible === 'Not Accessible'"
-                  >No</span
-                >
+                <span v-if="item.props.accessible === 'Not Accessible'">No</span>
               </div>
             </l-popup>
           </l-polyline>
@@ -443,13 +412,7 @@
         <l-control position="topright" class="pdx-spinner">
           <div v-if="loading">
             <v-card class="pdx-leafletControl__mapLoading">
-              <v-progress-circular
-                indeterminate
-                rotate
-                class="ma-2"
-                color="accent darken-1"
-              ></v-progress-circular
-              >Loading Map Layers...
+              <v-progress-circular indeterminate rotate class="ma-2" color="accent darken-1"></v-progress-circular>Loading Map Layers...
             </v-card>
           </div>
         </l-control>
@@ -791,6 +754,7 @@ export default {
       });
       mapControl.addEventListener("click", e => {
         e.stopPropagation();
+        this.$refs.map.mapObject.dragging.enable();
       });
 
       const mapLayerControl = L.DomUtil.get(
@@ -838,16 +802,20 @@ export default {
         } else {
           layer.unbindTooltip();
         }
+
         if (feature.properties.hunvflag === 1) {
           layer.bringToFront();
         }
+
         if (selectedTract.censustrac === feature.properties.censustrac) {
           layer.setStyle({ fillColor: "#c0ca33" });
         }
+
         layer.on("mouseover", () => {
           layer.bringToFront();
           layer.setStyle({ fillOpacity: 0.4 });
         });
+
         layer.on("mouseout", e => {
           layer.setStyle({ fillOpacity: 0.6 });
         });
