@@ -856,6 +856,15 @@ export default {
       <div>Urban/Rural: <strong><span class="mono-font">${
         props.urban ? "Urban" : "Rural"
       }</span></strong><div>
+
+      <div>Food Desert: <strong><span class="mono-font">${
+        props.lilatrac_1 ? "YES" : "NO"
+      }</span></strong><div>
+
+      <div>Low Vehicle Access: <strong><span class="mono-font">${
+        props.hunvflag ? "YES" : "NO"
+      }</span></strong><div>
+
       `;
       return propertyString;
     },
