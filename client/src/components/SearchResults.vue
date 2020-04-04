@@ -5,10 +5,13 @@
         <v-slider
           :max="10"
           :min="0.25"
+          @start="sliderStart"
+          @end="sliderEnd"
           @change="searchForPoints"
           class="mt-10"
           color="secondary"
           label="Search Radius (miles)"
+          ref="slider"
           step=".25"
           thumb-color="secondary"
           thumb-size="34"
@@ -19,9 +22,9 @@
         ></v-slider>
       </div>
       <div v-if="!searchResultsLoading">
-        <div class="font-weight-bold primary--text overline">
-          Sources of Fresh Produce within {{ searchRadius }} mile(s)
-        </div>
+        <div
+          class="font-weight-bold primary--text overline"
+        >Sources of Fresh Produce within {{ searchRadius }} mile(s)</div>
         <v-expansion-panels hover popout class="mt-1">
           <v-expansion-panel>
             <v-expansion-panel-header
@@ -74,9 +77,7 @@
                   : 'primary--text'
               "
             >
-              <div>
-                Farmers Markets ({{ searchResultFarmersMarket.length }})
-              </div>
+              <div>Farmers Markets ({{ searchResultFarmersMarket.length }})</div>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="scrollBox--searchResult">
               <v-layout column justify-start>
@@ -141,7 +142,7 @@
                         </v-btn>
                         <div>
                           {{ item.location_name }} ({{
-                            item.distance | metersToMiles
+                          item.distance | metersToMiles
                           }}
                           mi)
                         </div>
@@ -162,9 +163,7 @@
                   : 'primary--text'
               "
             >
-              <div>
-                CSA Dropoff Sites ({{ searchResultCsaDropoffSite.length }})
-              </div>
+              <div>CSA Dropoff Sites ({{ searchResultCsaDropoffSite.length }})</div>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="scrollBox--searchResult">
               <v-layout column justify-start>
@@ -187,7 +186,7 @@
                         </v-btn>
                         <div>
                           {{ item.farm_name }} ({{
-                            item.distance | metersToMiles
+                          item.distance | metersToMiles
                           }}
                           mi)
                         </div>
@@ -202,17 +201,11 @@
         </v-expansion-panels>
       </div>
       <div v-else>
-        <v-progress-circular
-          indeterminate
-          rotate
-          class="ma-2"
-          color="secondary darken-1"
-        ></v-progress-circular
-        >Loading Search Results..
+        <v-progress-circular indeterminate rotate class="ma-2" color="secondary darken-1"></v-progress-circular>Loading Search Results..
       </div>
       <div class="d-flex justify-end">
         <v-btn
-          @click="clearSearchResults"
+          @click.stop="clearSearchResults"
           :disabled="!geosearchResult"
           class="mt-3 font-weight-bold"
           small
@@ -223,9 +216,7 @@
         </v-btn>
       </div>
       <div class="searchLocation">
-        <div class="font-weight-bold primary--text mt-2 overline">
-          Search Location
-        </div>
+        <div class="font-weight-bold primary--text mt-2 overline">Search Location</div>
         <div>{{ geosearchResult.locationLabel }}</div>
       </div>
     </div>
@@ -283,7 +274,7 @@ export default {
       // Clear the results in the Vuex state.
       this.setGeosearchResult(null);
     },
-    async searchForPoints() {
+    async searchForPoints(e) {
       this.searchResultsLoading = true;
       const { geom } = this.geosearchResult;
       // 1 mile = 1609.34 meters
@@ -303,9 +294,16 @@ export default {
       }
       this.searchResultsLoading = false;
     },
+    sliderStart(e) {
+      this.setMapDrag(false);
+    },
+    sliderEnd(e) {
+      this.setMapDrag(true);
+    },
     ...mapMutations({
       setCenter: "map/setCenter",
       setFlyToOptions: "map/setFlyToOptions",
+      setMapDrag: "map/setMapDrag",
       setGeosearchResult: "map/setGeosearchResult",
       setSearchRadius: "map/setSearchRadius",
       setSelectedSearchResult: "map/setSelectedSearchResult",

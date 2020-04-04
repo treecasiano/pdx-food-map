@@ -17,6 +17,9 @@ const mutations = {
   setGeosearchResult(state, result) {
     state.geosearchResult = result;
   },
+  setMapDrag(state, val) {
+    state.mapDrag = val;
+  },
   setUserCoordinates(state, coordinates) {
     state.userLatitude = coordinates.latitude;
     state.userLongitude = coordinates.longitude;
@@ -42,6 +45,7 @@ const state = {
   center: [45.54, -122.6793],
   displayStatusTooltip: false,
   geosearchResult: null,
+  mapDrag: true,
   userLatitude: null,
   userLongitude: null,
   flyToOptions: {},

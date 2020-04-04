@@ -12,6 +12,7 @@
         @update:center="centerUpdated"
         @update:bounds="boundsUpdated"
         :options="{
+          scrollWheelZoom: false,
           tap: false,
           zoomControl: false,
           zoomDelta: 0.5,
@@ -628,6 +629,8 @@ export default {
       displayTrimetStops: state => state.trimetStop.displayStatus,
       flyToOptions: state => state.map.flyToOptions,
       geojsonPdxTract: state => state.pdxTract.geoJSON,
+      mapControlMini: state => state.map.mapControlMini,
+      mapDrag: state => state.map.mapDrag,
       searchRadius: state => state.map.searchRadius,
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,
       searchResultFoodPantry: state => state.foodPantry.searchResult,
@@ -735,38 +738,21 @@ export default {
         this.setGeosearchResult(null);
       });
 
-      this.$refs.map.mapObject.on("click", () => {
-        this.$refs.map.mapObject.dragging.enable();
-      });
-
       const mapControl = L.DomUtil.get(this.$refs.mapControl.mapObject.element);
-      mapControl.addEventListener("mouseenter", () => {
-        this.$refs.map.mapObject.dragging.disable();
-      });
-      mapControl.addEventListener("mouseover", () => {
-        this.$refs.map.mapObject.dragging.disable();
-      });
-      mapControl.addEventListener("mouseout", () => {
-        this.$refs.map.mapObject.dragging.enable();
-      });
-      mapControl.addEventListener("mouseleave", () => {
-        this.$refs.map.mapObject.dragging.enable();
-      });
       mapControl.addEventListener("click", e => {
         e.stopPropagation();
-        this.$refs.map.mapObject.dragging.enable();
+      });
+      mapControl.addEventListener("dblclick", e => {
+        e.stopPropagation();
       });
 
       const mapLayerControl = L.DomUtil.get(
         this.$refs.mapLayerControl.mapObject.element
       );
-      mapLayerControl.addEventListener("mouseover", () => {
-        this.$refs.map.mapObject.dragging.disable();
-      });
-      mapLayerControl.addEventListener("mouseout", () => {
-        this.$refs.map.mapObject.dragging.enable();
-      });
       mapLayerControl.addEventListener("click", e => {
+        e.stopPropagation();
+      });
+      mapLayerControl.addEventListener("dblclick", e => {
         e.stopPropagation();
       });
     });
@@ -1021,6 +1007,13 @@ export default {
         this.$refs[markerRef][0].mapObject.openPopup();
       });
       this.setZoom(zoom);
+    },
+    mapDrag(val) {
+      if (val) {
+        this.$refs.map.mapObject.dragging.enable();
+      } else {
+        this.$refs.map.mapObject.dragging.disable();
+      }
     },
   },
 };
