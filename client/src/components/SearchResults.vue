@@ -266,7 +266,7 @@ export default {
       const zoom = this.zoom < 13 ? 13 : this.zoom;
       this.setFlyToOptions({ latLong, zoom });
     },
-    clearSearchResults(e) {
+    clearSearchResults() {
       // Programmatically click on the reset button
       // to clear the third-party geosearch plugin.
       const geosearchResetButton = document.querySelector(".reset");
@@ -274,13 +274,13 @@ export default {
       // Clear the results in the Vuex state.
       this.setGeosearchResult(null);
     },
-    async searchForPoints(e) {
+    async searchForPoints() {
       this.searchResultsLoading = true;
       const { geom } = this.geosearchResult;
       // 1 mile = 1609.34 meters
       const distance = this.searchRadius * 1609.34;
       const params = { geom, distance };
-      const latLong = geom.split(",").reverse();
+      geom.split(",").reverse();
       try {
         Promise.all([
           await this.$store.dispatch("groceryStore/search", params),
@@ -294,10 +294,10 @@ export default {
       }
       this.searchResultsLoading = false;
     },
-    sliderStart(e) {
+    sliderStart() {
       this.setMapDrag(false);
     },
-    sliderEnd(e) {
+    sliderEnd() {
       this.setMapDrag(true);
     },
     ...mapMutations({

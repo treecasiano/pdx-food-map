@@ -425,15 +425,9 @@
 <script>
 import { mapGetters, mapMutations, mapState } from "vuex";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
-import { cloneDeep } from "lodash";
 import MapControls from "@/components/MapControls.vue";
 import MapLayers from "@/components/MapLayers.vue";
 import VGeosearch from "@/components/VGeosearch.vue";
-
-/*limits to panning*/
-var southWest = L.latLng(46.75, -124.0),
-  northEast = L.latLng(44.5, -121.0);
-var bounds = L.latLngBounds(southWest, northEast);
 
 export default {
   name: "MainMap",
@@ -738,6 +732,7 @@ export default {
         this.setGeosearchResult(null);
       });
 
+      // eslint-disable-next-line
       const mapControl = L.DomUtil.get(this.$refs.mapControl.mapObject.element);
       mapControl.addEventListener("click", e => {
         e.stopPropagation();
@@ -746,6 +741,7 @@ export default {
         e.stopPropagation();
       });
 
+      // eslint-disable-next-line
       const mapLayerControl = L.DomUtil.get(
         this.$refs.mapLayerControl.mapObject.element
       );
@@ -802,7 +798,7 @@ export default {
           layer.setStyle({ fillOpacity: 0.4 });
         });
 
-        layer.on("mouseout", e => {
+        layer.on("mouseout", () => {
           layer.setStyle({ fillOpacity: 0.6 });
         });
       };
