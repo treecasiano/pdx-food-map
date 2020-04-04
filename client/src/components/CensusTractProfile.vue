@@ -44,6 +44,10 @@
           <v-icon class="mr-1">close</v-icon>Clear Tract Selection
         </v-btn>
       </div>
+      <div
+        class="mt-5 primary--text overline pdx-tract__text--dataSource"
+      >USDA ERS Food Access Research Atlas 2015</div>
+      <div class="primary--text overline pdx-tract__text--dataSource">US Census 2010</div>
     </div>
     <div v-else>
       <h1 class="text-center secondary--text">
@@ -113,9 +117,18 @@ export default {
   font-size: 1.2em;
 }
 
+.pdx-tract__text--dataSource {
+  display: none;
+}
+
 @media screen and (min-width: 768px) {
   .pdx-tract-stats {
     font-size: 2em;
+  }
+}
+@media screen and (min-height: 735px) {
+  .pdx-tract__text--dataSource {
+    display: block;
   }
 }
 </style>

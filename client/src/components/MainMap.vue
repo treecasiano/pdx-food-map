@@ -849,7 +849,7 @@ export default {
         0
       )}</span></strong><div>
 
-      <div>Total Tract Population (Census 2010): <strong><span class="mono-font">${
+      <div>Total Tract Population: <strong><span class="mono-font">${
         props.pop2010
       }</span></strong><div>
       
