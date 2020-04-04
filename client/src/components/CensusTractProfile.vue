@@ -2,62 +2,52 @@
   <div>
     <div v-if="tract.gid" class="text-center">
       <h1 class="secondary--text">Census Tract No. {{ tract.censustrac }}</h1>
-      <div class="primary--text">
-        {{ tract.county_1 }} County, {{ tract.state_1 }}
-      </div>
+      <div class="primary--text">{{ tract.county_1 }} County, {{ tract.state_1 }}</div>
       <v-divider class="my-2"></v-divider>
       <div>
         <div class="my-5">
-          <div class="font-weight-black pdx-tract-stats primary--text">
-            {{ tract.povertyrat }}%
-          </div>
+          <div class="font-weight-black pdx-tract-stats primary--text">{{ tract.povertyrat }}%</div>
           <div class="font-weight-thin primary--text">Poverty Rate</div>
         </div>
         <div class="my-5">
-          <div class="font-weight-black pdx-tract-stats primary--text">
-            {{ formatCurrency(tract.medianfami) }}
-          </div>
+          <div
+            class="font-weight-black pdx-tract-stats primary--text"
+          >{{ formatCurrency(tract.medianfami) }}</div>
           <div class="font-weight-thin primary--text">Median Family Income</div>
         </div>
         <div class="my-5">
-          <div class="font-weight-black pdx-tract-stats primary--text">
-            {{ (tract.pop2010 / tract.area_sqmiles).toFixed(0) }}
-          </div>
-          <div class="font-weight-thin primary--text">
-            People per Square Mile
-          </div>
+          <div
+            class="font-weight-black pdx-tract-stats primary--text"
+          >{{ (tract.pop2010 / tract.area_sqmiles).toFixed(0) }}</div>
+          <div class="font-weight-thin primary--text">People per Square Mile</div>
         </div>
       </div>
       <div class="my-5">
-        <div class="font-weight-black pdx-tract-stats primary--text">
-          {{ tract.pop2010 }}
-        </div>
+        <div class="font-weight-black pdx-tract-stats primary--text">{{ tract.pop2010 }}</div>
         <div class="font-weight-thin primary--text">Total Tract Population</div>
       </div>
       <div>
-        <span class="font-weight-black secondary--text title">{{
+        <span class="font-weight-black secondary--text title">
+          {{
           tract.urban ? "URBAN" : "RURAL"
-        }}</span>
+          }}
+        </span>
       </div>
       <div v-if="tract.lilatrac_1">
         <span class="font-weight-black tertiary--text title">FOOD DESERT</span>
       </div>
       <div v-if="tract.hunvflag">
-        <span class="font-weight-bold tertiary--text title"
-          >LOW VEHICLE ACCESS</span
-        >
+        <span class="font-weight-bold tertiary--text title">LOW VEHICLE ACCESS</span>
       </div>
       <div>
-        <v-btn
-          color="secondary"
-          small
-          text
-          class="mt-4"
-          @click="clearSelectedTract"
-        >
+        <v-btn color="secondary" small text class="mt-4" @click.stop="clearSelectedTract">
           <v-icon class="mr-1">close</v-icon>Clear Tract Selection
         </v-btn>
       </div>
+      <div
+        class="mt-5 primary--text overline pdx-tract__text--dataSource"
+      >USDA ERS Food Access Research Atlas 2015</div>
+      <div class="primary--text overline pdx-tract__text--dataSource">US Census 2010</div>
     </div>
     <div v-else>
       <h1 class="text-center secondary--text">
@@ -127,9 +117,18 @@ export default {
   font-size: 1.2em;
 }
 
+.pdx-tract__text--dataSource {
+  display: none;
+}
+
 @media screen and (min-width: 768px) {
   .pdx-tract-stats {
     font-size: 2em;
+  }
+}
+@media screen and (min-height: 735px) {
+  .pdx-tract__text--dataSource {
+    display: block;
   }
 }
 </style>

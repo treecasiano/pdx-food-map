@@ -12,6 +12,7 @@
         @update:center="centerUpdated"
         @update:bounds="boundsUpdated"
         :options="{
+          scrollWheelZoom: false,
           tap: false,
           zoomControl: false,
           zoomDelta: 0.5,
@@ -424,15 +425,9 @@
 <script>
 import { mapGetters, mapMutations, mapState } from "vuex";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
-import { cloneDeep } from "lodash";
 import MapControls from "@/components/MapControls.vue";
 import MapLayers from "@/components/MapLayers.vue";
 import VGeosearch from "@/components/VGeosearch.vue";
-
-/*limits to panning*/
-var southWest = L.latLng(46.75, -124.0),
-  northEast = L.latLng(44.5, -121.0);
-var bounds = L.latLngBounds(southWest, northEast);
 
 export default {
   name: "MainMap",
@@ -628,6 +623,8 @@ export default {
       displayTrimetStops: state => state.trimetStop.displayStatus,
       flyToOptions: state => state.map.flyToOptions,
       geojsonPdxTract: state => state.pdxTract.geoJSON,
+      mapControlMini: state => state.map.mapControlMini,
+      mapDrag: state => state.map.mapDrag,
       searchRadius: state => state.map.searchRadius,
       searchResultFarmersMarket: state => state.farmersMarket.searchResult,
       searchResultFoodPantry: state => state.foodPantry.searchResult,
@@ -735,38 +732,23 @@ export default {
         this.setGeosearchResult(null);
       });
 
-      this.$refs.map.mapObject.on("click", () => {
-        this.$refs.map.mapObject.dragging.enable();
-      });
-
+      // eslint-disable-next-line
       const mapControl = L.DomUtil.get(this.$refs.mapControl.mapObject.element);
-      mapControl.addEventListener("mouseenter", () => {
-        this.$refs.map.mapObject.dragging.disable();
-      });
-      mapControl.addEventListener("mouseover", () => {
-        this.$refs.map.mapObject.dragging.disable();
-      });
-      mapControl.addEventListener("mouseout", () => {
-        this.$refs.map.mapObject.dragging.enable();
-      });
-      mapControl.addEventListener("mouseleave", () => {
-        this.$refs.map.mapObject.dragging.enable();
-      });
       mapControl.addEventListener("click", e => {
         e.stopPropagation();
-        this.$refs.map.mapObject.dragging.enable();
+      });
+      mapControl.addEventListener("dblclick", e => {
+        e.stopPropagation();
       });
 
+      // eslint-disable-next-line
       const mapLayerControl = L.DomUtil.get(
         this.$refs.mapLayerControl.mapObject.element
       );
-      mapLayerControl.addEventListener("mouseover", () => {
-        this.$refs.map.mapObject.dragging.disable();
-      });
-      mapLayerControl.addEventListener("mouseout", () => {
-        this.$refs.map.mapObject.dragging.enable();
-      });
       mapLayerControl.addEventListener("click", e => {
+        e.stopPropagation();
+      });
+      mapLayerControl.addEventListener("dblclick", e => {
         e.stopPropagation();
       });
     });
@@ -816,7 +798,7 @@ export default {
           layer.setStyle({ fillOpacity: 0.4 });
         });
 
-        layer.on("mouseout", e => {
+        layer.on("mouseout", () => {
           layer.setStyle({ fillOpacity: 0.6 });
         });
       };
@@ -863,13 +845,22 @@ export default {
         0
       )}</span></strong><div>
 
-      <div>Total Tract Population (Census 2010): <strong><span class="mono-font">${
+      <div>Total Tract Population: <strong><span class="mono-font">${
         props.pop2010
       }</span></strong><div>
       
       <div>Urban/Rural: <strong><span class="mono-font">${
         props.urban ? "Urban" : "Rural"
       }</span></strong><div>
+
+      <div>Food Desert: <strong><span class="mono-font">${
+        props.lilatrac_1 ? "YES" : "NO"
+      }</span></strong><div>
+
+      <div>Low Vehicle Access: <strong><span class="mono-font">${
+        props.hunvflag ? "YES" : "NO"
+      }</span></strong><div>
+
       `;
       return propertyString;
     },
@@ -1021,6 +1012,13 @@ export default {
         this.$refs[markerRef][0].mapObject.openPopup();
       });
       this.setZoom(zoom);
+    },
+    mapDrag(val) {
+      if (val) {
+        this.$refs.map.mapObject.dragging.enable();
+      } else {
+        this.$refs.map.mapObject.dragging.disable();
+      }
     },
   },
 };

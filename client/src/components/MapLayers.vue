@@ -1,11 +1,6 @@
 <template>
   <v-card>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant.sync="mini"
-      permanent
-      width="340px"
-    >
+    <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent width="340px">
       <template v-slot:prepend>
         <div v-if="mini" class="text-center">
           <v-btn small icon @click.stop="mini = !mini">
@@ -27,9 +22,7 @@
             active-class="pdx-mapLayerExpansionPanels--active"
           >
             <v-expansion-panel>
-              <v-expansion-panel-header class="font-weight-bold primary--text"
-                >Census Tracts</v-expansion-panel-header
-              >
+              <v-expansion-panel-header class="font-weight-bold primary--text">Census Tracts</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-checkbox
                   v-model="displayStatusPdxTract"
@@ -41,6 +34,7 @@
                   :label="`Poverty Rate`"
                   data-cy="checkbox--censusTractsPovertyRate"
                 ></v-checkbox>
+                <MapLegend v-if="displayStatusPdxTractPovertyRate" class="mt-n7" />
                 <v-checkbox
                   color="accent"
                   v-model="displayStatusTooltip"
@@ -50,9 +44,9 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
-              <v-expansion-panel-header class="font-weight-bold primary--text"
-                >Sources of Healthy Food</v-expansion-panel-header
-              >
+              <v-expansion-panel-header
+                class="font-weight-bold primary--text"
+              >Sources of Healthy Food</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-checkbox
                   v-if="groceryStoreData.features"
@@ -70,7 +64,6 @@
                   label="Filter by Store Type"
                   style="z-index: 10000"
                 ></v-select>
-
                 <v-checkbox
                   v-if="farmersMarketData.features"
                   v-model="displayStatusFarmersMarket"
@@ -95,9 +88,7 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
-              <v-expansion-panel-header class="font-weight-bold primary--text"
-                >Public Transportation</v-expansion-panel-header
-              >
+              <v-expansion-panel-header class="font-weight-bold primary--text">Public Transportation</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-checkbox
                   v-if="trimetRouteData.features"
@@ -130,9 +121,7 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
-              <v-expansion-panel-header class="font-weight-bold primary--text"
-                >Paths & Trails</v-expansion-panel-header
-              >
+              <v-expansion-panel-header class="font-weight-bold primary--text">Paths & Trails</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-checkbox
                   v-if="bikePathPortlandData.features"
@@ -159,9 +148,11 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import MapLegend from "@/components/MapLegend.vue";
 
 export default {
   name: "MapLayers",
+  components: { MapLegend },
   computed: {
     displayStatusBikePathPortland: {
       get() {
