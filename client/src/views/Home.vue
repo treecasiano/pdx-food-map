@@ -1,23 +1,21 @@
 <template>
-  <div style="height: inherit; width: 100%">
-    <main-map :loading="loading"></main-map>
-  </div>
+  <main-map :loading="loading"></main-map>
 </template>
 
 <script>
 // @ is an alias to /src
-import MainMap from '@/components/MainMap.vue'
+import MainMap from "@/components/MainMap.vue";
 
 export default {
-  name: 'home',
+  name: "home",
   components: {
-    MainMap
+    MainMap,
   },
   props: {
     loading: Boolean,
-    default: function () {
+    default: function() {
       return false;
     },
-  }
-}
+  },
+};
 </script>
