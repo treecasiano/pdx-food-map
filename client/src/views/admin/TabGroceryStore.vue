@@ -105,7 +105,7 @@
                     rounded
                     outlined
                     color="secondary"
-                    v-if="mode === 'edit'"
+                    v-if="mode === 'edit' && record.status !== 'Closed'"
                     data-cy="groceryStoreForm__button--centerOnPoint"
                     @click="centerOnPoint(record)"
                   >

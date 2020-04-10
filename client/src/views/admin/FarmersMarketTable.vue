@@ -39,7 +39,7 @@
               >
                 <td>
                   <v-btn
-                    v-if="item.status !== 'Closed'"
+                    v-if="item.status === 'Active'"
                     icon
                     small
                     color="secondary"
