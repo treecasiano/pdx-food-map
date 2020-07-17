@@ -11,6 +11,7 @@ test("Retrieves a geojson object (census tracts polygon features)", async () => 
     expect(results.data.features.length).toEqual(491);
     const featureAttributes = ["geometry", "properties", "type"];
     const propertyAttributes = [
+      "area_sqmiles",
       "censustrac",
       "county_1",
       "gid",
