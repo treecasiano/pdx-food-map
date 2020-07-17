@@ -8,7 +8,7 @@ test("Retrieves a GeoJSON feature collection (farmers market point features)", a
     });
     expect(results.status).toEqual(200);
     expect(results.data).toBeInstanceOf(Object);
-    expect(results.data.features.length).toEqual(41);
+    expect(results.data.features.length).toEqual(40);
     expect(results.data.type).toEqual("FeatureCollection");
     expect(results.data.features[0].type).toEqual("Feature");
 
