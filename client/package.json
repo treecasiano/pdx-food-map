@@ -15,7 +15,7 @@
     "izitoast": "^1.4.0",
     "leaflet": "^1.4.0",
     "leaflet-geosearch": "^2.7.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "sass-loader": "^8.0.2",
     "simple-statistics": "^7.0.8",
     "tiny-cookie": "^2.3.1",
