@@ -18,7 +18,7 @@
     "body-parser": "^1.18.3",
     "config": "^2.0.2",
     "cookie-parser": "^1.4.3",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "express-openapi": "^2.0.4",
     "got": "^9.2.1",
     "jsonwebtoken": "^8.5.1",
