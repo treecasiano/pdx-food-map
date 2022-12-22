@@ -21,7 +21,7 @@
     "express": "^4.16.3",
     "express-openapi": "^2.0.4",
     "got": "^9.2.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.15",
     "pg-promise": "^8.6.4",
     "tiny-cookie": "^2.3.1",
